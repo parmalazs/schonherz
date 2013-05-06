@@ -1,0 +1,14 @@
+<resources>
+
+    <string name="app_name">FlottaDroid</string>
+    <string name="hello_world">F L O T T A D R O I D!</string>
+    <string name="menu_settings">Beállítások</string>
+    <string name="title_activity_main">Bejelentkezés</string>
+    <string name="pull_to_refresh_pull_label">Húzd le a frissítéshez!</string>
+    <string name="pull_to_refresh_release_label">Engedd el!</string>
+    <string name="pull_to_refresh_refreshing_label">Frissítés...</string>
+    <string name="pull_to_refresh_tap_label">Kattints a frissítéshez!</string>
+    <string name="title_activity_splash">FlottaDroid</string>
+    <string name="splashText">S P L A S H S Z Ö V E G</string>
+
+</resources>
