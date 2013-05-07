@@ -3,12 +3,60 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent" >
 
-    <TextView
+    <Button
+        android:id="@+id/buttonUpdate"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_centerHorizontal="true"
-        android:layout_centerVertical="true"
-        android:text="@string/hello_world"
-        tools:context=".MainActivity" />
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentTop="true"
+        android:layout_marginLeft="34dp"
+        android:layout_marginTop="32dp"
+        android:text="Frissítés" />
+
+    <Button
+        android:id="@+id/buttonMap"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBaseline="@+id/buttonUpdate"
+        android:layout_alignBottom="@+id/buttonUpdate"
+        android:layout_marginLeft="50dp"
+        android:layout_toRightOf="@+id/buttonUpdate"
+        android:text="Térkép" />
+
+    <Button
+        android:id="@+id/buttonJobs"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/buttonUpdate"
+        android:layout_marginTop="70dp"
+        android:layout_toLeftOf="@+id/buttonMap"
+        android:text="Munkák" />
+
+    <Button
+        android:id="@+id/buttonCar"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBaseline="@+id/buttonJobs"
+        android:layout_alignBottom="@+id/buttonJobs"
+        android:layout_alignLeft="@+id/buttonMap"
+        android:text="Autó" />
+
+    <Button
+        android:id="@+id/buttonContacts"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/buttonJobs"
+        android:layout_below="@+id/buttonJobs"
+        android:layout_marginTop="95dp"
+        android:text="Kontaktok" />
+
+    <Button
+        android:id="@+id/Button01"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBaseline="@+id/buttonContacts"
+        android:layout_alignBottom="@+id/buttonContacts"
+        android:layout_alignLeft="@+id/buttonCar"
+        android:text="Frissítés" />
 
 </RelativeLayout>

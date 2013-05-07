@@ -1,3 +1,4 @@
+<?xml version="1.0" encoding="utf-8"?>
 <resources>
 
     <string name="app_name">FlottaDroid</string>
@@ -10,5 +11,7 @@
     <string name="pull_to_refresh_tap_label">Kattints a frissítéshez!</string>
     <string name="title_activity_splash">FlottaDroid</string>
     <string name="splashText">S P L A S H S Z Ö V E G</string>
+    <string name="title_activity_login">LoginActivity</string>
+    <string name="action_settings">Settings</string>
 
 </resources>
