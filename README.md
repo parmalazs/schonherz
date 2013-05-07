@@ -1,7 +1,8 @@
-schonherz
-=========
+Schönherz 2-es csapat
+=====================
 
-FlottaDroid Schonherz
+Git használat!
+==============
 
 
 Eloszor Pull mindig, utana Commitold fel a valtoztatasaidat!
