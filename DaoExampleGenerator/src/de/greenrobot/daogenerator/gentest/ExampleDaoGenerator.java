@@ -36,7 +36,7 @@ public class ExampleDaoGenerator {
 
         AddFlottaDroidTables(schema);
         //Oda ird be a gepeden talalhato project pathjat!
-        new DaoGenerator().generateAll(schema, "C:/Users/rcsk/workspace/FlottaDroid/src");
+        new DaoGenerator().generateAll(schema, "C:/Users/rcsk/git/schonherz/FlottaKezelo/src");
     }
 
     private static void AddFlottaDroidTables(Schema schema)
@@ -54,7 +54,7 @@ public class ExampleDaoGenerator {
     	sofor.addStringProperty("soforPass");
     	sofor.addStringProperty("soforBirthDate");
     	sofor.addStringProperty("soforRegTime");
-    	sofor.addBooleanProperty("soforIsAmin");
+    	sofor.addBooleanProperty("soforIsAdmin");
     	sofor.addStringProperty("soforEmail");    	    	
     	
     	//Profilkép tábla

@@ -52,7 +52,7 @@
         android:layout_alignLeft="@+id/editTextUser"
         android:ems="10"
         android:inputType="textPassword"
-        android:background="@android:color/background_light" />
+        />
 
     <EditText
         android:id="@+id/editTextUser"
@@ -63,6 +63,6 @@
         android:layout_toRightOf="@+id/textView2"
         android:ems="10"
         android:inputType="textEmailAddress"
-        android:background="@android:color/background_light" />
+        />
 
 </RelativeLayout>

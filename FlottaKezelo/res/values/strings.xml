@@ -11,12 +11,16 @@
     <string name="pull_to_refresh_tap_label">Kattints a frissítéshez!</string>
     <string name="title_activity_splash">FlottaDroid</string>
     <string name="splashText">S P L A S H S Z Ö V E G</string>
-    <string name="title_activity_login">LoginActivity</string>
-    <string name="action_settings">Settings</string>
-    <string name="title_activity_jobs">JobsActivity</string>
+    <string name="title_activity_login">Belépésy</string>
+    <string name="action_settings">Beállítások</string>
+    <string name="title_activity_jobs">Munkák</string>
     <string name="title_section1">Szabad munkák</string>
     <string name="title_section2">Választott munkák</string>
     <string name="title_section3">Összes munka</string>
     <string name="title_activity_admin">AdminActivity</string>
+    <string name="no_internet">Nincs aktív internet kapcsolat!</string>
+    <string name="refresh">Frissítés</string>
+    <string name="refreshed">Frissítve!</string>
+    <string name="wrongCredential">Sikertelen bejelentkezés!</string>
 
 </resources>

@@ -34,7 +34,7 @@ public class SoforDao extends AbstractDao<Sofor, Long> {
         public final static Property SoforPass = new Property(5, String.class, "soforPass", false, "SOFOR_PASS");
         public final static Property SoforBirthDate = new Property(6, String.class, "soforBirthDate", false, "SOFOR_BIRTH_DATE");
         public final static Property SoforRegTime = new Property(7, String.class, "soforRegTime", false, "SOFOR_REG_TIME");
-        public final static Property SoforIsAmin = new Property(8, Boolean.class, "soforIsAmin", false, "SOFOR_IS_AMIN");
+        public final static Property SoforIsAdmin = new Property(8, Boolean.class, "soforIsAdmin", false, "SOFOR_IS_ADMIN");
         public final static Property SoforEmail = new Property(9, String.class, "soforEmail", false, "SOFOR_EMAIL");
         public final static Property SoforProfilKepID = new Property(10, Long.class, "soforProfilKepID", false, "SOFOR_PROFIL_KEP_ID");
     };
@@ -63,7 +63,7 @@ public class SoforDao extends AbstractDao<Sofor, Long> {
                 "'SOFOR_PASS' TEXT," + // 5: soforPass
                 "'SOFOR_BIRTH_DATE' TEXT," + // 6: soforBirthDate
                 "'SOFOR_REG_TIME' TEXT," + // 7: soforRegTime
-                "'SOFOR_IS_AMIN' INTEGER," + // 8: soforIsAmin
+                "'SOFOR_IS_ADMIN' INTEGER," + // 8: soforIsAdmin
                 "'SOFOR_EMAIL' TEXT," + // 9: soforEmail
                 "'SOFOR_PROFIL_KEP_ID' INTEGER);"); // 10: soforProfilKepID
     }
@@ -119,9 +119,9 @@ public class SoforDao extends AbstractDao<Sofor, Long> {
             stmt.bindString(8, soforRegTime);
         }
  
-        Boolean soforIsAmin = entity.getSoforIsAmin();
-        if (soforIsAmin != null) {
-            stmt.bindLong(9, soforIsAmin ? 1l: 0l);
+        Boolean soforIsAdmin = entity.getSoforIsAdmin();
+        if (soforIsAdmin != null) {
+            stmt.bindLong(9, soforIsAdmin ? 1l: 0l);
         }
  
         String soforEmail = entity.getSoforEmail();
@@ -159,7 +159,7 @@ public class SoforDao extends AbstractDao<Sofor, Long> {
             cursor.isNull(offset + 5) ? null : cursor.getString(offset + 5), // soforPass
             cursor.isNull(offset + 6) ? null : cursor.getString(offset + 6), // soforBirthDate
             cursor.isNull(offset + 7) ? null : cursor.getString(offset + 7), // soforRegTime
-            cursor.isNull(offset + 8) ? null : cursor.getShort(offset + 8) != 0, // soforIsAmin
+            cursor.isNull(offset + 8) ? null : cursor.getShort(offset + 8) != 0, // soforIsAdmin
             cursor.isNull(offset + 9) ? null : cursor.getString(offset + 9), // soforEmail
             cursor.isNull(offset + 10) ? null : cursor.getLong(offset + 10) // soforProfilKepID
         );
@@ -177,7 +177,7 @@ public class SoforDao extends AbstractDao<Sofor, Long> {
         entity.setSoforPass(cursor.isNull(offset + 5) ? null : cursor.getString(offset + 5));
         entity.setSoforBirthDate(cursor.isNull(offset + 6) ? null : cursor.getString(offset + 6));
         entity.setSoforRegTime(cursor.isNull(offset + 7) ? null : cursor.getString(offset + 7));
-        entity.setSoforIsAmin(cursor.isNull(offset + 8) ? null : cursor.getShort(offset + 8) != 0);
+        entity.setSoforIsAdmin(cursor.isNull(offset + 8) ? null : cursor.getShort(offset + 8) != 0);
         entity.setSoforEmail(cursor.isNull(offset + 9) ? null : cursor.getString(offset + 9));
         entity.setSoforProfilKepID(cursor.isNull(offset + 10) ? null : cursor.getLong(offset + 10));
      }
