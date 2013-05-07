@@ -46,8 +46,8 @@ public class SplashActivity extends Activity {
 				Log.e(TAG, e.getMessage());
 			}
 
-			// Start main activity
-			Intent intent = new Intent(SplashActivity.this, MainActivity.class);
+			// Start login activity
+			Intent intent = new Intent(SplashActivity.this, LoginActivity.class);
 			SplashActivity.this.startActivity(intent);
 			SplashActivity.this.finish();
 		}

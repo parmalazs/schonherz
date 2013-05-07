@@ -2,6 +2,7 @@ package com.schonherz.flottadroid;
 
 import android.os.Bundle;
 import android.app.Activity;
+import android.content.Intent;
 import android.view.Menu;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -21,8 +22,10 @@ public class LoginActivity extends Activity {
 			
 			@Override
 			public void onClick(View v) {
-				// TODO Auto-generated method stub
-				
+				// Start main activity
+				Intent intent = new Intent(LoginActivity.this, MainActivity.class);
+				LoginActivity.this.startActivity(intent);
+				LoginActivity.this.finish();
 			}
 		});
 	}
