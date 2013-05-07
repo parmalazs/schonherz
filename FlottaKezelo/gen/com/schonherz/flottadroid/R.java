@@ -39,10 +39,10 @@ public final class R {
         public static final int pull_to_refresh_header_background=0x7f020006;
     }
     public static final class id {
-        public static final int Button01=0x7f09000b;
         public static final int RelativeLayout1=0x7f09000f;
         public static final int TextViewPass=0x7f090002;
         public static final int action_settings=0x7f09001b;
+        public static final int buttonAdmin=0x7f09000b;
         public static final int buttonCar=0x7f090009;
         public static final int buttonClick=0x7f09000e;
         public static final int buttonContacts=0x7f09000a;

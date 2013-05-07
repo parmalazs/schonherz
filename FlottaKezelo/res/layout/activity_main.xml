@@ -51,12 +51,12 @@
         android:text="Kontaktok" />
 
     <Button
-        android:id="@+id/Button01"
+        android:id="@+id/buttonAdmin"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignBaseline="@+id/buttonContacts"
         android:layout_alignBottom="@+id/buttonContacts"
         android:layout_alignLeft="@+id/buttonCar"
-        android:text="Frissítés" />
+        android:text="Admin" />
 
 </RelativeLayout>
