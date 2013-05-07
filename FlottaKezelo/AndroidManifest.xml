@@ -50,6 +50,13 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.schonherz.flottadroid.MainActivity" />
         </activity>
+        <activity
+            android:name="com.schonherz.flottadroid.AdminActivity"
+            android:label="@string/title_activity_admin" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.schonherz.flottadroid.MainActivity" />
+        </activity>
     </application>
 
 </manifest>

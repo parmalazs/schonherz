@@ -17,5 +17,6 @@
     <string name="title_section1">Szabad munkák</string>
     <string name="title_section2">Választott munkák</string>
     <string name="title_section3">Összes munka</string>
+    <string name="title_activity_admin">AdminActivity</string>
 
 </resources>
