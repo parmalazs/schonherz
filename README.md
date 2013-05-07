@@ -14,6 +14,8 @@ Mindig csak azokat a fajlokat masoljatok fel, amik tenyleg valtoztak, illetve uj
 mappat felesleges mindig felcommitolni, hisz ha lebuildeled az ugyis valtozik. (Ezert erzekeli ugy a git plugin, hogy
 felkommitolando fajl. Biztos be lehet allitani szurot a lokal git-ben, melyik fajlok valtozasait kovesse, utananezek!)
 
+Egy napi munkat mindig pull-al kezdunk, es ha befejeztuk (ha akar elmesz 1-2 orara) akkor commitolunk!
+
 Udv,
 
 rcsk
