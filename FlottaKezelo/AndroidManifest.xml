@@ -43,6 +43,13 @@
             android:name="com.schonherz.flottadroid.LoginActivity"
             android:label="@string/title_activity_login" >
         </activity>
+        <activity
+            android:name="com.schonherz.flottadroid.JobsActivity"
+            android:label="@string/title_activity_jobs" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.schonherz.flottadroid.MainActivity" />
+        </activity>
     </application>
 
 </manifest>
