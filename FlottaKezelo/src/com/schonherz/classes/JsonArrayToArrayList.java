@@ -41,8 +41,14 @@ public class JsonArrayToArrayList {
 						.getString("soforIsAdmin")));
 				currSofor.setSoforEmail(soforJsonObj
 						.getString("soforProfilKepID"));
-				currSofor.setSoforProfilKepID(Long.parseLong(soforJsonObj
-						.getString("soforProfilKepID")));
+				if (soforJsonObj.getString("soforProfilKepID") != null) {
+					currSofor.setSoforProfilKepID(Long.parseLong(soforJsonObj
+							.getString("soforProfilKepID")));
+				}
+				else
+				{
+					currSofor.setSoforProfilKepID(null);
+				}
 
 				soforList.add(currSofor);
 			} catch (Exception ex) {
