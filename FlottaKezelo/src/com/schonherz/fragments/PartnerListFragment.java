@@ -8,7 +8,6 @@ import org.json.JSONObject;
 import android.content.Context;
 import android.media.Ringtone;
 import android.media.RingtoneManager;
-import android.net.ConnectivityManager;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -24,6 +23,7 @@ import android.widget.Toast;
 import com.schonherz.adapters.PartnerAdapter;
 import com.schonherz.classes.JsonArrayToArrayList;
 import com.schonherz.classes.JsonFromUrl;
+import com.schonherz.classes.NetworkUtil;
 import com.schonherz.classes.PullToRefreshListView;
 import com.schonherz.classes.PullToRefreshListView.OnRefreshListener;
 import com.schonherz.dbentities.Partner;
@@ -36,6 +36,7 @@ public class PartnerListFragment extends Fragment {
 	PartnerDao partnerDao;
 	PartnerAdapter adapter;
 	PullToRefreshListView pullListView;
+	NetworkUtil networkUtil;
 	
 	public PartnerListFragment(Context context, PartnerDao partnerDao)
 	{
@@ -74,7 +75,7 @@ public class PartnerListFragment extends Fragment {
 			@Override
 			public void onRefresh() {
 				// TODO Auto-generated method stub
-				if(checkInternetIsActive()==true) {
+				if(NetworkUtil.checkInternetIsActive(context)==true) {
 					new AsyncTask<Void, Void, Boolean>() {
 						
 						protected void onPostExecute(Boolean result) {
@@ -134,23 +135,6 @@ public class PartnerListFragment extends Fragment {
 		// TODO Auto-generated method stub
 		super.onResume();
 	}
-	
-	// Internet eleres ellenorzo metodus
-	public boolean checkInternetIsActive() {
-			ConnectivityManager connec = (ConnectivityManager) context
-					.getSystemService(Context.CONNECTIVITY_SERVICE);
-			android.net.NetworkInfo wifi = connec
-					.getNetworkInfo(ConnectivityManager.TYPE_WIFI);
-			android.net.NetworkInfo mobile = connec
-					.getNetworkInfo(ConnectivityManager.TYPE_MOBILE);
-
-			if (wifi.isConnected() || mobile.isConnected()) {
-				return true;
-			}
-
-			return false;
-
-	}	
 	
 	public Boolean savePartnerTable() {
 		// TODO Auto-generated method stub

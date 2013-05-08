@@ -26,6 +26,7 @@ import android.widget.Toast;
 import com.google.gson.Gson;
 import com.schonherz.classes.JsonArrayToArrayList;
 import com.schonherz.classes.JsonFromUrl;
+import com.schonherz.classes.NetworkUtil;
 import com.schonherz.dbentities.AutoDao;
 import com.schonherz.dbentities.AutoKepDao;
 import com.schonherz.dbentities.DaoMaster;
@@ -74,11 +75,16 @@ public class LoginActivity extends Activity {
 
 	EditText userEditText;
 	EditText passEditText;
+	
+	NetworkUtil netwrokUtil;
+	Context context;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_login);
+		
+		context=getApplicationContext();
 
 		preferences = PreferenceManager.getDefaultSharedPreferences(this);
 		firstStart = preferences.getLong("firstStart", 0);
@@ -96,7 +102,7 @@ public class LoginActivity extends Activity {
 			editor.commit();
 			editor = null;
 
-			if (checkInternetIsActive() == false) {
+			if (NetworkUtil.checkInternetIsActive(context) == false) {
 
 				Toast.makeText(this, R.string.no_internet, Toast.LENGTH_SHORT)
 						.show();
