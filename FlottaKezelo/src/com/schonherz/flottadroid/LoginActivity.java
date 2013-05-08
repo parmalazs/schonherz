@@ -190,7 +190,7 @@ public class LoginActivity extends Activity {
 					.JsonArrayToSofor(jsonArray);
 
 			for (int i = 0; i < soforok.size(); i++) {
-				soforDao.insert(soforok.get(i));
+				soforDao.insert(soforok.get(i));				
 			}
 
 		} catch (Exception e) {
