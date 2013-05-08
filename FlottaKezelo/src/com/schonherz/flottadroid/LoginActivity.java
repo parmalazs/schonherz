@@ -96,9 +96,8 @@ public class LoginActivity extends Activity {
 			editor.commit();
 			editor = null;
 
-			if (checkInternetIsActive() == true) {
+			if (checkInternetIsActive() == false) {
 
-			} else {
 				Toast.makeText(this, R.string.no_internet, Toast.LENGTH_SHORT)
 						.show();
 			}
@@ -127,8 +126,16 @@ public class LoginActivity extends Activity {
 					protected void onPostExecute(Boolean result) {
 						// TODO Auto-generated method stub
 						super.onPostExecute(result);
-						Toast.makeText(LoginActivity.this, R.string.refreshed,
-								Toast.LENGTH_SHORT).show();
+
+						if (result == true) {
+							Toast.makeText(LoginActivity.this,
+									R.string.refreshed, Toast.LENGTH_SHORT)
+									.show();
+						}
+						else
+						{
+							Toast.makeText(LoginActivity.this, R.string.errorRefresh, Toast.LENGTH_SHORT).show();
+						}
 					}
 
 					@Override
@@ -147,16 +154,15 @@ public class LoginActivity extends Activity {
 			@Override
 			public void onClick(View v) {
 				// Start main activity
-				if(checkLogin() == true)
-				{
-				 Intent intent = new Intent(LoginActivity.this,
-				 MainActivity.class);				 
-				 LoginActivity.this.startActivity(intent);				
-				 LoginActivity.this.finish();
-				}
-				else
-				{
-					Toast.makeText(LoginActivity.this, R.string.wrongCredential, Toast.LENGTH_SHORT).show();
+				if (checkLogin() == true) {
+					Intent intent = new Intent(LoginActivity.this,
+							MainActivity.class);
+					LoginActivity.this.startActivity(intent);
+					LoginActivity.this.finish();
+				} else {
+					Toast.makeText(LoginActivity.this,
+							R.string.wrongCredential, Toast.LENGTH_SHORT)
+							.show();
 				}
 
 			}
@@ -175,8 +181,8 @@ public class LoginActivity extends Activity {
 
 			jsonArray = (JSONArray) JsonFromUrl.getJsonObjectFromUrl(
 					serverAddres, json.toString());
-			
-			//Eldobjuk a tablat es ujra letrehozzuk
+
+			// Eldobjuk a tablat es ujra letrehozzuk
 			soforDao.dropTable(soforDao.getDatabase(), true);
 			soforDao.createTable(soforDao.getDatabase(), true);
 
@@ -194,8 +200,7 @@ public class LoginActivity extends Activity {
 
 		return false;
 	}
-	
-	
+
 	@Override
 	public void finish() {
 		// TODO Auto-generated method stub
@@ -203,7 +208,7 @@ public class LoginActivity extends Activity {
 		overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
 	}
 
-	//Tabla letrehozo metodus, elso inditaskor mindekepp lefut
+	// Tabla letrehozo metodus, elso inditaskor mindekepp lefut
 	private void createTables() {
 		helper = new DaoMaster.DevOpenHelper(this, "flotta-db", null);
 		db = helper.getWritableDatabase();
@@ -246,9 +251,8 @@ public class LoginActivity extends Activity {
 		getMenuInflater().inflate(R.menu.login, menu);
 		return true;
 	}
-	
-	
-	//Internet eleres ellenorzo metodus
+
+	// Internet eleres ellenorzo metodus
 	public boolean checkInternetIsActive() {
 		ConnectivityManager connec = (ConnectivityManager) this
 				.getSystemService(Context.CONNECTIVITY_SERVICE);
@@ -268,25 +272,24 @@ public class LoginActivity extends Activity {
 	public boolean checkLogin() {
 		if (!userEditText.getText().toString().equals("")) {
 			if (!passEditText.getText().toString().equals("")) {
-				
-				//Ez csak bemutatato, a loadAll() az a select * from
+
+				// Ez csak bemutatato, a loadAll() az a select * from
 				List<Sofor> sofors = soforDao.loadAll();
 
-				//Where-ben 2 feltetellel lekerdezes, a Properties az a SoforDao properties osztalya importalva
-				//Minden tablanak van minden rekordjara egy property, amihez lehet hasonlita
+				// Where-ben 2 feltetellel lekerdezes, a Properties az a
+				// SoforDao properties osztalya importalva
+				// Minden tablanak van minden rekordjara egy property, amihez
+				// lehet hasonlita
 				List<Sofor> soforok = soforDao
 						.queryBuilder()
 						.where(Properties.SoforLogin.eq(userEditText.getText()
 								.toString()),
 								Properties.SoforPass.eq(passEditText.getText()
 										.toString())).list();
-				
-				if(soforok.size() > 0)
-				{
+
+				if (soforok.size() > 0) {
 					return true;
-				}
-				else
-				{
+				} else {
 					return false;
 				}
 

@@ -12,7 +12,8 @@ import android.widget.Button;
 public class MainActivity extends Activity {
 	
 	Button jobsButton;
-
+	Button adminButton;
+	
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -27,6 +28,17 @@ public class MainActivity extends Activity {
 			public void onClick(View v) {
 				// TODO Auto-generated method stub
 				Intent intent = new Intent(MainActivity.this, JobsActivity.class);
+				MainActivity.this.startActivity(intent);
+			}
+		});
+        
+        adminButton = (Button)findViewById(R.id.buttonAdmin);
+        adminButton.setOnClickListener(new OnClickListener() {
+			
+			@Override
+			public void onClick(View v) {
+				// TODO Auto-generated method stub
+				Intent intent = new Intent(MainActivity.this,AdminActivity.class);
 				MainActivity.this.startActivity(intent);
 			}
 		});

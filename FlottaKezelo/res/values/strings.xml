@@ -22,5 +22,13 @@
     <string name="refresh">Frissítés</string>
     <string name="refreshed">Frissítve!</string>
     <string name="wrongCredential">Sikertelen bejelentkezés!</string>
-
+    <string name="drivers">Sofőrök</string>
+    <string name="jobs">Munkák</string>
+    <string name="partners">Partnerek</string>
+    <string name="pictures">Képek</string>
+    <string name="errorRefresh">Hiba frissítés közben!</string>
+    <string name="autos">Autók</string>
+    <string name="sites">Telephelyek</string>
+	
+    
 </resources>
