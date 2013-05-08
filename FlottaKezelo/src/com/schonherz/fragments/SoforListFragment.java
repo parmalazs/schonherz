@@ -36,7 +36,6 @@ public class SoforListFragment extends Fragment {
 	SoforDao soforDao;
 	SoforAdapter adapter;
 	PullToRefreshListView pullListView;
-	NetworkUtil networkUtil;
 
 	public SoforListFragment(Context context, SoforDao soforDao) {
 		this.context = context;

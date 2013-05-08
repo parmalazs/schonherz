@@ -76,7 +76,6 @@ public class LoginActivity extends Activity {
 	EditText userEditText;
 	EditText passEditText;
 	
-	NetworkUtil netwrokUtil;
 	Context context;
 
 	@Override

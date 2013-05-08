@@ -36,7 +36,6 @@ public class PartnerListFragment extends Fragment {
 	PartnerDao partnerDao;
 	PartnerAdapter adapter;
 	PullToRefreshListView pullListView;
-	NetworkUtil networkUtil;
 	
 	public PartnerListFragment(Context context, PartnerDao partnerDao)
 	{
