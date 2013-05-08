@@ -2,8 +2,8 @@ SET @OLD_UNIQUE_CHECKS=@@UNIQUE_CHECKS, UNIQUE_CHECKS=0;
 SET @OLD_FOREIGN_KEY_CHECKS=@@FOREIGN_KEY_CHECKS, FOREIGN_KEY_CHECKS=0;
 SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='TRADITIONAL,ALLOW_INVALID_DATES';
 
-CREATE SCHEMA IF NOT EXISTS `mydb` DEFAULT CHARACTER SET latin1 COLLATE latin1_swedish_ci ;
-CREATE SCHEMA IF NOT EXISTS `flottadb` DEFAULT CHARACTER SET latin1 ;
+CREATE SCHEMA IF NOT EXISTS `mydb` DEFAULT CHARACTER SET utf8 COLLATE utf8_general_ci;
+CREATE SCHEMA IF NOT EXISTS `flottadb` DEFAULT CHARACTER utf8 ;
 USE `mydb` ;
 USE `flottadb` ;
 
@@ -11,7 +11,7 @@ USE `flottadb` ;
 -- Table `flottadb`.`profilkep`
 -- -----------------------------------------------------
 CREATE  TABLE IF NOT EXISTS `flottadb`.`profilkep` (
-  `profilKepID` INT(11) NOT NULL DEFAULT '0' ,
+  `profilKepID` INT(11) NOT NULL AUTO_INCREMENT ,
   `profilKepPath` TEXT NULL DEFAULT NULL ,
   `profilKepDateTime` TEXT NULL DEFAULT NULL ,
   `soforID` INT(11) NULL DEFAULT NULL ,
@@ -28,7 +28,7 @@ DEFAULT CHARACTER SET = latin1;
 -- Table `flottadb`.`sofor`
 -- -----------------------------------------------------
 CREATE  TABLE IF NOT EXISTS `flottadb`.`sofor` (
-  `soforID` INT(11) NOT NULL DEFAULT '0' ,
+  `soforID` INT(11) NOT NULL  AUTO_INCREMENT ,
   `soforNev` TEXT NULL DEFAULT NULL ,
   `soforCim` TEXT NULL DEFAULT NULL ,
   `soforTelefonszam` TEXT NULL DEFAULT NULL ,
@@ -54,7 +54,7 @@ DEFAULT CHARACTER SET = latin1;
 -- Table `flottadb`.`autokep`
 -- -----------------------------------------------------
 CREATE  TABLE IF NOT EXISTS `flottadb`.`autokep` (
-  `autoKepID` INT(11) NOT NULL DEFAULT '0' ,
+  `autoKepID` INT(11) NOT NULL  AUTO_INCREMENT ,
   `autoKepPath` TEXT NULL DEFAULT NULL ,
   `autoKepDateTime` TEXT NULL DEFAULT NULL ,
   `autoID` INT(11) NOT NULL ,
@@ -73,7 +73,7 @@ DEFAULT CHARACTER SET = latin1;
 -- Table `flottadb`.`telephely`
 -- -----------------------------------------------------
 CREATE  TABLE IF NOT EXISTS `flottadb`.`telephely` (
-  `telephelyID` INT(11) NOT NULL DEFAULT '0' ,
+  `telephelyID` INT(11) NOT NULL  AUTO_INCREMENT ,
   `telephelyNev` TEXT NULL DEFAULT NULL ,
   `telephelyCim` TEXT NULL DEFAULT NULL ,
   `telephelyTelefonszam` TEXT NULL DEFAULT NULL ,
@@ -89,7 +89,7 @@ DEFAULT CHARACTER SET = latin1;
 -- Table `flottadb`.`auto`
 -- -----------------------------------------------------
 CREATE  TABLE IF NOT EXISTS `flottadb`.`auto` (
-  `autoID` INT(11) NOT NULL DEFAULT '0' ,
+  `autoID` INT(11) NOT NULL  AUTO_INCREMENT,
   `autoFoglalt` TINYINT(1) NULL DEFAULT NULL ,
   `autoXkoordinata` FLOAT NULL DEFAULT NULL ,
   `autoYkoordinata` FLOAT NULL DEFAULT NULL ,
@@ -130,7 +130,7 @@ DEFAULT CHARACTER SET = latin1;
 -- Table `flottadb`.`munkatipus`
 -- -----------------------------------------------------
 CREATE  TABLE IF NOT EXISTS `flottadb`.`munkatipus` (
-  `munkaTipusID` INT(11) NOT NULL DEFAULT '0' ,
+  `munkaTipusID` INT(11) NOT NULL  AUTO_INCREMENT ,
   `munkaTipusNev` TEXT NULL DEFAULT NULL ,
   PRIMARY KEY (`munkaTipusID`) )
 ENGINE = InnoDB
@@ -141,7 +141,7 @@ DEFAULT CHARACTER SET = latin1;
 -- Table `flottadb`.`partner`
 -- -----------------------------------------------------
 CREATE  TABLE IF NOT EXISTS `flottadb`.`partner` (
-  `partnerID` INT(11) NOT NULL DEFAULT '0' ,
+  `partnerID` INT(11) NOT NULL  AUTO_INCREMENT ,
   `partnerNev` TEXT NULL DEFAULT NULL ,
   `partnerCim` TEXT NULL DEFAULT NULL ,
   `partnerTelefonszam` TEXT NULL DEFAULT NULL ,
@@ -158,7 +158,7 @@ DEFAULT CHARACTER SET = latin1;
 -- Table `flottadb`.`munka`
 -- -----------------------------------------------------
 CREATE  TABLE IF NOT EXISTS `flottadb`.`munka` (
-  `munkaID` INT(11) NOT NULL DEFAULT '0' ,
+  `munkaID` INT(11) NOT NULL  AUTO_INCREMENT ,
   `munkaDate` TEXT NULL DEFAULT NULL ,
   `munkaKoltseg` INT(11) NULL DEFAULT NULL ,
   `munkaBevetel` INT(11) NULL DEFAULT NULL ,
@@ -200,7 +200,7 @@ DEFAULT CHARACTER SET = latin1;
 -- Table `flottadb`.`munkaeszkoz`
 -- -----------------------------------------------------
 CREATE  TABLE IF NOT EXISTS `flottadb`.`munkaeszkoz` (
-  `munkaEszkozID` INT(11) NOT NULL DEFAULT '0' ,
+  `munkaEszkozID` INT(11) NOT NULL  AUTO_INCREMENT ,
   `munkaEszkozNev` TEXT NULL DEFAULT NULL ,
   `munkaEszkozAr` INT(11) NULL DEFAULT NULL ,
   `munkaID` INT(11) NULL DEFAULT NULL ,
@@ -218,7 +218,7 @@ DEFAULT CHARACTER SET = latin1;
 -- Table `flottadb`.`munkakep`
 -- -----------------------------------------------------
 CREATE  TABLE IF NOT EXISTS `flottadb`.`munkakep` (
-  `munkaKepID` INT(11) NOT NULL DEFAULT '0' ,
+  `munkaKepID` INT(11) NOT NULL  AUTO_INCREMENT ,
   `munkaKepPath` TEXT NULL DEFAULT NULL ,
   `munkaKepDate` TEXT NULL DEFAULT NULL ,
   `munkaID` INT(11) NULL DEFAULT NULL ,
@@ -235,7 +235,7 @@ DEFAULT CHARACTER SET = latin1;
 -- Table `flottadb`.`partnerkepek`
 -- -----------------------------------------------------
 CREATE  TABLE IF NOT EXISTS `flottadb`.`partnerkepek` (
-  `partnerKepID` INT(11) NOT NULL DEFAULT '0' ,
+  `partnerKepID` INT(11) NOT NULL  AUTO_INCREMENT ,
   `partnerKepPath` TEXT NULL DEFAULT NULL ,
   `partnerKepDate` TEXT NULL DEFAULT NULL ,
   `partnerID` INT(11) NULL DEFAULT NULL ,
