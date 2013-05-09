@@ -157,12 +157,13 @@ public class PartnerListFragment extends Fragment {
 			for (int i=0; i<partnerek.size(); i++) {
 				partnerDao.insert(partnerek.get(i));
 			}
-			
+			return true;
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
+			return false;
 		}
 		
-		return false;
+		
 	}
 }

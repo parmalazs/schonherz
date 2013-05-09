@@ -166,13 +166,15 @@ public class SoforListFragment extends Fragment {
 			for (int i = 0; i < soforok.size(); i++) {
 				soforDao.insert(soforok.get(i));
 			}
-
+			return true;
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
+			
+			return false;
 		}
 
-		return false;
+		
 	}	
 
 }

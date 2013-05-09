@@ -90,9 +90,12 @@ public class LoginActivity extends Activity {
 		preferences = PreferenceManager.getDefaultSharedPreferences(this);
 		firstStart = preferences.getLong("firstStart", 0);
 
-		userEditText = (EditText) findViewById(R.id.editTextPass);
-		passEditText = (EditText) findViewById(R.id.editTextUser);
-
+		userEditText = (EditText) findViewById(R.id.editTextUser);
+		passEditText = (EditText) findViewById(R.id.editTextPass);
+		
+		userEditText.setText("sofor1");
+		passEditText.setText("sofor1");
+		
 		// First start, full DB init, get soforTable
 		if (firstStart == 0) {
 
@@ -199,37 +202,15 @@ public class LoginActivity extends Activity {
 			for (int i = 0; i < soforok.size(); i++) {
 				soforDao.insert(soforok.get(i));				
 			}
-			
-			JSONObject rootObj = new JSONObject();			
-			JSONObject test = new JSONObject();
-			
-			test.put("soforID",soforok.get(0).getSoforID()+10);
-			test.put("soforNev",soforok.get(0).getSoforNev());
-			test.put("soforCim", soforok.get(0).getSoforCim());
-			test.put("soforTelefonszam", soforok.get(0).getSoforTelefonszam());
-			test.put("soforLogin",soforok.get(0).getSoforLogin());
-			test.put("soforPass", soforok.get(0).getSoforPass());
-			test.put("soforBirthDate", soforok.get(0).getSoforBirthDate());
-			test.put("soforRegTime", soforok.get(0).getSoforRegTime());
-			test.put("soforIsAdmin", soforok.get(0).getSoforIsAdmin());
-			test.put("soforEmail",soforok.get(0).getSoforIsAdmin());
-			test.put("soforProfilKepID", soforok.get(0).getSoforProfilKepID());
-			
-			rootObj.put("action", "insert");
-			rootObj.put("tableName", "sofor");
-			rootObj.put("jsonObjects",test.toString());
-			
-			String testUrl = "http://www.flotta.host-ed.me/index.php"; 
-			Log.w("testJson",rootObj.toString());
-			
-			JSONObject jsonasd = JsonToUrl.sendJsonToUrl(testUrl, rootObj.toString());
-			
+			return true;
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
+			
+			return false;
 		}
 
-		return false;
+		
 	}
 
 	@Override
