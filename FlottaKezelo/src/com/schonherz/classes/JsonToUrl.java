@@ -13,19 +13,17 @@ import org.apache.http.entity.StringEntity;
 import org.apache.http.impl.client.DefaultHttpClient;
 import org.apache.http.message.BasicHeader;
 import org.apache.http.protocol.HTTP;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import android.util.Log;
 
-import com.google.gson.Gson;
-import com.google.gson.JsonObject;
-import com.google.gson.JsonParser;
-import com.google.gson.stream.JsonReader;
 import com.loopj.android.http.RequestParams;
 
 public class JsonToUrl {
 
 	
-public static JsonObject sendJsonToUrl(String url, String jsonString) throws Exception{
+public static JSONObject sendJsonToUrl(String url, String jsonString) throws Exception{
 		
 		DefaultHttpClient client = new DefaultHttpClient();
 		HttpPost postRequest = new HttpPost(url);
@@ -70,21 +68,44 @@ public static JsonObject sendJsonToUrl(String url, String jsonString) throws Exc
 
 	}
 	
-	public static JsonObject getRootJsonObject(InputStream inputStream) {
+	public static JSONObject getRootJsonObject(InputStream inputStream) {
 		InputStreamReader inputStreamReader;
 		BufferedReader bufferedReader;
 		inputStreamReader = new InputStreamReader(inputStream);
 		bufferedReader = new BufferedReader(inputStreamReader);
 
-		Gson gson = new Gson();
-		JsonReader jsonReader = new JsonReader(bufferedReader);
-		JsonParser parser = new JsonParser();
-		JsonObject jsonObjectRoot = (JsonObject) parser.parse(jsonReader);
+		//Gson gson = new Gson();
+		//JsonReader jsonReader = new JsonReader(bufferedReader);
+		//JsonParser parser = new JsonParser();
+		//JsonObject jsonObjectRoot = (JsonObject) parser.parse(jsonReader);
+		
+		String inputLine;
+		String jsonString = "";
+		JSONObject mainJson = null;
+		try {
+			while ((inputLine=bufferedReader.readLine()) !=null) {
+				jsonString=inputLine;
+			}
+		
+		Log.i("json", "Nyers string: " + jsonString);
+		
+		 try {
+			mainJson = new JSONObject(jsonString);
+		} catch (JSONException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		
 		//String str = jsonObj.toString();
 		//Log.d("xxxx", str);
 		
 		//{"d":"Hiba történt a kép feltöltésénél"}
+		
+			
+		} catch (IOException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
 		
 		//JsonArray jsonArrayUserAccounts = jsonObjectRootD.getAsJsonArray("userAccount");
 		try {
@@ -102,7 +123,7 @@ public static JsonObject sendJsonToUrl(String url, String jsonString) throws Exc
 		}
 	
 		
-		return 	 jsonObjectRoot;
+		return 	 mainJson;
 
 	}
 }

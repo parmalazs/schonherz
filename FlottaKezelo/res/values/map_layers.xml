@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="map_layers_strings">
+        <item>Autók</item>
+        <item>Partnerek</item>
+        <item>Napi útvonal</item>
+        <item>Szabad munkák</item>
+        </string-array>
+</resources>
