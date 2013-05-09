@@ -140,7 +140,10 @@ public class SoforListFragment extends Fragment {
 	@Override
 	public void onResume() {
 		// TODO Auto-generated method stub
+		
+		adapter.notifyDataSetChanged();
 		super.onResume();
+		
 	}
 
 	public boolean saveSoforTable() {

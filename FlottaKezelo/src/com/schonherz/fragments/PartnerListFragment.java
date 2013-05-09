@@ -132,6 +132,7 @@ public class PartnerListFragment extends Fragment {
 	@Override
 	public void onResume() {
 		// TODO Auto-generated method stub
+		adapter.notifyDataSetChanged();
 		super.onResume();
 	}
 	
@@ -140,7 +141,7 @@ public class PartnerListFragment extends Fragment {
 		JSONArray jsonArray;
 		JSONObject json;
 
-		String serverAddres = "http://www.flotta.host-ed.me/querySoforTable.php";
+		String serverAddres = "http://www.flotta.host-ed.me/queryPartnerTable.php";
 
 		json = new JSONObject();
 		

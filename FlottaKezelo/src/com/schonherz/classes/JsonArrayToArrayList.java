@@ -91,9 +91,9 @@ public class JsonArrayToArrayList {
 					currPartner.setPartnerXkoordinata(null);
 				}
 				
-				if (partnerJsonObj.getString("partnerYkoodinata") != null) {
+				if (partnerJsonObj.getString("partnerYkoordinata") != null) {
 					currPartner.setPartnerYkoodinata(Float.parseFloat(partnerJsonObj
-							.getString("partnerYkoodinata")));
+							.getString("partnerYkoordinata")));
 				}
 				else
 				{
