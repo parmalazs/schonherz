@@ -13,6 +13,7 @@ public class MainActivity extends Activity {
 	
 	Button jobsButton;
 	Button adminButton;
+	Button mapButton;
 	
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -43,6 +44,16 @@ public class MainActivity extends Activity {
 			}
 		});
         
+        mapButton = (Button)findViewById(R.id.buttonMap);
+        mapButton.setOnClickListener(new OnClickListener() {
+			
+			@Override
+			public void onClick(View v) {
+				// TODO Auto-generated method stub
+				Intent intent = new Intent(MainActivity.this, MapActivity.class);
+				MainActivity.this.startActivity(intent); 
+			}
+		});
     }
 
     @Override

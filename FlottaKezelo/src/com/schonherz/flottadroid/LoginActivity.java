@@ -16,6 +16,7 @@ import android.net.ConnectivityManager;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
+import android.util.Log;
 import android.view.Menu;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -26,6 +27,7 @@ import android.widget.Toast;
 import com.google.gson.Gson;
 import com.schonherz.classes.JsonArrayToArrayList;
 import com.schonherz.classes.JsonFromUrl;
+import com.schonherz.classes.JsonToUrl;
 import com.schonherz.classes.NetworkUtil;
 import com.schonherz.dbentities.AutoDao;
 import com.schonherz.dbentities.AutoKepDao;
@@ -197,7 +199,31 @@ public class LoginActivity extends Activity {
 			for (int i = 0; i < soforok.size(); i++) {
 				soforDao.insert(soforok.get(i));				
 			}
-
+			
+			JSONObject rootObj = new JSONObject();			
+			JSONObject test = new JSONObject();
+			
+			test.put("soforID",soforok.get(0).getSoforID()+10);
+			test.put("soforNev",soforok.get(0).getSoforNev());
+			test.put("soforCim", soforok.get(0).getSoforCim());
+			test.put("soforTelefonszam", soforok.get(0).getSoforTelefonszam());
+			test.put("soforLogin",soforok.get(0).getSoforLogin());
+			test.put("soforPass", soforok.get(0).getSoforPass());
+			test.put("soforBirthDate", soforok.get(0).getSoforBirthDate());
+			test.put("soforRegTime", soforok.get(0).getSoforRegTime());
+			test.put("soforIsAdmin", soforok.get(0).getSoforIsAdmin());
+			test.put("soforEmail",soforok.get(0).getSoforIsAdmin());
+			test.put("soforProfilKepID", soforok.get(0).getSoforProfilKepID());
+			
+			rootObj.put("action", "insert");
+			rootObj.put("tableName", "sofor");
+			rootObj.put("jsonObjects",test.toString());
+			
+			String testUrl = "http://www.flotta.host-ed.me/index.php"; 
+			Log.w("testJson",rootObj.toString());
+			
+			JSONObject jsonasd = JsonToUrl.sendJsonToUrl(testUrl, rootObj.toString());
+			
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

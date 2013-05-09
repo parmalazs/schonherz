@@ -29,6 +29,6 @@
     <string name="errorRefresh">Hiba frissítés közben!</string>
     <string name="autos">Autók</string>
     <string name="sites">Telephelyek</string>
-	
-    
+    <string name="title_activity_map">Térkép</string>
+
 </resources>
