@@ -1,4 +1,4 @@
-package JSONUtil;
+package com.schonherz.classes;
 
 import java.io.BufferedReader;
 import java.io.IOException;

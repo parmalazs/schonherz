@@ -1,4 +1,4 @@
-package JSONUtil;
+package com.schonherz.classes;
 
 import org.json.JSONException;
 import org.json.JSONObject;
