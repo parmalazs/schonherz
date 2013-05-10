@@ -214,6 +214,7 @@ public class JsonArrayToArrayList {
 				}
 				currTelephely.setTelephelyEmail(telephelyJsonObj.getString("telephelyEmail"));
 				
+				telephelyList.add(currTelephely);
 				
 			} catch (Exception ex) {
 				ex.printStackTrace();
