@@ -12,6 +12,7 @@ import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -159,6 +160,11 @@ public class TelephelyListFragment extends Fragment {
 			for (int i=0; i<telephelyek.size(); i++) {
 				telephelyDao.insert(telephelyek.get(i));
 			}
+			
+			Log.w("telephely", Integer.toString(telephelyDao.loadAll().size()));
+			
+			
+			
 			return true;
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
