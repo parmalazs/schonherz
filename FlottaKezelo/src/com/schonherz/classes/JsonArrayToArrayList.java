@@ -6,6 +6,7 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import com.schonherz.dbentities.Auto;
 import com.schonherz.dbentities.Partner;
 import com.schonherz.dbentities.Sofor;
 
@@ -111,5 +112,71 @@ public class JsonArrayToArrayList {
 		}
 
 		return partnerList;
+	}
+	
+	public static ArrayList<Auto> JsonArrayToAuto(JSONArray jsonArray)
+
+	{
+
+		ArrayList<Auto> autoList = new ArrayList<Auto>();
+		for (int i = 0; i < jsonArray.length(); i++) {
+
+			try {
+				JSONObject autoJsonObj = null;
+
+				autoJsonObj = jsonArray.getJSONObject(i);
+
+				// New auto
+				Auto currAuto = new Auto();
+				// set properties from jsonobject
+				currAuto.setAutoID(Long.parseLong(autoJsonObj.getString("autoID")));				
+				currAuto.setAutoFoglalt(Boolean.parseBoolean(autoJsonObj.getString("autoFoglalt")));
+				if (autoJsonObj.getString("autoXkoordinata") != null) {
+					currAuto.setAutoXkoordinata(Float.parseFloat(autoJsonObj.getString("autoXkoordinata")));
+				}
+				else {
+					currAuto.setAutoXkoordinata(null);
+				}
+				if (autoJsonObj.getString("autoYkoordinata") != null) {
+					currAuto.setAutoYkoordinata(Float.parseFloat(autoJsonObj.getString("autoYkoordinata")));
+				}
+				else {
+					currAuto.setAutoYkoordinata(null);
+				}
+				currAuto.setAutoNev(autoJsonObj.getString("autoNev"));
+				currAuto.setAutoTipus(autoJsonObj.getString("autoTipus"));
+				currAuto.setAutoRendszam(autoJsonObj.getString("autoRendszam"));
+				if(autoJsonObj.getString("autoProfilKepID")!=null) {
+					currAuto.setAutoProfilKepID(Long.parseLong(autoJsonObj.getString("autoProfilKepID")));
+				}
+				else {
+					currAuto.setAutoProfilKepID(null);
+				}
+				currAuto.setAutoKilometerOra(Long.parseLong(autoJsonObj.getString("autoKilometerOra")));
+				currAuto.setAutoUzemanyag(Long.parseLong(autoJsonObj.getString("autoUzemAnyag")));
+				currAuto.setAutoMuszakiVizsgaDate(autoJsonObj.getString("autoMuszakiVizsgaDate"));
+				currAuto.setAutoLastSzervizDate(autoJsonObj.getString("autoLastSzervizDate"));
+				
+				if(autoJsonObj.getString("autoLastSoforID")!=null) {
+					currAuto.setAutoLastSoforID(Long.parseLong(autoJsonObj.getString("autoLastSoforID")));
+				}
+				else {
+					currAuto.setAutoLastSoforID(null);
+				}
+				currAuto.setAutoLastUpDate(autoJsonObj.getString("autoLastUpDate"));
+				if(autoJsonObj.getString("autoLastTelephelyID")!=null) {
+					currAuto.setAutoLastTelephelyID(Long.parseLong(autoJsonObj.getString("autoLastTelephelyID")));
+				}
+				else {
+					currAuto.setAutoLastTelephelyID(null);
+				}
+				
+				
+			} catch (Exception ex) {
+				ex.printStackTrace();
+			}
+		}
+
+		return autoList;
 	}
 }
