@@ -172,7 +172,7 @@ public class JsonArrayToArrayList {
 					currAuto.setAutoLastTelephelyID(null);
 				}
 				
-				
+				autoList.add(currAuto);
 			} catch (Exception ex) {
 				ex.printStackTrace();
 			}
