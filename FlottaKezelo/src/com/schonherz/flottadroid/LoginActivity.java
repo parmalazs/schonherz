@@ -12,11 +12,9 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.database.sqlite.SQLiteDatabase;
-import android.net.ConnectivityManager;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
-import android.util.Log;
 import android.view.Menu;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -27,7 +25,6 @@ import android.widget.Toast;
 import com.google.gson.Gson;
 import com.schonherz.classes.JsonArrayToArrayList;
 import com.schonherz.classes.JsonFromUrl;
-import com.schonherz.classes.JsonToUrl;
 import com.schonherz.classes.NetworkUtil;
 import com.schonherz.dbentities.AutoDao;
 import com.schonherz.dbentities.AutoKepDao;
@@ -120,9 +117,10 @@ public class LoginActivity extends Activity {
 			daoSession = daoMaster.newSession();
 
 			soforDao = daoSession.getSoforDao();
+		}
 
 			// If internet connection OK, drop sofor Table and get new table
-			if (checkInternetIsActive() == true) {
+			if (NetworkUtil.checkInternetIsActive(context) == true) {
 
 				new AsyncTask<Void, Void, Boolean>() {
 
@@ -156,7 +154,7 @@ public class LoginActivity extends Activity {
 
 				}.execute();
 			}
-		}
+		
 
 		loginButton = (Button) findViewById(R.id.buttonEntry);
 		loginButton.setOnClickListener(new OnClickListener() {
@@ -262,24 +260,7 @@ public class LoginActivity extends Activity {
 		// Inflate the menu; this adds items to the action bar if it is present.
 		getMenuInflater().inflate(R.menu.login, menu);
 		return true;
-	}
-
-	// Internet eleres ellenorzo metodus
-	public boolean checkInternetIsActive() {
-		ConnectivityManager connec = (ConnectivityManager) this
-				.getSystemService(Context.CONNECTIVITY_SERVICE);
-		android.net.NetworkInfo wifi = connec
-				.getNetworkInfo(ConnectivityManager.TYPE_WIFI);
-		android.net.NetworkInfo mobile = connec
-				.getNetworkInfo(ConnectivityManager.TYPE_MOBILE);
-
-		if (wifi.isConnected() || mobile.isConnected()) {
-			return true;
-		}
-
-		return false;
-
-	}
+	}	
 
 	public boolean checkLogin() {
 		if (!userEditText.getText().toString().equals("")) {
