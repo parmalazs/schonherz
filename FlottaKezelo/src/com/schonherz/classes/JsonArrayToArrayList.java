@@ -9,6 +9,7 @@ import org.json.JSONObject;
 import com.schonherz.dbentities.Auto;
 import com.schonherz.dbentities.Partner;
 import com.schonherz.dbentities.Sofor;
+import com.schonherz.dbentities.Telephely;
 
 public class JsonArrayToArrayList {
 
@@ -178,5 +179,47 @@ public class JsonArrayToArrayList {
 		}
 
 		return autoList;
+	}
+	
+	public static ArrayList<Telephely> JsonArrayToTelephely(JSONArray jsonArray)
+
+	{
+
+		ArrayList<Telephely> telephelyList = new ArrayList<Telephely>();
+		for (int i = 0; i < jsonArray.length(); i++) {
+
+			try {
+				JSONObject telephelyJsonObj = null;
+
+				telephelyJsonObj = jsonArray.getJSONObject(i);
+
+				// New telephely
+				Telephely currTelephely = new Telephely();
+				// set properties from jsonobject
+				currTelephely.setTelephelyID(Long.parseLong(telephelyJsonObj.getString("telephelyID")));
+				currTelephely.setTelephelyNev(telephelyJsonObj.getString("telephelyNev"));
+				currTelephely.setTelephelyCim(telephelyJsonObj.getString("telephelyCim"));
+				currTelephely.setTelephelyTelefonszam(telephelyJsonObj.getString("telephelyTelefonszam"));
+				if(telephelyJsonObj.getString("telephelyXkoordinata")!=null) {
+					currTelephely.setTelephelyXkoordinata(Float.parseFloat(telephelyJsonObj.getString("telephelyXkoordinata")));
+				}
+				else {
+					currTelephely.setTelephelyXkoordinata(null);
+				}
+				if(telephelyJsonObj.getString("telephelyYkoordinata")!=null) {
+					currTelephely.setTelephelyYkoordinata(Float.parseFloat(telephelyJsonObj.getString("telephelyYkoordinata")));
+				}
+				else {
+					currTelephely.setTelephelyYkoordinata(null);
+				}
+				currTelephely.setTelephelyEmail(telephelyJsonObj.getString("telephelyEmail"));
+				
+				
+			} catch (Exception ex) {
+				ex.printStackTrace();
+			}
+		}
+
+		return telephelyList;
 	}
 }

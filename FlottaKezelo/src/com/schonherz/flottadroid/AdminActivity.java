@@ -63,6 +63,7 @@ public class AdminActivity extends FragmentActivity
 	MunkaListFragment munkaListFragment;
 	PartnerListFragment partnerListFragment;
 	AutoListFragment autoListFragment;
+	TelephelyListFragment telephelyListFragment;
 
 	Tab munkaTab;
 	Tab soforTab;
@@ -88,6 +89,7 @@ public class AdminActivity extends FragmentActivity
 		munkaListFragment = new MunkaListFragment(this, munkaDao);
 		partnerListFragment=new PartnerListFragment(this, partnerDao);
 		autoListFragment=new AutoListFragment(this, autoDao);
+		telephelyListFragment=new TelephelyListFragment(this, telephelyDao);
 
 		actionBar = getActionBar();
 		actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_TABS);
