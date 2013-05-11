@@ -193,7 +193,8 @@ public class LoginActivity extends Activity {
 			// Eldobjuk a tablat es ujra letrehozzuk
 			soforDao.dropTable(soforDao.getDatabase(), true);
 			soforDao.createTable(soforDao.getDatabase(), true);
-
+			
+						
 			ArrayList<Sofor> soforok = JsonArrayToArrayList
 					.JsonArrayToSofor(jsonArray);
 

@@ -12,6 +12,7 @@ import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -106,6 +107,13 @@ public class AutoListFragment extends Fragment{
 							
 							pullListView.onRefreshComplete();
 							
+							adapter.clear();
+							
+							ArrayList<Auto> autok = new ArrayList<Auto>(autoDao.loadAll());
+							
+							adapter.addAll(autok);
+							
+							adapter.notifyDataSetChanged();
 						}
 
 						@Override
@@ -159,9 +167,13 @@ public class AutoListFragment extends Fragment{
 			
 			ArrayList<Auto> autok=JsonArrayToArrayList.JsonArrayToAuto(jsonArray);
 			
+			
+			
 			for (int i=0; i<autok.size(); i++) {
 				autoDao.insert(autok.get(i));
 			}
+			
+			Log.w("autolistsize",Integer.toString(autoDao.loadAll().size()));
 			
 			return true;			
 			
