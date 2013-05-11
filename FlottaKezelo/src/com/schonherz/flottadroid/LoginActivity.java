@@ -136,9 +136,10 @@ public class LoginActivity extends Activity {
 						super.onPostExecute(result);
 
 						if (result == true) {
+							loginButton.setEnabled(true);
 							Toast.makeText(LoginActivity.this,
 									R.string.refreshed, Toast.LENGTH_SHORT)
-									.show();
+									.show();							
 						}
 						else
 						{
@@ -157,6 +158,7 @@ public class LoginActivity extends Activity {
 		
 
 		loginButton = (Button) findViewById(R.id.buttonEntry);
+		loginButton.setEnabled(false);
 		loginButton.setOnClickListener(new OnClickListener() {
 
 			@Override

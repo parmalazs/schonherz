@@ -106,6 +106,11 @@ public class SoforListFragment extends Fragment {
 							}
 							
 							pullListView.onRefreshComplete();
+							adapter.clear();
+							
+							ArrayList<Sofor> soforok=new ArrayList<Sofor>(soforDao.loadAll());
+							adapter.addAll(soforok);
+							adapter.notifyDataSetChanged();
 							
 						}
 
@@ -116,7 +121,6 @@ public class SoforListFragment extends Fragment {
 						}
 					}.execute();
 
-					adapter.notifyDataSetChanged();
 				}
 
 				else {

@@ -99,6 +99,10 @@ public class PartnerListFragment extends Fragment {
 							}
 							
 							pullListView.onRefreshComplete();
+							adapter.clear();
+							ArrayList<Partner> partnerek=new ArrayList<Partner>(partnerDao.loadAll());
+							adapter.addAll(partnerek);
+							adapter.notifyDataSetChanged();
 						};
 
 						@Override
@@ -109,7 +113,6 @@ public class PartnerListFragment extends Fragment {
 						
 					}.execute();
 					
-					adapter.notifyDataSetChanged();
 				}
 				
 				else {

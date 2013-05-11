@@ -106,6 +106,11 @@ public class TelephelyListFragment extends Fragment {
 							}
 							
 							pullListView.onRefreshComplete();
+							adapter.clear();
+							
+							ArrayList<Telephely> telephelyek=new ArrayList<Telephely>(telephelyDao.loadAll());
+							adapter.addAll(telephelyek);
+							adapter.notifyDataSetChanged();
 							
 						}
 						
@@ -114,7 +119,6 @@ public class TelephelyListFragment extends Fragment {
 						}
 						
 					}.execute();
-					adapter.notifyDataSetChanged();
 				}
 				else {
 					Toast.makeText(context, R.string.no_internet,
