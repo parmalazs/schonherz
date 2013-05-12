@@ -3,6 +3,8 @@ package com.schonherz.flottadroid;
 import android.app.ActionBar;
 import android.app.ActionBar.Tab;
 import android.app.FragmentTransaction;
+import android.app.SearchManager;
+import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -14,6 +16,8 @@ import android.support.v4.view.ViewPager;
 import android.support.v4.view.ViewPager.OnPageChangeListener;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.SearchView;
+import android.widget.SearchView.OnQueryTextListener;
 
 import com.schonherz.dbentities.AutoDao;
 import com.schonherz.dbentities.AutoKepDao;
@@ -154,11 +158,16 @@ public class AdminActivity extends FragmentActivity
 		getActionBar().setDisplayHomeAsUpEnabled(true);
 
 	}
+	
 
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
 		// Inflate the menu; this adds items to the action bar if it is present.
-		getMenuInflater().inflate(R.menu.admin, menu);
+		
+		getMenuInflater().inflate(R.menu.menu_search, menu);			
+		SearchView searchView=(SearchView) menu.findItem(R.id.menu_search).getActionView();
+		
+		setupSearchView(searchView);
 		return true;
 	}
 
@@ -183,6 +192,28 @@ public class AdminActivity extends FragmentActivity
 	public void onTabReselected(Tab tab, FragmentTransaction ft) {
 		// TODO Auto-generated method stub
 
+	}
+	
+	public void setupSearchView(SearchView searchView) {
+		SearchManager searchManager = (SearchManager) getSystemService(Context.SEARCH_SERVICE);	
+		searchView.setSearchableInfo(searchManager.getSearchableInfo(getComponentName()));
+		searchView.setIconifiedByDefault(false);
+		searchView.setSubmitButtonEnabled(true);
+		searchView.setOnQueryTextListener(new OnQueryTextListener() {
+			
+			@Override
+			public boolean onQueryTextSubmit(String query) {
+				// TODO Auto-generated method stub
+				return true;
+			}
+			
+			@Override
+			public boolean onQueryTextChange(String newText) {
+				// TODO Auto-generated method stub
+				return true;
+			}
+		});
+		
 	}
 
 	@Override

@@ -5,6 +5,7 @@
     <string name="hello_world">F L O T T A D R O I D!</string>
     <string name="menu_settings">Beállítások</string>
     <string name="title_activity_main">Főmenü</string>
+    <string name="menu_search">Keresés</string>
     <string name="pull_to_refresh_pull_label">Húzd le a frissítéshez!</string>
     <string name="pull_to_refresh_release_label">Engedd el!</string>
     <string name="pull_to_refresh_refreshing_label">Frissítés...</string>
