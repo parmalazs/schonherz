@@ -6,7 +6,8 @@ import android.os.StatFs;
 public class SDCardUtil {
 	
 	public static Boolean checkAvailable() {
-		String state=Environment.getExternalStorageState();
+		String state=Environment.getExternalStorageState();		
+		
 		if(Environment.MEDIA_MOUNTED.equals(state)) {
 			return true;
 		}
@@ -27,6 +28,7 @@ public class SDCardUtil {
 	
 	public static int getAvailableSpaceInMegaBytes() {
 		int availableSpace=0;
+		
 		try {
             StatFs stat = new StatFs(Environment.getExternalStorageDirectory().getPath());
             availableSpace =stat.getAvailableBlocks() * stat.getBlockSize() / 1048576;
