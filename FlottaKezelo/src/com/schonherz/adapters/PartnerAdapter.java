@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
-import com.schonherz.adapters.SoforAdapter.ViewHolder;
 import com.schonherz.dbentities.Partner;
 import com.schonherz.dbentities.PartnerDao;
 
@@ -107,7 +106,7 @@ public class PartnerAdapter extends ArrayAdapter<Partner> {
 		partnerek.remove(object);
 	}
 	
-	class ViewHolder
+	static class ViewHolder
 	{
 		TextView partnerNevTextView;
 	}

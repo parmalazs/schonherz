@@ -80,7 +80,7 @@ public class TelephelyAdapter extends ArrayAdapter<Telephely>{
 		telephelyek.remove(object);
 	}
 	
-	class ViewHolder {
+	static class ViewHolder {
 		TextView telephelyNevTextView;
 	}
 	

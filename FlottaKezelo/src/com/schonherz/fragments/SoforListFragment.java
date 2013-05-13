@@ -52,7 +52,7 @@ public class SoforListFragment extends Fragment {
 
 	@Override
 	public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
-		// TODO Auto-generated method stub
+		// TODO Auto-generated method stub		
 		super.onCreateOptionsMenu(menu, inflater);
 	}
 

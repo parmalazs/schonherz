@@ -109,7 +109,7 @@ public class SoforAdapter extends ArrayAdapter<Sofor>{
 		soforok.remove(object);
 	}
 	
-	class ViewHolder
+	static class ViewHolder
 	{
 		TextView soforNevTextView;
 	}

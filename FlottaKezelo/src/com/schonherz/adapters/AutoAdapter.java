@@ -82,7 +82,7 @@ public class AutoAdapter extends ArrayAdapter<Auto> {
 		autok.remove(object);
 	}
 	
-	class ViewHolder
+	static class ViewHolder
 	{
 		TextView autoNevTextView;
 	}

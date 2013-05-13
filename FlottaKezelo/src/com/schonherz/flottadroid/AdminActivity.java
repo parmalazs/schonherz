@@ -164,7 +164,7 @@ public class AdminActivity extends FragmentActivity
 	public boolean onCreateOptionsMenu(Menu menu) {
 		// Inflate the menu; this adds items to the action bar if it is present.
 		
-		getMenuInflater().inflate(R.menu.menu_search, menu);			
+		getMenuInflater().inflate(R.menu.admin, menu);			
 		SearchView searchView=(SearchView) menu.findItem(R.id.menu_search).getActionView();
 		
 		setupSearchView(searchView);
