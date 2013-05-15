@@ -73,6 +73,7 @@ public class MunkaListFragment extends Fragment {
 		searchView.setSubmitButtonEnabled(true);
 		searchView.setOnQueryTextListener(new OnQueryTextListener() {
 
+			
 			@Override
 			public boolean onQueryTextSubmit(String query) {
 				// TODO Auto-generated method stub
