@@ -7,8 +7,14 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import com.schonherz.dbentities.Auto;
+import com.schonherz.dbentities.AutoKep;
 import com.schonherz.dbentities.Munka;
+import com.schonherz.dbentities.MunkaEszkoz;
+import com.schonherz.dbentities.MunkaKep;
+import com.schonherz.dbentities.MunkaTipus;
 import com.schonherz.dbentities.Partner;
+import com.schonherz.dbentities.PartnerKep;
+import com.schonherz.dbentities.ProfilKep;
 import com.schonherz.dbentities.Sofor;
 import com.schonherz.dbentities.Telephely;
 
@@ -269,8 +275,8 @@ public class JsonArrayToArrayList {
 				else {
 					currMunka.setMunkaEstimatedTime(null);
 				}
-				if(munkaJsonObj.get("munkaTipusID")!=null) {
-					currMunka.setMunkaTipusID(Long.parseLong(munkaJsonObj.getString("munkaTipusID")));
+				if(munkaJsonObj.get("munkatipusID")!=null) {
+					currMunka.setMunkaTipusID(Long.parseLong(munkaJsonObj.getString("munkatipusID")));
 				}
 				else {
 					currMunka.setMunkaTipusID(null);
@@ -297,4 +303,185 @@ public class JsonArrayToArrayList {
 
 		return munkaList;
 	}
+	
+	public static ArrayList<AutoKep> JsonArrayToAutoKepek(JSONArray jsonArray) {
+		ArrayList<AutoKep> autoKepList = new ArrayList<AutoKep>();
+		for (int i = 0; i < jsonArray.length(); i++) {
+
+			try {
+				JSONObject autoKepJsonObj = null;
+
+				autoKepJsonObj = jsonArray.getJSONObject(i);
+
+				// New AutoKep
+				AutoKep currAutoKep = new AutoKep();
+				// set properties from jsonobject
+				
+				currAutoKep.setAutoKepID(Long.parseLong(autoKepJsonObj.getString("autoKepID")));
+				currAutoKep.setAutoKepPath(autoKepJsonObj.getString("autoKepPath"));
+				currAutoKep.setAutoKepDateTime(autoKepJsonObj.getString("autoKepDateTime"));
+				if(autoKepJsonObj.get("autoID")!=null){
+					currAutoKep.setAutoID(Long.parseLong(autoKepJsonObj.getString("autoID")));
+				}
+				else {
+					currAutoKep.setAutoID(null);
+				}
+				autoKepList.add(currAutoKep);
+				
+			} catch (Exception ex) {
+				ex.printStackTrace();
+			}
+		}
+
+		return autoKepList;
+	}
+	
+	public static ArrayList<ProfilKep> JsonArrayToProfilKepek(JSONArray jsonArray) {
+		ArrayList<ProfilKep> profilKepList = new ArrayList<ProfilKep>();
+		for (int i = 0; i < jsonArray.length(); i++) {
+
+			try {
+				JSONObject profilKepJsonObj = null;
+
+				profilKepJsonObj = jsonArray.getJSONObject(i);
+
+				// New AutoKep
+				ProfilKep currProfilKep = new ProfilKep();
+				// set properties from jsonobject
+				
+				currProfilKep.setProfilKepID(Long.parseLong(profilKepJsonObj.getString("profilKepID")));
+				currProfilKep.setProfilKepPath(profilKepJsonObj.getString("profilKepPath"));
+				currProfilKep.setProfilKepDateTime(profilKepJsonObj.getString("profilKepDateTime"));
+				if(profilKepJsonObj.getString("soforID")!=null) {
+					currProfilKep.setSoforID(Long.parseLong(profilKepJsonObj.getString("soforID")));
+				}
+				else {
+					currProfilKep.setSoforID(null);
+				}
+				profilKepList.add(currProfilKep);
+				
+			} catch (Exception ex) {
+				ex.printStackTrace();
+			}
+		}
+
+		return profilKepList;
+	}
+	
+	public static ArrayList<MunkaTipus> JsonArrayToMunkaTipusok(JSONArray jsonArray) {
+		ArrayList<MunkaTipus> munkaTipusList=new ArrayList<MunkaTipus>();
+		for (int i = 0; i < jsonArray.length(); i++) {
+			try {
+				JSONObject munkaTipusJsonObj = null;
+
+				munkaTipusJsonObj = jsonArray.getJSONObject(i);
+
+				// New MunkaTipus
+				MunkaTipus currMunkaTipus = new MunkaTipus();
+				// set properties from jsonobject
+				
+				currMunkaTipus.setMunkaTipusID(Long.parseLong(munkaTipusJsonObj.getString("munkaTipusID")));
+				currMunkaTipus.setMunkaTipusNev(munkaTipusJsonObj.getString("munkaTipusNev"));
+				
+				munkaTipusList.add(currMunkaTipus);
+				
+			} catch (Exception ex) {
+				ex.printStackTrace();
+			}
+		}
+		return munkaTipusList;
+	}
+	
+	public static ArrayList<MunkaEszkoz> JsonArrayToMunkaEszkozok(JSONArray jsonArray) {
+		ArrayList<MunkaEszkoz> munkaEszkozList=new ArrayList<MunkaEszkoz>();
+		for (int i = 0; i < jsonArray.length(); i++) {
+			try {
+				JSONObject munkaEszkozJsonObj = null;
+
+				munkaEszkozJsonObj = jsonArray.getJSONObject(i);
+
+			
+				MunkaEszkoz currMunkaEszkoz = new MunkaEszkoz();
+				// set properties from jsonobject
+				currMunkaEszkoz.setMunkaEszkozID(Long.parseLong(munkaEszkozJsonObj.getString("munkaEszkozID")));
+				currMunkaEszkoz.setMunkaEszkozNev(munkaEszkozJsonObj.getString("munkaEszkozNev"));
+				if(munkaEszkozJsonObj.getString("munkaEszkozAr")!=null) {
+					currMunkaEszkoz.setMunkaEszkozAr(Long.parseLong(munkaEszkozJsonObj.getString("munkaEszkozAr")));
+				}
+				else {
+					currMunkaEszkoz.setMunkaEszkozAr(null);
+				}
+				if(munkaEszkozJsonObj.getString("munkaID")!=null) {
+					currMunkaEszkoz.setMunkaID(Long.parseLong(munkaEszkozJsonObj.getString("munkaID")));
+				}
+				else {
+					currMunkaEszkoz.setMunkaID(null);
+				}
+				munkaEszkozList.add(currMunkaEszkoz);
+				
+			} catch (Exception ex) {
+				ex.printStackTrace();
+			}
+		}
+		return munkaEszkozList;
+	}
+	
+	public static ArrayList<MunkaKep> JsonArrayToMunkaKepek(JSONArray jsonArray) {
+		ArrayList<MunkaKep> munkaKepList=new ArrayList<MunkaKep>();
+		for (int i = 0; i < jsonArray.length(); i++) {
+			try {
+				JSONObject munkaKepJsonObj = null;
+
+				munkaKepJsonObj = jsonArray.getJSONObject(i);
+
+				MunkaKep currMunkaKep=new MunkaKep();
+				
+				currMunkaKep.setMunkaKepID(Long.parseLong(munkaKepJsonObj.getString("munkaKepID")));
+				currMunkaKep.setMunkaKepPath(munkaKepJsonObj.getString("munkaKepPath"));
+				currMunkaKep.setMunkaKepDate(munkaKepJsonObj.getString("munkaKepDate"));
+				if(munkaKepJsonObj.getString("munkaID")!=null) {
+					currMunkaKep.setMunkaID(Long.parseLong(munkaKepJsonObj.getString("munkaID")));
+				}
+				else {
+					currMunkaKep.setMunkaID(null);
+				}
+				
+				munkaKepList.add(currMunkaKep);
+				
+			} catch (Exception ex) {
+				ex.printStackTrace();
+			}
+		}
+		return munkaKepList;
+	} 
+	
+	public static ArrayList<PartnerKep> JsonArrayToPartnerKepek(JSONArray jsonArray) {
+		ArrayList<PartnerKep> partnerKepList=new ArrayList<PartnerKep>();
+		for (int i = 0; i < jsonArray.length(); i++) {
+			try {
+				JSONObject partnerKepJsonObj = null;
+
+				partnerKepJsonObj = jsonArray.getJSONObject(i);
+
+				PartnerKep currPartnerKep=new PartnerKep();
+				
+				currPartnerKep.setPartnerKepID(Long.parseLong(partnerKepJsonObj.getString("partnerKepID")));
+				currPartnerKep.setPartnerKepIsUploaded(Boolean.parseBoolean(partnerKepJsonObj.getString("partnerKepIsUploaded")));
+				currPartnerKep.setPartnerKepDate(partnerKepJsonObj.getString("partnerKepDate"));
+				if(partnerKepJsonObj.getString("partnerID")!=null) {
+					currPartnerKep.setPartnerID(Long.parseLong(partnerKepJsonObj.getString("partnerID")));
+				}
+				else {
+					currPartnerKep.setPartnerID(null);
+				}			
+				
+				
+				partnerKepList.add(currPartnerKep);
+				
+			} catch (Exception ex) {
+				ex.printStackTrace();
+			}
+		}
+		return partnerKepList;
+	} 
 }
