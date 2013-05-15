@@ -93,8 +93,8 @@ public class MunkaAdapter extends ArrayAdapter<Munka> {
 			
 			holder = new ViewHolder();
 			holder.munkaNevTextView=(TextView)convertView.findViewById(com.schonherz.flottadroid.R.id.textViewMunkaNev);
-			
-			holder.munkaNevTextView.setText(currentMunka.getMunkaTipus().getMunkaTipusNev());
+	
+			holder.munkaNevTextView.setText(currentMunka.getMunkaDate());
 		}
 		else {
 			holder=(ViewHolder)convertView.getTag();
@@ -103,7 +103,7 @@ public class MunkaAdapter extends ArrayAdapter<Munka> {
 		munkaDao.refresh(currentMunka);
 		holder=new ViewHolder();
 		holder.munkaNevTextView=(TextView)convertView.findViewById(com.schonherz.flottadroid.R.id.textViewMunkaNev);
-		holder.munkaNevTextView.setText(currentMunka.getMunkaTipus().getMunkaTipusNev());
+		holder.munkaNevTextView.setText(currentMunka.getMunkaDate());
 		
 		return convertView;
 	}

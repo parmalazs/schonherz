@@ -18,7 +18,7 @@
     <string name="title_section1">Szabad munkák</string>
     <string name="title_section2">Választott munkák</string>
     <string name="title_section3">Összes munka</string>
-    <string name="title_activity_admin">Adminisztrátor</string>
+    <string name="title_activity_admin">Admin</string>
     <string name="no_internet">Nincs aktív internet kapcsolat!</string>
     <string name="refresh">Frissítés</string>
     <string name="refreshed">Frissítve!</string>
@@ -35,5 +35,8 @@
     <string name="title_activity_contact_activty">Névjegyek</string>
     <string name="title_activity_refresh">Frissítés</string>
     <string name="title_activity_settings">Beállítások</string>
-
+	<string name="menuSort">Rendezés</string>
+	<string name="menuSearch">Keresés</string>
+    
+    
 </resources>

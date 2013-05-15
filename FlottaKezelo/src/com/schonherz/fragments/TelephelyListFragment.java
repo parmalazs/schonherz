@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
+import android.app.SearchManager;
 import android.content.Context;
 import android.media.Ringtone;
 import android.media.RingtoneManager;
@@ -19,7 +20,9 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.SearchView;
 import android.widget.Toast;
+import android.widget.SearchView.OnQueryTextListener;
 
 import com.schonherz.adapters.TelephelyAdapter;
 import com.schonherz.classes.JsonArrayToArrayList;
@@ -37,6 +40,7 @@ public class TelephelyListFragment extends Fragment {
 	TelephelyDao telephelyDao;
 	TelephelyAdapter adapter;
 	PullToRefreshListView pullListView;
+	ArrayList<Telephely> telephelyek;
 	
 	public TelephelyListFragment(Context context, TelephelyDao telephelyDao)
 	{
@@ -54,8 +58,53 @@ public class TelephelyListFragment extends Fragment {
 
 	@Override
 	public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
-		// TODO Auto-generated method stub
+		// TODO Auto-generated method stub		
+		inflater.inflate(R.menu.fragment_list_menu, menu);
+		SearchView searchView=(SearchView) menu.findItem(R.id.menu_search).getActionView();		
+		setupSearchView(searchView);
 		super.onCreateOptionsMenu(menu, inflater);
+	}
+	
+	
+	public void setupSearchView(SearchView searchView) {
+		SearchManager searchManager = (SearchManager) context.getSystemService(Context.SEARCH_SERVICE);	
+		searchView.setSearchableInfo(searchManager.getSearchableInfo(getActivity().getComponentName()));
+		searchView.setIconifiedByDefault(false);
+		searchView.setSubmitButtonEnabled(true);
+		searchView.setOnQueryTextListener(new OnQueryTextListener() {
+			
+			@Override
+			public boolean onQueryTextSubmit(String query) {
+				// TODO Auto-generated method stub
+				
+				adapter.clear();
+				adapter.addAll(telephelyek);
+				adapter.notifyDataSetChanged();
+				
+				return true;
+			}
+			
+			@Override
+			public boolean onQueryTextChange(String newText) {
+				// TODO Auto-generated method stub
+				
+				ArrayList<Telephely> templist = new ArrayList<Telephely>();
+				for(int i = 0; i<telephelyek.size();i++)
+				{
+					if(telephelyek.get(i).getTelephelyNev().toLowerCase().contains(newText.toLowerCase()))
+					{
+						templist.add(telephelyek.get(i));
+					}
+				}
+				
+				adapter.clear();
+				adapter.addAll(templist);
+				adapter.notifyDataSetChanged();
+				
+				return true;
+			}
+		});
+		
 	}
 
 	@Override
@@ -68,7 +117,7 @@ public class TelephelyListFragment extends Fragment {
 		pullListView = (PullToRefreshListView) v
 				.findViewById(R.id.pulltorefresh_listview);
 		
-		ArrayList<Telephely> telephelyek=new ArrayList<Telephely>(telephelyDao.loadAll());
+		telephelyek =new ArrayList<Telephely>(telephelyDao.loadAll());
 		
 		adapter=new TelephelyAdapter(context, R.layout.list_item_telephely, telephelyek, telephelyDao);
 		pullListView.setAdapter(adapter);

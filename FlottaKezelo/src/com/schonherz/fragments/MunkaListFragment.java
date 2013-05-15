@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
+import android.app.SearchManager;
 import android.content.Context;
 import android.media.Ringtone;
 import android.media.RingtoneManager;
@@ -18,7 +19,9 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.SearchView;
 import android.widget.Toast;
+import android.widget.SearchView.OnQueryTextListener;
 
 import com.schonherz.adapters.MunkaAdapter;
 import com.schonherz.classes.JsonArrayToArrayList;
@@ -30,34 +33,78 @@ import com.schonherz.dbentities.Munka;
 import com.schonherz.dbentities.MunkaDao;
 import com.schonherz.flottadroid.R;
 
-public class MunkaListFragment extends Fragment 
-{
-	
+public class MunkaListFragment extends Fragment {
+
 	Context context;
 	MunkaDao munkaDao;
 	PullToRefreshListView pullListView;
 	MunkaAdapter adapter;
+	ArrayList<Munka> munkak;
 
-	public MunkaListFragment(Context context, MunkaDao munkaDao)
-	{
+	public MunkaListFragment(Context context, MunkaDao munkaDao) {
 		this.context = context;
 		this.munkaDao = munkaDao;
 	}
-	
+
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		// TODO Auto-generated method stub
 		setHasOptionsMenu(true);
 		super.onCreate(savedInstanceState);
-		
+
 	}
 
 	@Override
 	public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
 		// TODO Auto-generated method stub
+		inflater.inflate(R.menu.fragment_list_menu, menu);
+		SearchView searchView = (SearchView) menu.findItem(R.id.menu_search)
+				.getActionView();
+		setupSearchView(searchView);
 		super.onCreateOptionsMenu(menu, inflater);
 	}
 
+	public void setupSearchView(SearchView searchView) {
+		SearchManager searchManager = (SearchManager) context
+				.getSystemService(Context.SEARCH_SERVICE);
+		searchView.setSearchableInfo(searchManager
+				.getSearchableInfo(getActivity().getComponentName()));
+		searchView.setIconifiedByDefault(false);
+		searchView.setSubmitButtonEnabled(true);
+		searchView.setOnQueryTextListener(new OnQueryTextListener() {
+
+			@Override
+			public boolean onQueryTextSubmit(String query) {
+				// TODO Auto-generated method stub
+				adapter.clear();
+				adapter.addAll(munkak);
+				adapter.notifyDataSetChanged();
+
+				return true;
+			}
+
+			@Override
+			public boolean onQueryTextChange(String newText) {
+				// TODO Auto-generated method stub
+
+				ArrayList<Munka> templist = new ArrayList<Munka>();
+
+				for (int i = 0; i < munkak.size(); i++) {
+					if (munkak.get(i).getMunkaDate().toLowerCase()
+							.contains(newText.toLowerCase())) {
+						templist.add(munkak.get(i));
+					}
+				}
+
+				adapter.clear();
+				adapter.addAll(templist);
+				adapter.notifyDataSetChanged();
+
+				return true;
+			}
+		});
+
+	}
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
@@ -66,13 +113,14 @@ public class MunkaListFragment extends Fragment
 
 		pullListView = (PullToRefreshListView) v
 				.findViewById(R.id.pulltorefresh_listview);
-		
-		ArrayList<Munka> munkak=new ArrayList<Munka>(munkaDao.loadAll());
-		adapter=new MunkaAdapter(context, R.layout.list_item_munka, munkak, munkaDao);
+
+		munkak = new ArrayList<Munka>(munkaDao.loadAll());
+		adapter = new MunkaAdapter(context, R.layout.list_item_munka, munkak,
+				munkaDao);
 		pullListView.setAdapter(adapter);
-		
+
 		pullListView.setOnRefreshListener(new OnRefreshListener() {
-			
+
 			@Override
 			public void onRefresh() {
 				// TODO Auto-generated method stub
@@ -85,15 +133,14 @@ public class MunkaListFragment extends Fragment
 							if (result == true) {
 								Toast.makeText(context, R.string.refreshed,
 										Toast.LENGTH_SHORT).show();
-								
-								
+
 							} else {
 								Toast.makeText(context, R.string.errorRefresh,
 										Toast.LENGTH_SHORT).show();
 							}
 
 							try {
-								//Play notification sound when refresn finished
+								// Play notification sound when refresn finished
 								Uri notification = RingtoneManager
 										.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
 								Ringtone r = RingtoneManager.getRingtone(
@@ -102,14 +149,15 @@ public class MunkaListFragment extends Fragment
 							} catch (Exception e) {
 								e.printStackTrace();
 							}
-							
+
 							pullListView.onRefreshComplete();
 							adapter.clear();
-							
-							ArrayList<Munka> munkak=new ArrayList<Munka>(munkaDao.loadAll());
+
+							ArrayList<Munka> munkak = new ArrayList<Munka>(
+									munkaDao.loadAll());
 							adapter.addAll(munkak);
 							adapter.notifyDataSetChanged();
-							
+
 						}
 
 						@Override
@@ -128,7 +176,7 @@ public class MunkaListFragment extends Fragment
 				}
 			}
 		});
-		
+
 		return v;
 	}
 
@@ -144,7 +192,7 @@ public class MunkaListFragment extends Fragment
 		adapter.notifyDataSetChanged();
 		super.onResume();
 	}
-	
+
 	public Boolean saveMunkaTable() {
 		JSONArray jsonArray;
 		JSONObject json;
@@ -152,16 +200,17 @@ public class MunkaListFragment extends Fragment
 		String serverAddres = "http://www.flotta.host-ed.me/queryMunkaTable.php";
 
 		json = new JSONObject();
-		
+
 		try {
 			jsonArray = (JSONArray) JsonFromUrl.getJsonObjectFromUrl(
 					serverAddres, json.toString());
-			
+
 			// Eldobjuk a tablat es ujra letrehozzuk
 			munkaDao.dropTable(munkaDao.getDatabase(), true);
 			munkaDao.createTable(munkaDao.getDatabase(), true);
-			ArrayList<Munka> munkak=JsonArrayToArrayList.JsonArrayToMunka(jsonArray);
-			for(int i=0; i<munkak.size(); i++) {
+			ArrayList<Munka> munkak = JsonArrayToArrayList
+					.JsonArrayToMunka(jsonArray);
+			for (int i = 0; i < munkak.size(); i++) {
 				munkaDao.insert(munkak.get(i));
 			}
 			return true;
@@ -169,7 +218,7 @@ public class MunkaListFragment extends Fragment
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 			return false;
-		}		
+		}
 	}
-	
+
 }

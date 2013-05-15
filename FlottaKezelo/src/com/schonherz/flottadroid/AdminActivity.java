@@ -165,9 +165,7 @@ public class AdminActivity extends FragmentActivity
 		// Inflate the menu; this adds items to the action bar if it is present.
 		
 		getMenuInflater().inflate(R.menu.admin, menu);			
-		SearchView searchView=(SearchView) menu.findItem(R.id.menu_search).getActionView();
 		
-		setupSearchView(searchView);
 		return true;
 	}
 
@@ -194,27 +192,6 @@ public class AdminActivity extends FragmentActivity
 
 	}
 	
-	public void setupSearchView(SearchView searchView) {
-		SearchManager searchManager = (SearchManager) getSystemService(Context.SEARCH_SERVICE);	
-		searchView.setSearchableInfo(searchManager.getSearchableInfo(getComponentName()));
-		searchView.setIconifiedByDefault(false);
-		searchView.setSubmitButtonEnabled(true);
-		searchView.setOnQueryTextListener(new OnQueryTextListener() {
-			
-			@Override
-			public boolean onQueryTextSubmit(String query) {
-				// TODO Auto-generated method stub
-				return true;
-			}
-			
-			@Override
-			public boolean onQueryTextChange(String newText) {
-				// TODO Auto-generated method stub
-				return true;
-			}
-		});
-		
-	}
 
 	@Override
 	public void onTabSelected(Tab tab, FragmentTransaction ft) {

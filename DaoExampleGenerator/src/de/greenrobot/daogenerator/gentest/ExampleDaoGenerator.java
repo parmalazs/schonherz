@@ -36,7 +36,7 @@ public class ExampleDaoGenerator {
 
         AddFlottaDroidTables(schema);
         //Oda ird be a gepeden talalhato project pathjat!
-        new DaoGenerator().generateAll(schema, "C:/Users/rcsk/git/schonherz/FlottaKezelo/src");
+        new DaoGenerator().generateAll(schema, "C:/Users/rcsk/git/flotta/schonherz/FlottaKezelo/src");
     }
 
     private static void AddFlottaDroidTables(Schema schema)
@@ -174,6 +174,7 @@ public class ExampleDaoGenerator {
     	munkaEszkoz.addStringProperty("munkaEszkozNev");
     	munkaEszkoz.addLongProperty("munkaEszkozAr");
         
+    		    	
     	//Munka tábla
         Entity munka = schema.addEntity("Munka");
         munka.setTableName("Munkak");
@@ -211,8 +212,14 @@ public class ExampleDaoGenerator {
     		munka.addToOne(munkaTipus, munkaMunkaTipus);
     		//Munkatipusok munkai
     		ToMany munkatipusokMunkai = munkaTipus.addToMany(munka, munkaMunkaTipus);
+    		    		
+    		Property munkaEszkozMunkaID = munkaEszkoz.addLongProperty("munkaID").getProperty();
+    		//Munkaeszkoz munka
+    		munkaEszkoz.addToOne(munka, munkaEszkozMunkaID);
+    		//Munka munkaeszkozei
+    		ToMany munkaEszkozei = munka.addToMany(munkaEszkoz, munkaEszkozMunkaID);
     		
-    	
+    		
     	//Munkakép tábla
     	Entity munkaKep = schema.addEntity("MunkaKep");
     	munkaKep.setTableName("Munkakepek");

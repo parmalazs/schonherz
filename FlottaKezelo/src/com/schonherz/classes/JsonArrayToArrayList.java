@@ -269,8 +269,8 @@ public class JsonArrayToArrayList {
 				else {
 					currMunka.setMunkaEstimatedTime(null);
 				}
-				if(munkaJsonObj.get("munkaTipusID")!=null) {
-					currMunka.setMunkaTipusID(Long.parseLong(munkaJsonObj.getString("munkaTipusID")));
+				if(munkaJsonObj.get("munkatipusID")!=null) {
+					currMunka.setMunkaTipusID(Long.parseLong(munkaJsonObj.getString("munkatipusID")));
 				}
 				else {
 					currMunka.setMunkaTipusID(null);

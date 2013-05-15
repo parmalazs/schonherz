@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
+import android.app.SearchManager;
 import android.content.Context;
 import android.media.Ringtone;
 import android.media.RingtoneManager;
@@ -18,6 +19,8 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.SearchView;
+import android.widget.SearchView.OnQueryTextListener;
 import android.widget.Toast;
 
 import com.schonherz.adapters.SoforAdapter;
@@ -36,6 +39,7 @@ public class SoforListFragment extends Fragment {
 	SoforDao soforDao;
 	SoforAdapter adapter;
 	PullToRefreshListView pullListView;
+	ArrayList<Sofor> soforok;
 
 	public SoforListFragment(Context context, SoforDao soforDao) {
 		this.context = context;
@@ -52,8 +56,56 @@ public class SoforListFragment extends Fragment {
 
 	@Override
 	public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
-		// TODO Auto-generated method stub		
+		// TODO Auto-generated method stub
+		inflater.inflate(R.menu.fragment_list_menu, menu);
+		SearchView searchView = (SearchView) menu.findItem(R.id.menu_search)
+				.getActionView();
+		setupSearchView(searchView);
 		super.onCreateOptionsMenu(menu, inflater);
+	}
+
+	public void setupSearchView(SearchView searchView) {
+		SearchManager searchManager = (SearchManager) context
+				.getSystemService(Context.SEARCH_SERVICE);
+		searchView.setSearchableInfo(searchManager
+				.getSearchableInfo(getActivity().getComponentName()));
+		searchView.setIconifiedByDefault(false);
+		searchView.setSubmitButtonEnabled(true);
+		searchView.setOnQueryTextListener(new OnQueryTextListener() {
+
+			@Override
+			public boolean onQueryTextSubmit(String query) {
+				// TODO Auto-generated method stub
+				
+				adapter.clear();
+				adapter.addAll(soforok);
+				adapter.notifyDataSetChanged();
+				
+				return true;
+			}
+
+			@Override
+			public boolean onQueryTextChange(String newText) {
+				// TODO Auto-generated method stub
+				
+				ArrayList<Sofor> templist = new ArrayList();
+				
+				for (int i = 0; i < soforok.size(); i++) {
+					if (soforok.get(i).getSoforNev().toLowerCase()
+							.contains(newText.toLowerCase())) {
+						templist.add(soforok.get(i));
+					}
+				}
+				
+				adapter.clear();
+				adapter.addAll(templist);
+				
+				adapter.notifyDataSetChanged();
+				
+				return true;
+			}
+		});
+
 	}
 
 	@Override
@@ -65,7 +117,7 @@ public class SoforListFragment extends Fragment {
 		pullListView = (PullToRefreshListView) v
 				.findViewById(R.id.pulltorefresh_listview);
 
-		ArrayList<Sofor> soforok = new ArrayList<Sofor>(soforDao.loadAll());
+		soforok = new ArrayList<Sofor>(soforDao.loadAll());
 
 		adapter = new SoforAdapter(context, R.layout.list_item_sofor, soforok,
 				soforDao);
@@ -87,15 +139,14 @@ public class SoforListFragment extends Fragment {
 							if (result == true) {
 								Toast.makeText(context, R.string.refreshed,
 										Toast.LENGTH_SHORT).show();
-								
-								
+
 							} else {
 								Toast.makeText(context, R.string.errorRefresh,
 										Toast.LENGTH_SHORT).show();
 							}
 
 							try {
-								//Play notification sound when refresn finished
+								// Play notification sound when refresn finished
 								Uri notification = RingtoneManager
 										.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
 								Ringtone r = RingtoneManager.getRingtone(
@@ -104,14 +155,15 @@ public class SoforListFragment extends Fragment {
 							} catch (Exception e) {
 								e.printStackTrace();
 							}
-							
+
 							pullListView.onRefreshComplete();
 							adapter.clear();
-							
-							ArrayList<Sofor> soforok=new ArrayList<Sofor>(soforDao.loadAll());
+
+							ArrayList<Sofor> soforok = new ArrayList<Sofor>(
+									soforDao.loadAll());
 							adapter.addAll(soforok);
 							adapter.notifyDataSetChanged();
-							
+
 						}
 
 						@Override
@@ -144,10 +196,10 @@ public class SoforListFragment extends Fragment {
 	@Override
 	public void onResume() {
 		// TODO Auto-generated method stub
-		
+
 		adapter.notifyDataSetChanged();
 		super.onResume();
-		
+
 	}
 
 	public boolean saveSoforTable() {
@@ -177,11 +229,10 @@ public class SoforListFragment extends Fragment {
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
-			
+
 			return false;
 		}
 
-		
-	}	
+	}
 
 }
