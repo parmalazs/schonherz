@@ -44,6 +44,7 @@ public class TelephelyListFragment extends Fragment {
 	TelephelyAdapter adapter;
 	PullToRefreshListView pullListView;
 	ArrayList<Telephely> telephelyek;
+	
 	MenuItem refreshItem;
 
 	public TelephelyListFragment(Context context, TelephelyDao telephelyDao) {
