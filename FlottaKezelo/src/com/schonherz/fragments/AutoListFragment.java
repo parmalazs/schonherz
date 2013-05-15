@@ -20,6 +20,9 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
+import android.widget.ImageView;
 import android.widget.SearchView;
 import android.widget.Toast;
 import android.widget.SearchView.OnQueryTextListener;
@@ -41,6 +44,8 @@ public class AutoListFragment extends Fragment {
 	AutoAdapter adapter;
 	PullToRefreshListView pullListView;
 	ArrayList<Auto> autok;
+	MenuItem refreshItem;
+
 	public AutoListFragment(Context context, AutoDao autoDao) {
 		this.context = context;
 		this.autoDao = autoDao;
@@ -61,6 +66,7 @@ public class AutoListFragment extends Fragment {
 		SearchView searchView = (SearchView) menu.findItem(R.id.menu_search)
 				.getActionView();
 		setupSearchView(searchView);
+		refreshItem = menu.findItem(R.id.menu_refresh);
 		super.onCreateOptionsMenu(menu, inflater);
 	}
 
@@ -76,9 +82,27 @@ public class AutoListFragment extends Fragment {
 			@Override
 			public boolean onQueryTextSubmit(String query) {
 				// TODO Auto-generated method stub
-				adapter.clear();
-				adapter.addAll(autok);
-				adapter.notifyDataSetChanged();
+				if (query.length() > 0) {
+					ArrayList<Auto> templist = new ArrayList<Auto>();
+
+					for (int i = 0; i < autok.size(); i++) {
+						if (autok.get(i).getAutoNev().toLowerCase()
+								.contains(query.toLowerCase()))
+
+						{
+							templist.add(autok.get(i));
+
+						}
+					}
+
+					adapter.clear();
+					adapter.addAll(templist);
+					adapter.notifyDataSetChanged();
+				} else {
+					adapter.clear();
+					adapter.addAll(autok);
+					adapter.notifyDataSetChanged();
+				}
 				return true;
 			}
 
@@ -131,6 +155,11 @@ public class AutoListFragment extends Fragment {
 					new AsyncTask<Void, Void, Boolean>() {
 
 						@Override
+						protected void onPreExecute() {
+							startRefreshAnimation();
+						};
+
+						@Override
 						protected void onPostExecute(Boolean result) {
 							// TODO Auto-generated method stub
 							if (result == true) {
@@ -163,6 +192,14 @@ public class AutoListFragment extends Fragment {
 							adapter.addAll(autok);
 
 							adapter.notifyDataSetChanged();
+
+							if (refreshItem != null
+									&& refreshItem.getActionView() != null) {
+								refreshItem.getActionView().clearAnimation();
+								refreshItem.setActionView(null);
+							}
+
+							stopRefreshAnimation();
 						}
 
 						@Override
@@ -188,9 +225,76 @@ public class AutoListFragment extends Fragment {
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
 		// TODO Auto-generated method stub
-		return super.onOptionsItemSelected(item);
-	}
+		switch (item.getItemId()) {
+			case R.id.menu_Sort :
+				break;
+			case R.id.menu_refresh :
+				if (NetworkUtil.checkInternetIsActive(context) == true) {
+					new AsyncTask<Void, Void, Boolean>() {
 
+						@Override
+						protected void onPreExecute() {
+							startRefreshAnimation();
+						};
+
+						@Override
+						protected void onPostExecute(Boolean result) {
+							// TODO Auto-generated method stub
+							if (result == true) {
+								Toast.makeText(context, R.string.refreshed,
+										Toast.LENGTH_SHORT).show();
+
+							} else {
+								Toast.makeText(context, R.string.errorRefresh,
+										Toast.LENGTH_SHORT).show();
+							}
+
+							try {
+								// Play notification sound when refresn finished
+								Uri notification = RingtoneManager
+										.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
+								Ringtone r = RingtoneManager.getRingtone(
+										context, notification);
+								r.play();
+							} catch (Exception e) {
+								e.printStackTrace();
+							}
+
+							adapter.clear();
+
+							ArrayList<Auto> autok = new ArrayList<Auto>(
+									autoDao.loadAll());
+
+							adapter.addAll(autok);
+
+							adapter.notifyDataSetChanged();
+
+							if (refreshItem != null
+									&& refreshItem.getActionView() != null) {
+								refreshItem.getActionView().clearAnimation();
+								refreshItem.setActionView(null);
+							}
+
+							stopRefreshAnimation();
+						}
+
+						@Override
+						protected Boolean doInBackground(Void... params) {
+							// TODO Auto-generated method stub
+							return saveAutoTable();
+						}
+
+					}.execute();
+				} else {
+					Toast.makeText(context, R.string.no_internet,
+							Toast.LENGTH_SHORT).show();
+				}
+				break;
+
+		}
+
+		return true;
+	}
 	@Override
 	public void onResume() {
 		// TODO Auto-generated method stub
@@ -230,6 +334,26 @@ public class AutoListFragment extends Fragment {
 			e.printStackTrace();
 		}
 		return false;
+	}
+
+	private void stopRefreshAnimation() {
+		LayoutInflater inflater = (LayoutInflater) context
+				.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+		ImageView iv = (ImageView) inflater.inflate(R.layout.refreshing_layout,
+				null);
+	}
+
+	private void startRefreshAnimation() {
+
+		LayoutInflater inflater = (LayoutInflater) context
+				.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+		ImageView iv = (ImageView) inflater.inflate(R.layout.refreshing_layout,
+				null);
+		Animation rotation = AnimationUtils.loadAnimation(context,
+				R.anim.refresh_rotate);
+		rotation.setRepeatCount(Animation.INFINITE);
+		iv.startAnimation(rotation);
+		refreshItem.setActionView(iv);
 	}
 
 }

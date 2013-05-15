@@ -20,6 +20,9 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
+import android.widget.ImageView;
 import android.widget.SearchView;
 import android.widget.Toast;
 import android.widget.SearchView.OnQueryTextListener;
@@ -41,89 +44,105 @@ public class TelephelyListFragment extends Fragment {
 	TelephelyAdapter adapter;
 	PullToRefreshListView pullListView;
 	ArrayList<Telephely> telephelyek;
-	
-	public TelephelyListFragment(Context context, TelephelyDao telephelyDao)
-	{
+	MenuItem refreshItem;
+
+	public TelephelyListFragment(Context context, TelephelyDao telephelyDao) {
 		this.context = context;
 		this.telephelyDao = telephelyDao;
 	}
-		
+
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		// TODO Auto-generated method stub
 		setHasOptionsMenu(true);
 		super.onCreate(savedInstanceState);
-		
+
 	}
 
 	@Override
 	public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
-		// TODO Auto-generated method stub		
+		// TODO Auto-generated method stub
 		inflater.inflate(R.menu.fragment_list_menu, menu);
-		SearchView searchView=(SearchView) menu.findItem(R.id.menu_search).getActionView();		
+		SearchView searchView = (SearchView) menu.findItem(R.id.menu_search)
+				.getActionView();
 		setupSearchView(searchView);
+		refreshItem = menu.findItem(R.id.menu_refresh);
 		super.onCreateOptionsMenu(menu, inflater);
 	}
-	
-	
+
 	public void setupSearchView(SearchView searchView) {
-		SearchManager searchManager = (SearchManager) context.getSystemService(Context.SEARCH_SERVICE);	
-		searchView.setSearchableInfo(searchManager.getSearchableInfo(getActivity().getComponentName()));
+		SearchManager searchManager = (SearchManager) context
+				.getSystemService(Context.SEARCH_SERVICE);
+		searchView.setSearchableInfo(searchManager
+				.getSearchableInfo(getActivity().getComponentName()));
 		searchView.setIconifiedByDefault(false);
 		searchView.setSubmitButtonEnabled(true);
 		searchView.setOnQueryTextListener(new OnQueryTextListener() {
-			
+
 			@Override
 			public boolean onQueryTextSubmit(String query) {
 				// TODO Auto-generated method stub
-				
-				adapter.clear();
-				adapter.addAll(telephelyek);
-				adapter.notifyDataSetChanged();
-				
+
+				if (query.length() > 0) {
+					ArrayList<Telephely> templist = new ArrayList<Telephely>();
+					for (int i = 0; i < telephelyek.size(); i++) {
+						if (telephelyek.get(i).getTelephelyNev().toLowerCase()
+								.contains(query.toLowerCase())) {
+							templist.add(telephelyek.get(i));
+						}
+					}
+
+					adapter.clear();
+					adapter.addAll(templist);
+					adapter.notifyDataSetChanged();
+				} else {
+					adapter.clear();
+					adapter.addAll(telephelyek);
+					adapter.notifyDataSetChanged();
+				}
 				return true;
 			}
-			
+
 			@Override
 			public boolean onQueryTextChange(String newText) {
 				// TODO Auto-generated method stub
-				
+
 				ArrayList<Telephely> templist = new ArrayList<Telephely>();
-				for(int i = 0; i<telephelyek.size();i++)
-				{
-					if(telephelyek.get(i).getTelephelyNev().toLowerCase().contains(newText.toLowerCase()))
-					{
+				for (int i = 0; i < telephelyek.size(); i++) {
+					if (telephelyek.get(i).getTelephelyNev().toLowerCase()
+							.contains(newText.toLowerCase())) {
 						templist.add(telephelyek.get(i));
 					}
 				}
-				
+
 				adapter.clear();
 				adapter.addAll(templist);
 				adapter.notifyDataSetChanged();
-				
+
 				return true;
 			}
 		});
-		
+
 	}
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
 		// TODO Auto-generated method stub
-		
+
 		View v = inflater.inflate(R.layout.layout_pulltorefresh_list, null);
 
 		pullListView = (PullToRefreshListView) v
 				.findViewById(R.id.pulltorefresh_listview);
-		
-		telephelyek =new ArrayList<Telephely>(telephelyDao.loadAll());
-		
-		adapter=new TelephelyAdapter(context, R.layout.list_item_telephely, telephelyek, telephelyDao);
+
+		telephelyek = new ArrayList<Telephely>(telephelyDao.loadAll());
+
+		adapter = new TelephelyAdapter(context, R.layout.list_item_telephely,
+				telephelyek, telephelyDao);
 		pullListView.setAdapter(adapter);
-		
+
 		pullListView.setOnRefreshListener(new OnRefreshListener() {
-			
+
 			@Override
 			public void onRefresh() {
 				// TODO Auto-generated method stub
@@ -131,20 +150,24 @@ public class TelephelyListFragment extends Fragment {
 					new AsyncTask<Void, Void, Boolean>() {
 
 						@Override
+						protected void onPreExecute() {
+							startRefreshAnimation();
+						};
+
+						@Override
 						protected void onPostExecute(Boolean result) {
 							// TODO Auto-generated method stub
 							if (result == true) {
 								Toast.makeText(context, R.string.refreshed,
 										Toast.LENGTH_SHORT).show();
-								
-								
+
 							} else {
 								Toast.makeText(context, R.string.errorRefresh,
 										Toast.LENGTH_SHORT).show();
 							}
 
 							try {
-								//Play notification sound when refresn finished
+								// Play notification sound when refresn finished
 								Uri notification = RingtoneManager
 										.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
 								Ringtone r = RingtoneManager.getRingtone(
@@ -153,23 +176,31 @@ public class TelephelyListFragment extends Fragment {
 							} catch (Exception e) {
 								e.printStackTrace();
 							}
-							
+
 							pullListView.onRefreshComplete();
 							adapter.clear();
-							
-							ArrayList<Telephely> telephelyek=new ArrayList<Telephely>(telephelyDao.loadAll());
+
+							ArrayList<Telephely> telephelyek = new ArrayList<Telephely>(
+									telephelyDao.loadAll());
 							adapter.addAll(telephelyek);
 							adapter.notifyDataSetChanged();
-							
+
+							if (refreshItem != null
+									&& refreshItem.getActionView() != null) {
+								refreshItem.getActionView().clearAnimation();
+								refreshItem.setActionView(null);
+							}
+
+							stopRefreshAnimation();
+
 						}
-						
+
 						protected Boolean doInBackground(Void... params) {
 							return saveTelephelyTable();
 						}
-						
+
 					}.execute();
-				}
-				else {
+				} else {
 					Toast.makeText(context, R.string.no_internet,
 							Toast.LENGTH_SHORT).show();
 					pullListView.onRefreshComplete();
@@ -183,7 +214,70 @@ public class TelephelyListFragment extends Fragment {
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
 		// TODO Auto-generated method stub
-		return super.onOptionsItemSelected(item);
+		switch (item.getItemId()) {
+			case R.id.menu_Sort :
+				break;
+			case R.id.menu_refresh :
+				if (NetworkUtil.checkInternetIsActive(context) == true) {
+					new AsyncTask<Void, Void, Boolean>() {
+
+						@Override
+						protected void onPreExecute() {
+							startRefreshAnimation();
+						};
+
+						@Override
+						protected void onPostExecute(Boolean result) {
+							// TODO Auto-generated method stub
+							if (result == true) {
+								Toast.makeText(context, R.string.refreshed,
+										Toast.LENGTH_SHORT).show();
+
+							} else {
+								Toast.makeText(context, R.string.errorRefresh,
+										Toast.LENGTH_SHORT).show();
+							}
+
+							try {
+								// Play notification sound when refresn finished
+								Uri notification = RingtoneManager
+										.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
+								Ringtone r = RingtoneManager.getRingtone(
+										context, notification);
+								r.play();
+							} catch (Exception e) {
+								e.printStackTrace();
+							}
+
+							adapter.clear();
+
+							ArrayList<Telephely> telephelyek = new ArrayList<Telephely>(
+									telephelyDao.loadAll());
+							adapter.addAll(telephelyek);
+							adapter.notifyDataSetChanged();
+
+							if (refreshItem != null
+									&& refreshItem.getActionView() != null) {
+								refreshItem.getActionView().clearAnimation();
+								refreshItem.setActionView(null);
+							}
+
+							stopRefreshAnimation();
+
+						}
+
+						protected Boolean doInBackground(Void... params) {
+							return saveTelephelyTable();
+						}
+
+					}.execute();
+				} else {
+					Toast.makeText(context, R.string.no_internet,
+							Toast.LENGTH_SHORT).show();
+				}
+				break;
+		}
+		return true;
 	}
 
 	@Override
@@ -192,7 +286,7 @@ public class TelephelyListFragment extends Fragment {
 		adapter.notifyDataSetChanged();
 		super.onResume();
 	}
-	
+
 	public boolean saveTelephelyTable() {
 		JSONArray jsonArray;
 		JSONObject json;
@@ -200,24 +294,23 @@ public class TelephelyListFragment extends Fragment {
 		String serverAddres = "http://www.flotta.host-ed.me/queryTelephelyTable.php";
 
 		json = new JSONObject();
-		
+
 		try {
 			jsonArray = (JSONArray) JsonFromUrl.getJsonObjectFromUrl(
 					serverAddres, json.toString());
-			
+
 			// Eldobjuk a tablat es ujra letrehozzuk
 			telephelyDao.dropTable(telephelyDao.getDatabase(), true);
 			telephelyDao.createTable(telephelyDao.getDatabase(), true);
-			ArrayList<Telephely> telephelyek=JsonArrayToArrayList.JsonArrayToTelephely(jsonArray);
-			
-			for (int i=0; i<telephelyek.size(); i++) {
+			ArrayList<Telephely> telephelyek = JsonArrayToArrayList
+					.JsonArrayToTelephely(jsonArray);
+
+			for (int i = 0; i < telephelyek.size(); i++) {
 				telephelyDao.insert(telephelyek.get(i));
 			}
-			
+
 			Log.w("telephely", Integer.toString(telephelyDao.loadAll().size()));
-			
-			
-			
+
 			return true;
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
@@ -225,7 +318,25 @@ public class TelephelyListFragment extends Fragment {
 			return false;
 		}
 	}
-	
-}
-	
 
+	private void stopRefreshAnimation() {
+		LayoutInflater inflater = (LayoutInflater) context
+				.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+		ImageView iv = (ImageView) inflater.inflate(R.layout.refreshing_layout,
+				null);
+	}
+
+	private void startRefreshAnimation() {
+
+		LayoutInflater inflater = (LayoutInflater) context
+				.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+		ImageView iv = (ImageView) inflater.inflate(R.layout.refreshing_layout,
+				null);
+		Animation rotation = AnimationUtils.loadAnimation(context,
+				R.anim.refresh_rotate);
+		rotation.setRepeatCount(Animation.INFINITE);
+		iv.startAnimation(rotation);
+		refreshItem.setActionView(iv);
+	}
+
+}
