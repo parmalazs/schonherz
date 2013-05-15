@@ -80,7 +80,9 @@ public class MunkaListFragment extends Fragment {
 				adapter.clear();
 				adapter.addAll(munkak);
 				adapter.notifyDataSetChanged();
-
+				
+				
+				
 				return true;
 			}
 
