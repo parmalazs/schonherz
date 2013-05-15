@@ -42,6 +42,7 @@ public class Munka {
     private MunkaTipus munkaTipus;
     private Long munkaTipus__resolvedKey;
 
+    private List<MunkaEszkoz> munkaEszkozList;
     private List<MunkaKep> munkaKepList;
 
     public Munka() {
@@ -251,6 +252,23 @@ public class Munka {
         this.munkaTipus = munkaTipus;
         munkaTipusID = munkaTipus == null ? null : munkaTipus.getMunkaTipusID();
         munkaTipus__resolvedKey = munkaTipusID;
+    }
+
+    /** To-many relationship, resolved on first access (and after reset). Changes to to-many relations are not persisted, make changes to the target entity. */
+    public synchronized List<MunkaEszkoz> getMunkaEszkozList() {
+        if (munkaEszkozList == null) {
+            if (daoSession == null) {
+                throw new DaoException("Entity is detached from DAO context");
+            }
+            MunkaEszkozDao targetDao = daoSession.getMunkaEszkozDao();
+            munkaEszkozList = targetDao._queryMunka_MunkaEszkozList(munkaID);
+        }
+        return munkaEszkozList;
+    }
+
+    /** Resets a to-many relationship, making the next get call to query for a fresh result. */
+    public synchronized void resetMunkaEszkozList() {
+        munkaEszkozList = null;
     }
 
     /** To-many relationship, resolved on first access (and after reset). Changes to to-many relations are not persisted, make changes to the target entity. */

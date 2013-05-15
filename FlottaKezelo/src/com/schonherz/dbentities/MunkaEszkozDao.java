@@ -1,5 +1,7 @@
 package com.schonherz.dbentities;
 
+import java.util.List;
+import java.util.ArrayList;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteStatement;
@@ -7,6 +9,9 @@ import android.database.sqlite.SQLiteStatement;
 import de.greenrobot.dao.AbstractDao;
 import de.greenrobot.dao.DaoConfig;
 import de.greenrobot.dao.Property;
+import de.greenrobot.dao.SqlUtils;
+import de.greenrobot.dao.Query;
+import de.greenrobot.dao.QueryBuilder;
 
 import com.schonherz.dbentities.MunkaEszkoz;
 
@@ -26,8 +31,12 @@ public class MunkaEszkozDao extends AbstractDao<MunkaEszkoz, Long> {
         public final static Property MunkaEszkozID = new Property(0, Long.class, "munkaEszkozID", true, "MUNKA_ESZKOZ_ID");
         public final static Property MunkaEszkozNev = new Property(1, String.class, "munkaEszkozNev", false, "MUNKA_ESZKOZ_NEV");
         public final static Property MunkaEszkozAr = new Property(2, Long.class, "munkaEszkozAr", false, "MUNKA_ESZKOZ_AR");
+        public final static Property MunkaID = new Property(3, Long.class, "munkaID", false, "MUNKA_ID");
     };
 
+    private DaoSession daoSession;
+
+    private Query<MunkaEszkoz> munka_MunkaEszkozListQuery;
 
     public MunkaEszkozDao(DaoConfig config) {
         super(config);
@@ -35,6 +44,7 @@ public class MunkaEszkozDao extends AbstractDao<MunkaEszkoz, Long> {
     
     public MunkaEszkozDao(DaoConfig config, DaoSession daoSession) {
         super(config, daoSession);
+        this.daoSession = daoSession;
     }
 
     /** Creates the underlying database table. */
@@ -43,7 +53,8 @@ public class MunkaEszkozDao extends AbstractDao<MunkaEszkoz, Long> {
         db.execSQL("CREATE TABLE " + constraint + "'MunkaEszkozok' (" + //
                 "'MUNKA_ESZKOZ_ID' INTEGER PRIMARY KEY ," + // 0: munkaEszkozID
                 "'MUNKA_ESZKOZ_NEV' TEXT," + // 1: munkaEszkozNev
-                "'MUNKA_ESZKOZ_AR' INTEGER);"); // 2: munkaEszkozAr
+                "'MUNKA_ESZKOZ_AR' INTEGER," + // 2: munkaEszkozAr
+                "'MUNKA_ID' INTEGER);"); // 3: munkaID
     }
 
     /** Drops the underlying database table. */
@@ -71,6 +82,17 @@ public class MunkaEszkozDao extends AbstractDao<MunkaEszkoz, Long> {
         if (munkaEszkozAr != null) {
             stmt.bindLong(3, munkaEszkozAr);
         }
+ 
+        Long munkaID = entity.getMunkaID();
+        if (munkaID != null) {
+            stmt.bindLong(4, munkaID);
+        }
+    }
+
+    @Override
+    protected void attachEntity(MunkaEszkoz entity) {
+        super.attachEntity(entity);
+        entity.__setDaoSession(daoSession);
     }
 
     /** @inheritdoc */
@@ -85,7 +107,8 @@ public class MunkaEszkozDao extends AbstractDao<MunkaEszkoz, Long> {
         MunkaEszkoz entity = new MunkaEszkoz( //
             cursor.isNull(offset + 0) ? null : cursor.getLong(offset + 0), // munkaEszkozID
             cursor.isNull(offset + 1) ? null : cursor.getString(offset + 1), // munkaEszkozNev
-            cursor.isNull(offset + 2) ? null : cursor.getLong(offset + 2) // munkaEszkozAr
+            cursor.isNull(offset + 2) ? null : cursor.getLong(offset + 2), // munkaEszkozAr
+            cursor.isNull(offset + 3) ? null : cursor.getLong(offset + 3) // munkaID
         );
         return entity;
     }
@@ -96,6 +119,7 @@ public class MunkaEszkozDao extends AbstractDao<MunkaEszkoz, Long> {
         entity.setMunkaEszkozID(cursor.isNull(offset + 0) ? null : cursor.getLong(offset + 0));
         entity.setMunkaEszkozNev(cursor.isNull(offset + 1) ? null : cursor.getString(offset + 1));
         entity.setMunkaEszkozAr(cursor.isNull(offset + 2) ? null : cursor.getLong(offset + 2));
+        entity.setMunkaID(cursor.isNull(offset + 3) ? null : cursor.getLong(offset + 3));
      }
     
     /** @inheritdoc */
@@ -121,4 +145,107 @@ public class MunkaEszkozDao extends AbstractDao<MunkaEszkoz, Long> {
         return true;
     }
     
+    /** Internal query to resolve the "munkaEszkozList" to-many relationship of Munka. */
+    public synchronized List<MunkaEszkoz> _queryMunka_MunkaEszkozList(Long munkaID) {
+        if (munka_MunkaEszkozListQuery == null) {
+            QueryBuilder<MunkaEszkoz> queryBuilder = queryBuilder();
+            queryBuilder.where(Properties.MunkaID.eq(munkaID));
+            munka_MunkaEszkozListQuery = queryBuilder.build();
+        } else {
+            munka_MunkaEszkozListQuery.setParameter(0, munkaID);
+        }
+        return munka_MunkaEszkozListQuery.list();
+    }
+
+    private String selectDeep;
+
+    protected String getSelectDeep() {
+        if (selectDeep == null) {
+            StringBuilder builder = new StringBuilder("SELECT ");
+            SqlUtils.appendColumns(builder, "T", getAllColumns());
+            builder.append(',');
+            SqlUtils.appendColumns(builder, "T0", daoSession.getMunkaDao().getAllColumns());
+            builder.append(" FROM MunkaEszkozok T");
+            builder.append(" LEFT JOIN Munkak T0 ON T.'MUNKA_ID'=T0.'MUNKA_ID'");
+            builder.append(' ');
+            selectDeep = builder.toString();
+        }
+        return selectDeep;
+    }
+    
+    protected MunkaEszkoz loadCurrentDeep(Cursor cursor, boolean lock) {
+        MunkaEszkoz entity = loadCurrent(cursor, 0, lock);
+        int offset = getAllColumns().length;
+
+        Munka munka = loadCurrentOther(daoSession.getMunkaDao(), cursor, offset);
+        entity.setMunka(munka);
+
+        return entity;    
+    }
+
+    public MunkaEszkoz loadDeep(Long key) {
+        assertSinglePk();
+        if (key == null) {
+            return null;
+        }
+
+        StringBuilder builder = new StringBuilder(getSelectDeep());
+        builder.append("WHERE ");
+        SqlUtils.appendColumnsEqValue(builder, "T", getPkColumns());
+        String sql = builder.toString();
+        
+        String[] keyArray = new String[] { key.toString() };
+        Cursor cursor = db.rawQuery(sql, keyArray);
+        
+        try {
+            boolean available = cursor.moveToFirst();
+            if (!available) {
+                return null;
+            } else if (!cursor.isLast()) {
+                throw new IllegalStateException("Expected unique result, but count was " + cursor.getCount());
+            }
+            return loadCurrentDeep(cursor, true);
+        } finally {
+            cursor.close();
+        }
+    }
+    
+    /** Reads all available rows from the given cursor and returns a list of new ImageTO objects. */
+    public List<MunkaEszkoz> loadAllDeepFromCursor(Cursor cursor) {
+        int count = cursor.getCount();
+        List<MunkaEszkoz> list = new ArrayList<MunkaEszkoz>(count);
+        
+        if (cursor.moveToFirst()) {
+            if (identityScope != null) {
+                identityScope.lock();
+                identityScope.reserveRoom(count);
+            }
+            try {
+                do {
+                    list.add(loadCurrentDeep(cursor, false));
+                } while (cursor.moveToNext());
+            } finally {
+                if (identityScope != null) {
+                    identityScope.unlock();
+                }
+            }
+        }
+        return list;
+    }
+    
+    protected List<MunkaEszkoz> loadDeepAllAndCloseCursor(Cursor cursor) {
+        try {
+            return loadAllDeepFromCursor(cursor);
+        } finally {
+            cursor.close();
+        }
+    }
+    
+
+    /** A raw-style query where you can pass any WHERE clause and arguments. */
+    public List<MunkaEszkoz> queryDeep(String where, String... selectionArg) {
+        Cursor cursor = db.rawQuery(getSelectDeep() + where, selectionArg);
+        return loadDeepAllAndCloseCursor(cursor);
+    }
+ 
 }
