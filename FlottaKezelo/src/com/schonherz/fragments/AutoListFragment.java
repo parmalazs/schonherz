@@ -1,12 +1,20 @@
 package com.schonherz.fragments;
 
+import java.text.Collator;
+import java.text.ParseException;
+import java.text.RuleBasedCollator;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.List;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
 
+import android.app.AlertDialog;
 import android.app.SearchManager;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.media.Ringtone;
 import android.media.RingtoneManager;
 import android.net.Uri;
@@ -24,8 +32,8 @@ import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.ImageView;
 import android.widget.SearchView;
-import android.widget.Toast;
 import android.widget.SearchView.OnQueryTextListener;
+import android.widget.Toast;
 
 import com.schonherz.adapters.AutoAdapter;
 import com.schonherz.classes.JsonArrayToArrayList;
@@ -35,6 +43,7 @@ import com.schonherz.classes.PullToRefreshListView;
 import com.schonherz.classes.PullToRefreshListView.OnRefreshListener;
 import com.schonherz.dbentities.Auto;
 import com.schonherz.dbentities.AutoDao;
+import com.schonherz.dbentities.SoforDao.Properties;
 import com.schonherz.flottadroid.R;
 
 public class AutoListFragment extends Fragment {
@@ -227,6 +236,137 @@ public class AutoListFragment extends Fragment {
 		// TODO Auto-generated method stub
 		switch (item.getItemId()) {
 			case R.id.menu_Sort :
+				AlertDialog.Builder builder = new AlertDialog.Builder(context);
+				builder.setTitle("Rendezés");
+				final CharSequence[] choiceList = {"Foglalt", "Név", "Típus",
+						"Rendszám", "Kilóméter óra", "Mûszaki vizsga idõ",
+						"Szervíz idõ", "Telephely név"};
+
+				int selected = -1; // does not select anything
+
+				builder.setSingleChoiceItems(choiceList, selected,
+						new DialogInterface.OnClickListener() {
+
+							@Override
+							public void onClick(DialogInterface dialog,
+									int which) {							
+								switch (which) {
+									case 0 :
+										Collections.sort(autok,
+												new Comparator<Auto>() {
+													public int compare(
+															Auto lhs, Auto rhs) {
+														return lhs
+																.getAutoFoglalt()
+																.compareTo(
+																		rhs.getAutoFoglalt());
+													};
+												});
+										adapter.clear();
+										adapter.addAll(autok);
+										adapter.notifyDataSetChanged();
+										break;
+									case 1 :
+										;
+										try {
+											RuleBasedCollator huCollator = new RuleBasedCollator(
+													hungarianRules);
+											sortAutoNev(huCollator, autok);
+											adapter.clear();
+											adapter.addAll(autok);
+											adapter.notifyDataSetChanged();
+										} catch (ParseException e) {
+											// TODO Auto-generated catch block
+											e.printStackTrace();
+										}
+										break;
+									case 2 :
+
+										try {
+											RuleBasedCollator huCollator = new RuleBasedCollator(
+													hungarianRules);
+											sortAutoTipus(huCollator, autok);
+											adapter.clear();
+											adapter.addAll(autok);
+											adapter.notifyDataSetChanged();
+										} catch (ParseException e) {
+											// TODO Auto-generated catch block
+											e.printStackTrace();
+										}
+										break;
+									case 3 :
+										try {
+											RuleBasedCollator huCollator = new RuleBasedCollator(
+													hungarianRules);
+											sortAutoRendszam(huCollator, autok);
+											adapter.clear();
+											adapter.addAll(autok);
+											adapter.notifyDataSetChanged();
+										} catch (ParseException e) {
+											// TODO Auto-generated catch block
+											e.printStackTrace();
+										}
+										break;
+									case 4 :
+										Collections.sort(autok,
+												new Comparator<Auto>() {
+													public int compare(
+															Auto lhs, Auto rhs) {
+														return lhs
+																.getAutoKilometerOra()
+																.compareTo(
+																		rhs.getAutoKilometerOra());
+													};
+												});
+										adapter.clear();
+										adapter.addAll(autok);
+										adapter.notifyDataSetChanged();
+										break;
+									case 5 :
+										List<Auto> temp = autoDao
+												.queryBuilder()
+												.orderDesc(
+														com.schonherz.dbentities.AutoDao.Properties.AutoMuszakiVizsgaDate)
+												.list();
+										autok.clear();
+										autok.addAll(temp);
+										adapter.clear();
+										adapter.addAll(autok);
+										adapter.notifyDataSetChanged();										
+										break;
+									case 6 :
+										List<Auto> temp2 = autoDao
+										.queryBuilder()
+										.orderDesc(
+												com.schonherz.dbentities.AutoDao.Properties.AutoLastSzervizDate)
+										.list();
+										autok.clear();
+										autok.addAll(temp2);
+										adapter.clear();
+										adapter.addAll(autok);
+										adapter.notifyDataSetChanged();	
+										break;
+									case 7 :
+										try {
+											RuleBasedCollator huCollator = new RuleBasedCollator(
+													hungarianRules);
+											sortAutoTelephelyNev(huCollator, autok);
+											adapter.clear();
+											adapter.addAll(autok);
+											adapter.notifyDataSetChanged();
+										} catch (ParseException e) {
+											// TODO Auto-generated catch block
+											e.printStackTrace();
+										}
+										break;
+								}
+
+								dialog.dismiss();
+							}
+						});
+				AlertDialog alert = builder.create();
+				alert.show();
+
 				break;
 			case R.id.menu_refresh :
 				if (NetworkUtil.checkInternetIsActive(context) == true) {
@@ -354,6 +494,71 @@ public class AutoListFragment extends Fragment {
 		rotation.setRepeatCount(Animation.INFINITE);
 		iv.startAnimation(rotation);
 		refreshItem.setActionView(iv);
+	}
+
+	// This code here for Hungarian String comparation
+
+	String hungarianRules = ("< a,A < á,Á < b,B < c,C < cs,Cs < d,D < dz,Dz < dzs,Dzs "
+			+ "< e,E < é,É < f,F < g,G < gy,Gy < h,H < i,I < í,Í < j,J "
+			+ "< k,K < l,L < ly,Ly < m,M < n,N < ny,Ny < o,O < ó,Ó "
+			+ "< ö,Ö < õ,Õ < p,P < q,Q < r,R < s,S < sz,Sz < t,T "
+			+ "< ty,Ty < u,U < ú,Ú < ü,Ü < û,Û < v,V < w,W < x,X < y,Y < z,Z < zs,Zs");
+
+
+	public static void sortAutoNev(Collator collator, List<Auto> autoList) {
+		Auto temp;
+		for (int i = 0; i < autoList.size(); i++) {
+			for (int j = 0; j < autoList.size(); j++) {
+				if (collator.compare(autoList.get(j).getAutoNev(), autoList
+						.get(i).getAutoNev()) > 0) {
+					temp = autoList.get(i);
+					autoList.set(i, autoList.get(j));
+					autoList.set(j, temp);
+				}
+			}
+		}
+	}
+
+	public static void sortAutoTipus(Collator collator, List<Auto> autoList) {
+		Auto temp;
+		for (int i = 0; i < autoList.size(); i++) {
+			for (int j = 0; j < autoList.size(); j++) {
+				if (collator.compare(autoList.get(j).getAutoTipus(), autoList
+						.get(i).getAutoTipus()) > 0) {
+					temp = autoList.get(i);
+					autoList.set(i, autoList.get(j));
+					autoList.set(j, temp);
+				}
+			}
+		}
+	}
+
+	public static void sortAutoRendszam(Collator collator, List<Auto> autoList) {
+		Auto temp;
+		for (int i = 0; i < autoList.size(); i++) {
+			for (int j = 0; j < autoList.size(); j++) {
+				if (collator.compare(autoList.get(j).getAutoRendszam(),
+						autoList.get(i).getAutoRendszam()) > 0) {
+					temp = autoList.get(i);
+					autoList.set(i, autoList.get(j));
+					autoList.set(j, temp);
+				}
+			}
+		}
+	}
+	
+	public static void sortAutoTelephelyNev(Collator collator, List<Auto> autoList) {
+		Auto temp;
+		for (int i = 0; i < autoList.size(); i++) {
+			for (int j = 0; j < autoList.size(); j++) {
+				if (collator.compare(autoList.get(i).getTelephely().getTelephelyNev(),
+						autoList.get(j).getTelephely().getTelephelyNev()) > 0) {
+					temp = autoList.get(i);
+					autoList.set(i, autoList.get(j));
+					autoList.set(j, temp);
+				}
+			}
+		}
 	}
 
 }

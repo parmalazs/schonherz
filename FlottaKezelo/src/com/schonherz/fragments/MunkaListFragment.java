@@ -1,12 +1,15 @@
 package com.schonherz.fragments;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
 
+import android.app.AlertDialog;
 import android.app.SearchManager;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.media.Ringtone;
 import android.media.RingtoneManager;
 import android.net.Uri;
@@ -34,6 +37,7 @@ import com.schonherz.classes.PullToRefreshListView;
 import com.schonherz.classes.PullToRefreshListView.OnRefreshListener;
 import com.schonherz.dbentities.Munka;
 import com.schonherz.dbentities.MunkaDao;
+import com.schonherz.dbentities.MunkaDao.Properties;
 import com.schonherz.flottadroid.R;
 
 public class MunkaListFragment extends Fragment {
@@ -44,6 +48,10 @@ public class MunkaListFragment extends Fragment {
 	MunkaAdapter adapter;
 	ArrayList<Munka> munkak;
 	MenuItem refreshItem;
+	boolean dateSortAsc = true;
+	boolean telepheyAsc = true;
+	boolean estTimeAsc = true;
+	boolean munkaTypeAsc = true;
 	
 	public MunkaListFragment(Context context, MunkaDao munkaDao) {
 		this.context = context;
@@ -219,6 +227,116 @@ public class MunkaListFragment extends Fragment {
 		switch(item.getItemId())
 		{
 			case R.id.menu_Sort :
+				AlertDialog.Builder builder = new AlertDialog.Builder(context);
+				builder.setTitle("Rendezés");
+				final CharSequence[] choiceList = {"Idõ", "Telephely","Becsült idõ", "Munkatípus"};
+
+				int selected = -1; // does not select anything
+
+				builder.setSingleChoiceItems(choiceList, selected,
+						new DialogInterface.OnClickListener() {
+
+							@Override
+							public void onClick(DialogInterface dialog,
+									int which) {
+								// TODO Auto-generated method stub
+								switch(which)
+								{
+									case 0:
+										if(dateSortAsc == false)
+										{
+											List<Munka> tempMunkaSort = munkaDao.queryBuilder().orderAsc(Properties.MunkaDate).list();
+											munkak.clear();
+											munkak.addAll(tempMunkaSort);
+											adapter.clear();
+											adapter.addAll(munkak);
+											adapter.notifyDataSetChanged();
+											dateSortAsc = true;
+										}
+										else
+										{
+											List<Munka> tempMunkaSort = munkaDao.queryBuilder().orderDesc(Properties.MunkaDate).list();
+											munkak.clear();
+											munkak.addAll(tempMunkaSort);
+											adapter.clear();
+											adapter.addAll(munkak);
+											adapter.notifyDataSetChanged();
+											dateSortAsc = false;
+										}
+										break;
+									case 1:
+										if(telepheyAsc == false)
+										{
+											List<Munka> tempMunkaSort = munkaDao.queryBuilder().orderAsc(Properties.TelephelyID).list();
+											munkak.clear();
+											munkak.addAll(tempMunkaSort);
+											adapter.clear();
+											adapter.addAll(munkak);
+											adapter.notifyDataSetChanged();
+											dateSortAsc = true;
+										}
+										else
+										{
+											List<Munka> tempMunkaSort = munkaDao.queryBuilder().orderDesc(Properties.TelephelyID).list();
+											munkak.clear();
+											munkak.addAll(tempMunkaSort);
+											adapter.clear();
+											adapter.addAll(munkak);
+											adapter.notifyDataSetChanged();
+											dateSortAsc = false;
+										}
+										break;
+									case 2:
+										if(estTimeAsc == false)
+										{
+											List<Munka> tempMunkaSort = munkaDao.queryBuilder().orderAsc(Properties.MunkaEstimatedTime).list();
+											munkak.clear();
+											munkak.addAll(tempMunkaSort);
+											adapter.clear();
+											adapter.addAll(munkak);
+											adapter.notifyDataSetChanged();
+											dateSortAsc = true;
+										}
+										else
+										{
+											List<Munka> tempMunkaSort = munkaDao.queryBuilder().orderDesc(Properties.MunkaEstimatedTime).list();
+											munkak.clear();
+											munkak.addAll(tempMunkaSort);
+											adapter.clear();
+											adapter.addAll(munkak);
+											adapter.notifyDataSetChanged();
+											dateSortAsc = false;
+										}
+										break;
+									case 3:
+										if(munkaTypeAsc == false)
+										{
+											List<Munka> tempMunkaSort = munkaDao.queryBuilder().orderAsc(Properties.MunkaTipusID).list();
+											munkak.clear();
+											munkak.addAll(tempMunkaSort);
+											adapter.clear();
+											adapter.addAll(munkak);
+											adapter.notifyDataSetChanged();
+											dateSortAsc = true;
+										}
+										else
+										{
+											List<Munka> tempMunkaSort = munkaDao.queryBuilder().orderDesc(Properties.MunkaTipusID).list();
+											munkak.clear();
+											munkak.addAll(tempMunkaSort);
+											adapter.clear();
+											adapter.addAll(munkak);
+											adapter.notifyDataSetChanged();
+											dateSortAsc = false;
+										}
+										break;
+								}
+								dialog.dismiss();
+							}
+				});
+				
+				AlertDialog alert = builder.create();
+				alert.show();			
 				break;
 			case R.id.menu_refresh :
 				if (NetworkUtil.checkInternetIsActive(context) == true) {

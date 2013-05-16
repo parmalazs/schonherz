@@ -1,12 +1,18 @@
 package com.schonherz.fragments;
 
+import java.text.Collator;
+import java.text.ParseException;
+import java.text.RuleBasedCollator;
 import java.util.ArrayList;
+import java.util.List;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
 
+import android.app.AlertDialog;
 import android.app.SearchManager;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.media.Ringtone;
 import android.media.RingtoneManager;
 import android.net.Uri;
@@ -216,6 +222,55 @@ public class PartnerListFragment extends Fragment {
 		switch(item.getItemId())
 		{
 			case R.id.menu_Sort :
+				AlertDialog.Builder builder = new AlertDialog.Builder(context);
+				builder.setTitle("Rendezés");
+				final CharSequence[] choiceList = {"Név", "Cím"};
+
+				int selected = -1; // does not select anything
+
+				builder.setSingleChoiceItems(choiceList, selected,
+						new DialogInterface.OnClickListener() {
+
+							@Override
+							public void onClick(DialogInterface dialog,
+									int which) {
+								// TODO Auto-generated method stub
+								switch(which)
+								{
+									case 0:
+										try {
+											Collator huCollator = new RuleBasedCollator(hungarianRules);
+											sortPartnerNev(huCollator, partnerek);
+											adapter.clear();
+											adapter.addAll(partnerek);
+											adapter.notifyDataSetChanged();
+										} catch (ParseException e) {
+											// TODO Auto-generated catch block
+											e.printStackTrace();
+										}
+										
+										break;
+									case 1:
+										try {
+											Collator huCollator = new RuleBasedCollator(hungarianRules);
+											sortPartnerCim(huCollator, partnerek);
+											adapter.clear();
+											adapter.addAll(partnerek);
+											adapter.notifyDataSetChanged();
+										} catch (ParseException e) {
+											// TODO Auto-generated catch block
+											e.printStackTrace();
+										}
+										
+										break;
+								}
+								
+								dialog.dismiss();
+							}
+				});
+
+				AlertDialog alert = builder.create();
+				alert.show();
 				break;
 			case R.id.menu_refresh :
 				if(NetworkUtil.checkInternetIsActive(context)==true) {
@@ -340,6 +395,47 @@ public class PartnerListFragment extends Fragment {
 		rotation.setRepeatCount(Animation.INFINITE);
 		iv.startAnimation(rotation);
 		refreshItem.setActionView(iv);		
+	}
+	
+
+	String hungarianRules = ("< a,A < á,Á < b,B < c,C < cs,Cs < d,D < dz,Dz < dzs,Dzs "
+			+ "< e,E < é,É < f,F < g,G < gy,Gy < h,H < i,I < í,Í < j,J "
+			+ "< k,K < l,L < ly,Ly < m,M < n,N < ny,Ny < o,O < ó,Ó "
+			+ "< ö,Ö < õ,Õ < p,P < q,Q < r,R < s,S < sz,Sz < t,T "
+			+ "< ty,Ty < u,U < ú,Ú < ü,Ü < û,Û < v,V < w,W < x,X < y,Y < z,Z < zs,Zs");
+	
+	public static void sortPartnerNev(Collator collator, List<Partner> partnerList)
+	{
+		Partner tmp;
+		for(int i = 0; i<partnerList.size();i++)
+		{
+			for(int j = 0; j <partnerList.size();j++)
+			{
+				if(collator.compare(partnerList.get(j).getPartnerNev(), partnerList.get(i).getPartnerNev())>0)
+				{
+					tmp = partnerList.get(i);
+					partnerList.set(i, partnerList.get(j));
+					partnerList.set(j, tmp);
+				}
+			}
+		}
+	}
+	
+	public static void sortPartnerCim(Collator collator, List<Partner> partnerList)
+	{
+		Partner tmp;
+		for(int i = 0; i<partnerList.size();i++)
+		{
+			for(int j = 0; j <partnerList.size();j++)
+			{
+				if(collator.compare(partnerList.get(j).getPartnerCim(), partnerList.get(i).getPartnerCim())>0)
+				{
+					tmp = partnerList.get(i);
+					partnerList.set(i, partnerList.get(j));
+					partnerList.set(j, tmp);
+				}
+			}
+		}
 	}
 	
 }

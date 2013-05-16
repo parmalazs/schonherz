@@ -1,12 +1,19 @@
 package com.schonherz.fragments;
 
+import java.text.Collator;
+import java.text.ParseException;
+import java.text.RuleBasedCollator;
 import java.util.ArrayList;
+import java.util.List;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
 
+import android.app.AlertDialog;
 import android.app.SearchManager;
 import android.content.Context;
+import android.content.DialogInterface;
+import android.content.DialogInterface.OnClickListener;
 import android.media.Ringtone;
 import android.media.RingtoneManager;
 import android.net.Uri;
@@ -224,6 +231,64 @@ public class SoforListFragment extends Fragment {
 		// TODO Auto-generated method stub
 		switch (item.getItemId()) {
 			case R.id.menu_Sort :
+				AlertDialog.Builder builder = new AlertDialog.Builder(context);
+				builder.setTitle("Rendezés");
+				final CharSequence[] choiceList = {"Név", "Cím", "Telefonszám" };
+
+				int selected = -1; // does not select anything
+
+				builder.setSingleChoiceItems(choiceList, selected, new OnClickListener() {
+					
+					@Override
+					public void onClick(DialogInterface dialog, int which) {
+						// TODO Auto-generated method stub
+						
+						switch(which)
+						{
+							case 0:
+								try {
+									Collator huCollator = new RuleBasedCollator(hungarianRules);
+									sortSoforNev(huCollator, soforok);
+									adapter.clear();
+									adapter.addAll(soforok);
+									adapter.notifyDataSetChanged();
+								} catch (ParseException e) {
+									// TODO Auto-generated catch block																		
+									e.printStackTrace();
+								}
+								break;
+							case 1:
+								try {
+									Collator huCollator = new RuleBasedCollator(hungarianRules);
+									sortSoforCim(huCollator, soforok);
+									adapter.clear();
+									adapter.addAll(soforok);
+									adapter.notifyDataSetChanged();
+								} catch (ParseException e) {
+									// TODO Auto-generated catch block																		
+									e.printStackTrace();
+								}
+								break;
+							case 2:
+								try {
+									Collator huCollator = new RuleBasedCollator(hungarianRules);
+									sortSoforTelefonSzam(huCollator, soforok);
+									adapter.clear();
+									adapter.addAll(soforok);
+									adapter.notifyDataSetChanged();
+								} catch (ParseException e) {
+									// TODO Auto-generated catch block																		
+									e.printStackTrace();
+								}
+								break;
+						}	
+						
+						dialog.dismiss();
+					}
+				});
+				
+				AlertDialog alert = builder.create();
+				alert.show();
 				break;
 			case R.id.menu_refresh :
 
@@ -355,5 +420,62 @@ public class SoforListFragment extends Fragment {
 		iv.startAnimation(rotation);
 		refreshItem.setActionView(iv);
 	}
-
+	
+	String hungarianRules = ("< a,A < á,Á < b,B < c,C < cs,Cs < d,D < dz,Dz < dzs,Dzs "
+			+ "< e,E < é,É < f,F < g,G < gy,Gy < h,H < i,I < í,Í < j,J "
+			+ "< k,K < l,L < ly,Ly < m,M < n,N < ny,Ny < o,O < ó,Ó "
+			+ "< ö,Ö < õ,Õ < p,P < q,Q < r,R < s,S < sz,Sz < t,T "
+			+ "< ty,Ty < u,U < ú,Ú < ü,Ü < û,Û < v,V < w,W < x,X < y,Y < z,Z < zs,Zs");
+	
+	public static void sortSoforNev(Collator collator, List<Sofor> soforList)
+	{
+		Sofor tmp;
+		for(int i = 0; i<soforList.size();i++)
+		{
+			for(int j= 0; j<soforList.size();j++)
+			{
+				if(collator.compare(soforList.get(j).getSoforNev(),soforList.get(i).getSoforNev())>0)
+				{
+					tmp = soforList.get(i);
+					soforList.set(i, soforList.get(j));
+					soforList.set(j, tmp);
+				}
+			}
+		}
+	}
+	
+	public static void sortSoforCim(Collator collator, List<Sofor> soforList)
+	{
+		Sofor tmp;
+		for(int i = 0; i<soforList.size();i++)
+		{
+			for(int j= 0; j<soforList.size();j++)
+			{
+				if(collator.compare(soforList.get(j).getSoforCim(),soforList.get(i).getSoforCim())>0)
+				{
+					tmp = soforList.get(i);
+					soforList.set(i, soforList.get(j));
+					soforList.set(j, tmp);
+				}
+			}
+		}
+	}
+	
+	public static void sortSoforTelefonSzam(Collator collator, List<Sofor> soforList)
+	{
+		Sofor tmp;
+		for(int i = 0; i<soforList.size();i++)
+		{
+			for(int j= 0; j<soforList.size();j++)
+			{
+				if(collator.compare(soforList.get(j).getSoforTelefonszam(),soforList.get(i).getSoforTelefonszam())>0)
+				{
+					tmp = soforList.get(i);
+					soforList.set(i, soforList.get(j));
+					soforList.set(j, tmp);
+				}
+			}
+		}
+	}
+	
 }

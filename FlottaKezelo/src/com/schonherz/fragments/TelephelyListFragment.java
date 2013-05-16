@@ -1,12 +1,18 @@
 package com.schonherz.fragments;
 
+import java.text.Collator;
+import java.text.ParseException;
+import java.text.RuleBasedCollator;
 import java.util.ArrayList;
+import java.util.List;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
 
+import android.app.AlertDialog;
 import android.app.SearchManager;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.media.Ringtone;
 import android.media.RingtoneManager;
 import android.net.Uri;
@@ -33,6 +39,7 @@ import com.schonherz.classes.JsonFromUrl;
 import com.schonherz.classes.NetworkUtil;
 import com.schonherz.classes.PullToRefreshListView;
 import com.schonherz.classes.PullToRefreshListView.OnRefreshListener;
+import com.schonherz.dbentities.Partner;
 import com.schonherz.dbentities.Telephely;
 import com.schonherz.dbentities.TelephelyDao;
 import com.schonherz.flottadroid.R;
@@ -44,7 +51,7 @@ public class TelephelyListFragment extends Fragment {
 	TelephelyAdapter adapter;
 	PullToRefreshListView pullListView;
 	ArrayList<Telephely> telephelyek;
-	
+
 	MenuItem refreshItem;
 
 	public TelephelyListFragment(Context context, TelephelyDao telephelyDao) {
@@ -217,6 +224,51 @@ public class TelephelyListFragment extends Fragment {
 		// TODO Auto-generated method stub
 		switch (item.getItemId()) {
 			case R.id.menu_Sort :
+				AlertDialog.Builder builder = new AlertDialog.Builder(context);
+				builder.setTitle("Rendezés");
+				final CharSequence[] choiceList = {"Név", "Cím"};
+
+				int selected = -1; // does not select anything
+
+				builder.setSingleChoiceItems(choiceList, selected,
+						new DialogInterface.OnClickListener() {
+
+							@Override
+							public void onClick(DialogInterface dialog,
+									int which) {
+								// TODO Auto-generated method stub
+								switch (which) {
+									case 0:
+										try {
+											Collator huCollator = new RuleBasedCollator(hungarianRules);
+											sortTelephelyNev(huCollator, telephelyek);
+											adapter.clear();
+											adapter.addAll(telephelyek);
+											adapter.notifyDataSetChanged();
+										} catch (ParseException e) {
+											// TODO Auto-generated catch block
+											e.printStackTrace();
+										}
+										break;
+									case 1:
+										try {
+											Collator huCollator = new RuleBasedCollator(hungarianRules);
+											sortTelephelyCim(huCollator, telephelyek);
+											adapter.clear();
+											adapter.addAll(telephelyek);
+											adapter.notifyDataSetChanged();
+										} catch (ParseException e) {
+											// TODO Auto-generated catch block
+											e.printStackTrace();
+										}
+										break;
+								}
+								dialog.dismiss();
+							}
+						});
+				
+				AlertDialog alert = builder.create();
+				alert.show();
 				break;
 			case R.id.menu_refresh :
 				if (NetworkUtil.checkInternetIsActive(context) == true) {
@@ -338,6 +390,46 @@ public class TelephelyListFragment extends Fragment {
 		rotation.setRepeatCount(Animation.INFINITE);
 		iv.startAnimation(rotation);
 		refreshItem.setActionView(iv);
+	}
+	
+	String hungarianRules = ("< a,A < á,Á < b,B < c,C < cs,Cs < d,D < dz,Dz < dzs,Dzs "
+			+ "< e,E < é,É < f,F < g,G < gy,Gy < h,H < i,I < í,Í < j,J "
+			+ "< k,K < l,L < ly,Ly < m,M < n,N < ny,Ny < o,O < ó,Ó "
+			+ "< ö,Ö < õ,Õ < p,P < q,Q < r,R < s,S < sz,Sz < t,T "
+			+ "< ty,Ty < u,U < ú,Ú < ü,Ü < û,Û < v,V < w,W < x,X < y,Y < z,Z < zs,Zs");
+	
+	public static void sortTelephelyNev(Collator collator, List<Telephely> telephelyList)
+	{
+		Telephely tmp;
+		for(int i = 0; i<telephelyList.size();i++)
+		{
+			for(int j = 0; j <telephelyList.size();j++)
+			{
+				if(collator.compare(telephelyList.get(j).getTelephelyNev(), telephelyList.get(i).getTelephelyNev())>0)
+				{
+					tmp = telephelyList.get(i);
+					telephelyList.set(i, telephelyList.get(j));
+					telephelyList.set(j, tmp);
+				}
+			}
+		}
+	}
+	
+	public static void sortTelephelyCim(Collator collator, List<Telephely> telephelyList)
+	{
+		Telephely tmp;
+		for(int i = 0; i<telephelyList.size();i++)
+		{
+			for(int j = 0; j <telephelyList.size();j++)
+			{
+				if(collator.compare(telephelyList.get(j).getTelephelyCim(), telephelyList.get(i).getTelephelyCim())>0)
+				{
+					tmp = telephelyList.get(i);
+					telephelyList.set(i, telephelyList.get(j));
+					telephelyList.set(j, tmp);
+				}
+			}
+		}
 	}
 
 }
