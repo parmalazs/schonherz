@@ -22,10 +22,10 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
-import com.google.gson.Gson;
 import com.schonherz.classes.JsonArrayToArrayList;
 import com.schonherz.classes.JsonFromUrl;
 import com.schonherz.classes.NetworkUtil;
+import com.schonherz.classes.SessionManager;
 import com.schonherz.dbentities.AutoDao;
 import com.schonherz.dbentities.AutoKepDao;
 import com.schonherz.dbentities.DaoMaster;
@@ -67,8 +67,13 @@ public class LoginActivity extends Activity {
 	private ProfilKepDao profilKepDao;
 	private SoforDao soforDao;
 	private TelephelyDao telephelyDao;
+	
+	
+	
+	private SessionManager sessionManager;
+	private boolean isRefreshed;
 
-	Gson gson = new Gson();
+	
 	Button loginButton;
 	ProgressDialog dialog;
 
@@ -83,6 +88,8 @@ public class LoginActivity extends Activity {
 		setContentView(R.layout.activity_login);
 		
 		context=getApplicationContext();
+		sessionManager=new SessionManager(context);
+		isRefreshed=false;
 
 		preferences = PreferenceManager.getDefaultSharedPreferences(this);
 		firstStart = preferences.getLong("firstStart", 0);
@@ -136,6 +143,7 @@ public class LoginActivity extends Activity {
 						super.onPostExecute(result);
 
 						if (result == true) {
+							isRefreshed=true;
 							loginButton.setEnabled(true);
 							Toast.makeText(LoginActivity.this,
 									R.string.refreshed, Toast.LENGTH_SHORT)
@@ -167,6 +175,7 @@ public class LoginActivity extends Activity {
 				if (checkLogin() == true) {
 					Intent intent = new Intent(LoginActivity.this,
 							MainActivity.class);
+					intent.putExtra("isRefreshed", isRefreshed);
 					LoginActivity.this.startActivity(intent);
 					LoginActivity.this.finish();
 				} else {
@@ -284,6 +293,7 @@ public class LoginActivity extends Activity {
 										.toString())).list();
 
 				if (soforok.size() > 0) {
+					sessionManager.createLoginSession(soforok.get(0).getSoforLogin(), soforok.get(0).getSoforPass());
 					return true;
 				} else {
 					return false;

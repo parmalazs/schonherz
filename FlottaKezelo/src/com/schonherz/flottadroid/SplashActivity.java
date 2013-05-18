@@ -1,6 +1,8 @@
 package com.schonherz.flottadroid;
 
 
+import com.schonherz.classes.SessionManager;
+
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
@@ -14,10 +16,13 @@ public class SplashActivity extends Activity {
 
 	private static String TAG = SplashActivity.class.getName();
 	private static long SLEEP_TIME = 3; // Sleep for some time
+	private SessionManager sessionManager;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+		
+		sessionManager=new SessionManager(getApplicationContext());
 
 		this.requestWindowFeature(Window.FEATURE_NO_TITLE); // Removes title bar
 		this.getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
@@ -45,11 +50,20 @@ public class SplashActivity extends Activity {
 			} catch (Exception e) {
 				Log.e(TAG, e.getMessage());
 			}
-
-			// Start login activity
-			Intent intent = new Intent(SplashActivity.this, LoginActivity.class);
-			SplashActivity.this.startActivity(intent);			
-			SplashActivity.this.finish();
+			
+			if(!sessionManager.isLoggedIn()) {
+				// Start login activity
+				Intent intent = new Intent(SplashActivity.this, LoginActivity.class);
+				SplashActivity.this.startActivity(intent);			
+				SplashActivity.this.finish();
+				
+			}
+			else {
+				// Start main activity
+				Intent intent = new Intent(SplashActivity.this, MainActivity.class);
+				SplashActivity.this.startActivity(intent);			
+				SplashActivity.this.finish();
+			}
 			
 		}
 	}

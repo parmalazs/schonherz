@@ -37,6 +37,7 @@
     <string name="title_activity_settings">Beállítások</string>
 	<string name="menuSort">Rendezés</string>
 	<string name="menuSearch">Keresés</string>
-    
+    <string name="invalidUser">Nem létező felhasználó!</string>
+    <string name="logout">Kijelentkezés</string>
     
 </resources>
