@@ -104,9 +104,11 @@ public class SessionManager {
      * */
     public void logoutUser(){
         // Clearing all data from Shared Preferences
-        editor.clear();
+    	editor.remove(KEY_USER_LOGIN);
+    	editor.remove(KEY_USER_PASS);
+    	editor.remove(IS_LOGIN);
+    	editor.remove(PREF_NAME);
         editor.commit();
-         
         // After logout redirect user to Login Activity
         Intent i = new Intent(_context, LoginActivity.class);
         // Closing all the Activities

@@ -272,8 +272,8 @@ public class MainActivity extends Activity {
 	}
     
     public boolean checkLogin() {
-    	String userLogin=sessionManager.getUserDetails().get("login");
-    	String userPass=sessionManager.getUserDetails().get("pass");
+    	String userLogin=sessionManager.getUserDetails().get(SessionManager.KEY_USER_LOGIN);
+    	String userPass=sessionManager.getUserDetails().get(SessionManager.KEY_USER_PASS);
 
 		// Where-ben 2 feltetellel lekerdezes, a Properties az a
 		// SoforDao properties osztalya importalva
