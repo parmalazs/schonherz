@@ -2,6 +2,34 @@ package com.schonherz.flottadroid;
 
 import java.util.Locale;
 
+import com.schonherz.dbentities.AutoDao;
+import com.schonherz.dbentities.AutoKepDao;
+import com.schonherz.dbentities.DaoMaster;
+import com.schonherz.dbentities.DaoSession;
+import com.schonherz.dbentities.MunkaDao;
+import com.schonherz.dbentities.MunkaEszkozDao;
+import com.schonherz.dbentities.MunkaKepDao;
+import com.schonherz.dbentities.MunkaTipusDao;
+import com.schonherz.dbentities.PartnerDao;
+import com.schonherz.dbentities.PartnerKepDao;
+import com.schonherz.dbentities.ProfilKepDao;
+import com.schonherz.dbentities.SoforDao;
+import com.schonherz.dbentities.TelephelyDao;
+import com.schonherz.dbentities.DaoMaster.DevOpenHelper;
+import com.schonherz.flottadroid.AdminActivity.AdminPagerAdapter;
+import com.schonherz.fragments.AdminKepekFragment;
+import com.schonherz.fragments.AutoListFragment;
+import com.schonherz.fragments.MunkaListFragment;
+import com.schonherz.fragments.PartnerListFragment;
+import com.schonherz.fragments.SajatMunkaListFragment;
+import com.schonherz.fragments.SoforListFragment;
+import com.schonherz.fragments.SzabadMunkaListFragment;
+import com.schonherz.fragments.TelephelyListFragment;
+
+import android.app.ActionBar;
+import android.app.FragmentTransaction;
+import android.app.ActionBar.Tab;
+import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
@@ -9,6 +37,7 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.app.NavUtils;
 import android.support.v4.view.ViewPager;
+import android.support.v4.view.ViewPager.OnPageChangeListener;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -17,139 +46,199 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
-public class JobsActivity extends FragmentActivity {
+public class JobsActivity extends FragmentActivity implements ActionBar.TabListener {
 
-	/**
-	 * The {@link android.support.v4.view.PagerAdapter} that will provide
-	 * fragments for each of the sections. We use a
-	 * {@link android.support.v4.app.FragmentPagerAdapter} derivative, which
-	 * will keep every loaded fragment in memory. If this becomes too memory
-	 * intensive, it may be best to switch to a
-	 * {@link android.support.v4.app.FragmentStatePagerAdapter}.
-	 */
-	SectionsPagerAdapter mSectionsPagerAdapter;
+	// Database Handlers
+		private SQLiteDatabase db;
+		private DevOpenHelper helper;
+		private DaoSession daoSession;
+		private DaoMaster daoMaster;
 
-	/**
-	 * The {@link ViewPager} that will host the section contents.
-	 */
-	ViewPager mViewPager;
+		// Greendao objects
+		private AutoDao autoDao;
+		private AutoKepDao autoKepDao;
+		private MunkaDao munkaDao;
+		private MunkaEszkozDao munkaEszkozDao;
+		private MunkaKepDao munkaKepDao;
+		private MunkaTipusDao munkaTipusDao;
+		private PartnerDao partnerDao;
+		private PartnerKepDao partnerKepDao;
+		private ProfilKepDao profilKepDao;
+		private SoforDao soforDao;
+		private TelephelyDao telephelyDao;
 
-	@Override
-	protected void onCreate(Bundle savedInstanceState) {
-		super.onCreate(savedInstanceState);
-		setContentView(R.layout.activity_jobs);
+		SzabadMunkaListFragment szabadMunkaListFragment;
+		SajatMunkaListFragment sajatMunkaListFragment;		
+		MunkaListFragment munkaListFragment;
 		
-		setupActionBar();
-		
-		// Create the adapter that will return a fragment for each of the three
-		// primary sections of the app.
-		mSectionsPagerAdapter = new SectionsPagerAdapter(
-				getSupportFragmentManager());
 
-		// Set up the ViewPager with the sections adapter.
-		mViewPager = (ViewPager) findViewById(R.id.pager);
-		mViewPager.setAdapter(mSectionsPagerAdapter);
+		Tab szabadMunkaTab;
+		Tab sajatMunkaTab;
+		Tab osszesMunkaTab;
 
-	}
-
-	@Override
-	public boolean onCreateOptionsMenu(Menu menu) {
-		// Inflate the menu; this adds items to the action bar if it is present.
-		getMenuInflater().inflate(R.menu.jobs, menu);
-		return true;
-	}
-	
-	@Override
-	public boolean onOptionsItemSelected(MenuItem item) {
-		switch (item.getItemId()) {
-			case android.R.id.home :
-				// This ID represents the Home or Up button. In the case of this
-				// activity, the Up button is shown. Use NavUtils to allow users
-				// to navigate up one level in the application structure. For
-				// more details, see the Navigation pattern on Android Design:
-				//
-				// http://developer.android.com/design/patterns/navigation.html#up-vs-back
-				//
-				NavUtils.navigateUpFromSameTask(this);
-				return true;
-		}
-		return super.onOptionsItemSelected(item);
-	}
-	
-	private void setupActionBar() {
-
-		getActionBar().setDisplayHomeAsUpEnabled(true);
-
-	}
-
-	/**
-	 * A {@link FragmentPagerAdapter} that returns a fragment corresponding to
-	 * one of the sections/tabs/pages.
-	 */
-	public class SectionsPagerAdapter extends FragmentPagerAdapter {
-
-		public SectionsPagerAdapter(FragmentManager fm) {
-			super(fm);
-		}
+		ActionBar actionBar;
+		JobsPagerAdapter jobsAdapter;
+		ViewPager jobsPager;
 
 		@Override
-		public Fragment getItem(int position) {
-			// getItem is called to instantiate the fragment for the given page.
-			// Return a DummySectionFragment (defined as a static inner class
-			// below) with the page number as its lone argument.
-			Fragment fragment = new DummySectionFragment();
-			Bundle args = new Bundle();
-			args.putInt(DummySectionFragment.ARG_SECTION_NUMBER, position + 1);
-			fragment.setArguments(args);
-			return fragment;
+		protected void onCreate(Bundle savedInstanceState) {
+			super.onCreate(savedInstanceState);
+			setContentView(R.layout.activity_jobs);
+			// Show the Up button in the action bar.
+			setupActionBar();
+
+			dataBaseInit();
+
+			szabadMunkaListFragment=new SzabadMunkaListFragment(this, munkaDao);
+			sajatMunkaListFragment=new SajatMunkaListFragment(this, munkaDao);
+			munkaListFragment = new MunkaListFragment(this, munkaDao);
+
+			actionBar = getActionBar();
+			actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_TABS);
+
+			jobsPager = (ViewPager) findViewById(R.id.jobsPager);
+			jobsAdapter = new JobsPagerAdapter(getSupportFragmentManager());
+			jobsPager.setAdapter(jobsAdapter);
+			jobsPager.setCurrentItem(0);
+
+			szabadMunkaTab = actionBar.newTab().setText(R.string.title_section1);
+			szabadMunkaTab.setTabListener(this);
+			actionBar.addTab(szabadMunkaTab);
+
+			sajatMunkaTab = actionBar.newTab().setText(R.string.title_section2);
+			sajatMunkaTab.setTabListener(this);
+			actionBar.addTab(sajatMunkaTab);
+
+			osszesMunkaTab = actionBar.newTab().setText(R.string.title_section3);
+			osszesMunkaTab.setTabListener(this);
+			actionBar.addTab(osszesMunkaTab);
+
+			jobsPager.setOnPageChangeListener(new OnPageChangeListener() {
+
+				@Override
+				public void onPageSelected(int position) {
+					// TODO Auto-generated method stub
+					getActionBar().setSelectedNavigationItem(position);
+
+				}
+
+				@Override
+				public void onPageScrolled(int arg0, float arg1, int arg2) {
+					// TODO Auto-generated method stub
+
+				}
+
+				@Override
+				public void onPageScrollStateChanged(int arg0) {
+					// TODO Auto-generated method stub
+
+				}
+			});
 		}
 
-		@Override
-		public int getCount() {
-			// Show 3 total pages.
-			return 3;
-		}
-
-		@Override
-		public CharSequence getPageTitle(int position) {
-			Locale l = Locale.getDefault();
-			switch (position) {
-			case 0:
-				return getString(R.string.title_section1).toUpperCase(l);
-			case 1:
-				return getString(R.string.title_section2).toUpperCase(l);
-			case 2:
-				return getString(R.string.title_section3).toUpperCase(l);
-			}
-			return null;
-		}
-	}
-
-	/**
-	 * A dummy fragment representing a section of the app, but that simply
-	 * displays dummy text.
-	 */
-	public static class DummySectionFragment extends Fragment {
 		/**
-		 * The fragment argument representing the section number for this
-		 * fragment.
+		 * Set up the {@link android.app.ActionBar}.
 		 */
-		public static final String ARG_SECTION_NUMBER = "section_number";
+		private void setupActionBar() {
 
-		public DummySectionFragment() {
+			getActionBar().setDisplayHomeAsUpEnabled(true);
+
+		}
+		
+
+		@Override
+		public boolean onCreateOptionsMenu(Menu menu) {
+			// Inflate the menu; this adds items to the action bar if it is present.
+			
+			getMenuInflater().inflate(R.menu.jobs, menu);			
+			
+			return true;
 		}
 
 		@Override
-		public View onCreateView(LayoutInflater inflater, ViewGroup container,
-				Bundle savedInstanceState) {
-			View rootView = inflater.inflate(R.layout.fragment_jobs_dummy,
-					container, false);
-			TextView dummyTextView = (TextView) rootView
-					.findViewById(R.id.section_label);
-			dummyTextView.setText(Integer.toString(getArguments().getInt(
-					ARG_SECTION_NUMBER)));
-			return rootView;
+		public boolean onOptionsItemSelected(MenuItem item) {
+			switch (item.getItemId()) {
+				case android.R.id.home :
+					// This ID represents the Home or Up button. In the case of this
+					// activity, the Up button is shown. Use NavUtils to allow users
+					// to navigate up one level in the application structure. For
+					// more details, see the Navigation pattern on Android Design:
+					//
+					// http://developer.android.com/design/patterns/navigation.html#up-vs-back
+					//
+					NavUtils.navigateUpFromSameTask(this);
+					return true;
+			}
+			return super.onOptionsItemSelected(item);
 		}
-	}
+
+		@Override
+		public void onTabReselected(Tab tab, FragmentTransaction ft) {
+			// TODO Auto-generated method stub
+
+		}
+		
+
+		@Override
+		public void onTabSelected(Tab tab, FragmentTransaction ft) {
+			// TODO Auto-generated method stub
+			jobsPager.setCurrentItem(tab.getPosition());
+		}
+
+		@Override
+		public void onTabUnselected(Tab tab, FragmentTransaction ft) {
+			// TODO Auto-generated method stub
+
+		}
+
+		public class JobsPagerAdapter extends FragmentPagerAdapter {
+
+			public JobsPagerAdapter(FragmentManager fm) {
+				super(fm);
+				// TODO Auto-generated constructor stub
+			}
+
+			@Override
+			public Fragment getItem(int position) {
+				// TODO Auto-generated method stub
+				switch (position) {
+					case 1 :
+
+						return new SajatMunkaListFragment(JobsActivity.this, munkaDao);
+					case 2 :
+						return new MunkaListFragment(JobsActivity.this, munkaDao);
+					default :
+						return new SzabadMunkaListFragment(JobsActivity.this, munkaDao);
+				}
+			}
+
+			@Override
+			public int getCount() {
+				// TODO Auto-generated method stub
+				return 3;
+			}
+
+		}
+
+		// setup connections to database
+		public void dataBaseInit() {
+			helper = new DaoMaster.DevOpenHelper(this, "flotta-db", null);
+			db = helper.getWritableDatabase();
+			daoMaster = new DaoMaster(db);
+			daoSession = daoMaster.newSession();
+
+			autoDao = daoSession.getAutoDao();
+			autoKepDao = daoSession.getAutoKepDao();
+			munkaDao = daoSession.getMunkaDao();
+			munkaEszkozDao = daoSession.getMunkaEszkozDao();
+			munkaKepDao = daoSession.getMunkaKepDao();
+			munkaTipusDao = daoSession.getMunkaTipusDao();
+			partnerDao = daoSession.getPartnerDao();
+			partnerKepDao = daoSession.getPartnerKepDao();
+			profilKepDao = daoSession.getProfilKepDao();
+			soforDao = daoSession.getSoforDao();
+			telephelyDao = daoSession.getTelephelyDao();
+
+		}
 
 }

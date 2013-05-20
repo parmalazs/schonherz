@@ -34,6 +34,8 @@ public class SessionManager {
      
     // Email address (make variable public to access from outside)
     public static final String KEY_USER_PASS = "pass";
+    
+    public static final String KEY_USER_ID="id";
      
     // Constructor
     public SessionManager(Context context){
@@ -45,7 +47,7 @@ public class SessionManager {
     /**
      * Create login session
      * */
-    public void createLoginSession(String login, String pass){
+    public void createLoginSession(String login, String pass, Long id){
         // Storing login value as TRUE
         editor.putBoolean(IS_LOGIN, true);
          
@@ -54,6 +56,8 @@ public class SessionManager {
          
         // Storing email in pref
         editor.putString(KEY_USER_PASS, pass);
+        
+        editor.putLong(KEY_USER_ID, id);
          
         // commit changes
         editor.commit();
@@ -94,6 +98,16 @@ public class SessionManager {
          
         // user email id
         user.put(KEY_USER_PASS, pref.getString(KEY_USER_PASS, null));
+        
+         
+        // return user
+        return user;
+    }
+    
+    public HashMap<String, Long> getUserID(){
+        HashMap<String, Long> user = new HashMap<String, Long>();
+        
+        user.put(KEY_USER_ID, pref.getLong(KEY_USER_ID, 0));        
          
         // return user
         return user;
@@ -106,6 +120,7 @@ public class SessionManager {
         // Clearing all data from Shared Preferences
     	editor.remove(KEY_USER_LOGIN);
     	editor.remove(KEY_USER_PASS);
+    	editor.remove(KEY_USER_ID);
     	editor.remove(IS_LOGIN);
     	editor.remove(PREF_NAME);
         editor.commit();

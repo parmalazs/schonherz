@@ -293,7 +293,7 @@ public class LoginActivity extends Activity {
 										.toString())).list();
 
 				if (soforok.size() > 0) {
-					sessionManager.createLoginSession(soforok.get(0).getSoforLogin(), soforok.get(0).getSoforPass());
+					sessionManager.createLoginSession(soforok.get(0).getSoforLogin(), soforok.get(0).getSoforPass(), soforok.get(0).getSoforID());
 					return true;
 				} else {
 					return false;
