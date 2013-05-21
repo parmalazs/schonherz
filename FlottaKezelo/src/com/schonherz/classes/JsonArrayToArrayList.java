@@ -47,8 +47,12 @@ public class JsonArrayToArrayList {
 						.getString("soforBirthDate"));
 				currSofor.setSoforRegTime(soforJsonObj
 						.getString("soforRegTime"));
-				currSofor.setSoforIsAdmin(Boolean.parseBoolean(soforJsonObj
-						.getString("soforIsAdmin")));
+				if(soforJsonObj.getString("soforIsAdmin").equals("1")) {
+					currSofor.setSoforIsAdmin(true);
+				}
+				else {
+					currSofor.setSoforIsAdmin(false);
+				}
 				currSofor.setSoforEmail(soforJsonObj
 						.getString("soforProfilKepID"));
 				if (soforJsonObj.getString("soforProfilKepID") != null) {
@@ -137,8 +141,13 @@ public class JsonArrayToArrayList {
 				// New auto
 				Auto currAuto = new Auto();
 				// set properties from jsonobject
-				currAuto.setAutoID(Long.parseLong(autoJsonObj.getString("autoID")));				
-				currAuto.setAutoFoglalt(Boolean.parseBoolean(autoJsonObj.getString("autoFoglalt")));
+				currAuto.setAutoID(Long.parseLong(autoJsonObj.getString("autoID")));			
+				if(autoJsonObj.getString("autoFoglalt").equals("1")) {
+					currAuto.setAutoFoglalt(true);
+				}
+				else{
+					currAuto.setAutoFoglalt(false);
+				}
 				if (autoJsonObj.getString("autoXkoordinata") != null) {
 					currAuto.setAutoXkoordinata(Float.parseFloat(autoJsonObj.getString("autoXkoordinata")));
 				}
@@ -268,7 +277,12 @@ public class JsonArrayToArrayList {
 				}
 				currMunka.setMunkaComment(munkaJsonObj.getString("munkaComment"));
 				currMunka.setMunkaBefejezesDate(munkaJsonObj.getString("munkaBefejezesDate"));
-				currMunka.setMunkaIsActive(Boolean.parseBoolean(munkaJsonObj.getString("munkaIsActive")));
+				if(munkaJsonObj.get("munkaIsActive").equals("1")) {
+					currMunka.setMunkaIsActive(true);
+				}
+				else {
+					currMunka.setMunkaIsActive(false);
+				}
 				if(munkaJsonObj.get("munkaEstimatedTime")!=null) {
 					currMunka.setMunkaEstimatedTime(Long.parseLong(munkaJsonObj.getString("munkaEstimatedTime")));
 				}
@@ -466,7 +480,12 @@ public class JsonArrayToArrayList {
 				PartnerKep currPartnerKep=new PartnerKep();
 				
 				currPartnerKep.setPartnerKepID(Long.parseLong(partnerKepJsonObj.getString("partnerKepID")));
-				currPartnerKep.setPartnerKepIsUploaded(Boolean.parseBoolean(partnerKepJsonObj.getString("partnerKepIsUploaded")));
+				if(partnerKepJsonObj.getString("partnerKepIsUploaded").equals("1")) {
+					currPartnerKep.setPartnerKepIsUploaded(true);
+				}
+				else {
+					currPartnerKep.setPartnerKepIsUploaded(false);
+				}
 				currPartnerKep.setPartnerKepDate(partnerKepJsonObj.getString("partnerKepDate"));
 				if(partnerKepJsonObj.getString("partnerID")!=null) {
 					currPartnerKep.setPartnerID(Long.parseLong(partnerKepJsonObj.getString("partnerID")));
