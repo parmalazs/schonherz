@@ -16,6 +16,7 @@ import com.schonherz.classes.SessionManager;
 import com.schonherz.dbentities.Munka;
 import com.schonherz.dbentities.MunkaDao;
 import com.schonherz.dbentities.MunkaDao.Properties;
+import com.schonherz.flottadroid.MunkaDetailsActivity;
 import com.schonherz.flottadroid.R;
 
 import de.greenrobot.dao.QueryBuilder;
@@ -23,6 +24,7 @@ import android.app.AlertDialog;
 import android.app.SearchManager;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.media.Ringtone;
 import android.media.RingtoneManager;
 import android.net.Uri;
@@ -37,9 +39,11 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
+import android.widget.AdapterView;
 import android.widget.ImageView;
 import android.widget.SearchView;
 import android.widget.Toast;
+import android.widget.AdapterView.OnItemClickListener;
 import android.widget.SearchView.OnQueryTextListener;
 
 public class SajatMunkaListFragment extends Fragment {
@@ -153,6 +157,19 @@ public class SajatMunkaListFragment extends Fragment {
 		adapter = new MunkaAdapter(context, R.layout.list_item_munka, munkak,
 				munkaDao);
 		pullListView.setAdapter(adapter);
+		
+		pullListView.setOnItemClickListener(new OnItemClickListener() {
+
+			@Override
+			public void onItemClick(AdapterView<?> parent, View view, int position,
+					long id) {
+				// TODO Auto-generated method stub
+				Intent intent=new Intent(getActivity(), MunkaDetailsActivity.class);
+				intent.putExtra("currentMunkaID", munkak.get(position).getMunkaID());
+				startActivity(intent);
+				getActivity().overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
+			}
+		});
 
 		pullListView.setOnRefreshListener(new OnRefreshListener() {
 

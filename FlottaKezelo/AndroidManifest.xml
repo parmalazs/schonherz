@@ -56,6 +56,7 @@
         </activity>
         <activity
             android:name="com.schonherz.flottadroid.JobsActivity"
+            android:configChanges="orientation|screenSize"
             android:label="@string/title_activity_jobs" >
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
@@ -63,45 +64,42 @@
         </activity>
         <activity
             android:name="com.schonherz.flottadroid.AdminActivity"
-            android:label="@string/title_activity_admin"
-            android:configChanges="orientation|screenSize" >
+            android:configChanges="orientation|screenSize"
+            android:label="@string/title_activity_admin" >
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.schonherz.flottadroid.MainActivity" />
         </activity>
         <activity
-            android:name=".MapActivity"
+            android:name="com.schonherz.flottadroid.MapActivity"
             android:label="@string/title_activity_map" >
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.schonherz.flottadroid.MainActivity" />
         </activity>
-
-      
-
         <activity
-            android:name=".CarActivity"
+            android:name="com.schonherz.flottadroid.CarActivity"
             android:label="@string/title_activity_car" >
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.schonherz.flottadroid.MainActivity" />
         </activity>
         <activity
-            android:name=".ContactActivity"
+            android:name="com.schonherz.flottadroid.ContactActivity"
             android:label="@string/title_activity_contact_activty" >
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.schonherz.flottadroid.MainActivity" />
         </activity>
         <activity
-            android:name=".RefreshActivity"
+            android:name="com.schonherz.flottadroid.RefreshActivity"
             android:label="@string/title_activity_refresh" >
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.schonherz.flottadroid.MainActivity" />
         </activity>
         <activity
-            android:name=".SettingsActivity"
+            android:name="com.schonherz.flottadroid.SettingsActivity"
             android:label="@string/title_activity_settings" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -109,11 +107,18 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        
-          <meta-data
+
+        <meta-data
             android:name="com.google.android.maps.v2.API_KEY"
             android:value="AIzaSyDUncRHOMwFccwd9vKrHjUYF2GjbOASwWg" />
-        
+
+        <activity
+            android:name="com.schonherz.flottadroid.MunkaDetailsActivity"
+            android:label="@string/title_activity_munka_details" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.schonherz.flottadroid.JobsActivity" />
+        </activity>
     </application>
 
 </manifest>
