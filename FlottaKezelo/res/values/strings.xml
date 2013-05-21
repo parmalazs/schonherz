@@ -35,6 +35,7 @@
     <string name="title_activity_contact_activty">Névjegyek</string>
     <string name="title_activity_refresh">Frissítés</string>
     <string name="title_activity_settings">Beállítások</string>
+    <string name="title_activity_munka_details">Munka</string>
 	<string name="menuSort">Rendezés</string>
 	<string name="menuSearch">Keresés</string>
     <string name="invalidUser">Nem létező felhasználó!</string>
