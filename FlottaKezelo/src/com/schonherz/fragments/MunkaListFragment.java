@@ -205,7 +205,7 @@ public class MunkaListFragment extends Fragment {
 							pullListView.onRefreshComplete();
 							adapter.clear();
 
-							ArrayList<Munka> munkak = new ArrayList<Munka>(
+							munkak = new ArrayList<Munka>(
 									munkaDao.loadAll());
 							adapter.addAll(munkak);
 							adapter.notifyDataSetChanged();
@@ -391,7 +391,7 @@ public class MunkaListFragment extends Fragment {
 							
 							adapter.clear();
 
-							ArrayList<Munka> munkak = new ArrayList<Munka>(
+							munkak = new ArrayList<Munka>(
 									munkaDao.loadAll());
 							adapter.addAll(munkak);
 							adapter.notifyDataSetChanged();

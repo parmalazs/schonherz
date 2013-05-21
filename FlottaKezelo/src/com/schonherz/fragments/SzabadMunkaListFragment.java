@@ -207,7 +207,7 @@ public class SzabadMunkaListFragment extends Fragment {
 							pullListView.onRefreshComplete();
 							adapter.clear();
 
-							ArrayList<Munka> munkak = new ArrayList<Munka>(
+							munkak = new ArrayList<Munka>(
 									munkaDao.queryBuilder().where(Properties.MunkaIsActive.eq(true)).list());
 							adapter.addAll(munkak);
 							adapter.notifyDataSetChanged();
@@ -394,7 +394,7 @@ public class SzabadMunkaListFragment extends Fragment {
 							
 							adapter.clear();
 
-							ArrayList<Munka> munkak = new ArrayList<Munka>(
+							munkak = new ArrayList<Munka>(
 									munkaDao.queryBuilder().where(Properties.MunkaIsActive.eq(true)).list());
 							adapter.addAll(munkak);
 							adapter.notifyDataSetChanged();

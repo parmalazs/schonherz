@@ -210,7 +210,7 @@ public class SajatMunkaListFragment extends Fragment {
 							pullListView.onRefreshComplete();
 							adapter.clear();
 
-							ArrayList<Munka> munkak = new ArrayList<Munka>(
+							munkak = new ArrayList<Munka>(
 									munkaDao.queryBuilder().where(Properties.SoforID.eq(sessionManager.getUserID().get(SessionManager.KEY_USER_ID))).list());
 							adapter.addAll(munkak);
 							adapter.notifyDataSetChanged();
@@ -397,7 +397,7 @@ public class SajatMunkaListFragment extends Fragment {
 							
 							adapter.clear();
 
-							ArrayList<Munka> munkak = new ArrayList<Munka>(
+							munkak = new ArrayList<Munka>(
 									munkaDao.queryBuilder().where(Properties.SoforID.eq(sessionManager.getUserID().get(SessionManager.KEY_USER_ID))).list());
 							adapter.addAll(munkak);
 							adapter.notifyDataSetChanged();
