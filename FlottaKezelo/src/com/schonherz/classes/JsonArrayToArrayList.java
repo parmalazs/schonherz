@@ -479,7 +479,7 @@ public class JsonArrayToArrayList {
 
 				PartnerKep currPartnerKep=new PartnerKep();
 				
-				currPartnerKep.setPartnerKepID(Long.parseLong(partnerKepJsonObj.getString("partnerKepID")));
+				currPartnerKep.setPartnerKepID(Long.parseLong(partnerKepJsonObj.getString("partnerkepekID")));
 				if(partnerKepJsonObj.getString("partnerKepIsUploaded").equals("1")) {
 					currPartnerKep.setPartnerKepIsUploaded(true);
 				}
