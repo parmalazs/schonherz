@@ -6,6 +6,7 @@ import android.app.ActionBar;
 import android.app.ActionBar.OnNavigationListener;
 import android.app.Activity;
 import android.database.sqlite.SQLiteDatabase;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v4.app.NavUtils;
 import android.view.Menu;
@@ -13,6 +14,7 @@ import android.view.MenuItem;
 import android.widget.ArrayAdapter;
 import android.widget.Toast;
 
+import com.directions.route.Routing;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.MapFragment;
@@ -172,11 +174,18 @@ public class MapActivity extends Activity {
 	}
 
 	public void addFreeJobMarkers() {
-
+		map.clear();		
 	}
 
 	public void addDailyRouteMarkers() {
-
+		map.clear();
+		ArrayList<Partner> partnerek = new ArrayList<Partner>(
+				partnerDao.loadAll());
+		new Routing(MapActivity.this,map,Color.RED).execute(new LatLng(
+				partnerek.get(0).getPartnerXkoordinata(),
+				partnerek.get(0).getPartnerYkoodinata()),new LatLng(
+						partnerek.get(6).getPartnerXkoordinata(),
+						partnerek.get(6).getPartnerYkoodinata()));
 	}
 
 	// setup connections to database

@@ -51,7 +51,7 @@ public class LoginActivity extends Activity {
 
 	// Database Handlers
 	private SQLiteDatabase db;
-	private DevOpenHelper helper;
+	private DevOpenHelper newhelper;
 	private DaoSession daoSession;
 	private DaoMaster daoMaster;
 
@@ -87,10 +87,18 @@ public class LoginActivity extends Activity {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_login);
 		
-		context=getApplicationContext();
+		context=this;
 		sessionManager=new SessionManager(context);
 		isRefreshed=false;
-
+		
+		newhelper = new DevOpenHelper(context,"flotta-db",null);		
+		newhelper.close();
+		
+		db = newhelper.getWritableDatabase();
+		
+		daoMaster = new DaoMaster(db);
+		daoSession = daoMaster.newSession();
+		
 		preferences = PreferenceManager.getDefaultSharedPreferences(this);
 		firstStart = preferences.getLong("firstStart", 0);
 
@@ -118,10 +126,7 @@ public class LoginActivity extends Activity {
 
 		} else {
 			// Get a Session and init sofor Table
-			helper = new DaoMaster.DevOpenHelper(this, "flotta-db", null);
-			db = helper.getWritableDatabase();
-			daoMaster = new DaoMaster(db);
-			daoSession = daoMaster.newSession();
+			
 
 			soforDao = daoSession.getSoforDao();
 		}
@@ -222,7 +227,9 @@ public class LoginActivity extends Activity {
 
 		
 	}
-
+	
+	
+	
 	@Override
 	public void finish() {
 		// TODO Auto-generated method stub
@@ -232,11 +239,7 @@ public class LoginActivity extends Activity {
 
 	// Tabla letrehozo metodus, elso inditaskor mindekepp lefut
 	private void createTables() {
-		helper = new DaoMaster.DevOpenHelper(this, "flotta-db", null);
-		db = helper.getWritableDatabase();
-		daoMaster = new DaoMaster(db);
-		daoSession = daoMaster.newSession();
-
+		
 		autoDao = daoSession.getAutoDao();
 		autoKepDao = daoSession.getAutoKepDao();
 		munkaDao = daoSession.getMunkaDao();

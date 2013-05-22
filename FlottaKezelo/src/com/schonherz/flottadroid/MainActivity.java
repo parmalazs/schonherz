@@ -43,13 +43,13 @@ import android.widget.Button;
 import android.widget.Toast;
 
 public class MainActivity extends Activity {
-	
+
 	// Database Handlers
 	private SQLiteDatabase db;
 	private DevOpenHelper helper;
 	private DaoSession daoSession;
 	private DaoMaster daoMaster;
-	
+
 	// Greendao objects
 	private AutoDao autoDao;
 	private AutoKepDao autoKepDao;
@@ -61,8 +61,8 @@ public class MainActivity extends Activity {
 	private PartnerKepDao partnerKepDao;
 	private ProfilKepDao profilKepDao;
 	private SoforDao soforDao;
-	private TelephelyDao telephelyDao;	
-	
+	private TelephelyDao telephelyDao;
+
 	Button jobsButton;
 	Button adminButton;
 	Button mapButton;
@@ -70,133 +70,151 @@ public class MainActivity extends Activity {
 	Button carButton;
 	Button contactButton;
 	Context context;
-	
+
 	SessionManager sessionManager;
 	boolean isRefreshed;
-	
-    @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
-        context=getApplicationContext();
-        sessionManager=new SessionManager(context);
-        isRefreshed=this.getIntent().getBooleanExtra("isRefreshed", false);
-        
-        if(sessionManager.isLoggedIn() && !isRefreshed) {
-        	//csinálunk egy frissítést mert a bejelentkezéskor elmaradt
-        	loggedInRefresh();
-        }
-        
-        Log.i("proba","pusholashoz");
-        
-        jobsButton=(Button) findViewById(R.id.buttonJobs);
-        jobsButton.setOnClickListener(new OnClickListener() {
-			
+
+	@Override
+	public void onCreate(Bundle savedInstanceState) {
+		super.onCreate(savedInstanceState);
+		setContentView(R.layout.activity_main);
+		context = getApplicationContext();
+		sessionManager = new SessionManager(context);
+		isRefreshed = this.getIntent().getBooleanExtra("isRefreshed", false);
+
+		if (sessionManager.isLoggedIn() && !isRefreshed) {
+			// csinálunk egy frissítést mert a bejelentkezéskor elmaradt
+			loggedInRefresh();
+		}
+
+		if (NetworkUtil.checkInternetIsActive(this) == true) {
+			try {
+				GCMIntentService.unregister(getApplicationContext());
+				GCMIntentService.register(getApplicationContext());
+			} catch (Exception e) {
+				Log.e(RegisterActivity.class.getName(),
+						"Exception received when attempting to register for Google Cloud "
+								+ "Messaging. Perhaps you need to set your virtual device's "
+								+ " target to Google APIs? "
+								+ "See https://developers.google.com/eclipse/docs/cloud_endpoints_android"
+								+ " for more information.", e);
+			}
+		}
+
+		Log.i("proba", "pusholashoz");
+
+		jobsButton = (Button) findViewById(R.id.buttonJobs);
+		jobsButton.setOnClickListener(new OnClickListener() {
+
 			@Override
 			public void onClick(View v) {
 				// TODO Auto-generated method stub
-				Intent intent = new Intent(MainActivity.this, JobsActivity.class);
+				Intent intent = new Intent(MainActivity.this,
+						JobsActivity.class);
 				MainActivity.this.startActivity(intent);
 			}
 		});
-        
-        adminButton = (Button)findViewById(R.id.buttonAdmin);
-        adminButton.setOnClickListener(new OnClickListener() {
-			
+
+		adminButton = (Button) findViewById(R.id.buttonAdmin);
+		adminButton.setOnClickListener(new OnClickListener() {
+
 			@Override
 			public void onClick(View v) {
 				// TODO Auto-generated method stub
-				Intent intent = new Intent(MainActivity.this,AdminActivity.class);
+				Intent intent = new Intent(MainActivity.this,
+						AdminActivity.class);
 				MainActivity.this.startActivity(intent);
 			}
 		});
-        
-        mapButton = (Button)findViewById(R.id.buttonMap);
-        mapButton.setOnClickListener(new OnClickListener() {
-			
+
+		mapButton = (Button) findViewById(R.id.buttonMap);
+		mapButton.setOnClickListener(new OnClickListener() {
+
 			@Override
 			public void onClick(View v) {
 				// TODO Auto-generated method stub
 				Intent intent = new Intent(MainActivity.this, MapActivity.class);
-				MainActivity.this.startActivity(intent); 
-			}
-		});
-        
-        refreshButton = (Button)findViewById(R.id.buttonUpdate);
-        refreshButton.setOnClickListener(new OnClickListener() {
-			
-			@Override
-			public void onClick(View v) {			
-				// TODO Auto-generated method stub
-				Intent intent = new Intent(MainActivity.this,RefreshActivity.class);
 				MainActivity.this.startActivity(intent);
 			}
 		});
-        
-        
-        contactButton = (Button)findViewById(R.id.buttonContacts);
-        contactButton.setOnClickListener(new OnClickListener() {
-			
+
+		refreshButton = (Button) findViewById(R.id.buttonUpdate);
+		refreshButton.setOnClickListener(new OnClickListener() {
+
 			@Override
 			public void onClick(View v) {
 				// TODO Auto-generated method stub
-				Intent intent = new Intent(MainActivity.this,ContactActivity.class);
+				Intent intent = new Intent(MainActivity.this,
+						RefreshActivity.class);
 				MainActivity.this.startActivity(intent);
 			}
 		});
-        
-        carButton = (Button)findViewById(R.id.buttonCar);
-        carButton.setOnClickListener(new OnClickListener() {
-			
+
+		contactButton = (Button) findViewById(R.id.buttonContacts);
+		contactButton.setOnClickListener(new OnClickListener() {
+
 			@Override
 			public void onClick(View v) {
 				// TODO Auto-generated method stub
-				Intent intent = new Intent(MainActivity.this,CarActivity.class);
+				Intent intent = new Intent(MainActivity.this,
+						ContactActivity.class);
 				MainActivity.this.startActivity(intent);
 			}
 		});
-        
-    }
 
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.activity_main, menu);
-        return true;               
-    }
-    
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-    	// TODO Auto-generated method stub
-    	switch (item.getItemId()) {
-    	case R.id.menu_logout:
-    		sessionManager.logoutUser();
-    		break;
-    	}
-    	return super.onOptionsItemSelected(item);
-    }
-    
-    @Override
-    protected void onResume() {
-    	// TODO Auto-generated method stub
-    	//megnézzük, hogy be van e még jelentkezve a user, ha nincs akkor irány a bejelentkezés
-    	if(!sessionManager.isLoggedIn()) {
-    		sessionManager.logoutUser();
-    	}
-    	super.onResume();
-    }
-    
-    public void loggedInRefresh() {
-    	
-    	// Get a Session and init sofor Table
-    	helper = new DaoMaster.DevOpenHelper(this, "flotta-db", null);
-    	db = helper.getWritableDatabase();
-    	daoMaster = new DaoMaster(db);
-    	daoSession = daoMaster.newSession();
+		carButton = (Button) findViewById(R.id.buttonCar);
+		carButton.setOnClickListener(new OnClickListener() {
 
-    	soforDao = daoSession.getSoforDao();
-    	
-    	// If internet connection OK, drop sofor Table and get new table
-    	if (NetworkUtil.checkInternetIsActive(context) == true) {
+			@Override
+			public void onClick(View v) {
+				// TODO Auto-generated method stub
+				Intent intent = new Intent(MainActivity.this, CarActivity.class);
+				MainActivity.this.startActivity(intent);
+			}
+		});
+
+	}
+
+	@Override
+	public boolean onCreateOptionsMenu(Menu menu) {
+		getMenuInflater().inflate(R.menu.activity_main, menu);
+		return true;
+	}
+
+	@Override
+	public boolean onOptionsItemSelected(MenuItem item) {
+		// TODO Auto-generated method stub
+		switch (item.getItemId()) {
+			case R.id.menu_logout :
+				sessionManager.logoutUser();
+				break;
+		}
+		return super.onOptionsItemSelected(item);
+	}
+
+	@Override
+	protected void onResume() {
+		// TODO Auto-generated method stub
+		// megnézzük, hogy be van e még jelentkezve a user, ha nincs akkor irány
+		// a bejelentkezés
+		if (!sessionManager.isLoggedIn()) {
+			sessionManager.logoutUser();
+		}
+		super.onResume();
+	}
+
+	public void loggedInRefresh() {
+
+		// Get a Session and init sofor Table
+		helper = new DaoMaster.DevOpenHelper(this, "flotta-db", null);
+		db = helper.getWritableDatabase();
+		daoMaster = new DaoMaster(db);
+		daoSession = daoMaster.newSession();
+
+		soforDao = daoSession.getSoforDao();
+
+		// If internet connection OK, drop sofor Table and get new table
+		if (NetworkUtil.checkInternetIsActive(context) == true) {
 
 			new AsyncTask<Void, Void, Boolean>() {
 
@@ -209,20 +227,19 @@ public class MainActivity extends Activity {
 				@Override
 				protected void onPostExecute(Boolean result) {
 					// TODO Auto-generated method stub
-					
-					boolean check=checkLogin();
+
+					boolean check = checkLogin();
 
 					if (result && check) {
+						Toast.makeText(MainActivity.this, R.string.refreshed,
+								Toast.LENGTH_SHORT).show();
+					} else if ((result == false) && check) {
 						Toast.makeText(MainActivity.this,
-								R.string.refreshed, Toast.LENGTH_SHORT)
-								.show();							
-					}
-					else if ((result==false) && check)
-					{
-						Toast.makeText(MainActivity.this, R.string.errorRefresh, Toast.LENGTH_SHORT).show();
-					}
-					else {
-						Toast.makeText(MainActivity.this, R.string.invalidUser, Toast.LENGTH_SHORT).show();
+								R.string.errorRefresh, Toast.LENGTH_SHORT)
+								.show();
+					} else {
+						Toast.makeText(MainActivity.this, R.string.invalidUser,
+								Toast.LENGTH_SHORT).show();
 						sessionManager.logoutUser();
 					}
 				}
@@ -235,10 +252,10 @@ public class MainActivity extends Activity {
 
 			}.execute();
 		}
-    	
-    }
-    
-    public boolean saveSoforTable() {
+
+	}
+
+	public boolean saveSoforTable() {
 		JSONArray jsonArray;
 		JSONObject json;
 
@@ -254,26 +271,27 @@ public class MainActivity extends Activity {
 			// Eldobjuk a tablat es ujra letrehozzuk
 			soforDao.dropTable(soforDao.getDatabase(), true);
 			soforDao.createTable(soforDao.getDatabase(), true);
-			
-						
+
 			ArrayList<Sofor> soforok = JsonArrayToArrayList
 					.JsonArrayToSofor(jsonArray);
 
 			for (int i = 0; i < soforok.size(); i++) {
-				soforDao.insert(soforok.get(i));				
+				soforDao.insert(soforok.get(i));
 			}
 			return true;
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
-			
+
 			return false;
-		}		
+		}
 	}
-    
-    public boolean checkLogin() {
-    	String userLogin=sessionManager.getUserDetails().get(SessionManager.KEY_USER_LOGIN);
-    	String userPass=sessionManager.getUserDetails().get(SessionManager.KEY_USER_PASS);
+
+	public boolean checkLogin() {
+		String userLogin = sessionManager.getUserDetails().get(
+				SessionManager.KEY_USER_LOGIN);
+		String userPass = sessionManager.getUserDetails().get(
+				SessionManager.KEY_USER_PASS);
 
 		// Where-ben 2 feltetellel lekerdezes, a Properties az a
 		// SoforDao properties osztalya importalva
@@ -286,8 +304,8 @@ public class MainActivity extends Activity {
 
 		if (soforok.size() > 0) {
 			return true;
-		} 
-		
+		}
+
 		return false;
 
 	}
