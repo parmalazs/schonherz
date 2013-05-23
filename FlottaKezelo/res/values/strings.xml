@@ -41,5 +41,14 @@
     <string name="invalidUser">Nem létező felhasználó!</string>
     <string name="logout">Kijelentkezés</string>
     <string name="title_activity_alert">AlertActivity</string>
+    <string name="fuelLabel">Üzemanyag szint:</string>
+    <string name="munkaDateLabel">Dátum:</string>
+    <string name="munkaSaveButton">Munka felvétel</string>
+    <string name="munkaBeginLabel">Kezdés:</string>
+    <string name="munkaendLabel">Befejezés:</string>
+    <string name="munkaDatePickerButton">Kezdési idő beálíltása</string>
+    <string name="autoKilometerOra">Kilóméteróra:</string>
+    <string name="munkaKoltsegLabel">Költség:</string>
+    <string name="munkaBevetelLabel">Bevétel:</string>
 
 </resources>

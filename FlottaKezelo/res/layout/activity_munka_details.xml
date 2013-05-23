@@ -9,43 +9,6 @@
     tools:context=".MunkaDetailsActivity" >
 
     <TextView
-        android:id="@+id/textView1"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentTop="true"
-        android:layout_marginLeft="45dp"
-        android:layout_marginTop="58dp"
-        android:text="Munka Date:" />
-
-    <EditText
-        android:id="@+id/editTextComment"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignLeft="@+id/textView1"
-        android:layout_below="@+id/textView1"
-        android:layout_marginTop="38dp"
-        android:ems="10"
-        android:inputType="textMultiLine" />
-
-    <TextView
-        android:id="@+id/textViewMunkaDate"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_above="@+id/editTextComment"
-        android:layout_alignRight="@+id/editTextComment"
-        android:text="date" />
-
-    <TextView
-        android:id="@+id/textView3"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignLeft="@+id/editTextComment"
-        android:layout_below="@+id/editTextComment"
-        android:layout_marginTop="36dp"
-        android:text="Üzemanyag:" />
-
-    <TextView
         android:id="@+id/textViewUzemanyagState"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -59,8 +22,128 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
-        android:layout_marginBottom="42dp"
-        android:layout_toRightOf="@+id/textView1"
-        android:text="Mentés" />
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="22dp"
+        android:text="@string/munkaSaveButton" />
+
+    <TextView
+        android:id="@+id/textView3"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/buttonJobSave"
+        android:layout_alignLeft="@+id/editTextComment"
+        android:layout_marginBottom="32dp"
+        android:text="@string/fuelLabel" />
+
+    <TextView
+        android:id="@+id/textViewMunkaDate"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBaseline="@+id/textView1"
+        android:layout_alignBottom="@+id/textView1"
+        android:layout_alignLeft="@+id/editTextKoltseg"
+        android:layout_alignRight="@+id/buttonTime"
+        android:text="date" />
+
+    <TextView
+        android:id="@+id/textView1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_alignRight="@+id/textView2"
+        android:layout_marginTop="16dp"
+        android:text="@string/munkaDateLabel" />
+
+    <Button
+        android:id="@+id/buttonTime"
+        style="?android:attr/buttonStyleSmall"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/textView1"
+        android:layout_alignRight="@+id/editTextComment"
+        android:layout_below="@+id/textView1"
+        android:layout_marginTop="18dp"
+        android:text="@string/munkaDatePickerButton" />
+
+    <TextView
+        android:id="@+id/textView2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/editTextComment"
+        android:layout_below="@+id/buttonTime"
+        android:layout_marginTop="26dp"
+        android:text="@string/munkaBeginLabel" />
+
+    <TextView
+        android:id="@+id/textViewJobEnd"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBaseline="@+id/textViewEnd"
+        android:layout_alignBottom="@+id/textViewEnd"
+        android:layout_alignLeft="@+id/textViewJobBegin"
+        android:layout_alignRight="@+id/buttonTime"
+        android:text="0" />
+
+    <TextView
+        android:id="@+id/textViewJobBegin"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/textViewEnd"
+        android:layout_alignRight="@+id/buttonTime"
+        android:layout_toRightOf="@+id/textView3"
+        android:text="0" />
+
+    <TextView
+        android:id="@+id/textViewEnd"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/textView2"
+        android:layout_below="@+id/textView2"
+        android:text="@string/munkaendLabel" />
+
+    <EditText
+        android:id="@+id/editTextKoltseg"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignRight="@+id/textViewJobEnd"
+        android:layout_below="@+id/textViewJobEnd"
+        android:layout_toRightOf="@+id/textViewEnd"
+        android:ems="10" />
+
+    <TextView
+        android:id="@+id/textView5"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBottom="@+id/editTextKoltseg"
+        android:layout_alignLeft="@+id/textViewEnd"
+        android:text="@string/munkaKoltsegLabel" />
+
+    <EditText
+        android:id="@+id/EditTextBevetel"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/editTextKoltseg"
+        android:layout_alignRight="@+id/editTextKoltseg"
+        android:layout_alignTop="@+id/textView6"
+        android:ems="10" />
+
+
+    <EditText
+        android:id="@+id/editTextComment"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/EditTextBevetel"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="20dp"
+        android:ems="10"
+        android:inputType="textMultiLine" />
+
+    <TextView
+        android:id="@+id/textView6"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/textView5"
+        android:layout_centerVertical="true"
+        android:text="@string/munkaBevetelLabel" />
 
 </RelativeLayout>

@@ -55,13 +55,13 @@ public class JsonArrayToArrayList {
 				}
 				currSofor.setSoforEmail(soforJsonObj
 						.getString("soforProfilKepID"));
-				if (soforJsonObj.getString("soforProfilKepID") != null) {
+				if (!soforJsonObj.getString("soforProfilKepID").equals("null")) {
 					currSofor.setSoforProfilKepID(Long.parseLong(soforJsonObj
 							.getString("soforProfilKepID")));
 				}
 				else
 				{
-					currSofor.setSoforProfilKepID(null);
+					currSofor.setSoforProfilKepID(0L);
 				}
 
 				soforList.add(currSofor);
@@ -95,22 +95,22 @@ public class JsonArrayToArrayList {
 				currPartner.setPartnerTelefonszam(partnerJsonObj
 						.getString("partnerTelefonszam"));		
 				
-				if (partnerJsonObj.getString("partnerXkoordinata") != null) {
+				if (!partnerJsonObj.getString("partnerXkoordinata").equals("null")) {
 					currPartner.setPartnerXkoordinata(Float.parseFloat(partnerJsonObj
 							.getString("partnerXkoordinata")));
 				}
 				else
 				{
-					currPartner.setPartnerXkoordinata(null);
+					currPartner.setPartnerXkoordinata(0F);
 				}
 				
-				if (partnerJsonObj.getString("partnerYkoordinata") != null) {
+				if (!partnerJsonObj.getString("partnerYkoordinata").equals("null")) {
 					currPartner.setPartnerYkoodinata(Float.parseFloat(partnerJsonObj
 							.getString("partnerYkoordinata")));
 				}
 				else
 				{
-					currPartner.setPartnerYkoodinata(null);
+					currPartner.setPartnerYkoodinata(0F);
 				}
 				
 				currPartner.setPartnerWeboldal(partnerJsonObj
@@ -148,44 +148,44 @@ public class JsonArrayToArrayList {
 				else{
 					currAuto.setAutoFoglalt(false);
 				}
-				if (autoJsonObj.getString("autoXkoordinata") != null) {
+				if (!autoJsonObj.getString("autoXkoordinata").equals("null")) {
 					currAuto.setAutoXkoordinata(Float.parseFloat(autoJsonObj.getString("autoXkoordinata")));
 				}
 				else {
-					currAuto.setAutoXkoordinata(null);
+					currAuto.setAutoXkoordinata(0F);
 				}
-				if (autoJsonObj.getString("autoYkoordinata") != null) {
+				if (!autoJsonObj.getString("autoYkoordinata").equals("null")) {
 					currAuto.setAutoYkoordinata(Float.parseFloat(autoJsonObj.getString("autoYkoordinata")));
 				}
 				else {
-					currAuto.setAutoYkoordinata(null);
+					currAuto.setAutoYkoordinata(0F);
 				}
 				currAuto.setAutoNev(autoJsonObj.getString("autoNev"));
 				currAuto.setAutoTipus(autoJsonObj.getString("autoTipus"));
 				currAuto.setAutoRendszam(autoJsonObj.getString("autoRendszam"));
-				if(autoJsonObj.getString("autoProfilKepID")!=null) {
+				if(!autoJsonObj.getString("autoProfilKepID").equals("null")) {
 					currAuto.setAutoProfilKepID(Long.parseLong(autoJsonObj.getString("autoProfilKepID")));
 				}
 				else {
-					currAuto.setAutoProfilKepID(null);
+					currAuto.setAutoProfilKepID(0L);
 				}
 				currAuto.setAutoKilometerOra(Long.parseLong(autoJsonObj.getString("autoKilometerOra")));
 				currAuto.setAutoUzemanyag(Long.parseLong(autoJsonObj.getString("autoUzemAnyag")));
 				currAuto.setAutoMuszakiVizsgaDate(autoJsonObj.getString("autoMuszakiVizsgaDate"));
 				currAuto.setAutoLastSzervizDate(autoJsonObj.getString("autoLastSzervizDate"));
 				
-				if(autoJsonObj.getString("autoLastSoforID")!=null) {
+				if(!autoJsonObj.getString("autoLastSoforID").equals("null")) {
 					currAuto.setAutoLastSoforID(Long.parseLong(autoJsonObj.getString("autoLastSoforID")));
 				}
 				else {
-					currAuto.setAutoLastSoforID(null);
+					currAuto.setAutoLastSoforID(0L);
 				}
 				currAuto.setAutoLastUpDate(autoJsonObj.getString("autoLastUpDate"));
-				if(autoJsonObj.getString("autoLastTelephelyID")!=null) {
+				if(!autoJsonObj.getString("autoLastTelephelyID").equals("null")) {
 					currAuto.setAutoLastTelephelyID(Long.parseLong(autoJsonObj.getString("autoLastTelephelyID")));
 				}
 				else {
-					currAuto.setAutoLastTelephelyID(null);
+					currAuto.setAutoLastTelephelyID(0L);
 				}
 				
 				autoList.add(currAuto);
@@ -216,17 +216,17 @@ public class JsonArrayToArrayList {
 				currTelephely.setTelephelyNev(telephelyJsonObj.getString("telephelyNev"));
 				currTelephely.setTelephelyCim(telephelyJsonObj.getString("telephelyCim"));
 				currTelephely.setTelephelyTelefonszam(telephelyJsonObj.getString("telephelyTelefonszam"));
-				if(telephelyJsonObj.getString("telephelyXkoordinata")!=null) {
+				if(!telephelyJsonObj.getString("telephelyXkoordinata").equals("null")) {
 					currTelephely.setTelephelyXkoordinata(Float.parseFloat(telephelyJsonObj.getString("telephelyXkoordinata")));
 				}
 				else {
-					currTelephely.setTelephelyXkoordinata(null);
+					currTelephely.setTelephelyXkoordinata(0F);
 				}
-				if(telephelyJsonObj.getString("telephelyYkoordinata")!=null) {
+				if(!telephelyJsonObj.getString("telephelyYkoordinata").equals("null")) {
 					currTelephely.setTelephelyYkoordinata(Float.parseFloat(telephelyJsonObj.getString("telephelyYkoordinata")));
 				}
 				else {
-					currTelephely.setTelephelyYkoordinata(null);
+					currTelephely.setTelephelyYkoordinata(0F);
 				}
 				currTelephely.setTelephelyEmail(telephelyJsonObj.getString("telephelyEmail"));
 				
@@ -257,55 +257,61 @@ public class JsonArrayToArrayList {
 				// set properties from jsonobject
 				currMunka.setMunkaID(Long.parseLong(munkaJsonObj.getString("munkaID")));
 				currMunka.setMunkaDate(munkaJsonObj.getString("munkaDate"));
-				if(munkaJsonObj.get("munkaKoltseg")!=null){
+				if(!munkaJsonObj.getString("munkaKoltseg").equals("null")){
 					currMunka.setMunkaKoltseg(Long.parseLong(munkaJsonObj.getString("munkaKoltseg")));
 				}
 				else {
-					currMunka.setMunkaKoltseg(null);
+					currMunka.setMunkaKoltseg(0L);
 				}
-				if(munkaJsonObj.get("munkaBevetel")!=null){
+				if(!munkaJsonObj.getString("munkaBevetel").equals("null")){
 					currMunka.setMunkaBevetel(Long.parseLong(munkaJsonObj.getString("munkaBevetel")));
 				}
 				else {
-					currMunka.setMunkaBevetel(null);
+					currMunka.setMunkaBevetel(0L);
 				}
-				if(munkaJsonObj.get("munkaUzemanyagState")!=null){
+				if(!munkaJsonObj.getString("munkaUzemanyagState").equals("null")){
 					currMunka.setMunkaUzemanyagState(Long.parseLong(munkaJsonObj.getString("munkaUzemanyagState")));
 				}
 				else {
-					currMunka.setMunkaUzemanyagState(null);
+					currMunka.setMunkaUzemanyagState(0L);
 				}
 				currMunka.setMunkaComment(munkaJsonObj.getString("munkaComment"));
 				currMunka.setMunkaBefejezesDate(munkaJsonObj.getString("munkaBefejezesDate"));
-				if(munkaJsonObj.get("munkaIsActive").equals("1")) {
+				if(munkaJsonObj.getString("munkaIsActive").equals("1")) {
 					currMunka.setMunkaIsActive(true);
 				}
 				else {
 					currMunka.setMunkaIsActive(false);
 				}
-				if(munkaJsonObj.get("munkaEstimatedTime")!=null) {
+				if(!munkaJsonObj.getString("munkaEstimatedTime").equals("null")) {
 					currMunka.setMunkaEstimatedTime(Long.parseLong(munkaJsonObj.getString("munkaEstimatedTime")));
 				}
 				else {
-					currMunka.setMunkaEstimatedTime(null);
+					currMunka.setMunkaEstimatedTime(0L);
 				}
-				if(munkaJsonObj.get("munkatipusID")!=null) {
+				if(!munkaJsonObj.getString("soforID").equals("null")) {
+					currMunka.setSoforID(Long.parseLong(munkaJsonObj.getString("soforID")));
+				}
+				else {
+					currMunka.setSoforID(0L);
+				}
+				if(!munkaJsonObj.getString("munkatipusID").equals("null")) {
 					currMunka.setMunkaTipusID(Long.parseLong(munkaJsonObj.getString("munkatipusID")));
 				}
 				else {
-					currMunka.setMunkaTipusID(null);
+					currMunka.setMunkaTipusID(0L);
 				}
-				if(munkaJsonObj.get("telephelyID")!=null) {
+				if(!munkaJsonObj.getString("telephelyID").equals("null")) {
 					currMunka.setTelephelyID(Long.parseLong(munkaJsonObj.getString("telephelyID")));
 				}
 				else {
-					currMunka.setTelephelyID(null);
+					currMunka.setTelephelyID(0L);
 				}
-				if(munkaJsonObj.get("partnerID")!=null) {
+				if(!munkaJsonObj.getString("partnerID").equals("null")) {
 					currMunka.setPartnerID(Long.parseLong(munkaJsonObj.getString("partnerID")));
 				}
 				else {
-					currMunka.setPartnerID(null);
+					currMunka.setPartnerID(0L);
 				}				
 				
 				munkaList.add(currMunka);
@@ -334,11 +340,11 @@ public class JsonArrayToArrayList {
 				currAutoKep.setAutoKepID(Long.parseLong(autoKepJsonObj.getString("autoKepID")));
 				currAutoKep.setAutoKepPath(autoKepJsonObj.getString("autoKepPath"));
 				currAutoKep.setAutoKepDateTime(autoKepJsonObj.getString("autoKepDateTime"));
-				if(autoKepJsonObj.get("autoID")!=null){
+				if(!autoKepJsonObj.get("autoID").equals("null")){
 					currAutoKep.setAutoID(Long.parseLong(autoKepJsonObj.getString("autoID")));
 				}
 				else {
-					currAutoKep.setAutoID(null);
+					currAutoKep.setAutoID(0L);
 				}
 				autoKepList.add(currAutoKep);
 				
@@ -366,11 +372,11 @@ public class JsonArrayToArrayList {
 				currProfilKep.setProfilKepID(Long.parseLong(profilKepJsonObj.getString("profilKepID")));
 				currProfilKep.setProfilKepPath(profilKepJsonObj.getString("profilKepPath"));
 				currProfilKep.setProfilKepDateTime(profilKepJsonObj.getString("profilKepDateTime"));
-				if(profilKepJsonObj.getString("soforID")!=null) {
+				if(!profilKepJsonObj.getString("soforID").equals("null")) {
 					currProfilKep.setSoforID(Long.parseLong(profilKepJsonObj.getString("soforID")));
 				}
 				else {
-					currProfilKep.setSoforID(null);
+					currProfilKep.setSoforID(0L);
 				}
 				profilKepList.add(currProfilKep);
 				
@@ -419,17 +425,17 @@ public class JsonArrayToArrayList {
 				// set properties from jsonobject
 				currMunkaEszkoz.setMunkaEszkozID(Long.parseLong(munkaEszkozJsonObj.getString("munkaEszkozID")));
 				currMunkaEszkoz.setMunkaEszkozNev(munkaEszkozJsonObj.getString("munkaEszkozNev"));
-				if(munkaEszkozJsonObj.getString("munkaEszkozAr")!=null) {
+				if(!munkaEszkozJsonObj.getString("munkaEszkozAr").equals("null")) {
 					currMunkaEszkoz.setMunkaEszkozAr(Long.parseLong(munkaEszkozJsonObj.getString("munkaEszkozAr")));
 				}
 				else {
-					currMunkaEszkoz.setMunkaEszkozAr(null);
+					currMunkaEszkoz.setMunkaEszkozAr(0L);
 				}
-				if(munkaEszkozJsonObj.getString("munkaID")!=null) {
+				if(!munkaEszkozJsonObj.getString("munkaID").equals("null")) {
 					currMunkaEszkoz.setMunkaID(Long.parseLong(munkaEszkozJsonObj.getString("munkaID")));
 				}
 				else {
-					currMunkaEszkoz.setMunkaID(null);
+					currMunkaEszkoz.setMunkaID(0L);
 				}
 				munkaEszkozList.add(currMunkaEszkoz);
 				
@@ -453,11 +459,11 @@ public class JsonArrayToArrayList {
 				currMunkaKep.setMunkaKepID(Long.parseLong(munkaKepJsonObj.getString("munkaKepID")));
 				currMunkaKep.setMunkaKepPath(munkaKepJsonObj.getString("munkaKepPath"));
 				currMunkaKep.setMunkaKepDate(munkaKepJsonObj.getString("munkaKepDate"));
-				if(munkaKepJsonObj.getString("munkaID")!=null) {
+				if(!munkaKepJsonObj.getString("munkaID").equals("null")) {
 					currMunkaKep.setMunkaID(Long.parseLong(munkaKepJsonObj.getString("munkaID")));
 				}
 				else {
-					currMunkaKep.setMunkaID(null);
+					currMunkaKep.setMunkaID(0L);
 				}
 				
 				munkaKepList.add(currMunkaKep);
@@ -487,11 +493,11 @@ public class JsonArrayToArrayList {
 					currPartnerKep.setPartnerKepIsUploaded(false);
 				}
 				currPartnerKep.setPartnerKepDate(partnerKepJsonObj.getString("partnerKepDate"));
-				if(partnerKepJsonObj.getString("partnerID")!=null) {
+				if(!partnerKepJsonObj.getString("partnerID").equals("null")) {
 					currPartnerKep.setPartnerID(Long.parseLong(partnerKepJsonObj.getString("partnerID")));
 				}
 				else {
-					currPartnerKep.setPartnerID(null);
+					currPartnerKep.setPartnerID(0L);
 				}			
 				
 				

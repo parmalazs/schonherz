@@ -165,7 +165,7 @@ public class SajatMunkaListFragment extends Fragment {
 					long id) {
 				// TODO Auto-generated method stub
 				Intent intent=new Intent(getActivity(), MunkaDetailsActivity.class);
-				intent.putExtra("currentMunkaID", munkak.get(position).getMunkaID());
+				intent.putExtra("selectedMunkaID", munkak.get(position-1).getMunkaID());
 				startActivity(intent);
 				getActivity().overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
 			}
@@ -434,7 +434,13 @@ public class SajatMunkaListFragment extends Fragment {
 	@Override
 	public void onResume() {
 		// TODO Auto-generated method stub
+		adapter.clear();
+
+		munkak = new ArrayList<Munka>(
+				munkaDao.queryBuilder().where(Properties.SoforID.eq(sessionManager.getUserID().get(SessionManager.KEY_USER_ID))).list());
+		adapter.addAll(munkak);
 		adapter.notifyDataSetChanged();
+		
 		super.onResume();
 	}
 

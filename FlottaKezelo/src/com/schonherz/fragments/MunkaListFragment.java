@@ -160,7 +160,7 @@ public class MunkaListFragment extends Fragment {
 					long id) {
 				// TODO Auto-generated method stub
 				Intent intent=new Intent(getActivity(), MunkaDetailsActivity.class);
-				intent.putExtra("currentMunkaID", munkak.get(position).getMunkaID());
+				intent.putExtra("selectedMunkaID", munkak.get(position-1).getMunkaID());
 				startActivity(intent);
 				getActivity().overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
 			}
@@ -428,7 +428,13 @@ public class MunkaListFragment extends Fragment {
 	@Override
 	public void onResume() {
 		// TODO Auto-generated method stub
+		adapter.clear();
+
+		munkak = new ArrayList<Munka>(
+				munkaDao.loadAll());
+		adapter.addAll(munkak);
 		adapter.notifyDataSetChanged();
+		
 		super.onResume();
 	}
 

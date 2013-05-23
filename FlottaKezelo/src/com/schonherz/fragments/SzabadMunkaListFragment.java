@@ -12,6 +12,7 @@ import com.schonherz.classes.JsonFromUrl;
 import com.schonherz.classes.NetworkUtil;
 import com.schonherz.classes.PullToRefreshListView;
 import com.schonherz.classes.PullToRefreshListView.OnRefreshListener;
+import com.schonherz.classes.SessionManager;
 import com.schonherz.dbentities.Munka;
 import com.schonherz.dbentities.MunkaDao;
 import com.schonherz.dbentities.MunkaDao.Properties;
@@ -59,6 +60,8 @@ public class SzabadMunkaListFragment extends Fragment {
 	boolean estTimeAsc = true;
 	boolean munkaTypeAsc = true;
 	
+	SessionManager sessionManager;
+	
 	public SzabadMunkaListFragment(Context context, MunkaDao munkaDao) {
 		this.context = context;
 		this.munkaDao = munkaDao;
@@ -68,6 +71,8 @@ public class SzabadMunkaListFragment extends Fragment {
 	public void onCreate(Bundle savedInstanceState) {
 		// TODO Auto-generated method stub
 		setHasOptionsMenu(true);
+		
+		sessionManager=new SessionManager(context);
 		super.onCreate(savedInstanceState);
 
 	}
@@ -150,7 +155,9 @@ public class SzabadMunkaListFragment extends Fragment {
 		pullListView = (PullToRefreshListView) v
 				.findViewById(R.id.pulltorefresh_listview);
 
-		munkak = new ArrayList<Munka>(munkaDao.queryBuilder().where(Properties.MunkaIsActive.eq(true)).list());
+		munkak = new ArrayList<Munka>(munkaDao.queryBuilder().where
+				(Properties.MunkaIsActive.eq(true), 
+						Properties.SoforID.eq(0L)).list());
 		adapter = new MunkaAdapter(context, R.layout.list_item_munka, munkak,
 				munkaDao);
 		pullListView.setAdapter(adapter);
@@ -162,7 +169,7 @@ public class SzabadMunkaListFragment extends Fragment {
 					long id) {
 				// TODO Auto-generated method stub
 				Intent intent=new Intent(getActivity(), MunkaDetailsActivity.class);
-				intent.putExtra("currentMunkaID", munkak.get(position).getMunkaID());
+				intent.putExtra("selectedMunkaID", munkak.get(position).getMunkaID());
 				startActivity(intent);
 				getActivity().overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
 			}
@@ -208,7 +215,8 @@ public class SzabadMunkaListFragment extends Fragment {
 							adapter.clear();
 
 							munkak = new ArrayList<Munka>(
-									munkaDao.queryBuilder().where(Properties.MunkaIsActive.eq(true)).list());
+									munkaDao.queryBuilder().where(Properties.MunkaIsActive.eq(true), 
+											Properties.SoforID.eq(0L)).list());
 							adapter.addAll(munkak);
 							adapter.notifyDataSetChanged();
 							
@@ -259,7 +267,8 @@ public class SzabadMunkaListFragment extends Fragment {
 							public void onClick(DialogInterface dialog,
 									int which) {
 								// TODO Auto-generated method stub
-								QueryBuilder<Munka> q=munkaDao.queryBuilder().where(Properties.MunkaIsActive.eq(true));
+								QueryBuilder<Munka> q=munkaDao.queryBuilder().where(Properties.MunkaIsActive.eq(true), 
+										Properties.SoforID.eq(0L));
 								switch(which)
 								{
 									case 0:
@@ -395,7 +404,8 @@ public class SzabadMunkaListFragment extends Fragment {
 							adapter.clear();
 
 							munkak = new ArrayList<Munka>(
-									munkaDao.queryBuilder().where(Properties.MunkaIsActive.eq(true)).list());
+									munkaDao.queryBuilder().where(Properties.MunkaIsActive.eq(true), 
+											Properties.SoforID.eq(0L)).list());
 							adapter.addAll(munkak);
 							adapter.notifyDataSetChanged();
 							
@@ -431,7 +441,14 @@ public class SzabadMunkaListFragment extends Fragment {
 	@Override
 	public void onResume() {
 		// TODO Auto-generated method stub
+		adapter.clear();
+
+		munkak = new ArrayList<Munka>(
+				munkaDao.queryBuilder().where(Properties.MunkaIsActive.eq(true), 
+						Properties.SoforID.eq(0L)).list());
+		adapter.addAll(munkak);
 		adapter.notifyDataSetChanged();
+		
 		super.onResume();
 	}
 
