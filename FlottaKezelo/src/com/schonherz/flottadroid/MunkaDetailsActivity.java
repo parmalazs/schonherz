@@ -1,5 +1,7 @@
 package com.schonherz.flottadroid;
 
+import java.util.List;
+
 import com.schonherz.classes.SessionManager;
 import com.schonherz.dbentities.DaoMaster;
 import com.schonherz.dbentities.DaoSession;
@@ -14,7 +16,6 @@ import android.app.Dialog;
 import android.app.TimePickerDialog;
 import android.app.TimePickerDialog.OnTimeSetListener;
 import android.database.sqlite.SQLiteDatabase;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -23,7 +24,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.TimePicker;
-import android.support.v4.app.NavUtils;
+import android.widget.Toast;
 
 public class MunkaDetailsActivity extends Activity {
 	
@@ -82,6 +83,13 @@ public class MunkaDetailsActivity extends Activity {
 		munkaVegeTextView.setText(currentMunka.getMunkaBefejezesDate());
 		koltsegEditText.setText(currentMunka.getMunkaKoltseg().toString());
 		bevetelEditText.setText(currentMunka.getMunkaBevetel().toString());
+		
+		//itt beállítom a munka kezdési idejét, amit az elmentett befejezési idõ és a szükséges idõ különbségébõl számolok ki
+		if(!currentMunka.getMunkaBefejezesDate().toString().equals("null")) {
+			long kezdTmpHour=Long.parseLong(currentMunka.getMunkaBefejezesDate().substring(0, 2))-currentMunka.getMunkaEstimatedTime();
+			String kezdTmpMinute=currentMunka.getMunkaBefejezesDate().substring(3, 5);
+			munkaKezdTextView.setText(new StringBuilder().append(pad((int)kezdTmpHour)).append(":").append(kezdTmpMinute));
+		}
 		
 		
 		saveButton.setOnClickListener(new OnClickListener() {
@@ -186,16 +194,43 @@ public class MunkaDetailsActivity extends Activity {
 	
 	public void saveJob(){
 		
-		currentMunka.setMunkaBefejezesDate(munkaVegeTextView.getText().toString());
-		currentMunka.setMunkaKoltseg(Long.parseLong(koltsegEditText.getText().toString()));
-		currentMunka.setMunkaBevetel(Long.parseLong(bevetelEditText.getText().toString()));
-		currentMunka.setMunkaComment(commentEditText.getText().toString());		
-		currentMunka.setSoforID(sessionManager.getUserID().get(SessionManager.KEY_USER_ID));
-		
-		currentMunka.update();		
-		munkaDao.update(currentMunka);
-		
-		finish();
+		if(!checkUtkozes()) {
+			currentMunka.setMunkaBefejezesDate(munkaVegeTextView.getText().toString());
+			if (!koltsegEditText.getText().toString().isEmpty()){
+				currentMunka.setMunkaKoltseg(Long.parseLong(koltsegEditText.getText().toString()));
+			}
+			if (!bevetelEditText.getText().toString().isEmpty()) {
+				currentMunka.setMunkaBevetel(Long.parseLong(bevetelEditText.getText().toString()));
+			}
+			if (!commentEditText.getText().toString().isEmpty()) {
+				currentMunka.setMunkaComment(commentEditText.getText().toString());	
+			}
+			currentMunka.setSoforID(sessionManager.getUserID().get(SessionManager.KEY_USER_ID));
+				
+			munkaDao.update(currentMunka);
+			
+			finish();
+		}
+		else {
+			Toast.makeText(getApplicationContext(), R.string.munkaFelvetelUtkozes, Toast.LENGTH_LONG).show();
+		}
+	}
+	
+	public boolean checkUtkozes() {
+		List<Munka> sajatMunkak=munkaDao.queryBuilder().where(Properties.MunkaIsActive.eq(true), Properties.SoforID.eq(sessionManager.getUserID().get(SessionManager.KEY_USER_ID))).list();
+		if (sajatMunkak.size()==0) {
+			return false;
+		}
+		for (int i=0; i<sajatMunkak.size(); i++) {
+			if ((hour + currentMunka.getMunkaEstimatedTime().intValue() <=
+					Integer.parseInt(sajatMunkak.get(i).getMunkaBefejezesDate().substring(0,2))
+					-sajatMunkak.get(i).getMunkaEstimatedTime().intValue())
+					||
+					(hour >= Integer.parseInt(sajatMunkak.get(i).getMunkaBefejezesDate().substring(0,2)))) {
+				return false;
+			}
+		}
+		return true;
 	}
 
 }

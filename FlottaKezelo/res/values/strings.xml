@@ -50,5 +50,6 @@
     <string name="autoKilometerOra">Kilóméteróra:</string>
     <string name="munkaKoltsegLabel">Költség:</string>
     <string name="munkaBevetelLabel">Bevétel:</string>
+    <string name="munkaFelvetelUtkozes">A kiválasztott időpontban már van felvett munkája!</string>
 
 </resources>

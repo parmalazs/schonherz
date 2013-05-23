@@ -153,7 +153,7 @@ public class SajatMunkaListFragment extends Fragment {
 		pullListView = (PullToRefreshListView) v
 				.findViewById(R.id.pulltorefresh_listview);
 
-		munkak = new ArrayList<Munka>(munkaDao.queryBuilder().where(Properties.SoforID.eq(sessionManager.getUserID().get(SessionManager.KEY_USER_ID))).list());
+		munkak = new ArrayList<Munka>(munkaDao.queryBuilder().where(Properties.MunkaIsActive.eq(true), Properties.SoforID.eq(sessionManager.getUserID().get(SessionManager.KEY_USER_ID))).list());
 		adapter = new MunkaAdapter(context, R.layout.list_item_munka, munkak,
 				munkaDao);
 		pullListView.setAdapter(adapter);
@@ -211,7 +211,7 @@ public class SajatMunkaListFragment extends Fragment {
 							adapter.clear();
 
 							munkak = new ArrayList<Munka>(
-									munkaDao.queryBuilder().where(Properties.SoforID.eq(sessionManager.getUserID().get(SessionManager.KEY_USER_ID))).list());
+									munkaDao.queryBuilder().where(Properties.MunkaIsActive.eq(true), Properties.SoforID.eq(sessionManager.getUserID().get(SessionManager.KEY_USER_ID))).list());
 							adapter.addAll(munkak);
 							adapter.notifyDataSetChanged();
 							
@@ -262,7 +262,7 @@ public class SajatMunkaListFragment extends Fragment {
 							public void onClick(DialogInterface dialog,
 									int which) {
 								// TODO Auto-generated method stub
-								QueryBuilder<Munka> q=munkaDao.queryBuilder().where(Properties.SoforID.eq(sessionManager.getUserID().get(SessionManager.KEY_USER_ID)));
+								QueryBuilder<Munka> q=munkaDao.queryBuilder().where(Properties.MunkaIsActive.eq(true), Properties.SoforID.eq(sessionManager.getUserID().get(SessionManager.KEY_USER_ID)));
 								switch(which)
 								{
 									case 0:
@@ -398,7 +398,7 @@ public class SajatMunkaListFragment extends Fragment {
 							adapter.clear();
 
 							munkak = new ArrayList<Munka>(
-									munkaDao.queryBuilder().where(Properties.SoforID.eq(sessionManager.getUserID().get(SessionManager.KEY_USER_ID))).list());
+									munkaDao.queryBuilder().where(Properties.MunkaIsActive.eq(true), Properties.SoforID.eq(sessionManager.getUserID().get(SessionManager.KEY_USER_ID))).list());
 							adapter.addAll(munkak);
 							adapter.notifyDataSetChanged();
 							
@@ -437,7 +437,7 @@ public class SajatMunkaListFragment extends Fragment {
 		adapter.clear();
 
 		munkak = new ArrayList<Munka>(
-				munkaDao.queryBuilder().where(Properties.SoforID.eq(sessionManager.getUserID().get(SessionManager.KEY_USER_ID))).list());
+				munkaDao.queryBuilder().where(Properties.MunkaIsActive.eq(true), Properties.SoforID.eq(sessionManager.getUserID().get(SessionManager.KEY_USER_ID))).list());
 		adapter.addAll(munkak);
 		adapter.notifyDataSetChanged();
 		
