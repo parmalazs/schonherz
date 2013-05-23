@@ -118,7 +118,7 @@ public class JSONBuilder {
 		return ret;
 	}
 	
-	public JSONObject insertMunka(Munka a){// TESZTELVE MUNKACOMMENT ERTHETETLEN OKOKB�L NEM MEGY (t�bbi igen)
+	public JSONObject insertMunka(Munka a){// TESZTELVE +
 		
 		JSONObject ret = new JSONObject();
 		JSONObject object = new JSONObject();
@@ -151,11 +151,14 @@ public class JSONBuilder {
 		return ret;
 	}
 	
-	public JSONObject insertmunkaEszkoz(MunkaEszkoz m){ //KESZ
+	public JSONObject insertMunkaEszkoz(MunkaEszkoz m){ //HIÁNYZIK A MUNKAESZKOZ OSZTÁLYBÓL A munkaID  !!!!! FONTOS !!!!!!!!!
 		JSONObject ret = new JSONObject();
 		JSONObject object = new JSONObject();
 		try {
-			object.put("soforID", m.getMunkaEszkozAr());
+			object.put("munkaEszkozAr", m.getMunkaEszkozAr());
+			object.put("munkaEszkozId", m.getMunkaEszkozID());
+			object.put("munkaEszkozNev", m.getMunkaEszkozNev());
+			object.put("munkaID", m.getMunkaID());
 			
 		} catch (JSONException e1) {
 			// TODO Auto-generated catch block
@@ -163,7 +166,7 @@ public class JSONBuilder {
 		}
 		try {
 			ret.put("action","insert");
-			ret.put("tableName", "sofor");
+			ret.put("tableName", "munkaEszkoz");
 			ret.put("objects",object);
 		} catch (JSONException e) {
 			// TODO Auto-generated catch block
@@ -172,12 +175,12 @@ public class JSONBuilder {
 		return ret;
 	}
 	
-	public JSONObject insertMunkaKep(MunkaKep mk){ //TESZTELVE munkaKepPath nem j� szint�n �rthetetlen okokbol
+	public JSONObject insertMunkaKep(MunkaKep mk){ //TESZTELVE +
 		JSONObject ret = new JSONObject();
 		JSONObject object = new JSONObject();
 		try {
 			object.put("munkaKepId", mk.getMunkaKepID());
-			//object.put("munkaKepPath",mk.getMunkaKepPath());
+			object.put("munkaKepPath",mk.getMunkaKepPath());
 			object.put("munkaKepDate",mk.getMunkaKepDate());
 			object.put("munkaID",mk.getMunkaID());
 			
@@ -256,7 +259,7 @@ public class JSONBuilder {
 			object.put("partnerKepId", pk.getPartnerKepID());
 			object.put("partnerKepDate",pk.getPartnerKepDate());
 			object.put("partnerpartnerID",pk.getPartnerID());
-			object.put("partnerKepIsUpLoaded",pk.getPartnerKepIsUploaded());
+			//object.put("partnerKepIsUpLoaded",pk.getPartnerKep);
 			
 		} catch (JSONException e1) {
 			// TODO Auto-generated catch block
@@ -406,9 +409,10 @@ public class JSONBuilder {
 		}
 		Log.e("OBJECT: ",object.toString());
 		try {
-			ret.put("id","delete");
+			ret.put("action","delete");
 			ret.put("tableName", "munkaKep");
 			ret.put("objects",object);
+			Log.e("JSON: ",ret.toString());
 		} catch (JSONException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -451,7 +455,7 @@ public class JSONBuilder {
 		Log.e("OBJECT: ",object.toString());
 		try {
 			ret.put("action","delete");
-			ret.put("tableName", "");
+			ret.put("tableName", "partner");
 			ret.put("objects",object);
 		} catch (JSONException e) {
 			// TODO Auto-generated catch block
@@ -459,6 +463,25 @@ public class JSONBuilder {
 		}
 		return ret;
 		
+	}
+	
+	public JSONObject deleteProfilKep(ProfilKep prk) {
+		JSONObject ret = new JSONObject();
+		JSONObject object = new JSONObject();
+		try {
+			object.put("id", prk.getProfilKepID());
+		} catch (JSONException e1) {
+			e1.printStackTrace();
+		}
+		Log.e("OBJECT: ",object.toString());
+		try {
+			ret.put("action","delete");
+			ret.put("tableName", "profilKep");
+			ret.put("objects",object);
+		} catch (JSONException e) {
+			e.printStackTrace();
+		}
+		return ret;
 	}
 
 	public JSONObject deleteTelephely(Telephely t) {
@@ -505,54 +528,265 @@ public class JSONBuilder {
 	}
 
 	public JSONObject updateSofor(Sofor s) {
-		// TODO Auto-generated method stub
-		return null;
+		JSONObject ret = new JSONObject();
+		JSONObject object = new JSONObject();
+		try {
+			object.put("soforId", s.getSoforID());
+			object.put("soforNev", s.getSoforNev());
+			
+			object.put("soforCim", s.getSoforCim());
+			object.put("soforTelefonszam", s.getSoforTelefonszam());
+			object.put("soforLogin", s.getSoforLogin());
+			object.put("soforPass", s.getSoforPass());
+			object.put("soforBirthDate", s.getSoforBirthDate());
+			object.put("soforRegTime", s.getSoforRegTime());
+			if(s.getSoforIsAdmin()){
+				object.put("soforIsAdmin", "1"); 
+			}else{
+				object.put("soforIsAdmin", "0");
+			}
+			object.put("soforEmail", s.getSoforEmail());
+			object.put("soforProfilKepID", s.getSoforProfilKepID());
+			Log.e("SOFOR",object.toString());
+		} catch (JSONException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
+		try {
+			ret.put("action","update");
+			ret.put("tableName", "sofor");
+			ret.put("objects",object);
+		} catch (JSONException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return ret;
 	}
 
 	public JSONObject updateAuto(Auto a) {
-		// TODO Auto-generated method stub
-		return null;
+		JSONObject ret = new JSONObject();
+		JSONObject object = new JSONObject();
+		try {
+			object.put("autoId", a.getAutoID());
+			if(a.getAutoFoglalt()){
+				object.put("autoFoglalt", 1);
+			}else{
+				object.put("autoFoglalt", 0);
+			}
+			object.put("autoXkoordinata", a.getAutoXkoordinata());
+			object.put("autoYkoordinata", a.getAutoYkoordinata());
+			object.put("autoNev", a.getAutoNev());
+			object.put("autoTipus", a.getAutoTipus());
+			object.put("autoRendszam", a.getAutoRendszam());
+			object.put("autoProfilKepID", a.getAutoProfilKepID());
+			object.put("autoKilometerOra", a.getAutoKilometerOra());
+			object.put("autoUzemAnyag", a.getAutoUzemanyag());
+			object.put("autoMuszakiVizsgaDate", a.getAutoMuszakiVizsgaDate());
+			object.put("autoLastSzervizDate", a.getAutoLastSzervizDate());
+			object.put("autoLastSoforID", a.getAutoLastSoforID());
+			object.put("autoKilometerOra", a.getAutoKilometerOra());
+			object.put("autoLastUpdate", a.getAutoLastUpDate());
+			object.put("autoLastTelephelyID", a.getAutoLastTelephelyID());
+		} catch (JSONException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
+		try {
+			ret.put("action","update");
+			ret.put("tableName", "auto");
+			ret.put("objects",object);
+		} catch (JSONException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return ret;
 	}
 
 	public JSONObject updateAutoKep(AutoKep ak) {
-		// TODO Auto-generated method stub
-		return null;
+
+		JSONObject ret = new JSONObject();
+		JSONObject object = new JSONObject();
+		try {
+			object.put("autoKepId", ak.getAutoKepID());
+			object.put("autoKepPath", ak.getAutoKepPath());
+			object.put("autoKepDateTime", ak.getAutoKepDateTime());
+			object.put("autoID", ak.getAutoID());
+		} catch (JSONException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
+		try {
+			ret.put("action","update");
+			ret.put("tableName", "autoKep");
+			ret.put("objects",object);
+		} catch (JSONException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return ret;
 	}
 
 	public JSONObject updateMunka(Munka m) {
-		// TODO Auto-generated method stub
-		return null;
+
+		JSONObject ret = new JSONObject();
+		JSONObject object = new JSONObject();
+		try {
+			object.put("munkaId", m.getMunkaID());
+			object.put("munkaKoltseg", m.getMunkaKoltseg());
+			object.put("munkaBevetel", m.getMunkaBevetel());
+			object.put("munkaUzemAnyagState", m.getMunkaUzemanyagState());
+			object.put("munkaComment", m.getMunkaComment());
+			object.put("munkaBefejezesDate", m.getMunkaBefejezesDate());
+			object.put("munkaIsActive", m.getMunkaIsActive());
+			object.put("munkaEstimatedTime", m.getMunkaEstimatedTime());
+			object.put("munkaDate", m.getMunkaDate());
+			object.put("soforID", m.getSoforID());
+			object.put("partnerID", m.getPartnerID());
+			object.put("telephelyID", m.getTelephelyID());
+			object.put("munkaTipusID", m.getMunkaTipusID());
+		} catch (JSONException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
+		try {
+			ret.put("action","update");
+			ret.put("tableName", "munka");
+			ret.put("objects",object);
+		} catch (JSONException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return ret;
 	}
 
-	public JSONObject updateMunkaKep() {
-		// TODO Auto-generated method stub
-		return null;
-	}
+//	public JSONObject updateMunkaKep(MunkaKep mk) {
+//		JSONObject ret = new JSONObject();
+//		JSONObject object = new JSONObject();
+//		try {
+//			object.put("soforID", m.getMunkaEszkozAr());
+//			
+//		} catch (JSONException e1) {
+//			// TODO Auto-generated catch block
+//			e1.printStackTrace();
+//		}
+//		try {
+//			ret.put("action","update");
+//			ret.put("tableName", "sofor");
+//			ret.put("objects",object);
+//		} catch (JSONException e) {
+//			// TODO Auto-generated catch block
+//			e.printStackTrace();
+//		}
+//		return ret;
+//	}
 
 	public JSONObject updateMunkaKep(MunkaKep mk) {
-		// TODO Auto-generated method stub
-		return null;
+		JSONObject ret = new JSONObject();
+		JSONObject object = new JSONObject();
+		try {
+			object.put("munkaKepId", mk.getMunkaKepID());
+			object.put("munkaKepPath",mk.getMunkaKepPath());
+			object.put("munkaKepDate",mk.getMunkaKepDate());
+			object.put("munkaID",mk.getMunkaID());
+			
+		} catch (JSONException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
+		try {
+			ret.put("action","update");
+			ret.put("tableName", "munkaKep");
+			ret.put("objects",object);
+		} catch (JSONException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return ret;
 	}
 
-	public JSONObject updateMunkaTipus(Telephely t) {
-		// TODO Auto-generated method stub
-		return null;
-	}
 
 	public JSONObject updateMunkaTipus(MunkaTipus mt) {
-		// TODO Auto-generated method stub
-		return null;
+		JSONObject ret = new JSONObject();
+		JSONObject object = new JSONObject();
+		try {
+			object.put("munkaTipusId", mt.getMunkaTipusID());
+			object.put("munkaTipusNev",mt.getMunkaTipusNev());
+			
+		} catch (JSONException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+			Log.e("HIBA","az objectnel");
+		}
+		Log.e("OBJECT: ",object.toString());
+		try {
+			ret.put("action","update");
+			ret.put("tableName", "munkaTipus");
+			ret.put("objects",object);
+		} catch (JSONException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return ret;
 	}
 
 	public JSONObject updatePartner(Partner p) {
-		// TODO Auto-generated method stub
-		return null;
+		JSONObject ret = new JSONObject();
+		JSONObject object = new JSONObject();
+		try {
+			object.put("partnerId", p.getPartnerID());
+			object.put("partnerCim",p.getPartnerCim());
+			object.put("partnerEmailcim",p.getPartnerEmailcim());
+			object.put("partnerNev",p.getPartnerNev());
+			object.put("partnerTelefonszam",p.getPartnerTelefonszam());
+			object.put("partnerWeboldal",p.getPartnerWeboldal());
+			object.put("partnerXkoordinata",p.getPartnerXkoordinata());
+			object.put("partnerYkoordinata",p.getPartnerYkoodinata());
+			
+		} catch (JSONException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
+		Log.e("OBJECT: ",object.toString());
+		try {
+			ret.put("action","update");
+			ret.put("tableName", "partner");
+			ret.put("objects",object);
+		} catch (JSONException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return ret;
 	}
 
 	public JSONObject updateTelephely(Telephely t) {
-		// TODO Auto-generated method stub
-		return null;
+		JSONObject ret = new JSONObject();
+		JSONObject object = new JSONObject();
+		try {
+			object.put("telephelyCim", t.getTelephelyCim());
+			object.put("telephelyEmail",t.getTelephelyEmail());
+			object.put("telephelyId",t.getTelephelyID());
+			object.put("telephelyNev",t.getTelephelyNev());
+			object.put("telephelyTelefonszam",t.getTelephelyTelefonszam());
+			object.put("telephelyXkoordinata",t.getTelephelyXkoordinata());
+			object.put("telephelyYkoordinata",t.getTelephelyYkoordinata());
+			
+		} catch (JSONException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
+		Log.e("OBJECT: ",object.toString());
+		try {
+			ret.put("action","update");
+			ret.put("tableName", "telephely");
+			ret.put("objects",object);
+		} catch (JSONException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return ret;
 	}
+
+	
 	
 //	public JSONObject insert(Object o) throws JSONException{
 //		Field[] fields = o.getClass().getDeclaredFields();
