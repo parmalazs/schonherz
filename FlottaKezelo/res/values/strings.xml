@@ -51,5 +51,8 @@
     <string name="munkaKoltsegLabel">Költség:</string>
     <string name="munkaBevetelLabel">Bevétel:</string>
     <string name="munkaFelvetelUtkozes">A kiválasztott időpontban már van felvett munkája!</string>
-
+	<string name="lastSyncTime">Utolsó frissítés ideje:</string>
+	<string name="tasksToUpload">Szinkronizálandó feladatok</string>
+	<string name="picsToUpload">Feltöltendő képek</string>
+	<string name="picsUpload">Képek feltöltése</string>
 </resources>

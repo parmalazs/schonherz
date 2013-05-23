@@ -3,4 +3,48 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent" >
 
+    <TextView
+        android:id="@+id/taskwaitforTW"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/uploadImgBtn"
+        android:layout_centerVertical="true"
+        android:text="@string/tasksToUpload" />
+
+    <Button
+        android:id="@+id/uploadImgBtn"
+        android:layout_width="238dp"
+        android:layout_height="100dp"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="102dp"
+        android:text="@string/picsUpload" />
+
+    <TextView
+        android:id="@+id/imgwaitforTW"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/uploadImgBtn"
+        android:layout_alignParentBottom="true"
+        android:layout_marginBottom="62dp"
+        android:text="@string/picsToUpload" />
+
+    <TextView
+        android:id="@+id/lastsyncTimeTW"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/taskwaitforTW"
+        android:layout_alignParentTop="true"
+        android:layout_marginTop="25dp"
+        android:text="@string/lastSyncTime" />
+
+    <Button
+        android:id="@+id/syncButton"
+        android:layout_width="238dp"
+        android:layout_height="100dp"
+        android:layout_alignLeft="@+id/lastsyncTimeTW"
+        android:layout_below="@+id/lastsyncTimeTW"
+        android:layout_marginTop="25dp"
+        android:text="@string/refresh" />
+
 </RelativeLayout>
