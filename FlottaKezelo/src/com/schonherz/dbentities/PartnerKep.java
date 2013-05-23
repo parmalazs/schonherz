@@ -13,6 +13,7 @@ public class PartnerKep {
     private String partnerNev;
     private String partnerKepDate;
     private Boolean partnerKepIsUploaded;
+    private String partnerKepPath;
     private Long partnerID;
 
     /** Used to resolve relations */
@@ -32,11 +33,12 @@ public class PartnerKep {
         this.partnerKepID = partnerKepID;
     }
 
-    public PartnerKep(Long partnerKepID, String partnerNev, String partnerKepDate, Boolean partnerKepIsUploaded, Long partnerID) {
+    public PartnerKep(Long partnerKepID, String partnerNev, String partnerKepDate, Boolean partnerKepIsUploaded, String partnerKepPath, Long partnerID) {
         this.partnerKepID = partnerKepID;
         this.partnerNev = partnerNev;
         this.partnerKepDate = partnerKepDate;
         this.partnerKepIsUploaded = partnerKepIsUploaded;
+        this.partnerKepPath = partnerKepPath;
         this.partnerID = partnerID;
     }
 
@@ -76,6 +78,14 @@ public class PartnerKep {
 
     public void setPartnerKepIsUploaded(Boolean partnerKepIsUploaded) {
         this.partnerKepIsUploaded = partnerKepIsUploaded;
+    }
+
+    public String getPartnerKepPath() {
+        return partnerKepPath;
+    }
+
+    public void setPartnerKepPath(String partnerKepPath) {
+        this.partnerKepPath = partnerKepPath;
     }
 
     public Long getPartnerID() {

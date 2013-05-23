@@ -32,7 +32,8 @@ public class PartnerKepDao extends AbstractDao<PartnerKep, Long> {
         public final static Property PartnerNev = new Property(1, String.class, "partnerNev", false, "PARTNER_NEV");
         public final static Property PartnerKepDate = new Property(2, String.class, "partnerKepDate", false, "PARTNER_KEP_DATE");
         public final static Property PartnerKepIsUploaded = new Property(3, Boolean.class, "partnerKepIsUploaded", false, "PARTNER_KEP_IS_UPLOADED");
-        public final static Property PartnerID = new Property(4, Long.class, "partnerID", false, "PARTNER_ID");
+        public final static Property PartnerKepPath = new Property(4, String.class, "partnerKepPath", false, "PARTNER_KEP_PATH");
+        public final static Property PartnerID = new Property(5, Long.class, "partnerID", false, "PARTNER_ID");
     };
 
     private DaoSession daoSession;
@@ -56,7 +57,8 @@ public class PartnerKepDao extends AbstractDao<PartnerKep, Long> {
                 "'PARTNER_NEV' TEXT," + // 1: partnerNev
                 "'PARTNER_KEP_DATE' TEXT," + // 2: partnerKepDate
                 "'PARTNER_KEP_IS_UPLOADED' INTEGER," + // 3: partnerKepIsUploaded
-                "'PARTNER_ID' INTEGER);"); // 4: partnerID
+                "'PARTNER_KEP_PATH' TEXT," + // 4: partnerKepPath
+                "'PARTNER_ID' INTEGER);"); // 5: partnerID
     }
 
     /** Drops the underlying database table. */
@@ -90,9 +92,14 @@ public class PartnerKepDao extends AbstractDao<PartnerKep, Long> {
             stmt.bindLong(4, partnerKepIsUploaded ? 1l: 0l);
         }
  
+        String partnerKepPath = entity.getPartnerKepPath();
+        if (partnerKepPath != null) {
+            stmt.bindString(5, partnerKepPath);
+        }
+ 
         Long partnerID = entity.getPartnerID();
         if (partnerID != null) {
-            stmt.bindLong(5, partnerID);
+            stmt.bindLong(6, partnerID);
         }
     }
 
@@ -116,7 +123,8 @@ public class PartnerKepDao extends AbstractDao<PartnerKep, Long> {
             cursor.isNull(offset + 1) ? null : cursor.getString(offset + 1), // partnerNev
             cursor.isNull(offset + 2) ? null : cursor.getString(offset + 2), // partnerKepDate
             cursor.isNull(offset + 3) ? null : cursor.getShort(offset + 3) != 0, // partnerKepIsUploaded
-            cursor.isNull(offset + 4) ? null : cursor.getLong(offset + 4) // partnerID
+            cursor.isNull(offset + 4) ? null : cursor.getString(offset + 4), // partnerKepPath
+            cursor.isNull(offset + 5) ? null : cursor.getLong(offset + 5) // partnerID
         );
         return entity;
     }
@@ -128,7 +136,8 @@ public class PartnerKepDao extends AbstractDao<PartnerKep, Long> {
         entity.setPartnerNev(cursor.isNull(offset + 1) ? null : cursor.getString(offset + 1));
         entity.setPartnerKepDate(cursor.isNull(offset + 2) ? null : cursor.getString(offset + 2));
         entity.setPartnerKepIsUploaded(cursor.isNull(offset + 3) ? null : cursor.getShort(offset + 3) != 0);
-        entity.setPartnerID(cursor.isNull(offset + 4) ? null : cursor.getLong(offset + 4));
+        entity.setPartnerKepPath(cursor.isNull(offset + 4) ? null : cursor.getString(offset + 4));
+        entity.setPartnerID(cursor.isNull(offset + 5) ? null : cursor.getLong(offset + 5));
      }
     
     /** @inheritdoc */
