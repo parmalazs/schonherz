@@ -55,4 +55,5 @@
 	<string name="tasksToUpload">Szinkronizálandó feladatok</string>
 	<string name="picsToUpload">Feltöltendő képek</string>
 	<string name="picsUpload">Képek feltöltése</string>
+	<string name="munkaFelvetelNullTime">Kérem adja meg a kezdési időpontot!</string>
 </resources>

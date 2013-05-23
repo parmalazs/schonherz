@@ -195,21 +195,26 @@ public class MunkaDetailsActivity extends Activity {
 	public void saveJob(){
 		
 		if(!checkUtkozes()) {
-			currentMunka.setMunkaBefejezesDate(munkaVegeTextView.getText().toString());
-			if (!koltsegEditText.getText().toString().isEmpty()){
-				currentMunka.setMunkaKoltseg(Long.parseLong(koltsegEditText.getText().toString()));
-			}
-			if (!bevetelEditText.getText().toString().isEmpty()) {
-				currentMunka.setMunkaBevetel(Long.parseLong(bevetelEditText.getText().toString()));
-			}
-			if (!commentEditText.getText().toString().isEmpty()) {
-				currentMunka.setMunkaComment(commentEditText.getText().toString());	
-			}
-			currentMunka.setSoforID(sessionManager.getUserID().get(SessionManager.KEY_USER_ID));
+			if(!munkaVegeTextView.getText().equals("null")) {
+				currentMunka.setMunkaBefejezesDate(munkaVegeTextView.getText().toString());
+				if (!koltsegEditText.getText().toString().isEmpty()){
+					currentMunka.setMunkaKoltseg(Long.parseLong(koltsegEditText.getText().toString()));
+				}
+				if (!bevetelEditText.getText().toString().isEmpty()) {
+					currentMunka.setMunkaBevetel(Long.parseLong(bevetelEditText.getText().toString()));
+				}
+				if (!commentEditText.getText().toString().isEmpty()) {
+					currentMunka.setMunkaComment(commentEditText.getText().toString());	
+				}
+				currentMunka.setSoforID(sessionManager.getUserID().get(SessionManager.KEY_USER_ID));
+					
+				munkaDao.update(currentMunka);
 				
-			munkaDao.update(currentMunka);
-			
-			finish();
+				finish();
+			}
+			else {
+				Toast.makeText(getApplicationContext(), R.string.munkaFelvetelNullTime, Toast.LENGTH_LONG).show();
+			}
 		}
 		else {
 			Toast.makeText(getApplicationContext(), R.string.munkaFelvetelUtkozes, Toast.LENGTH_LONG).show();
