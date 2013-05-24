@@ -155,8 +155,15 @@
             android:launchMode="singleTop" />
         <activity
             android:name="com.schonherz.flottadroid.AlertActivity"
-            android:label="@string/title_activity_alert" 
-            android:theme="@style/Theme.Transparent">
+            android:label="@string/title_activity_alert"
+            android:theme="@style/Theme.Transparent" >
+        </activity>
+        <activity
+            android:name="com.schonherz.flottadroid.NewJobActivity"
+            android:label="@string/title_activity_new_job" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.schonherz.flottadroid.AdminActivity" />
         </activity>
     </application>
 

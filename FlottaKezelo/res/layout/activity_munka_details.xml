@@ -9,21 +9,11 @@
     tools:context=".MunkaDetailsActivity" >
 
     <TextView
-        android:id="@+id/textViewUzemanyagState"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignBaseline="@+id/textView3"
-        android:layout_alignBottom="@+id/textView3"
-        android:layout_alignRight="@+id/editTextComment"
-        android:text="state" />
-
-    <TextView
         android:id="@+id/textViewMunkaDate"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignBaseline="@+id/textView1"
         android:layout_alignBottom="@+id/textView1"
-        android:layout_alignLeft="@+id/editTextKoltseg"
         android:layout_alignRight="@+id/buttonTime"
         android:text="date" />
 
@@ -83,51 +73,6 @@
         android:layout_below="@+id/textView2"
         android:text="@string/munkaendLabel" />
 
-    <EditText
-        android:id="@+id/editTextKoltseg"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignRight="@+id/textViewJobEnd"
-        android:layout_below="@+id/textViewJobEnd"
-        android:layout_toRightOf="@+id/textViewEnd"
-        android:ems="10" />
-
-    <TextView
-        android:id="@+id/textView5"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignBottom="@+id/editTextKoltseg"
-        android:layout_alignLeft="@+id/textViewEnd"
-        android:text="@string/munkaKoltsegLabel" />
-
-    <EditText
-        android:id="@+id/EditTextBevetel"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignLeft="@+id/editTextKoltseg"
-        android:layout_alignRight="@+id/editTextKoltseg"
-        android:layout_alignTop="@+id/textView6"
-        android:ems="10" />
-
-
-    <EditText
-        android:id="@+id/editTextComment"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/EditTextBevetel"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="20dp"
-        android:ems="10"
-        android:inputType="textMultiLine" />
-
-    <TextView
-        android:id="@+id/textView6"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignLeft="@+id/textView5"
-        android:layout_centerVertical="true"
-        android:text="@string/munkaBevetelLabel" />
-
     <Button
         android:id="@+id/buttonJobSave"
         android:layout_width="wrap_content"
@@ -145,13 +90,27 @@
         android:layout_toRightOf="@+id/buttonImage"
         android:text="Véglegesít" />
 
-    <TextView
-        android:id="@+id/textView3"
+    <EditText
+        android:id="@+id/editTextBevetel"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignLeft="@+id/buttonImage"
-        android:layout_below="@+id/editTextComment"
-        android:text="@string/fuelLabel" />
+        android:layout_alignBaseline="@+id/textView6"
+        android:layout_alignBottom="@+id/textView6"
+        android:layout_alignRight="@+id/editTextComment"
+        android:layout_toRightOf="@+id/textViewEnd"
+        android:ems="10"
+        android:inputType="number" />
+
+    <EditText
+        android:id="@+id/editTextKoltseg"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBaseline="@+id/textView5"
+        android:layout_alignBottom="@+id/textView5"
+        android:layout_alignLeft="@+id/editTextBevetel"
+        android:layout_alignRight="@+id/checkBoxConfirm"
+        android:ems="10"
+        android:inputType="number" />
 
     <Button
         android:id="@+id/buttonImage"
@@ -159,8 +118,55 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_above="@+id/buttonJobSave"
-        android:layout_alignLeft="@+id/buttonTime"
-        android:layout_marginBottom="14dp"
+        android:layout_alignLeft="@+id/editTextComment"
+        android:layout_marginBottom="28dp"
         android:text="Kép készítés" />
+
+    <TextView
+        android:id="@+id/textView6"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/textViewEnd"
+        android:layout_below="@+id/textViewEnd"
+        android:layout_marginTop="27dp"
+        android:text="@string/munkaBevetelLabel" />
+
+    <TextView
+        android:id="@+id/textView5"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/textView6"
+        android:layout_centerVertical="true"
+        android:text="@string/munkaKoltsegLabel" />
+
+    <EditText
+        android:id="@+id/editTextComment"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/editTextKoltseg"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="15dp"
+        android:ems="10"
+        android:inputType="textMultiLine" >
+
+        <requestFocus />
+    </EditText>
+
+    <TextView
+        android:id="@+id/textViewUzemanyagState"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBaseline="@+id/textView3"
+        android:layout_alignBottom="@+id/textView3"
+        android:layout_toRightOf="@+id/buttonJobSave"
+        android:text="state" />
+
+    <TextView
+        android:id="@+id/textView3"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/editTextComment"
+        android:layout_below="@+id/editTextComment"
+        android:text="@string/fuelLabel" />
 
 </RelativeLayout>

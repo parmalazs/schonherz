@@ -5,6 +5,7 @@ import android.app.ActionBar.Tab;
 import android.app.FragmentTransaction;
 import android.app.SearchManager;
 import android.content.Context;
+import android.content.Intent;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -182,6 +183,11 @@ public class AdminActivity extends FragmentActivity
 				//
 				NavUtils.navigateUpFromSameTask(this);
 				return true;
+				
+			case R.id.new_job:
+				Intent intent=new Intent(AdminActivity.this, NewJobActivity.class);
+				startActivity(intent);
+				break;
 		}
 		return super.onOptionsItemSelected(item);
 	}

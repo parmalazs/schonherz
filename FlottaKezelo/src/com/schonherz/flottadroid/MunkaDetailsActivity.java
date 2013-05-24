@@ -53,7 +53,6 @@ public class MunkaDetailsActivity extends Activity {
 	static final int TIME_DIALOG_ID = 999;
 	private int hour;
 	private int minute;
-	private boolean result;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -61,7 +60,6 @@ public class MunkaDetailsActivity extends Activity {
 		setContentView(R.layout.activity_munka_details);
 		// Show the Up button in the action bar.
 		setupActionBar();
-		result=false;
 		
 		dataBaseInit();
 		
@@ -80,7 +78,7 @@ public class MunkaDetailsActivity extends Activity {
 		munkaKezdTextView=(TextView)findViewById(R.id.textViewJobBegin);
 		munkaVegeTextView=(TextView)findViewById(R.id.textViewJobEnd);
 		koltsegEditText=(EditText)findViewById(R.id.editTextKoltseg);
-		bevetelEditText=(EditText)findViewById(R.id.EditTextBevetel);
+		bevetelEditText=(EditText)findViewById(R.id.editTextBevetel);
 		confirmCheckBox=(CheckBox)findViewById(R.id.checkBoxConfirm);
 		imageCreate=(Button)findViewById(R.id.buttonImage);
 		
