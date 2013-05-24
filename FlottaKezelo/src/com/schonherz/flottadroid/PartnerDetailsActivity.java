@@ -150,9 +150,18 @@ public class PartnerDetailsActivity extends Activity {
 			// http://developer.android.com/design/patterns/navigation.html#up-vs-back
 			//
 			finish();
+			this.overridePendingTransition(R.anim.slide_out_right, R.anim.slide_in_left); 
 			return true;
 		}
 		return super.onOptionsItemSelected(item);
 	}
-
+	
+	@Override
+	public void onBackPressed() {
+		// TODO Auto-generated method stub
+		super.onBackPressed();
+		finish();
+		this.overridePendingTransition(R.anim.slide_out_right, R.anim.slide_in_left); 
+	}
+	
 }

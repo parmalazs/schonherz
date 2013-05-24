@@ -215,6 +215,7 @@ public class NewJobActivity extends Activity {
 		
 		munkaDao.insert(ujMunka);
 		finish();
+		this.overridePendingTransition(R.anim.slide_out_right, R.anim.slide_in_left); 
 	}
 
 	/**
@@ -244,7 +245,8 @@ public class NewJobActivity extends Activity {
 			//
 			// http://developer.android.com/design/patterns/navigation.html#up-vs-back
 			//
-			NavUtils.navigateUpFromSameTask(this);
+			finish();
+			this.overridePendingTransition(R.anim.slide_out_right, R.anim.slide_in_left); 
 			return true;
 		}
 		return super.onOptionsItemSelected(item);
