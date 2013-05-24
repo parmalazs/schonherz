@@ -169,7 +169,7 @@ public class SzabadMunkaListFragment extends Fragment {
 					long id) {
 				// TODO Auto-generated method stub
 				Intent intent=new Intent(getActivity(), MunkaDetailsActivity.class);
-				intent.putExtra("selectedMunkaID", munkak.get(position).getMunkaID());
+				intent.putExtra("selectedMunkaID", munkak.get(position-1).getMunkaID());
 				startActivity(intent);
 				getActivity().overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
 			}

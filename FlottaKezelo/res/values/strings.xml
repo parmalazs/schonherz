@@ -58,5 +58,6 @@
     <string name="munkaFelvetelNullTime">Kérem adja meg a kezdési időpontot!</string>
     <string name="title_activity_new_job">Új munka</string>
     <string name="newJobNoEstimatedTime">Kérem adjon meg becsült időt!</string>
+    <string name="title_activity_sofor_details">SoforDetailsActivity</string>
 
 </resources>

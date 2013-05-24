@@ -13,6 +13,7 @@ import android.app.AlertDialog;
 import android.app.SearchManager;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.content.DialogInterface.OnClickListener;
 import android.media.Ringtone;
 import android.media.RingtoneManager;
@@ -28,6 +29,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
+import android.widget.AdapterView;
+import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ImageView;
 import android.widget.SearchView;
 import android.widget.SearchView.OnQueryTextListener;
@@ -41,7 +44,9 @@ import com.schonherz.classes.PullToRefreshListView;
 import com.schonherz.classes.PullToRefreshListView.OnRefreshListener;
 import com.schonherz.dbentities.Sofor;
 import com.schonherz.dbentities.SoforDao;
+import com.schonherz.flottadroid.MunkaDetailsActivity;
 import com.schonherz.flottadroid.R;
+import com.schonherz.flottadroid.SoforDetailsActivity;
 
 public class SoforListFragment extends Fragment {
 
@@ -150,6 +155,19 @@ public class SoforListFragment extends Fragment {
 				soforDao);
 
 		pullListView.setAdapter(adapter);
+		
+		pullListView.setOnItemClickListener(new OnItemClickListener() {
+
+			@Override
+			public void onItemClick(AdapterView<?> arg0, View arg1, int position,
+					long arg3) {
+				// TODO Auto-generated method stub
+				Intent intent=new Intent(getActivity(), SoforDetailsActivity.class);
+				intent.putExtra("selectedSoforID", soforok.get(position-1).getSoforID());
+				startActivity(intent);
+				getActivity().overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
+			}
+		});
 
 		pullListView.setOnRefreshListener(new OnRefreshListener() {
 
@@ -190,7 +208,7 @@ public class SoforListFragment extends Fragment {
 							pullListView.onRefreshComplete();
 							adapter.clear();
 
-							ArrayList<Sofor> soforok = new ArrayList<Sofor>(
+							soforok = new ArrayList<Sofor>(
 									soforDao.loadAll());
 							adapter.addAll(soforok);
 							adapter.notifyDataSetChanged();
@@ -324,7 +342,7 @@ public class SoforListFragment extends Fragment {
 
 							adapter.clear();
 
-							ArrayList<Sofor> soforok = new ArrayList<Sofor>(
+							soforok = new ArrayList<Sofor>(
 									soforDao.loadAll());
 							adapter.addAll(soforok);
 							adapter.notifyDataSetChanged();
@@ -362,8 +380,13 @@ public class SoforListFragment extends Fragment {
 	@Override
 	public void onResume() {
 		// TODO Auto-generated method stub
+		adapter.clear();
 
+		soforok = new ArrayList<Sofor>(
+				soforDao.loadAll());
+		adapter.addAll(soforok);
 		adapter.notifyDataSetChanged();
+		
 		super.onResume();
 
 	}

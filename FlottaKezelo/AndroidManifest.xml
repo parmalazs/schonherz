@@ -165,6 +165,13 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.schonherz.flottadroid.AdminActivity" />
         </activity>
+        <activity
+            android:name="com.schonherz.flottadroid.SoforDetailsActivity"
+            android:label="@string/title_activity_sofor_details" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.schonherz.flottadroid.AdminActivity" />
+        </activity>
     </application>
 
 </manifest>
