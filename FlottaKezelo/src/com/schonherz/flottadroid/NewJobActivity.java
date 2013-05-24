@@ -137,10 +137,7 @@ public class NewJobActivity extends Activity {
 			}
 		});
 				
-		dateTextView.setText(new StringBuilder()
-		// Month is 0 based, just add 1
-		.append(year).append(".").append(month+1).append(".")
-		.append(day).append("."));
+		dateTextView.setText("null");
 		
 		saveButton.setOnClickListener(new OnClickListener() {
 			

@@ -13,6 +13,7 @@ import android.app.AlertDialog;
 import android.app.SearchManager;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.media.Ringtone;
 import android.media.RingtoneManager;
 import android.net.Uri;
@@ -27,6 +28,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
+import android.widget.AdapterView;
+import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ImageView;
 import android.widget.SearchView;
 import android.widget.SearchView.OnQueryTextListener;
@@ -40,6 +43,7 @@ import com.schonherz.classes.PullToRefreshListView;
 import com.schonherz.classes.PullToRefreshListView.OnRefreshListener;
 import com.schonherz.dbentities.Partner;
 import com.schonherz.dbentities.PartnerDao;
+import com.schonherz.flottadroid.PartnerDetailsActivity;
 import com.schonherz.flottadroid.R;
 
 public class PartnerListFragment extends Fragment {
@@ -146,6 +150,20 @@ public class PartnerListFragment extends Fragment {
 		partnerek =new ArrayList<Partner>(partnerDao.loadAll());
 		adapter=new PartnerAdapter(context, R.layout.list_item_partner, partnerek, partnerDao);
 		pullListView.setAdapter(adapter);
+		
+		pullListView.setOnItemClickListener(new OnItemClickListener() {
+
+			@Override
+			public void onItemClick(AdapterView<?> arg0, View arg1, int position,
+					long arg3) {
+				// TODO Auto-generated method stub
+				Intent intent=new Intent(getActivity(), PartnerDetailsActivity.class);
+				intent.putExtra("selectedPartnerID", partnerek.get(position-1).getPartnerID());
+				startActivity(intent);
+				getActivity().overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
+			}
+		});
+		
 		pullListView.setOnRefreshListener(new OnRefreshListener() {
 			
 			@Override
@@ -183,7 +201,7 @@ public class PartnerListFragment extends Fragment {
 							
 							pullListView.onRefreshComplete();
 							adapter.clear();
-							ArrayList<Partner> partnerek=new ArrayList<Partner>(partnerDao.loadAll());
+							partnerek=new ArrayList<Partner>(partnerDao.loadAll());
 							adapter.addAll(partnerek);
 							adapter.notifyDataSetChanged();
 							
@@ -304,7 +322,7 @@ public class PartnerListFragment extends Fragment {
 							}
 														
 							adapter.clear();
-							ArrayList<Partner> partnerek=new ArrayList<Partner>(partnerDao.loadAll());
+							partnerek=new ArrayList<Partner>(partnerDao.loadAll());
 							adapter.addAll(partnerek);
 							adapter.notifyDataSetChanged();
 							
@@ -339,6 +357,9 @@ public class PartnerListFragment extends Fragment {
 	@Override
 	public void onResume() {
 		// TODO Auto-generated method stub
+		adapter.clear();
+		partnerek=new ArrayList<Partner>(partnerDao.loadAll());
+		adapter.addAll(partnerek);
 		adapter.notifyDataSetChanged();
 		super.onResume();
 	}
