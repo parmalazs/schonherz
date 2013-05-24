@@ -1,6 +1,5 @@
 package com.schonherz.flottadroid;
 
-import java.util.Currency;
 
 import com.schonherz.dbentities.DaoMaster;
 import com.schonherz.dbentities.DaoSession;
@@ -18,7 +17,6 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.EditText;
-import android.support.v4.app.NavUtils;
 
 public class SoforDetailsActivity extends Activity {
 	
@@ -135,7 +133,7 @@ public class SoforDetailsActivity extends Activity {
 			//
 			// http://developer.android.com/design/patterns/navigation.html#up-vs-back
 			//
-			NavUtils.navigateUpFromSameTask(this);
+			finish();
 			return true;
 		}
 		return super.onOptionsItemSelected(item);
