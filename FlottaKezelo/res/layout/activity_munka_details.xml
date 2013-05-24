@@ -17,24 +17,6 @@
         android:layout_alignRight="@+id/editTextComment"
         android:text="state" />
 
-    <Button
-        android:id="@+id/buttonJobSave"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:layout_centerHorizontal="true"
-        android:layout_marginBottom="22dp"
-        android:text="@string/munkaSaveButton" />
-
-    <TextView
-        android:id="@+id/textView3"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_above="@+id/buttonJobSave"
-        android:layout_alignLeft="@+id/editTextComment"
-        android:layout_marginBottom="32dp"
-        android:text="@string/fuelLabel" />
-
     <TextView
         android:id="@+id/textViewMunkaDate"
         android:layout_width="wrap_content"
@@ -145,5 +127,40 @@
         android:layout_alignLeft="@+id/textView5"
         android:layout_centerVertical="true"
         android:text="@string/munkaBevetelLabel" />
+
+    <Button
+        android:id="@+id/buttonJobSave"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:text="@string/munkaSaveButton" />
+
+    <CheckBox
+        android:id="@+id/checkBoxConfirm"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBaseline="@+id/buttonImage"
+        android:layout_alignBottom="@+id/buttonImage"
+        android:layout_toRightOf="@+id/buttonImage"
+        android:text="Véglegesít" />
+
+    <TextView
+        android:id="@+id/textView3"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/buttonImage"
+        android:layout_below="@+id/editTextComment"
+        android:text="@string/fuelLabel" />
+
+    <Button
+        android:id="@+id/buttonImage"
+        style="?android:attr/buttonStyleSmall"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/buttonJobSave"
+        android:layout_alignLeft="@+id/buttonTime"
+        android:layout_marginBottom="14dp"
+        android:text="Kép készítés" />
 
 </RelativeLayout>

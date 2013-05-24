@@ -21,6 +21,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
+import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.TimePicker;
@@ -46,10 +47,13 @@ public class MunkaDetailsActivity extends Activity {
 	TextView munkaVegeTextView;
 	EditText koltsegEditText;
 	EditText bevetelEditText;
+	CheckBox confirmCheckBox;
+	Button imageCreate;
 	
 	static final int TIME_DIALOG_ID = 999;
 	private int hour;
 	private int minute;
+	private boolean result;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -57,6 +61,7 @@ public class MunkaDetailsActivity extends Activity {
 		setContentView(R.layout.activity_munka_details);
 		// Show the Up button in the action bar.
 		setupActionBar();
+		result=false;
 		
 		dataBaseInit();
 		
@@ -76,6 +81,8 @@ public class MunkaDetailsActivity extends Activity {
 		munkaVegeTextView=(TextView)findViewById(R.id.textViewJobEnd);
 		koltsegEditText=(EditText)findViewById(R.id.editTextKoltseg);
 		bevetelEditText=(EditText)findViewById(R.id.EditTextBevetel);
+		confirmCheckBox=(CheckBox)findViewById(R.id.checkBoxConfirm);
+		imageCreate=(Button)findViewById(R.id.buttonImage);
 		
 		dateTextView.setText(currentMunka.getMunkaDate());
 		commentEditText.setText(currentMunka.getMunkaComment());
@@ -196,21 +203,13 @@ public class MunkaDetailsActivity extends Activity {
 		
 		if(!checkUtkozes()) {
 			if(!munkaVegeTextView.getText().equals("null")) {
-				currentMunka.setMunkaBefejezesDate(munkaVegeTextView.getText().toString());
-				if (!koltsegEditText.getText().toString().isEmpty()){
-					currentMunka.setMunkaKoltseg(Long.parseLong(koltsegEditText.getText().toString()));
+				if(confirmCheckBox.isChecked()){
+					//ide még kéne egy alert dialog, de valamiért mindig megjelenik és bezáródik...
+					currentMunka.setMunkaIsActive(false);
+					confirmedSaveJob();
 				}
-				if (!bevetelEditText.getText().toString().isEmpty()) {
-					currentMunka.setMunkaBevetel(Long.parseLong(bevetelEditText.getText().toString()));
-				}
-				if (!commentEditText.getText().toString().isEmpty()) {
-					currentMunka.setMunkaComment(commentEditText.getText().toString());	
-				}
-				currentMunka.setSoforID(sessionManager.getUserID().get(SessionManager.KEY_USER_ID));
-					
-				munkaDao.update(currentMunka);
 				
-				finish();
+				confirmedSaveJob();
 			}
 			else {
 				Toast.makeText(getApplicationContext(), R.string.munkaFelvetelNullTime, Toast.LENGTH_LONG).show();
@@ -219,6 +218,24 @@ public class MunkaDetailsActivity extends Activity {
 		else {
 			Toast.makeText(getApplicationContext(), R.string.munkaFelvetelUtkozes, Toast.LENGTH_LONG).show();
 		}
+	}
+	
+	public void confirmedSaveJob() {
+		currentMunka.setMunkaBefejezesDate(munkaVegeTextView.getText().toString());
+		if (!koltsegEditText.getText().toString().isEmpty()){
+			currentMunka.setMunkaKoltseg(Long.parseLong(koltsegEditText.getText().toString()));
+		}
+		if (!bevetelEditText.getText().toString().isEmpty()) {
+			currentMunka.setMunkaBevetel(Long.parseLong(bevetelEditText.getText().toString()));
+		}
+		if (!commentEditText.getText().toString().isEmpty()) {
+			currentMunka.setMunkaComment(commentEditText.getText().toString());	
+		}
+		currentMunka.setSoforID(sessionManager.getUserID().get(SessionManager.KEY_USER_ID));
+			
+		munkaDao.update(currentMunka);
+		
+		finish();
 	}
 	
 	public boolean checkUtkozes() {

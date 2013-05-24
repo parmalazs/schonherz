@@ -6,7 +6,6 @@ import java.util.List;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
-import com.google.android.gms.internal.ca;
 import com.schonherz.classes.JsonArrayToArrayList;
 import com.schonherz.classes.JsonFromUrl;
 import com.schonherz.classes.NetworkUtil;
@@ -288,10 +287,6 @@ public class MainActivity extends Activity {
 	}
 
 	public boolean checkLogin() {
-		String userLogin = sessionManager.getUserDetails().get(
-				SessionManager.KEY_USER_LOGIN);
-		String userPass = sessionManager.getUserDetails().get(
-				SessionManager.KEY_USER_PASS);
 
 		// Where-ben 2 feltetellel lekerdezes, a Properties az a
 		// SoforDao properties osztalya importalva
@@ -299,8 +294,7 @@ public class MainActivity extends Activity {
 		// lehet hasonlita
 		List<Sofor> soforok = soforDao
 				.queryBuilder()
-				.where(Properties.SoforLogin.eq(userLogin),
-						Properties.SoforPass.eq(userPass)).list();
+				.where(Properties.SoforID.eq(sessionManager.getUserID().get(SessionManager.KEY_USER_ID))).list();
 
 		if (soforok.size() > 0) {
 			return true;
