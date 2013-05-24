@@ -100,7 +100,7 @@ public class NewJobActivity extends Activity {
 			partnerNevek=new ArrayList<String>();
 			for (int i=0; i<partnerek.size(); i++) {
 				partnerNevek.add(partnerek.get(i).getPartnerNev());
-			}
+			}			
 			ArrayAdapter<String> partnerAdapter=new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, partnerNevek);
 			partnerekSpinner.setAdapter(partnerAdapter);
 		}
@@ -121,8 +121,10 @@ public class NewJobActivity extends Activity {
 			for (int i=0; i<soforok.size(); i++) {
 				soforNevek.add(soforok.get(i).getSoforNev());
 			}
+			soforNevek.add("null");
 			ArrayAdapter<String> soforAdapter=new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, soforNevek);						
 			soforokSpinner.setAdapter(soforAdapter);
+			soforokSpinner.setSelection(soforNevek.size()-1);
 			soforokSpinner.setSelected(false);
 		}
 		
@@ -195,9 +197,14 @@ public class NewJobActivity extends Activity {
 				.where(MunkaTipusDao.Properties.MunkaTipusNev.eq(
 						munkatipusokSpinner.getSelectedItem())).list().get(0).getMunkaTipusID());*/
 		ujMunka.setMunkaTipusID(0L);
-		ujMunka.setSoforID(soforDao.queryBuilder()
-				.where(SoforDao.Properties.SoforNev.eq(
-						soforokSpinner.getSelectedItem())).list().get(0).getSoforID());
+		if (soforokSpinner.getSelectedItem().equals("null")) {
+			ujMunka.setSoforID(0L);
+		}
+		else {
+			ujMunka.setSoforID(soforDao.queryBuilder()
+					.where(SoforDao.Properties.SoforNev.eq(
+							soforokSpinner.getSelectedItem())).list().get(0).getSoforID());
+		}
 		ujMunka.setPartnerID(partnerDao.queryBuilder()
 				.where(PartnerDao.Properties.PartnerNev.eq(
 						partnerekSpinner.getSelectedItem())).list().get(0).getPartnerID());
