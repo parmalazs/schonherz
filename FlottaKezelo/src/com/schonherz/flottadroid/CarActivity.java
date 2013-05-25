@@ -47,13 +47,20 @@ public class CarActivity extends FragmentActivity implements ActionBar.TabListen
 	private DaoSession daoSession;
 	private DaoMaster daoMaster;
 	
-	SzabadAutoListFragment szabadAutoListFragment;
-	SzabadAutoListFragment sajatAutoFragment;
+	SzabadAutoListFragment szemelygepjarmuFragment;
+	SzabadAutoListFragment kisteherautoFragment;
+	SzabadAutoListFragment teherautoFragment;
+	SzabadAutoListFragment buszFragment;
+	SzabadAutoListFragment kamionFragment;
+	SzabadAutoListFragment furgonFragment;
+
+	Tab szemelygepjarmuTab;
+	Tab kisteherautoTab;
+	Tab teherautoTab;
+	Tab buszTab;
+	Tab kamionTab;
+	Tab furgonTab;
 	
-
-	Tab szabadAutokTab;
-	Tab sajatAutoTab;
-
 	ActionBar actionBar;
 	CarsPagerAdapter carsAdapter;
 	ViewPager carsPager;
@@ -66,8 +73,21 @@ public class CarActivity extends FragmentActivity implements ActionBar.TabListen
         getActionBar().setDisplayHomeAsUpEnabled(true);
         dataBaseInit();
         
-        szabadAutoListFragment = new SzabadAutoListFragment(this, autoDao);
-        sajatAutoFragment = new SzabadAutoListFragment(this, autoDao);
+        /*
+        szemelygepjarmuFragment = new SzabadAutoListFragment(this, autoDao, new ArrayList<Auto>(autoDao.queryBuilder().where(com.schonherz.dbentities.AutoDao.Properties.AutoFoglalt.eq(true),
+				com.schonherz.dbentities.AutoDao.Properties.AutoIsActive.eq(true), com.schonherz.dbentities.AutoDao.Properties.AutoTipus.eq("Személygépjármû")).list()), "Személygépjármû");
+        kisteherautoFragment = new SzabadAutoListFragment(this, autoDao, new ArrayList<Auto>(autoDao.queryBuilder().where(com.schonherz.dbentities.AutoDao.Properties.AutoFoglalt.eq(true),
+				com.schonherz.dbentities.AutoDao.Properties.AutoIsActive.eq(true), com.schonherz.dbentities.AutoDao.Properties.AutoTipus.eq("Kisteherautó")).list()), "Kisteherautó");
+        teherautoFragment = new SzabadAutoListFragment(this, autoDao, new ArrayList<Auto>(autoDao.queryBuilder().where(com.schonherz.dbentities.AutoDao.Properties.AutoFoglalt.eq(true),
+				com.schonherz.dbentities.AutoDao.Properties.AutoIsActive.eq(true), com.schonherz.dbentities.AutoDao.Properties.AutoTipus.eq("Teherautó")).list()), "Teherautó");
+        buszFragment = new SzabadAutoListFragment(this, autoDao, new ArrayList<Auto>(autoDao.queryBuilder().where(com.schonherz.dbentities.AutoDao.Properties.AutoFoglalt.eq(true),
+				com.schonherz.dbentities.AutoDao.Properties.AutoIsActive.eq(true), com.schonherz.dbentities.AutoDao.Properties.AutoTipus.eq("Busz")).list()), "Busz");
+        kamionFragment = new SzabadAutoListFragment(this, autoDao, new ArrayList<Auto>(autoDao.queryBuilder().where(com.schonherz.dbentities.AutoDao.Properties.AutoFoglalt.eq(true),
+				com.schonherz.dbentities.AutoDao.Properties.AutoIsActive.eq(true), com.schonherz.dbentities.AutoDao.Properties.AutoTipus.eq("Kamion")).list()), "Kamion");
+        furgonFragment = new SzabadAutoListFragment(this, autoDao, new ArrayList<Auto>(autoDao.queryBuilder().where(com.schonherz.dbentities.AutoDao.Properties.AutoFoglalt.eq(true),
+				com.schonherz.dbentities.AutoDao.Properties.AutoIsActive.eq(true), com.schonherz.dbentities.AutoDao.Properties.AutoTipus.eq("Furgon")).list()), "Furgon");
+        */
+        
         
         actionBar = getActionBar();
 		actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_TABS);
@@ -77,14 +97,29 @@ public class CarActivity extends FragmentActivity implements ActionBar.TabListen
 		carsPager.setAdapter(carsAdapter);
 		carsPager.setCurrentItem(0);
 		
-		szabadAutokTab = actionBar.newTab().setText(R.string.title_cars_section1);
-		szabadAutokTab.setTabListener(this);
-		actionBar.addTab(szabadAutokTab);
+		szemelygepjarmuTab = actionBar.newTab().setText(R.string.title_cars_section1);
+		szemelygepjarmuTab.setTabListener(this);
+		actionBar.addTab(szemelygepjarmuTab);
 
-		sajatAutoTab = actionBar.newTab().setText(R.string.title_cars_section2);
-		sajatAutoTab.setTabListener(this);
-		actionBar.addTab(sajatAutoTab);
+		kisteherautoTab = actionBar.newTab().setText(R.string.title_cars_section2);
+		kisteherautoTab.setTabListener(this);
+		actionBar.addTab(kisteherautoTab);
 		
+		buszTab = actionBar.newTab().setText(R.string.title_cars_section3);
+		buszTab.setTabListener(this);
+		actionBar.addTab(buszTab);	
+		
+		kamionTab = actionBar.newTab().setText(R.string.title_cars_section4);
+		kamionTab.setTabListener(this);
+		actionBar.addTab(kamionTab);
+		
+		furgonTab = actionBar.newTab().setText(R.string.title_cars_section5);
+		furgonTab.setTabListener(this);
+		actionBar.addTab(furgonTab);
+		
+		teherautoTab = actionBar.newTab().setText(R.string.title_cars_section6);
+		teherautoTab.setTabListener(this);
+		actionBar.addTab(teherautoTab);
 		
 		carsPager.setOnPageChangeListener(new OnPageChangeListener() {
 
@@ -174,17 +209,33 @@ public class CarActivity extends FragmentActivity implements ActionBar.TabListen
 		public Fragment getItem(int position) {
 			// TODO Auto-generated method stub
 			switch (position) {
-				case 1 :
-					return new SzabadAutoListFragment(CarActivity.this, autoDao);
-				default : 
-					return new SzabadAutoListFragment(CarActivity.this, autoDao);
+				case 0 :
+					return new SzabadAutoListFragment(CarActivity.this, autoDao, new ArrayList<Auto>(autoDao.queryBuilder().where(com.schonherz.dbentities.AutoDao.Properties.AutoFoglalt.eq(false),
+							com.schonherz.dbentities.AutoDao.Properties.AutoIsActive.eq(true), com.schonherz.dbentities.AutoDao.Properties.AutoTipus.eq("Személygépjármû")).list()), "Személygépjármû");
+				case 4 :
+					return new SzabadAutoListFragment(CarActivity.this, autoDao, new ArrayList<Auto>(autoDao.queryBuilder().where(com.schonherz.dbentities.AutoDao.Properties.AutoFoglalt.eq(false),
+							com.schonherz.dbentities.AutoDao.Properties.AutoIsActive.eq(true), com.schonherz.dbentities.AutoDao.Properties.AutoTipus.eq("Furgon")).list()), "Furgon");
+				case 2 :
+					return new SzabadAutoListFragment(CarActivity.this, autoDao, new ArrayList<Auto>(autoDao.queryBuilder().where(com.schonherz.dbentities.AutoDao.Properties.AutoFoglalt.eq(false),
+							com.schonherz.dbentities.AutoDao.Properties.AutoIsActive.eq(true), com.schonherz.dbentities.AutoDao.Properties.AutoTipus.eq("Busz")).list()), "Busz");
+				case 1:
+					return new SzabadAutoListFragment(CarActivity.this, autoDao, new ArrayList<Auto>(autoDao.queryBuilder().where(com.schonherz.dbentities.AutoDao.Properties.AutoFoglalt.eq(false),
+							com.schonherz.dbentities.AutoDao.Properties.AutoIsActive.eq(true), com.schonherz.dbentities.AutoDao.Properties.AutoTipus.eq("Kisteherautó")).list()), "Kisteherautó");
+
+				case 3 : 
+					return new SzabadAutoListFragment(CarActivity.this, autoDao, new ArrayList<Auto>(autoDao.queryBuilder().where(com.schonherz.dbentities.AutoDao.Properties.AutoFoglalt.eq(false),
+							com.schonherz.dbentities.AutoDao.Properties.AutoIsActive.eq(true), com.schonherz.dbentities.AutoDao.Properties.AutoTipus.eq("Kamion")).list()), "Kamion");
+					
+				default :
+					return new SzabadAutoListFragment(CarActivity.this, autoDao, new ArrayList<Auto>(autoDao.queryBuilder().where(com.schonherz.dbentities.AutoDao.Properties.AutoFoglalt.eq(false),
+							com.schonherz.dbentities.AutoDao.Properties.AutoIsActive.eq(true), com.schonherz.dbentities.AutoDao.Properties.AutoTipus.eq("Teherautó")).list()), "Teherautó");
 			}
 		}
 
 		@Override
 		public int getCount() {
 			// TODO Auto-generated method stub
-			return 2;
+			return 6;
 		}
 
 	}

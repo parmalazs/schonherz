@@ -51,16 +51,21 @@ import com.schonherz.flottadroid.R;
 
 public class SzabadAutoListFragment extends Fragment {
 
+	String jarmutipus;
 	Context context;
 	AutoDao autoDao;
 	AutoAdapter adapter;
 	PullToRefreshListView pullListView;
 	ArrayList<Auto> autok;
+	ArrayList<Auto> konkretautok;
+	
 	MenuItem refreshItem;
 
-	public SzabadAutoListFragment(Context context, AutoDao autoDao) {
+	public SzabadAutoListFragment(Context context, AutoDao autoDao, ArrayList<Auto> _autok, String tipus) {
 		this.context = context;
 		this.autoDao = autoDao;
+		this.konkretautok = _autok;
+		this.jarmutipus = tipus;
 	}
 
 	@Override
@@ -152,8 +157,10 @@ public class SzabadAutoListFragment extends Fragment {
 		pullListView = (PullToRefreshListView) v
 				.findViewById(R.id.pulltorefresh_listview);
 
-		autok = new ArrayList<Auto>(autoDao.queryBuilder().where(com.schonherz.dbentities.AutoDao.Properties.AutoFoglalt.eq(true),
-				com.schonherz.dbentities.AutoDao.Properties.AutoIsActive.eq(true)).list());
+		autok = konkretautok;
+		
+		//autok = new ArrayList<Auto>(autoDao.queryBuilder().where(com.schonherz.dbentities.AutoDao.Properties.AutoFoglalt.eq(true),
+		//		com.schonherz.dbentities.AutoDao.Properties.AutoIsActive.eq(true)).list());
 
 		adapter = new AutoAdapter(context, R.layout.list_item_auto, autok,
 				autoDao);
@@ -217,8 +224,9 @@ public class SzabadAutoListFragment extends Fragment {
 
 							adapter.clear();
 
-							autok = new ArrayList<Auto>(autoDao.queryBuilder().where(com.schonherz.dbentities.AutoDao.Properties.AutoFoglalt.eq(true),
-									com.schonherz.dbentities.AutoDao.Properties.AutoIsActive.eq(true)).list());
+							
+							autok = konkretautok;
+							//autok = new ArrayList<Auto>(autoDao.queryBuilder().where(com.schonherz.dbentities.AutoDao.Properties.AutoFoglalt.eq(true),com.schonherz.dbentities.AutoDao.Properties.AutoIsActive.eq(true)).list());
 
 							adapter.addAll(autok);
 
@@ -348,7 +356,9 @@ public class SzabadAutoListFragment extends Fragment {
 										List<Auto> temp = autoDao
 												.queryBuilder()
 												.where(com.schonherz.dbentities.AutoDao.Properties.AutoFoglalt.eq(true),
+														com.schonherz.dbentities.AutoDao.Properties.AutoTipus.eq(jarmutipus),
 														com.schonherz.dbentities.AutoDao.Properties.AutoIsActive.eq(true))
+														
 												.orderDesc(
 														com.schonherz.dbentities.AutoDao.Properties.AutoMuszakiVizsgaDate)
 												.list();
@@ -362,6 +372,7 @@ public class SzabadAutoListFragment extends Fragment {
 										List<Auto> temp2 = autoDao
 										.queryBuilder()
 										.where(com.schonherz.dbentities.AutoDao.Properties.AutoFoglalt.eq(true),
+												com.schonherz.dbentities.AutoDao.Properties.AutoTipus.eq(jarmutipus),
 												com.schonherz.dbentities.AutoDao.Properties.AutoIsActive.eq(true))
 										.orderDesc(
 												com.schonherz.dbentities.AutoDao.Properties.AutoLastSzervizDate)
@@ -428,8 +439,10 @@ public class SzabadAutoListFragment extends Fragment {
 
 							adapter.clear();
 
-							autok = new ArrayList<Auto>(autoDao.queryBuilder().where(com.schonherz.dbentities.AutoDao.Properties.AutoFoglalt.eq(true),
-									com.schonherz.dbentities.AutoDao.Properties.AutoIsActive.eq(true)).list());
+							// Ezt még átgondolni, hogy jó lesz e!
+							autok = konkretautok;
+							//autok = new ArrayList<Auto>(autoDao.queryBuilder().where(com.schonherz.dbentities.AutoDao.Properties.AutoFoglalt.eq(true),
+								//	com.schonherz.dbentities.AutoDao.Properties.AutoIsActive.eq(true)).list());
 
 							adapter.addAll(autok);
 
@@ -467,8 +480,9 @@ public class SzabadAutoListFragment extends Fragment {
 		
 		adapter.clear();
 
-		autok = new ArrayList<Auto>(autoDao.queryBuilder().where(com.schonherz.dbentities.AutoDao.Properties.AutoFoglalt.eq(true),
-				com.schonherz.dbentities.AutoDao.Properties.AutoIsActive.eq(true)).list());
+		
+		autok = konkretautok;
+		//autok = new ArrayList<Auto>(autoDao.queryBuilder().where(com.schonherz.dbentities.AutoDao.Properties.AutoFoglalt.eq(true),com.schonherz.dbentities.AutoDao.Properties.AutoIsActive.eq(true)).list());
 
 		adapter.addAll(autok);
 

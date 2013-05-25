@@ -60,11 +60,14 @@
     <string name="newJobNoEstimatedTime">Kérem adjon meg becsült időt!</string>
     <string name="title_activity_sofor_details">Sofőr</string>
     <string name="title_activity_partner_details">Partner</string>
-    <string name="title_cars_section2">Szabad autók</string>
-    <string name="title_cars_section1">Saját autó</string>
+    <string name="title_cars_section2">Kisteherautók</string>
+    <string name="title_cars_section1">Személygépjárművek</string>
     <string name="title_activity_telephely_details">Telephely</string>
 	<string name="title_partners">Partnerek</string>
     <string name="title_soforok">Soforok</string>
     <string name="title_activity_car_details">Autó részletező</string>
-	
+    <string name="title_cars_section3">Buszok</string>
+    <string name="title_cars_section4">Kamionok</string>
+    <string name="title_cars_section5">Furgonok</string>
+    <string name="title_cars_section6">Teherautók</string>	
 </resources>
