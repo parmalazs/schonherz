@@ -355,7 +355,7 @@ public class SzabadAutoListFragment extends Fragment {
 									case 5 :
 										List<Auto> temp = autoDao
 												.queryBuilder()
-												.where(com.schonherz.dbentities.AutoDao.Properties.AutoFoglalt.eq(true),
+												.where(com.schonherz.dbentities.AutoDao.Properties.AutoFoglalt.eq(false),
 														com.schonherz.dbentities.AutoDao.Properties.AutoTipus.eq(jarmutipus),
 														com.schonherz.dbentities.AutoDao.Properties.AutoIsActive.eq(true))
 														
@@ -371,7 +371,7 @@ public class SzabadAutoListFragment extends Fragment {
 									case 6 :
 										List<Auto> temp2 = autoDao
 										.queryBuilder()
-										.where(com.schonherz.dbentities.AutoDao.Properties.AutoFoglalt.eq(true),
+										.where(com.schonherz.dbentities.AutoDao.Properties.AutoFoglalt.eq(false),
 												com.schonherz.dbentities.AutoDao.Properties.AutoTipus.eq(jarmutipus),
 												com.schonherz.dbentities.AutoDao.Properties.AutoIsActive.eq(true))
 										.orderDesc(
