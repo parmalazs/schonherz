@@ -1,6 +1,11 @@
 package com.schonherz.fragments;
 
+import java.util.List;
+
+import android.app.Dialog;
 import android.content.Context;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
@@ -8,12 +13,22 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.View.OnClickListener;
+import android.view.View.OnLongClickListener;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
+import android.widget.AdapterView.OnItemClickListener;
+import android.widget.Gallery;
+import android.widget.ImageView;
+import android.widget.TextView;
 
+import com.schonherz.adapters.ProfilKepImageAdapter;
 import com.schonherz.dbentities.AutoKepDao;
 import com.schonherz.dbentities.MunkaKepDao;
 import com.schonherz.dbentities.PartnerKepDao;
+import com.schonherz.dbentities.ProfilKep;
 import com.schonherz.dbentities.ProfilKepDao;
+import com.schonherz.flottadroid.R;
 
 public class AdminKepekFragment extends Fragment {
 
@@ -23,6 +38,11 @@ public class AdminKepekFragment extends Fragment {
 	AutoKepDao autoKepDao;
 	MunkaKepDao munkaKepDao;
 
+	ProfilKepImageAdapter profilImgAdapter;
+	
+	Gallery soforPicsGallery;
+	
+	
 	public AdminKepekFragment(Context context, PartnerKepDao partnerKepDao,
 			ProfilKepDao profilKepDao, AutoKepDao autoKepDao,
 			MunkaKepDao munkaKepDao) {
@@ -49,10 +69,60 @@ public class AdminKepekFragment extends Fragment {
 	}
 
 	@Override
-	public View onCreateView(LayoutInflater inflater, ViewGroup container,
+	public View onCreateView(final LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
 		// TODO Auto-generated method stub
-		return super.onCreateView(inflater, container, savedInstanceState);
+		final View v = inflater.inflate(R.layout.layout_admin_pictures, null);
+		
+		List<ProfilKep> profilkepek = profilKepDao.loadAll();
+		
+		soforPicsGallery = (Gallery)v.findViewById(R.id.soforPicsGallery);
+		profilImgAdapter = new ProfilKepImageAdapter(context, profilKepDao, 0, profilkepek);
+		
+		soforPicsGallery.setAdapter(profilImgAdapter);
+		
+		soforPicsGallery.setOnItemClickListener(new OnItemClickListener() {
+
+			@Override
+			public void onItemClick(AdapterView<?> parent, View view, int pos,
+					long id) {
+				// TODO Auto-generated method stub
+				 	
+					final Dialog dialog = new Dialog(context);
+					dialog.setContentView(R.layout.layout_image_dialog);
+					dialog.setCancelable(true);
+									   
+				    ImageView currProfIv = (ImageView) dialog.findViewById(R.id.imgDialogImageView);
+				    
+				    Bitmap bm = BitmapFactory.decodeFile(((ProfilKep)parent.getItemAtPosition(pos)).getProfilKepPath());
+				    currProfIv.setImageBitmap(bm);
+				    				  
+				    dialog.setTitle(((ProfilKep)parent.getItemAtPosition(pos)).getSofor().getSoforNev());				    
+				    
+				    currProfIv.setOnClickListener(new OnClickListener() {
+						
+						@Override
+						public void onClick(View v) {
+							// TODO Auto-generated method stub
+							dialog.dismiss();
+						}
+					});
+				    
+				    currProfIv.setOnLongClickListener(new OnLongClickListener() {
+						
+						@Override
+						public boolean onLongClick(View v) {
+							// TODO Auto-generated method stub
+							return false;
+						}
+					});
+				    				   
+				    dialog.show();
+			}
+			
+		});
+		
+		return v;
 	}
 
 	@Override

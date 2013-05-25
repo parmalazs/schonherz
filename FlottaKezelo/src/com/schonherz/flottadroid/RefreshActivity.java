@@ -7,8 +7,10 @@ import org.json.JSONArray;
 import org.json.JSONObject;
 
 import android.app.Activity;
+import android.app.ProgressDialog;
 import android.content.SharedPreferences;
 import android.database.sqlite.SQLiteDatabase;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Environment;
 import android.support.v4.app.NavUtils;
@@ -71,9 +73,10 @@ public class RefreshActivity extends Activity {
 
 	Button syncButton;
 	Button imgUploadButton;
-	
+	ProgressDialog progress;
+
 	File sdcard;
-	
+
 	String soforUrl = "http://www.flotta.host-ed.me/querySoforTable.php";
 	String autoUrl = "http://www.flotta.host-ed.me/queryAutoTable.php";
 	String partnerUrl = "http://www.flotta.host-ed.me/queryPartnerTable.php";
@@ -110,6 +113,44 @@ public class RefreshActivity extends Activity {
 			public void onClick(View v) {
 				// TODO Auto-generated method stub
 
+				new AsyncTask<Void, Void, String>() {
+
+					protected void onPostExecute(String result) {
+						progress.dismiss();
+					};
+
+					protected void onPreExecute() {
+						progress = ProgressDialog.show(RefreshActivity.this,
+								"Frissítés", "Adatok frissítése...");
+					};
+
+					@Override
+					protected String doInBackground(Void... params) {
+						// TODO Auto-generated method stub
+						return saveAlldata();
+					}
+
+				}.execute();
+
+				new AsyncTask<Void, Void, String>() {
+
+					protected void onPostExecute(String result) {
+						progress.dismiss();
+					};
+
+					protected void onPreExecute() {
+						progress = ProgressDialog.show(RefreshActivity.this,
+								"Frissítés", "Képek letöltése...");
+					};
+
+					@Override
+					protected String doInBackground(Void... params) {
+						// TODO Auto-generated method stub
+						return saveAllPictures();
+					}
+
+				}.execute();
+
 			}
 		});
 
@@ -135,18 +176,20 @@ public class RefreshActivity extends Activity {
 		switch (item.getItemId()) {
 			case android.R.id.home :
 				NavUtils.navigateUpFromSameTask(this);
-				this.overridePendingTransition(R.anim.slide_out_right, R.anim.slide_in_left);
+				this.overridePendingTransition(R.anim.slide_out_right,
+						R.anim.slide_in_left);
 				return true;
 		}
 		return super.onOptionsItemSelected(item);
 	}
-	
+
 	@Override
 	public void onBackPressed() {
 		// TODO Auto-generated method stub
 		super.onBackPressed();
 		finish();
-		this.overridePendingTransition(R.anim.slide_out_right, R.anim.slide_in_left); 		
+		this.overridePendingTransition(R.anim.slide_out_right,
+				R.anim.slide_in_left);
 	}
 
 	private void initTables() {
@@ -156,7 +199,7 @@ public class RefreshActivity extends Activity {
 		db = helper.getWritableDatabase();
 		daoMaster = new DaoMaster(db);
 		daoSession = daoMaster.newSession();
-		
+
 		autoDao = daoSession.getAutoDao();
 		autoKepDao = daoSession.getAutoKepDao();
 		munkaDao = daoSession.getMunkaDao();
@@ -183,7 +226,7 @@ public class RefreshActivity extends Activity {
 
 	}
 
-	public String saveAllAdata() {
+	public String saveAlldata() {
 		JSONArray jsonArray;
 		JSONObject json = new JSONObject();
 
@@ -297,22 +340,29 @@ public class RefreshActivity extends Activity {
 			jsonArray = (JSONArray) JsonFromUrl.getJsonObjectFromUrl(
 					profilKepUrl, json.toString());
 
-		     ArrayList<ProfilKep> profilkepek = JsonArrayToArrayList.JsonArrayToProfilKepek(jsonArray);
-			 
-		     profilKepDao.dropTable(profilKepDao.getDatabase(), true);
-		     profilKepDao.createTable(profilKepDao.getDatabase(), true);
-		     
-		     for(int i = 0; i< profilkepek.size();i++)
-		     {
-		    	 String photoDirPath = sdcard.getAbsolutePath() + "/" + "FlottaDroid/SoforImages/"+profilkepek.get(i).getSoforID();		    	
-		    	 ImageDownloadUtil.downloadImage(profilkepek.get(i).getProfilKepPath(), photoDirPath, Long.toString(profilkepek.get(i).getProfilKepID())+".jpg");
-		    	 profilkepek.get(i).setProfilKepPath(photoDirPath+Long.toString(profilkepek.get(i).getProfilKepID())+".jpg");
-		    	 
-		    	 profilKepDao.insert(profilkepek.get(i));
-		     }
-		     
-		     
-			
+			ArrayList<ProfilKep> profilkepek = JsonArrayToArrayList
+					.JsonArrayToProfilKepek(jsonArray);
+
+			profilKepDao.dropTable(profilKepDao.getDatabase(), true);
+			profilKepDao.createTable(profilKepDao.getDatabase(), true);
+
+			for (int i = 0; i < profilkepek.size(); i++) {
+				String photoDirPath = sdcard.getAbsolutePath() + "/"
+						+ "FlottaDroid/SoforImages/"
+						+ profilkepek.get(i).getSoforID();
+				ImageDownloadUtil.downloadImage(profilkepek.get(i)
+						.getProfilKepPath(), photoDirPath,
+						Long.toString(profilkepek.get(i).getProfilKepID())
+								+ ".jpg");
+				profilkepek.get(i).setProfilKepPath(
+						photoDirPath
+								+ "/"
+								+ Long.toString(profilkepek.get(i)
+										.getProfilKepID()) + ".jpg");
+
+				profilKepDao.insert(profilkepek.get(i));
+			}
+
 		} catch (Exception ex) {
 			ex.printStackTrace();
 			return ex.getMessage();
@@ -320,6 +370,5 @@ public class RefreshActivity extends Activity {
 		return "";
 
 	}
-
 
 }
