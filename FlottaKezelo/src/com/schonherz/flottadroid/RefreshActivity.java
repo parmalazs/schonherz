@@ -117,6 +117,27 @@ public class RefreshActivity extends Activity {
 
 					protected void onPostExecute(String result) {
 						progress.dismiss();
+						
+						new AsyncTask<Void, Void, String>() {
+
+							protected void onPostExecute(String result) {
+								progress.dismiss();
+							};
+
+							protected void onPreExecute() {
+								progress = ProgressDialog.show(
+										RefreshActivity.this, "Frissítés",
+										"Képek letöltése...");
+							};
+
+							@Override
+							protected String doInBackground(Void... params) {
+								// TODO Auto-generated method stub
+								return saveAllPictures();
+							}
+
+						}.execute();
+
 					};
 
 					protected void onPreExecute() {
@@ -128,25 +149,6 @@ public class RefreshActivity extends Activity {
 					protected String doInBackground(Void... params) {
 						// TODO Auto-generated method stub
 						return saveAlldata();
-					}
-
-				}.execute();
-
-				new AsyncTask<Void, Void, String>() {
-
-					protected void onPostExecute(String result) {
-						progress.dismiss();
-					};
-
-					protected void onPreExecute() {
-						progress = ProgressDialog.show(RefreshActivity.this,
-								"Frissítés", "Képek letöltése...");
-					};
-
-					@Override
-					protected String doInBackground(Void... params) {
-						// TODO Auto-generated method stub
-						return saveAllPictures();
 					}
 
 				}.execute();
