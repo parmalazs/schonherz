@@ -17,6 +17,7 @@ public class Telephely {
     private Float telephelyXkoordinata;
     private Float telephelyYkoordinata;
     private String telephelyEmail;
+    private Boolean telephelyIsActive;
 
     /** Used to resolve relations */
     private transient DaoSession daoSession;
@@ -34,7 +35,7 @@ public class Telephely {
         this.telephelyID = telephelyID;
     }
 
-    public Telephely(Long telephelyID, String telephelyNev, String telephelyCim, String telephelyTelefonszam, Float telephelyXkoordinata, Float telephelyYkoordinata, String telephelyEmail) {
+    public Telephely(Long telephelyID, String telephelyNev, String telephelyCim, String telephelyTelefonszam, Float telephelyXkoordinata, Float telephelyYkoordinata, String telephelyEmail, Boolean telephelyIsActive) {
         this.telephelyID = telephelyID;
         this.telephelyNev = telephelyNev;
         this.telephelyCim = telephelyCim;
@@ -42,6 +43,7 @@ public class Telephely {
         this.telephelyXkoordinata = telephelyXkoordinata;
         this.telephelyYkoordinata = telephelyYkoordinata;
         this.telephelyEmail = telephelyEmail;
+        this.telephelyIsActive = telephelyIsActive;
     }
 
     /** called by internal mechanisms, do not call yourself. */
@@ -104,6 +106,14 @@ public class Telephely {
 
     public void setTelephelyEmail(String telephelyEmail) {
         this.telephelyEmail = telephelyEmail;
+    }
+
+    public Boolean getTelephelyIsActive() {
+        return telephelyIsActive;
+    }
+
+    public void setTelephelyIsActive(Boolean telephelyIsActive) {
+        this.telephelyIsActive = telephelyIsActive;
     }
 
     /** To-many relationship, resolved on first access (and after reset). Changes to to-many relations are not persisted, make changes to the target entity. */

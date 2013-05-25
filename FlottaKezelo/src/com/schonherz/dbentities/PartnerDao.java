@@ -31,6 +31,7 @@ public class PartnerDao extends AbstractDao<Partner, Long> {
         public final static Property PartnerTelefonszam = new Property(5, String.class, "partnerTelefonszam", false, "PARTNER_TELEFONSZAM");
         public final static Property PartnerWeboldal = new Property(6, String.class, "partnerWeboldal", false, "PARTNER_WEBOLDAL");
         public final static Property PartnerEmailcim = new Property(7, String.class, "partnerEmailcim", false, "PARTNER_EMAILCIM");
+        public final static Property PartnerIsActive = new Property(8, Boolean.class, "partnerIsActive", false, "PARTNER_IS_ACTIVE");
     };
 
     private DaoSession daoSession;
@@ -56,7 +57,8 @@ public class PartnerDao extends AbstractDao<Partner, Long> {
                 "'PARTNER_YKOODINATA' REAL," + // 4: partnerYkoodinata
                 "'PARTNER_TELEFONSZAM' TEXT," + // 5: partnerTelefonszam
                 "'PARTNER_WEBOLDAL' TEXT," + // 6: partnerWeboldal
-                "'PARTNER_EMAILCIM' TEXT);"); // 7: partnerEmailcim
+                "'PARTNER_EMAILCIM' TEXT," + // 7: partnerEmailcim
+                "'PARTNER_IS_ACTIVE' INTEGER);"); // 8: partnerIsActive
     }
 
     /** Drops the underlying database table. */
@@ -109,6 +111,11 @@ public class PartnerDao extends AbstractDao<Partner, Long> {
         if (partnerEmailcim != null) {
             stmt.bindString(8, partnerEmailcim);
         }
+ 
+        Boolean partnerIsActive = entity.getPartnerIsActive();
+        if (partnerIsActive != null) {
+            stmt.bindLong(9, partnerIsActive ? 1l: 0l);
+        }
     }
 
     @Override
@@ -134,7 +141,8 @@ public class PartnerDao extends AbstractDao<Partner, Long> {
             cursor.isNull(offset + 4) ? null : cursor.getFloat(offset + 4), // partnerYkoodinata
             cursor.isNull(offset + 5) ? null : cursor.getString(offset + 5), // partnerTelefonszam
             cursor.isNull(offset + 6) ? null : cursor.getString(offset + 6), // partnerWeboldal
-            cursor.isNull(offset + 7) ? null : cursor.getString(offset + 7) // partnerEmailcim
+            cursor.isNull(offset + 7) ? null : cursor.getString(offset + 7), // partnerEmailcim
+            cursor.isNull(offset + 8) ? null : cursor.getShort(offset + 8) != 0 // partnerIsActive
         );
         return entity;
     }
@@ -150,6 +158,7 @@ public class PartnerDao extends AbstractDao<Partner, Long> {
         entity.setPartnerTelefonszam(cursor.isNull(offset + 5) ? null : cursor.getString(offset + 5));
         entity.setPartnerWeboldal(cursor.isNull(offset + 6) ? null : cursor.getString(offset + 6));
         entity.setPartnerEmailcim(cursor.isNull(offset + 7) ? null : cursor.getString(offset + 7));
+        entity.setPartnerIsActive(cursor.isNull(offset + 8) ? null : cursor.getShort(offset + 8) != 0);
      }
     
     /** @inheritdoc */

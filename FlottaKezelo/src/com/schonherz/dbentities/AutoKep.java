@@ -13,6 +13,7 @@ public class AutoKep {
     private String autoKepPath;
     private String autoKepDateTime;
     private Boolean autoKepIsUploaded;
+    private Boolean autoKepIsActive;
     private Long autoID;
 
     /** Used to resolve relations */
@@ -32,11 +33,12 @@ public class AutoKep {
         this.autoKepID = autoKepID;
     }
 
-    public AutoKep(Long autoKepID, String autoKepPath, String autoKepDateTime, Boolean autoKepIsUploaded, Long autoID) {
+    public AutoKep(Long autoKepID, String autoKepPath, String autoKepDateTime, Boolean autoKepIsUploaded, Boolean autoKepIsActive, Long autoID) {
         this.autoKepID = autoKepID;
         this.autoKepPath = autoKepPath;
         this.autoKepDateTime = autoKepDateTime;
         this.autoKepIsUploaded = autoKepIsUploaded;
+        this.autoKepIsActive = autoKepIsActive;
         this.autoID = autoID;
     }
 
@@ -76,6 +78,14 @@ public class AutoKep {
 
     public void setAutoKepIsUploaded(Boolean autoKepIsUploaded) {
         this.autoKepIsUploaded = autoKepIsUploaded;
+    }
+
+    public Boolean getAutoKepIsActive() {
+        return autoKepIsActive;
+    }
+
+    public void setAutoKepIsActive(Boolean autoKepIsActive) {
+        this.autoKepIsActive = autoKepIsActive;
     }
 
     public Long getAutoID() {

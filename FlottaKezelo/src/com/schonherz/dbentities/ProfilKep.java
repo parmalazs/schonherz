@@ -13,6 +13,7 @@ public class ProfilKep {
     private String profilKepPath;
     private String profilKepDateTime;
     private Boolean profilkepIsUploaded;
+    private Boolean profilKepIsActive;
     private Long soforID;
 
     /** Used to resolve relations */
@@ -32,11 +33,12 @@ public class ProfilKep {
         this.profilKepID = profilKepID;
     }
 
-    public ProfilKep(Long profilKepID, String profilKepPath, String profilKepDateTime, Boolean profilkepIsUploaded, Long soforID) {
+    public ProfilKep(Long profilKepID, String profilKepPath, String profilKepDateTime, Boolean profilkepIsUploaded, Boolean profilKepIsActive, Long soforID) {
         this.profilKepID = profilKepID;
         this.profilKepPath = profilKepPath;
         this.profilKepDateTime = profilKepDateTime;
         this.profilkepIsUploaded = profilkepIsUploaded;
+        this.profilKepIsActive = profilKepIsActive;
         this.soforID = soforID;
     }
 
@@ -76,6 +78,14 @@ public class ProfilKep {
 
     public void setProfilkepIsUploaded(Boolean profilkepIsUploaded) {
         this.profilkepIsUploaded = profilkepIsUploaded;
+    }
+
+    public Boolean getProfilKepIsActive() {
+        return profilKepIsActive;
+    }
+
+    public void setProfilKepIsActive(Boolean profilKepIsActive) {
+        this.profilKepIsActive = profilKepIsActive;
     }
 
     public Long getSoforID() {

@@ -19,6 +19,7 @@ public class Sofor {
     private String soforBirthDate;
     private String soforRegTime;
     private Boolean soforIsAdmin;
+    private Boolean soforIsActive;
     private String soforEmail;
     private Long soforProfilKepID;
 
@@ -41,7 +42,7 @@ public class Sofor {
         this.soforID = soforID;
     }
 
-    public Sofor(Long soforID, String soforNev, String soforCim, String soforTelefonszam, String soforLogin, String soforPass, String soforBirthDate, String soforRegTime, Boolean soforIsAdmin, String soforEmail, Long soforProfilKepID) {
+    public Sofor(Long soforID, String soforNev, String soforCim, String soforTelefonszam, String soforLogin, String soforPass, String soforBirthDate, String soforRegTime, Boolean soforIsAdmin, Boolean soforIsActive, String soforEmail, Long soforProfilKepID) {
         this.soforID = soforID;
         this.soforNev = soforNev;
         this.soforCim = soforCim;
@@ -51,6 +52,7 @@ public class Sofor {
         this.soforBirthDate = soforBirthDate;
         this.soforRegTime = soforRegTime;
         this.soforIsAdmin = soforIsAdmin;
+        this.soforIsActive = soforIsActive;
         this.soforEmail = soforEmail;
         this.soforProfilKepID = soforProfilKepID;
     }
@@ -131,6 +133,14 @@ public class Sofor {
 
     public void setSoforIsAdmin(Boolean soforIsAdmin) {
         this.soforIsAdmin = soforIsAdmin;
+    }
+
+    public Boolean getSoforIsActive() {
+        return soforIsActive;
+    }
+
+    public void setSoforIsActive(Boolean soforIsActive) {
+        this.soforIsActive = soforIsActive;
     }
 
     public String getSoforEmail() {

@@ -18,6 +18,7 @@ public class Partner {
     private String partnerTelefonszam;
     private String partnerWeboldal;
     private String partnerEmailcim;
+    private Boolean partnerIsActive;
 
     /** Used to resolve relations */
     private transient DaoSession daoSession;
@@ -35,7 +36,7 @@ public class Partner {
         this.partnerID = partnerID;
     }
 
-    public Partner(Long partnerID, String partnerNev, String partnerCim, Float partnerXkoordinata, Float partnerYkoodinata, String partnerTelefonszam, String partnerWeboldal, String partnerEmailcim) {
+    public Partner(Long partnerID, String partnerNev, String partnerCim, Float partnerXkoordinata, Float partnerYkoodinata, String partnerTelefonszam, String partnerWeboldal, String partnerEmailcim, Boolean partnerIsActive) {
         this.partnerID = partnerID;
         this.partnerNev = partnerNev;
         this.partnerCim = partnerCim;
@@ -44,6 +45,7 @@ public class Partner {
         this.partnerTelefonszam = partnerTelefonszam;
         this.partnerWeboldal = partnerWeboldal;
         this.partnerEmailcim = partnerEmailcim;
+        this.partnerIsActive = partnerIsActive;
     }
 
     /** called by internal mechanisms, do not call yourself. */
@@ -114,6 +116,14 @@ public class Partner {
 
     public void setPartnerEmailcim(String partnerEmailcim) {
         this.partnerEmailcim = partnerEmailcim;
+    }
+
+    public Boolean getPartnerIsActive() {
+        return partnerIsActive;
+    }
+
+    public void setPartnerIsActive(Boolean partnerIsActive) {
+        this.partnerIsActive = partnerIsActive;
     }
 
     /** To-many relationship, resolved on first access (and after reset). Changes to to-many relations are not persisted, make changes to the target entity. */

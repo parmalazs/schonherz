@@ -32,7 +32,8 @@ public class ProfilKepDao extends AbstractDao<ProfilKep, Long> {
         public final static Property ProfilKepPath = new Property(1, String.class, "profilKepPath", false, "PROFIL_KEP_PATH");
         public final static Property ProfilKepDateTime = new Property(2, String.class, "profilKepDateTime", false, "PROFIL_KEP_DATE_TIME");
         public final static Property ProfilkepIsUploaded = new Property(3, Boolean.class, "profilkepIsUploaded", false, "PROFILKEP_IS_UPLOADED");
-        public final static Property SoforID = new Property(4, Long.class, "soforID", false, "SOFOR_ID");
+        public final static Property ProfilKepIsActive = new Property(4, Boolean.class, "profilKepIsActive", false, "PROFIL_KEP_IS_ACTIVE");
+        public final static Property SoforID = new Property(5, Long.class, "soforID", false, "SOFOR_ID");
     };
 
     private DaoSession daoSession;
@@ -56,7 +57,8 @@ public class ProfilKepDao extends AbstractDao<ProfilKep, Long> {
                 "'PROFIL_KEP_PATH' TEXT," + // 1: profilKepPath
                 "'PROFIL_KEP_DATE_TIME' TEXT," + // 2: profilKepDateTime
                 "'PROFILKEP_IS_UPLOADED' INTEGER," + // 3: profilkepIsUploaded
-                "'SOFOR_ID' INTEGER);"); // 4: soforID
+                "'PROFIL_KEP_IS_ACTIVE' INTEGER," + // 4: profilKepIsActive
+                "'SOFOR_ID' INTEGER);"); // 5: soforID
     }
 
     /** Drops the underlying database table. */
@@ -90,9 +92,14 @@ public class ProfilKepDao extends AbstractDao<ProfilKep, Long> {
             stmt.bindLong(4, profilkepIsUploaded ? 1l: 0l);
         }
  
+        Boolean profilKepIsActive = entity.getProfilKepIsActive();
+        if (profilKepIsActive != null) {
+            stmt.bindLong(5, profilKepIsActive ? 1l: 0l);
+        }
+ 
         Long soforID = entity.getSoforID();
         if (soforID != null) {
-            stmt.bindLong(5, soforID);
+            stmt.bindLong(6, soforID);
         }
     }
 
@@ -116,7 +123,8 @@ public class ProfilKepDao extends AbstractDao<ProfilKep, Long> {
             cursor.isNull(offset + 1) ? null : cursor.getString(offset + 1), // profilKepPath
             cursor.isNull(offset + 2) ? null : cursor.getString(offset + 2), // profilKepDateTime
             cursor.isNull(offset + 3) ? null : cursor.getShort(offset + 3) != 0, // profilkepIsUploaded
-            cursor.isNull(offset + 4) ? null : cursor.getLong(offset + 4) // soforID
+            cursor.isNull(offset + 4) ? null : cursor.getShort(offset + 4) != 0, // profilKepIsActive
+            cursor.isNull(offset + 5) ? null : cursor.getLong(offset + 5) // soforID
         );
         return entity;
     }
@@ -128,7 +136,8 @@ public class ProfilKepDao extends AbstractDao<ProfilKep, Long> {
         entity.setProfilKepPath(cursor.isNull(offset + 1) ? null : cursor.getString(offset + 1));
         entity.setProfilKepDateTime(cursor.isNull(offset + 2) ? null : cursor.getString(offset + 2));
         entity.setProfilkepIsUploaded(cursor.isNull(offset + 3) ? null : cursor.getShort(offset + 3) != 0);
-        entity.setSoforID(cursor.isNull(offset + 4) ? null : cursor.getLong(offset + 4));
+        entity.setProfilKepIsActive(cursor.isNull(offset + 4) ? null : cursor.getShort(offset + 4) != 0);
+        entity.setSoforID(cursor.isNull(offset + 5) ? null : cursor.getLong(offset + 5));
      }
     
     /** @inheritdoc */

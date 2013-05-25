@@ -32,7 +32,8 @@ public class AutoKepDao extends AbstractDao<AutoKep, Long> {
         public final static Property AutoKepPath = new Property(1, String.class, "autoKepPath", false, "AUTO_KEP_PATH");
         public final static Property AutoKepDateTime = new Property(2, String.class, "autoKepDateTime", false, "AUTO_KEP_DATE_TIME");
         public final static Property AutoKepIsUploaded = new Property(3, Boolean.class, "autoKepIsUploaded", false, "AUTO_KEP_IS_UPLOADED");
-        public final static Property AutoID = new Property(4, Long.class, "autoID", false, "AUTO_ID");
+        public final static Property AutoKepIsActive = new Property(4, Boolean.class, "autoKepIsActive", false, "AUTO_KEP_IS_ACTIVE");
+        public final static Property AutoID = new Property(5, Long.class, "autoID", false, "AUTO_ID");
     };
 
     private DaoSession daoSession;
@@ -56,7 +57,8 @@ public class AutoKepDao extends AbstractDao<AutoKep, Long> {
                 "'AUTO_KEP_PATH' TEXT," + // 1: autoKepPath
                 "'AUTO_KEP_DATE_TIME' TEXT," + // 2: autoKepDateTime
                 "'AUTO_KEP_IS_UPLOADED' INTEGER," + // 3: autoKepIsUploaded
-                "'AUTO_ID' INTEGER);"); // 4: autoID
+                "'AUTO_KEP_IS_ACTIVE' INTEGER," + // 4: autoKepIsActive
+                "'AUTO_ID' INTEGER);"); // 5: autoID
     }
 
     /** Drops the underlying database table. */
@@ -90,9 +92,14 @@ public class AutoKepDao extends AbstractDao<AutoKep, Long> {
             stmt.bindLong(4, autoKepIsUploaded ? 1l: 0l);
         }
  
+        Boolean autoKepIsActive = entity.getAutoKepIsActive();
+        if (autoKepIsActive != null) {
+            stmt.bindLong(5, autoKepIsActive ? 1l: 0l);
+        }
+ 
         Long autoID = entity.getAutoID();
         if (autoID != null) {
-            stmt.bindLong(5, autoID);
+            stmt.bindLong(6, autoID);
         }
     }
 
@@ -116,7 +123,8 @@ public class AutoKepDao extends AbstractDao<AutoKep, Long> {
             cursor.isNull(offset + 1) ? null : cursor.getString(offset + 1), // autoKepPath
             cursor.isNull(offset + 2) ? null : cursor.getString(offset + 2), // autoKepDateTime
             cursor.isNull(offset + 3) ? null : cursor.getShort(offset + 3) != 0, // autoKepIsUploaded
-            cursor.isNull(offset + 4) ? null : cursor.getLong(offset + 4) // autoID
+            cursor.isNull(offset + 4) ? null : cursor.getShort(offset + 4) != 0, // autoKepIsActive
+            cursor.isNull(offset + 5) ? null : cursor.getLong(offset + 5) // autoID
         );
         return entity;
     }
@@ -128,7 +136,8 @@ public class AutoKepDao extends AbstractDao<AutoKep, Long> {
         entity.setAutoKepPath(cursor.isNull(offset + 1) ? null : cursor.getString(offset + 1));
         entity.setAutoKepDateTime(cursor.isNull(offset + 2) ? null : cursor.getString(offset + 2));
         entity.setAutoKepIsUploaded(cursor.isNull(offset + 3) ? null : cursor.getShort(offset + 3) != 0);
-        entity.setAutoID(cursor.isNull(offset + 4) ? null : cursor.getLong(offset + 4));
+        entity.setAutoKepIsActive(cursor.isNull(offset + 4) ? null : cursor.getShort(offset + 4) != 0);
+        entity.setAutoID(cursor.isNull(offset + 5) ? null : cursor.getLong(offset + 5));
      }
     
     /** @inheritdoc */

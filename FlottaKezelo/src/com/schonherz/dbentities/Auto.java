@@ -22,6 +22,7 @@ public class Auto {
     private String autoLastSzervizDate;
     private String autoLastUpDate;
     private Boolean autoFoglalt;
+    private Boolean autoIsActive;
     private Long autoLastSoforID;
     private Long autoProfilKepID;
     private Long autoLastTelephelyID;
@@ -50,7 +51,7 @@ public class Auto {
         this.autoID = autoID;
     }
 
-    public Auto(Long autoID, Float autoXkoordinata, Float autoYkoordinata, String autoNev, String autoTipus, String autoRendszam, Long autoKilometerOra, Long autoUzemanyag, String autoMuszakiVizsgaDate, String autoLastSzervizDate, String autoLastUpDate, Boolean autoFoglalt, Long autoLastSoforID, Long autoProfilKepID, Long autoLastTelephelyID) {
+    public Auto(Long autoID, Float autoXkoordinata, Float autoYkoordinata, String autoNev, String autoTipus, String autoRendszam, Long autoKilometerOra, Long autoUzemanyag, String autoMuszakiVizsgaDate, String autoLastSzervizDate, String autoLastUpDate, Boolean autoFoglalt, Boolean autoIsActive, Long autoLastSoforID, Long autoProfilKepID, Long autoLastTelephelyID) {
         this.autoID = autoID;
         this.autoXkoordinata = autoXkoordinata;
         this.autoYkoordinata = autoYkoordinata;
@@ -63,6 +64,7 @@ public class Auto {
         this.autoLastSzervizDate = autoLastSzervizDate;
         this.autoLastUpDate = autoLastUpDate;
         this.autoFoglalt = autoFoglalt;
+        this.autoIsActive = autoIsActive;
         this.autoLastSoforID = autoLastSoforID;
         this.autoProfilKepID = autoProfilKepID;
         this.autoLastTelephelyID = autoLastTelephelyID;
@@ -168,6 +170,14 @@ public class Auto {
 
     public void setAutoFoglalt(Boolean autoFoglalt) {
         this.autoFoglalt = autoFoglalt;
+    }
+
+    public Boolean getAutoIsActive() {
+        return autoIsActive;
+    }
+
+    public void setAutoIsActive(Boolean autoIsActive) {
+        this.autoIsActive = autoIsActive;
     }
 
     public Long getAutoLastSoforID() {

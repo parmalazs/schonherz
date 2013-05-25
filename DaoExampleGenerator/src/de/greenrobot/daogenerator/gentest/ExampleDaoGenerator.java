@@ -36,7 +36,7 @@ public class ExampleDaoGenerator {
 
         AddFlottaDroidTables(schema);
         //Oda ird be a gepeden talalhato project pathjat!
-        new DaoGenerator().generateAll(schema, "C:/Users/rcsk/git/flotta/schonherz/FlottaKezelo/src");
+        new DaoGenerator().generateAll(schema, "C:/Users/rcsk/git/sch/FlottaKezelo/src");
     }
 
     private static void AddFlottaDroidTables(Schema schema)
@@ -55,6 +55,7 @@ public class ExampleDaoGenerator {
     	sofor.addStringProperty("soforBirthDate");
     	sofor.addStringProperty("soforRegTime");
     	sofor.addBooleanProperty("soforIsAdmin");
+    	sofor.addBooleanProperty("soforIsActive");
     	sofor.addStringProperty("soforEmail");    	    	
     	
     	//Profilkép tábla
@@ -64,7 +65,7 @@ public class ExampleDaoGenerator {
     	profilKep.addStringProperty("profilKepPath");
     	profilKep.addStringProperty("profilKepDateTime");
     	profilKep.addBooleanProperty("profilkepIsUploaded");
-    	
+    	profilKep.addBooleanProperty("profilKepIsActive");
 	    	
 	    	Property pictureSofor = profilKep.addLongProperty("soforID").getProperty();
 	    	//Profilkép sofőrje
@@ -91,6 +92,7 @@ public class ExampleDaoGenerator {
 	    auto.addStringProperty("autoLastSzervizDate");
 	    auto.addStringProperty("autoLastUpDate");
 	    auto.addBooleanProperty("autoFoglalt");
+	    auto.addBooleanProperty("autoIsActive");
 	    	
 			
 	    	Property autoLastSoforID =auto.addLongProperty("autoLastSoforID").getProperty();
@@ -104,6 +106,7 @@ public class ExampleDaoGenerator {
     	autoKep.addStringProperty("autoKepPath");
     	autoKep.addStringProperty("autoKepDateTime");
     	autoKep.addBooleanProperty("autoKepIsUploaded");
+    	autoKep.addBooleanProperty("autoKepIsActive");
     	
     		
     		Property autoKepAuto = autoKep.addLongProperty("autoID").getProperty();
@@ -134,6 +137,7 @@ public class ExampleDaoGenerator {
     	partner.addStringProperty("partnerTelefonszam");
     	partner.addStringProperty("partnerWeboldal");
     	partner.addStringProperty("partnerEmailcim");
+    	partner.addBooleanProperty("partnerIsActive");
     	
     	//Partnerkép tábla
     	Entity partnerKep = schema.addEntity("PartnerKep");
@@ -142,7 +146,9 @@ public class ExampleDaoGenerator {
     	partnerKep.addStringProperty("partnerNev");
     	partnerKep.addStringProperty("partnerKepDate");
     	partnerKep.addBooleanProperty("partnerKepIsUploaded");
-    	    		
+    	partnerKep.addStringProperty("partnerKepPath");   
+    	partnerKep.addBooleanProperty("partnerKepIsActive");
+    	
     		Property partnerKepPartner = partnerKep.addLongProperty("partnerID").getProperty();
     		//Partnerkép partnere
     		partnerKep.addToOne(partner, partnerKepPartner);
@@ -159,7 +165,7 @@ public class ExampleDaoGenerator {
         telephely.addFloatProperty("telephelyXkoordinata");
         telephely.addFloatProperty("telephelyYkoordinata");
         telephely.addStringProperty("telephelyEmail");
-        
+        telephely.addBooleanProperty("telephelyIsActive");
         	
         	Property autoLastTelephely = auto.addLongProperty("autoLastTelephelyID").getProperty();
         	//Autó telephelye
@@ -227,7 +233,7 @@ public class ExampleDaoGenerator {
     	munkaKep.addStringProperty("munkaKepPath");
     	munkaKep.addStringProperty("munkaKepDate");
     	munkaKep.addBooleanProperty("munkaKepIsUploaded");   	
-    	
+    	munkaKep.addBooleanProperty("munkaKepIsActive");
     		Property munkakepMunka = munkaKep.addLongProperty("munkaID").getProperty();
     		//Munkakep munkaja
     		munkaKep.addToOne(munka, munkakepMunka);

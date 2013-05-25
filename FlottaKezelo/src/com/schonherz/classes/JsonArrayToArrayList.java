@@ -53,6 +53,15 @@ public class JsonArrayToArrayList {
 				else {
 					currSofor.setSoforIsAdmin(false);
 				}
+				
+				if(soforJsonObj.getString("soforIsActive").equals("1")) {
+					currSofor.setSoforIsActive(true);
+				}
+				else {
+					currSofor.setSoforIsActive(false);
+				}
+				
+				
 				currSofor.setSoforEmail(soforJsonObj
 						.getString("soforProfilKepID"));
 				if (!soforJsonObj.getString("soforProfilKepID").equals("null")) {
@@ -111,6 +120,13 @@ public class JsonArrayToArrayList {
 				else
 				{
 					currPartner.setPartnerYkoodinata(0F);
+				}
+				
+				if(partnerJsonObj.getString("partnerIsActive").equals("1")) {
+					currPartner.setPartnerIsActive(true);
+				}
+				else {
+					currPartner.setPartnerIsActive(false);
 				}
 				
 				currPartner.setPartnerWeboldal(partnerJsonObj
@@ -188,6 +204,15 @@ public class JsonArrayToArrayList {
 					currAuto.setAutoLastTelephelyID(0L);
 				}
 				
+
+				if(autoJsonObj.getString("autoIsActive").equals("1")) {
+					currAuto.setAutoIsActive(true);
+				}
+				else {
+					currAuto.setAutoIsActive(false);
+				}
+				
+				
 				autoList.add(currAuto);
 			} catch (Exception ex) {
 				ex.printStackTrace();
@@ -229,6 +254,14 @@ public class JsonArrayToArrayList {
 					currTelephely.setTelephelyYkoordinata(0F);
 				}
 				currTelephely.setTelephelyEmail(telephelyJsonObj.getString("telephelyEmail"));
+				
+				if(telephelyJsonObj.getString("telephelyIsActive").equals("1")) {
+					currTelephely.setTelephelyIsActive(true);
+				}
+				else {
+					currTelephely.setTelephelyIsActive(false);
+				}
+				
 				
 				telephelyList.add(currTelephely);
 				
@@ -346,6 +379,15 @@ public class JsonArrayToArrayList {
 				else {
 					currAutoKep.setAutoID(0L);
 				}
+				
+				if(autoKepJsonObj.getString("autoKepIsActive").equals("1")) {
+					currAutoKep.setAutoKepIsActive(true);
+				}
+				else {
+					currAutoKep.setAutoKepIsActive(false);
+				}
+				
+				
 				autoKepList.add(currAutoKep);
 				
 			} catch (Exception ex) {
@@ -378,6 +420,14 @@ public class JsonArrayToArrayList {
 				else {
 					currProfilKep.setSoforID(0L);
 				}
+				
+				if(profilKepJsonObj.getString("profilKepIsActive").equals("1")) {
+					currProfilKep.setProfilKepIsActive(true);
+				}
+				else {
+					currProfilKep.setProfilKepIsActive(false);
+				}
+				
 				profilKepList.add(currProfilKep);
 				
 			} catch (Exception ex) {
@@ -466,6 +516,14 @@ public class JsonArrayToArrayList {
 					currMunkaKep.setMunkaID(0L);
 				}
 				
+				if(munkaKepJsonObj.getString("munkaKepIsActive").equals("1")) {
+					currMunkaKep.setMunkaKepIsActive(true);
+				}
+				else {
+					currMunkaKep.setMunkaKepIsActive(false);
+				}
+				
+				
 				munkaKepList.add(currMunkaKep);
 				
 			} catch (Exception ex) {
@@ -500,6 +558,12 @@ public class JsonArrayToArrayList {
 					currPartnerKep.setPartnerID(0L);
 				}			
 				
+				if(partnerKepJsonObj.getString("partnerKepIsActive").equals("1")) {
+					currPartnerKep.setPartnerKepIsActive(true);
+				}
+				else {
+					currPartnerKep.setPartnerKepIsActive(false);
+				}
 				
 				partnerKepList.add(currPartnerKep);
 				

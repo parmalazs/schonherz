@@ -40,9 +40,10 @@ public class AutoDao extends AbstractDao<Auto, Long> {
         public final static Property AutoLastSzervizDate = new Property(9, String.class, "autoLastSzervizDate", false, "AUTO_LAST_SZERVIZ_DATE");
         public final static Property AutoLastUpDate = new Property(10, String.class, "autoLastUpDate", false, "AUTO_LAST_UP_DATE");
         public final static Property AutoFoglalt = new Property(11, Boolean.class, "autoFoglalt", false, "AUTO_FOGLALT");
-        public final static Property AutoLastSoforID = new Property(12, Long.class, "autoLastSoforID", false, "AUTO_LAST_SOFOR_ID");
-        public final static Property AutoProfilKepID = new Property(13, Long.class, "autoProfilKepID", false, "AUTO_PROFIL_KEP_ID");
-        public final static Property AutoLastTelephelyID = new Property(14, Long.class, "autoLastTelephelyID", false, "AUTO_LAST_TELEPHELY_ID");
+        public final static Property AutoIsActive = new Property(12, Boolean.class, "autoIsActive", false, "AUTO_IS_ACTIVE");
+        public final static Property AutoLastSoforID = new Property(13, Long.class, "autoLastSoforID", false, "AUTO_LAST_SOFOR_ID");
+        public final static Property AutoProfilKepID = new Property(14, Long.class, "autoProfilKepID", false, "AUTO_PROFIL_KEP_ID");
+        public final static Property AutoLastTelephelyID = new Property(15, Long.class, "autoLastTelephelyID", false, "AUTO_LAST_TELEPHELY_ID");
     };
 
     private DaoSession daoSession;
@@ -74,9 +75,10 @@ public class AutoDao extends AbstractDao<Auto, Long> {
                 "'AUTO_LAST_SZERVIZ_DATE' TEXT," + // 9: autoLastSzervizDate
                 "'AUTO_LAST_UP_DATE' TEXT," + // 10: autoLastUpDate
                 "'AUTO_FOGLALT' INTEGER," + // 11: autoFoglalt
-                "'AUTO_LAST_SOFOR_ID' INTEGER," + // 12: autoLastSoforID
-                "'AUTO_PROFIL_KEP_ID' INTEGER," + // 13: autoProfilKepID
-                "'AUTO_LAST_TELEPHELY_ID' INTEGER);"); // 14: autoLastTelephelyID
+                "'AUTO_IS_ACTIVE' INTEGER," + // 12: autoIsActive
+                "'AUTO_LAST_SOFOR_ID' INTEGER," + // 13: autoLastSoforID
+                "'AUTO_PROFIL_KEP_ID' INTEGER," + // 14: autoProfilKepID
+                "'AUTO_LAST_TELEPHELY_ID' INTEGER);"); // 15: autoLastTelephelyID
     }
 
     /** Drops the underlying database table. */
@@ -150,19 +152,24 @@ public class AutoDao extends AbstractDao<Auto, Long> {
             stmt.bindLong(12, autoFoglalt ? 1l: 0l);
         }
  
+        Boolean autoIsActive = entity.getAutoIsActive();
+        if (autoIsActive != null) {
+            stmt.bindLong(13, autoIsActive ? 1l: 0l);
+        }
+ 
         Long autoLastSoforID = entity.getAutoLastSoforID();
         if (autoLastSoforID != null) {
-            stmt.bindLong(13, autoLastSoforID);
+            stmt.bindLong(14, autoLastSoforID);
         }
  
         Long autoProfilKepID = entity.getAutoProfilKepID();
         if (autoProfilKepID != null) {
-            stmt.bindLong(14, autoProfilKepID);
+            stmt.bindLong(15, autoProfilKepID);
         }
  
         Long autoLastTelephelyID = entity.getAutoLastTelephelyID();
         if (autoLastTelephelyID != null) {
-            stmt.bindLong(15, autoLastTelephelyID);
+            stmt.bindLong(16, autoLastTelephelyID);
         }
     }
 
@@ -194,9 +201,10 @@ public class AutoDao extends AbstractDao<Auto, Long> {
             cursor.isNull(offset + 9) ? null : cursor.getString(offset + 9), // autoLastSzervizDate
             cursor.isNull(offset + 10) ? null : cursor.getString(offset + 10), // autoLastUpDate
             cursor.isNull(offset + 11) ? null : cursor.getShort(offset + 11) != 0, // autoFoglalt
-            cursor.isNull(offset + 12) ? null : cursor.getLong(offset + 12), // autoLastSoforID
-            cursor.isNull(offset + 13) ? null : cursor.getLong(offset + 13), // autoProfilKepID
-            cursor.isNull(offset + 14) ? null : cursor.getLong(offset + 14) // autoLastTelephelyID
+            cursor.isNull(offset + 12) ? null : cursor.getShort(offset + 12) != 0, // autoIsActive
+            cursor.isNull(offset + 13) ? null : cursor.getLong(offset + 13), // autoLastSoforID
+            cursor.isNull(offset + 14) ? null : cursor.getLong(offset + 14), // autoProfilKepID
+            cursor.isNull(offset + 15) ? null : cursor.getLong(offset + 15) // autoLastTelephelyID
         );
         return entity;
     }
@@ -216,9 +224,10 @@ public class AutoDao extends AbstractDao<Auto, Long> {
         entity.setAutoLastSzervizDate(cursor.isNull(offset + 9) ? null : cursor.getString(offset + 9));
         entity.setAutoLastUpDate(cursor.isNull(offset + 10) ? null : cursor.getString(offset + 10));
         entity.setAutoFoglalt(cursor.isNull(offset + 11) ? null : cursor.getShort(offset + 11) != 0);
-        entity.setAutoLastSoforID(cursor.isNull(offset + 12) ? null : cursor.getLong(offset + 12));
-        entity.setAutoProfilKepID(cursor.isNull(offset + 13) ? null : cursor.getLong(offset + 13));
-        entity.setAutoLastTelephelyID(cursor.isNull(offset + 14) ? null : cursor.getLong(offset + 14));
+        entity.setAutoIsActive(cursor.isNull(offset + 12) ? null : cursor.getShort(offset + 12) != 0);
+        entity.setAutoLastSoforID(cursor.isNull(offset + 13) ? null : cursor.getLong(offset + 13));
+        entity.setAutoProfilKepID(cursor.isNull(offset + 14) ? null : cursor.getLong(offset + 14));
+        entity.setAutoLastTelephelyID(cursor.isNull(offset + 15) ? null : cursor.getLong(offset + 15));
      }
     
     /** @inheritdoc */

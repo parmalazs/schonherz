@@ -13,6 +13,7 @@ public class MunkaKep {
     private String munkaKepPath;
     private String munkaKepDate;
     private Boolean munkaKepIsUploaded;
+    private Boolean munkaKepIsActive;
     private Long munkaID;
 
     /** Used to resolve relations */
@@ -32,11 +33,12 @@ public class MunkaKep {
         this.munkaKepID = munkaKepID;
     }
 
-    public MunkaKep(Long munkaKepID, String munkaKepPath, String munkaKepDate, Boolean munkaKepIsUploaded, Long munkaID) {
+    public MunkaKep(Long munkaKepID, String munkaKepPath, String munkaKepDate, Boolean munkaKepIsUploaded, Boolean munkaKepIsActive, Long munkaID) {
         this.munkaKepID = munkaKepID;
         this.munkaKepPath = munkaKepPath;
         this.munkaKepDate = munkaKepDate;
         this.munkaKepIsUploaded = munkaKepIsUploaded;
+        this.munkaKepIsActive = munkaKepIsActive;
         this.munkaID = munkaID;
     }
 
@@ -76,6 +78,14 @@ public class MunkaKep {
 
     public void setMunkaKepIsUploaded(Boolean munkaKepIsUploaded) {
         this.munkaKepIsUploaded = munkaKepIsUploaded;
+    }
+
+    public Boolean getMunkaKepIsActive() {
+        return munkaKepIsActive;
+    }
+
+    public void setMunkaKepIsActive(Boolean munkaKepIsActive) {
+        this.munkaKepIsActive = munkaKepIsActive;
     }
 
     public Long getMunkaID() {

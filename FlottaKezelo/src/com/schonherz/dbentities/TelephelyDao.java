@@ -30,6 +30,7 @@ public class TelephelyDao extends AbstractDao<Telephely, Long> {
         public final static Property TelephelyXkoordinata = new Property(4, Float.class, "telephelyXkoordinata", false, "TELEPHELY_XKOORDINATA");
         public final static Property TelephelyYkoordinata = new Property(5, Float.class, "telephelyYkoordinata", false, "TELEPHELY_YKOORDINATA");
         public final static Property TelephelyEmail = new Property(6, String.class, "telephelyEmail", false, "TELEPHELY_EMAIL");
+        public final static Property TelephelyIsActive = new Property(7, Boolean.class, "telephelyIsActive", false, "TELEPHELY_IS_ACTIVE");
     };
 
     private DaoSession daoSession;
@@ -54,7 +55,8 @@ public class TelephelyDao extends AbstractDao<Telephely, Long> {
                 "'TELEPHELY_TELEFONSZAM' TEXT," + // 3: telephelyTelefonszam
                 "'TELEPHELY_XKOORDINATA' REAL," + // 4: telephelyXkoordinata
                 "'TELEPHELY_YKOORDINATA' REAL," + // 5: telephelyYkoordinata
-                "'TELEPHELY_EMAIL' TEXT);"); // 6: telephelyEmail
+                "'TELEPHELY_EMAIL' TEXT," + // 6: telephelyEmail
+                "'TELEPHELY_IS_ACTIVE' INTEGER);"); // 7: telephelyIsActive
     }
 
     /** Drops the underlying database table. */
@@ -102,6 +104,11 @@ public class TelephelyDao extends AbstractDao<Telephely, Long> {
         if (telephelyEmail != null) {
             stmt.bindString(7, telephelyEmail);
         }
+ 
+        Boolean telephelyIsActive = entity.getTelephelyIsActive();
+        if (telephelyIsActive != null) {
+            stmt.bindLong(8, telephelyIsActive ? 1l: 0l);
+        }
     }
 
     @Override
@@ -126,7 +133,8 @@ public class TelephelyDao extends AbstractDao<Telephely, Long> {
             cursor.isNull(offset + 3) ? null : cursor.getString(offset + 3), // telephelyTelefonszam
             cursor.isNull(offset + 4) ? null : cursor.getFloat(offset + 4), // telephelyXkoordinata
             cursor.isNull(offset + 5) ? null : cursor.getFloat(offset + 5), // telephelyYkoordinata
-            cursor.isNull(offset + 6) ? null : cursor.getString(offset + 6) // telephelyEmail
+            cursor.isNull(offset + 6) ? null : cursor.getString(offset + 6), // telephelyEmail
+            cursor.isNull(offset + 7) ? null : cursor.getShort(offset + 7) != 0 // telephelyIsActive
         );
         return entity;
     }
@@ -141,6 +149,7 @@ public class TelephelyDao extends AbstractDao<Telephely, Long> {
         entity.setTelephelyXkoordinata(cursor.isNull(offset + 4) ? null : cursor.getFloat(offset + 4));
         entity.setTelephelyYkoordinata(cursor.isNull(offset + 5) ? null : cursor.getFloat(offset + 5));
         entity.setTelephelyEmail(cursor.isNull(offset + 6) ? null : cursor.getString(offset + 6));
+        entity.setTelephelyIsActive(cursor.isNull(offset + 7) ? null : cursor.getShort(offset + 7) != 0);
      }
     
     /** @inheritdoc */

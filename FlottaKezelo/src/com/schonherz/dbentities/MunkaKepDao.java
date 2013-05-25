@@ -32,7 +32,8 @@ public class MunkaKepDao extends AbstractDao<MunkaKep, Long> {
         public final static Property MunkaKepPath = new Property(1, String.class, "munkaKepPath", false, "MUNKA_KEP_PATH");
         public final static Property MunkaKepDate = new Property(2, String.class, "munkaKepDate", false, "MUNKA_KEP_DATE");
         public final static Property MunkaKepIsUploaded = new Property(3, Boolean.class, "munkaKepIsUploaded", false, "MUNKA_KEP_IS_UPLOADED");
-        public final static Property MunkaID = new Property(4, Long.class, "munkaID", false, "MUNKA_ID");
+        public final static Property MunkaKepIsActive = new Property(4, Boolean.class, "munkaKepIsActive", false, "MUNKA_KEP_IS_ACTIVE");
+        public final static Property MunkaID = new Property(5, Long.class, "munkaID", false, "MUNKA_ID");
     };
 
     private DaoSession daoSession;
@@ -56,7 +57,8 @@ public class MunkaKepDao extends AbstractDao<MunkaKep, Long> {
                 "'MUNKA_KEP_PATH' TEXT," + // 1: munkaKepPath
                 "'MUNKA_KEP_DATE' TEXT," + // 2: munkaKepDate
                 "'MUNKA_KEP_IS_UPLOADED' INTEGER," + // 3: munkaKepIsUploaded
-                "'MUNKA_ID' INTEGER);"); // 4: munkaID
+                "'MUNKA_KEP_IS_ACTIVE' INTEGER," + // 4: munkaKepIsActive
+                "'MUNKA_ID' INTEGER);"); // 5: munkaID
     }
 
     /** Drops the underlying database table. */
@@ -90,9 +92,14 @@ public class MunkaKepDao extends AbstractDao<MunkaKep, Long> {
             stmt.bindLong(4, munkaKepIsUploaded ? 1l: 0l);
         }
  
+        Boolean munkaKepIsActive = entity.getMunkaKepIsActive();
+        if (munkaKepIsActive != null) {
+            stmt.bindLong(5, munkaKepIsActive ? 1l: 0l);
+        }
+ 
         Long munkaID = entity.getMunkaID();
         if (munkaID != null) {
-            stmt.bindLong(5, munkaID);
+            stmt.bindLong(6, munkaID);
         }
     }
 
@@ -116,7 +123,8 @@ public class MunkaKepDao extends AbstractDao<MunkaKep, Long> {
             cursor.isNull(offset + 1) ? null : cursor.getString(offset + 1), // munkaKepPath
             cursor.isNull(offset + 2) ? null : cursor.getString(offset + 2), // munkaKepDate
             cursor.isNull(offset + 3) ? null : cursor.getShort(offset + 3) != 0, // munkaKepIsUploaded
-            cursor.isNull(offset + 4) ? null : cursor.getLong(offset + 4) // munkaID
+            cursor.isNull(offset + 4) ? null : cursor.getShort(offset + 4) != 0, // munkaKepIsActive
+            cursor.isNull(offset + 5) ? null : cursor.getLong(offset + 5) // munkaID
         );
         return entity;
     }
@@ -128,7 +136,8 @@ public class MunkaKepDao extends AbstractDao<MunkaKep, Long> {
         entity.setMunkaKepPath(cursor.isNull(offset + 1) ? null : cursor.getString(offset + 1));
         entity.setMunkaKepDate(cursor.isNull(offset + 2) ? null : cursor.getString(offset + 2));
         entity.setMunkaKepIsUploaded(cursor.isNull(offset + 3) ? null : cursor.getShort(offset + 3) != 0);
-        entity.setMunkaID(cursor.isNull(offset + 4) ? null : cursor.getLong(offset + 4));
+        entity.setMunkaKepIsActive(cursor.isNull(offset + 4) ? null : cursor.getShort(offset + 4) != 0);
+        entity.setMunkaID(cursor.isNull(offset + 5) ? null : cursor.getLong(offset + 5));
      }
     
     /** @inheritdoc */
