@@ -58,8 +58,8 @@
     <string name="munkaFelvetelNullTime">Kérem adja meg a kezdési időpontot!</string>
     <string name="title_activity_new_job">Új munka</string>
     <string name="newJobNoEstimatedTime">Kérem adjon meg becsült időt!</string>
-    <string name="title_activity_sofor_details">SoforDetailsActivity</string>
-    <string name="title_activity_partner_details">PartnerDetailsActivity</string>
+    <string name="title_activity_sofor_details">Sofőr</string>
+    <string name="title_activity_partner_details">Partner</string>
     <string name="title_cars_section2">Szabad autók</string>
     <string name="title_cars_section1">Saját autó</string>
 

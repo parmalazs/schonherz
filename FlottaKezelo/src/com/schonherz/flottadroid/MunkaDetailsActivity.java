@@ -261,6 +261,6 @@ public class MunkaDetailsActivity extends Activity {
 			}
 		}
 		return true;
-	}
+	}	
 
 }

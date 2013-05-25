@@ -17,5 +17,11 @@
         android:orderInCategory="100"
         android:showAsAction="never"
         android:title="Új partner"/>  
+        
+    <item
+        android:id="@+id/new_sofor"
+        android:orderInCategory="100"
+        android:showAsAction="never"
+        android:title="Új sofőr"/>  
 
 </menu>

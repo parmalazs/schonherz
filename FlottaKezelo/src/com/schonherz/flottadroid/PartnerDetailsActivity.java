@@ -19,6 +19,7 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Toast;
 import android.support.v4.app.NavUtils;
 
 public class PartnerDetailsActivity extends Activity {
@@ -88,19 +89,55 @@ public class PartnerDetailsActivity extends Activity {
 			@Override
 			public void onClick(View v) {
 				// TODO Auto-generated method stub
-				savePartner();
+				if (!nevEditText.getText().toString().isEmpty()) {
+					savePartner();
+				}
+				else {
+					Toast.makeText(getApplicationContext(), "Elfelejtett nevet megadni!", Toast.LENGTH_LONG).show();
+				}
 			}
 		});
 	}
 	
 	public void savePartner() {
 		currentPartner.setPartnerNev(nevEditText.getText().toString());
-		currentPartner.setPartnerCim(cimEditText.getText().toString());
-		currentPartner.setPartnerTelefonszam(telEditText.getText().toString());
-		currentPartner.setPartnerWeboldal(webEditTetx.getText().toString());
-		currentPartner.setPartnerEmailcim(emailEditText.getText().toString());
-		currentPartner.setPartnerXkoordinata(Float.parseFloat(xEditText.getText().toString()));
-		currentPartner.setPartnerYkoodinata(Float.parseFloat(yEditText.getText().toString()));
+		if (!cimEditText.getText().toString().isEmpty()) {
+			currentPartner.setPartnerCim(cimEditText.getText().toString());
+		}
+		else {
+			currentPartner.setPartnerCim("null");
+		}
+		if (!telEditText.getText().toString().isEmpty()) {
+			currentPartner.setPartnerTelefonszam(telEditText.getText().toString());
+		}
+		else {
+			currentPartner.setPartnerTelefonszam("null");
+		}
+		if (!webEditTetx.getText().toString().isEmpty()) {
+			currentPartner.setPartnerWeboldal(webEditTetx.getText().toString());
+		}
+		else {
+			currentPartner.setPartnerWeboldal("null");
+		}
+		if (!emailEditText.getText().toString().isEmpty()) {
+			currentPartner.setPartnerEmailcim(emailEditText.getText().toString());
+		}
+		else {
+
+			currentPartner.setPartnerEmailcim("null");
+		}
+		if (!xEditText.getText().toString().isEmpty()) {
+			currentPartner.setPartnerXkoordinata(Float.parseFloat(xEditText.getText().toString()));
+		}
+		else {
+			currentPartner.setPartnerXkoordinata(0F);
+		}
+		if (!yEditText.getText().toString().isEmpty()) {
+			currentPartner.setPartnerYkoodinata(Float.parseFloat(yEditText.getText().toString()));
+		}
+		else {
+			currentPartner.setPartnerYkoodinata(0F);
+		}
 		
 		if (currentPartner.getPartnerID()==0L) {
 			currentPartner.setPartnerID(partnerDao.loadAll().get(partnerDao.loadAll().size()-1).getPartnerID()+1L);

@@ -187,11 +187,17 @@ public class AdminActivity extends FragmentActivity
 			case R.id.new_job:
 				Intent intentNewJob=new Intent(AdminActivity.this, NewJobActivity.class);
 				startActivity(intentNewJob);
-				break;
+				return true;
 				
 			case R.id.new_partner:
 				Intent intentNewPartner=new Intent(AdminActivity.this, PartnerDetailsActivity.class);
 				startActivity(intentNewPartner);
+				return true;
+				
+			case R.id.new_sofor:
+				Intent intentNewSofor=new Intent(AdminActivity.this, SoforDetailsActivity.class);
+				startActivity(intentNewSofor);
+				return true;
 		}
 		return super.onOptionsItemSelected(item);
 	}

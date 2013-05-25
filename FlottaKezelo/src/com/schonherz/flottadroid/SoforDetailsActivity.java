@@ -17,6 +17,7 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Toast;
 
 public class SoforDetailsActivity extends Activity {
 	
@@ -29,7 +30,7 @@ public class SoforDetailsActivity extends Activity {
 	private Sofor currentSofor;
 	
 	Button saveButton;
-	EditText nevEditTetx, cimEditText, telEditText, emailEditText;
+	EditText nevEditTetx, cimEditText, telEditText, emailEditText, loginEditTetx, passEditText, birthEditText;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -40,35 +41,73 @@ public class SoforDetailsActivity extends Activity {
 		
 		dataBaseInit();
 		
-		currentSofor=soforDao.queryBuilder().where(
-				Properties.SoforID.eq(
-						getIntent().getLongExtra("selectedSoforID", 0L))).list().get(0);
+		if (getIntent().getLongExtra("selectedSoforID", 0L)!=0L) {
+			currentSofor=soforDao.queryBuilder().where(
+					Properties.SoforID.eq(
+							getIntent().getLongExtra("selectedSoforID", 0L))).list().get(0);
+		}
+		else {
+			currentSofor=new Sofor();
+			currentSofor.setSoforID(0L);
+		}
 		
 		saveButton=(Button)findViewById(R.id.buttonSoforSave);
 		nevEditTetx=(EditText)findViewById(R.id.editTextSoforNev);
 		cimEditText=(EditText)findViewById(R.id.editTextSoforCim);
 		telEditText=(EditText)findViewById(R.id.editTextSoforTel);
 		emailEditText=(EditText)findViewById(R.id.editTextSoforEmail);
+		loginEditTetx=(EditText)findViewById(R.id.editTextSoforLogin);
+		passEditText=(EditText)findViewById(R.id.editTextSoforPass);
+		birthEditText=(EditText)findViewById(R.id.editTextSoforBirth);
 		
-		nevEditTetx.setText(currentSofor.getSoforNev());
-		cimEditText.setText(currentSofor.getSoforCim());
-		telEditText.setText(currentSofor.getSoforTelefonszam());
-		emailEditText.setText(currentSofor.getSoforEmail());
+		if(currentSofor.getSoforID()==0L) {
+			nevEditTetx.setText("null");
+			cimEditText.setText("null");
+			telEditText.setText("null");
+			emailEditText.setText("null");
+			loginEditTetx.setText("nulL");
+			passEditText.setText("null");
+			birthEditText.setText("null");
+		}
+		else {
+			nevEditTetx.setText(currentSofor.getSoforNev());
+			cimEditText.setText(currentSofor.getSoforCim());
+			telEditText.setText(currentSofor.getSoforTelefonszam());
+			emailEditText.setText(currentSofor.getSoforEmail());
+			loginEditTetx.setText(currentSofor.getSoforLogin());
+			passEditText.setText(currentSofor.getSoforPass());
+			birthEditText.setText(currentSofor.getSoforBirthDate());
+		}
 		
 		saveButton.setOnClickListener(new OnClickListener() {
 			
 			@Override
 			public void onClick(View v) {
 				// TODO Auto-generated method stub
-				saveSofor();
+				if (!nevEditTetx.getText().toString().isEmpty()) {
+					if (!loginEditTetx.getText().toString().isEmpty()) {
+						if(!passEditText.getText().toString().isEmpty()) {
+							saveSofor();
+						}
+						else {
+							Toast.makeText(getApplicationContext(), "Elfelejtett jelszót megadni!", Toast.LENGTH_LONG).show();
+						}
+					}
+					else {
+						Toast.makeText(getApplicationContext(), "Elfelejtett login nevet megadni!", Toast.LENGTH_LONG).show();
+					}
+				}
+				else {
+					Toast.makeText(getApplicationContext(), "Elfelejtett nevet megadni!", Toast.LENGTH_LONG).show();
+				}
 			}
 		});
 	}
 	
 	public void saveSofor() {
-		if (!nevEditTetx.getText().toString().isEmpty()){
-			currentSofor.setSoforNev(nevEditTetx.getText().toString());
-		}
+		currentSofor.setSoforNev(nevEditTetx.getText().toString());
+		currentSofor.setSoforLogin(loginEditTetx.getText().toString());
+		currentSofor.setSoforPass(passEditText.getText().toString());
 		
 		if (!cimEditText.getText().toString().isEmpty()) {
 			currentSofor.setSoforCim(cimEditText.getText().toString());
@@ -89,6 +128,19 @@ public class SoforDetailsActivity extends Activity {
 		}
 		else {
 			currentSofor.setSoforEmail("null");
+		}
+				
+		if (!birthEditText.getText().toString().isEmpty()) {
+			currentSofor.setSoforBirthDate(birthEditText.getText().toString());
+		}
+		else {
+			currentSofor.setSoforBirthDate("null");
+		}
+		
+		if (currentSofor.getSoforID()==0L) {
+			currentSofor.setSoforID(soforDao.loadAll().get(soforDao.loadAll().size()-1).getSoforID()+1L);
+			soforDao.insert(currentSofor);
+			finish();
 		}
 		
 		soforDao.update(currentSofor);
