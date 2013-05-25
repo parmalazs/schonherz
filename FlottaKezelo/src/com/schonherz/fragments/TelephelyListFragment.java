@@ -13,6 +13,7 @@ import android.app.AlertDialog;
 import android.app.SearchManager;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.media.Ringtone;
 import android.media.RingtoneManager;
 import android.net.Uri;
@@ -28,6 +29,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
+import android.widget.AdapterView;
+import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ImageView;
 import android.widget.SearchView;
 import android.widget.Toast;
@@ -42,7 +45,9 @@ import com.schonherz.classes.PullToRefreshListView.OnRefreshListener;
 import com.schonherz.dbentities.Partner;
 import com.schonherz.dbentities.Telephely;
 import com.schonherz.dbentities.TelephelyDao;
+import com.schonherz.flottadroid.MunkaDetailsActivity;
 import com.schonherz.flottadroid.R;
+import com.schonherz.flottadroid.TelephelyDetailsActivity;
 
 public class TelephelyListFragment extends Fragment {
 
@@ -148,6 +153,19 @@ public class TelephelyListFragment extends Fragment {
 		adapter = new TelephelyAdapter(context, R.layout.list_item_telephely,
 				telephelyek, telephelyDao);
 		pullListView.setAdapter(adapter);
+		
+		pullListView.setOnItemClickListener(new OnItemClickListener() {
+
+			@Override
+			public void onItemClick(AdapterView<?> arg0, View arg1, int position,
+					long arg3) {
+				// TODO Auto-generated method stub
+				Intent intent=new Intent(getActivity(), TelephelyDetailsActivity.class);
+				intent.putExtra("selectedTelephelyID", telephelyek.get(position-1).getTelephelyID());
+				startActivity(intent);
+				getActivity().overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
+			}
+		});
 
 		pullListView.setOnRefreshListener(new OnRefreshListener() {
 
@@ -188,7 +206,7 @@ public class TelephelyListFragment extends Fragment {
 							pullListView.onRefreshComplete();
 							adapter.clear();
 
-							ArrayList<Telephely> telephelyek = new ArrayList<Telephely>(
+							telephelyek = new ArrayList<Telephely>(
 									telephelyDao.loadAll());
 							adapter.addAll(telephelyek);
 							adapter.notifyDataSetChanged();
@@ -304,7 +322,7 @@ public class TelephelyListFragment extends Fragment {
 
 							adapter.clear();
 
-							ArrayList<Telephely> telephelyek = new ArrayList<Telephely>(
+							telephelyek = new ArrayList<Telephely>(
 									telephelyDao.loadAll());
 							adapter.addAll(telephelyek);
 							adapter.notifyDataSetChanged();
@@ -336,7 +354,13 @@ public class TelephelyListFragment extends Fragment {
 	@Override
 	public void onResume() {
 		// TODO Auto-generated method stub
+		
+		adapter.clear();
+		telephelyek = new ArrayList<Telephely>(
+				telephelyDao.loadAll());
+		adapter.addAll(telephelyek);
 		adapter.notifyDataSetChanged();
+		
 		super.onResume();
 	}
 

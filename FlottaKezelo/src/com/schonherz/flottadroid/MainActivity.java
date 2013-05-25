@@ -111,6 +111,7 @@ public class MainActivity extends Activity {
 				Intent intent = new Intent(MainActivity.this,
 						JobsActivity.class);
 				MainActivity.this.startActivity(intent);
+				overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
 			}
 		});
 
@@ -123,6 +124,7 @@ public class MainActivity extends Activity {
 				Intent intent = new Intent(MainActivity.this,
 						AdminActivity.class);
 				MainActivity.this.startActivity(intent);
+				overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
 			}
 		});
 
@@ -134,6 +136,7 @@ public class MainActivity extends Activity {
 				// TODO Auto-generated method stub
 				Intent intent = new Intent(MainActivity.this, MapActivity.class);
 				MainActivity.this.startActivity(intent);
+				overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
 			}
 		});
 
@@ -146,6 +149,7 @@ public class MainActivity extends Activity {
 				Intent intent = new Intent(MainActivity.this,
 						RefreshActivity.class);
 				MainActivity.this.startActivity(intent);
+				overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
 			}
 		});
 
@@ -158,6 +162,7 @@ public class MainActivity extends Activity {
 				Intent intent = new Intent(MainActivity.this,
 						ContactActivity.class);
 				MainActivity.this.startActivity(intent);
+				overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
 			}
 		});
 
@@ -169,6 +174,7 @@ public class MainActivity extends Activity {
 				// TODO Auto-generated method stub
 				Intent intent = new Intent(MainActivity.this, CarActivity.class);
 				MainActivity.this.startActivity(intent);
+				overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
 			}
 		});
 

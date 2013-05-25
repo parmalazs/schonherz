@@ -167,6 +167,7 @@ public class JobsActivity extends FragmentActivity implements ActionBar.TabListe
 					// http://developer.android.com/design/patterns/navigation.html#up-vs-back
 					//
 					NavUtils.navigateUpFromSameTask(this);
+					overridePendingTransition(R.anim.slide_out_right, R.anim.slide_in_left);
 					return true;
 			}
 			return super.onOptionsItemSelected(item);
@@ -239,6 +240,14 @@ public class JobsActivity extends FragmentActivity implements ActionBar.TabListe
 			soforDao = daoSession.getSoforDao();
 			telephelyDao = daoSession.getTelephelyDao();
 
+		}
+		
+		@Override
+		public void onBackPressed() {
+			// TODO Auto-generated method stub
+			super.onBackPressed();
+			finish();
+			this.overridePendingTransition(R.anim.slide_out_right, R.anim.slide_in_left); 		
 		}
 
 }

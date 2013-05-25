@@ -31,7 +31,6 @@ public class PartnerDetailsActivity extends Activity {
 	
 	Partner currentPartner;
 	PartnerDao partnerDao;
-	SessionManager sessionManager;
 	
 	EditText nevEditText, cimEditText, telEditText, webEditTetx, emailEditText, xEditText, yEditText;
 	Button savePartner;

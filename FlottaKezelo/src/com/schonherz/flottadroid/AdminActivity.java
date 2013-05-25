@@ -182,6 +182,7 @@ public class AdminActivity extends FragmentActivity
 				// http://developer.android.com/design/patterns/navigation.html#up-vs-back
 				//
 				NavUtils.navigateUpFromSameTask(this);
+				overridePendingTransition(R.anim.slide_out_right, R.anim.slide_in_left);
 				return true;
 				
 			case R.id.new_job:
@@ -198,8 +199,21 @@ public class AdminActivity extends FragmentActivity
 				Intent intentNewSofor=new Intent(AdminActivity.this, SoforDetailsActivity.class);
 				startActivity(intentNewSofor);
 				return true;
+				
+			case R.id.new_telephely:
+				Intent intentNewTelephely=new Intent(AdminActivity.this, TelephelyDetailsActivity.class);
+				startActivity(intentNewTelephely);
+				return true;
 		}
 		return super.onOptionsItemSelected(item);
+	}
+	
+	@Override
+	public void onBackPressed() {
+		// TODO Auto-generated method stub
+		super.onBackPressed();
+		finish();
+		this.overridePendingTransition(R.anim.slide_out_right, R.anim.slide_in_left); 		
 	}
 
 	@Override

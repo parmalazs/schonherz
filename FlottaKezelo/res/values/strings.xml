@@ -62,5 +62,6 @@
     <string name="title_activity_partner_details">Partner</string>
     <string name="title_cars_section2">Szabad autók</string>
     <string name="title_cars_section1">Saját autó</string>
+    <string name="title_activity_telephely_details">Telephely</string>
 
 </resources>

@@ -179,6 +179,13 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.schonherz.flottadroid.AdminActivity" />
         </activity>
+        <activity
+            android:name="com.schonherz.flottadroid.TelephelyDetailsActivity"
+            android:label="@string/title_activity_telephely_details" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.schonherz.flottadroid.AdminActivity" />
+        </activity>
     </application>
 
 </manifest>
