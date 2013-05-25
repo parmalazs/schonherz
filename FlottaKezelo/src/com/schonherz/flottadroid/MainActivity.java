@@ -136,6 +136,7 @@ public class MainActivity extends Activity {
 				// TODO Auto-generated method stub
 				Intent intent = new Intent(MainActivity.this, MapActivity.class);
 				MainActivity.this.startActivity(intent);
+				overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
 			}
 		});
 

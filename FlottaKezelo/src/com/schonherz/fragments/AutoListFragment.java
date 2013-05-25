@@ -195,7 +195,7 @@ public class AutoListFragment extends Fragment {
 
 							adapter.clear();
 
-							ArrayList<Auto> autok = new ArrayList<Auto>(autoDao
+							autok = new ArrayList<Auto>(autoDao
 									.loadAll());
 
 							adapter.addAll(autok);
@@ -402,7 +402,7 @@ public class AutoListFragment extends Fragment {
 
 							adapter.clear();
 
-							ArrayList<Auto> autok = new ArrayList<Auto>(
+							autok = new ArrayList<Auto>(
 									autoDao.loadAll());
 
 							adapter.addAll(autok);
@@ -438,6 +438,13 @@ public class AutoListFragment extends Fragment {
 	@Override
 	public void onResume() {
 		// TODO Auto-generated method stub
+		adapter.clear();
+
+		autok = new ArrayList<Auto>(autoDao
+				.loadAll());
+
+		adapter.addAll(autok);
+
 		adapter.notifyDataSetChanged();
 		super.onResume();
 	}

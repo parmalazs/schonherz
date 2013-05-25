@@ -195,7 +195,7 @@ public class SzabadAutoListFragment extends Fragment {
 
 							adapter.clear();
 
-							ArrayList<Auto> autok = new ArrayList<Auto>(autoDao.queryBuilder().where(com.schonherz.dbentities.AutoDao.Properties.AutoFoglalt.eq(true)).list());
+							autok = new ArrayList<Auto>(autoDao.queryBuilder().where(com.schonherz.dbentities.AutoDao.Properties.AutoFoglalt.eq(true)).list());
 
 							adapter.addAll(autok);
 
@@ -403,7 +403,7 @@ public class SzabadAutoListFragment extends Fragment {
 
 							adapter.clear();
 
-							ArrayList<Auto> autok = new ArrayList<Auto>(autoDao.queryBuilder().where(com.schonherz.dbentities.AutoDao.Properties.AutoFoglalt.eq(true)).list());
+							autok = new ArrayList<Auto>(autoDao.queryBuilder().where(com.schonherz.dbentities.AutoDao.Properties.AutoFoglalt.eq(true)).list());
 
 							adapter.addAll(autok);
 
@@ -438,7 +438,15 @@ public class SzabadAutoListFragment extends Fragment {
 	@Override
 	public void onResume() {
 		// TODO Auto-generated method stub
+		
+		adapter.clear();
+
+		autok = new ArrayList<Auto>(autoDao.queryBuilder().where(com.schonherz.dbentities.AutoDao.Properties.AutoFoglalt.eq(true)).list());
+
+		adapter.addAll(autok);
+
 		adapter.notifyDataSetChanged();
+		
 		super.onResume();
 	}
 

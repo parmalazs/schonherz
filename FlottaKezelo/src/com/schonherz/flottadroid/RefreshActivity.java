@@ -129,9 +129,18 @@ public class RefreshActivity extends Activity {
 		switch (item.getItemId()) {
 			case android.R.id.home :
 				NavUtils.navigateUpFromSameTask(this);
+				this.overridePendingTransition(R.anim.slide_out_right, R.anim.slide_in_left);
 				return true;
 		}
 		return super.onOptionsItemSelected(item);
+	}
+	
+	@Override
+	public void onBackPressed() {
+		// TODO Auto-generated method stub
+		super.onBackPressed();
+		finish();
+		this.overridePendingTransition(R.anim.slide_out_right, R.anim.slide_in_left); 		
 	}
 
 	private void initTables() {
