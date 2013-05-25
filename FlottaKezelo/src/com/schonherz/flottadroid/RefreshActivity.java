@@ -1,5 +1,6 @@
 package com.schonherz.flottadroid;
 
+import java.io.File;
 import java.util.ArrayList;
 
 import org.json.JSONArray;
@@ -9,6 +10,7 @@ import android.app.Activity;
 import android.content.SharedPreferences;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
+import android.os.Environment;
 import android.support.v4.app.NavUtils;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -17,6 +19,7 @@ import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.TextView;
 
+import com.schonherz.classes.ImageDownloadUtil;
 import com.schonherz.classes.JsonArrayToArrayList;
 import com.schonherz.classes.JsonFromUrl;
 import com.schonherz.dbentities.Auto;
@@ -34,6 +37,7 @@ import com.schonherz.dbentities.MunkaTipusDao;
 import com.schonherz.dbentities.Partner;
 import com.schonherz.dbentities.PartnerDao;
 import com.schonherz.dbentities.PartnerKepDao;
+import com.schonherz.dbentities.ProfilKep;
 import com.schonherz.dbentities.ProfilKepDao;
 import com.schonherz.dbentities.Sofor;
 import com.schonherz.dbentities.SoforDao;
@@ -67,7 +71,9 @@ public class RefreshActivity extends Activity {
 
 	Button syncButton;
 	Button imgUploadButton;
-
+	
+	File sdcard;
+	
 	String soforUrl = "http://www.flotta.host-ed.me/querySoforTable.php";
 	String autoUrl = "http://www.flotta.host-ed.me/queryAutoTable.php";
 	String partnerUrl = "http://www.flotta.host-ed.me/queryPartnerTable.php";
@@ -284,15 +290,28 @@ public class RefreshActivity extends Activity {
 	public String saveAllPictures() {
 		JSONArray jsonArray;
 		JSONObject json = new JSONObject();
-
+		sdcard = Environment.getExternalStorageDirectory();
 		try {
 			// get profilkeptable
 
 			jsonArray = (JSONArray) JsonFromUrl.getJsonObjectFromUrl(
 					profilKepUrl, json.toString());
 
-		     //ArrayList<>
-			
+		     ArrayList<ProfilKep> profilkepek = JsonArrayToArrayList.JsonArrayToProfilKepek(jsonArray);
+			 
+		     profilKepDao.dropTable(profilKepDao.getDatabase(), true);
+		     profilKepDao.createTable(profilKepDao.getDatabase(), true);
+		     
+		     for(int i = 0; i< profilkepek.size();i++)
+		     {
+		    	 String photoDirPath = sdcard.getAbsolutePath() + "/" + "FlottaDroid/SoforImages/"+profilkepek.get(i).getSoforID();		    	
+		    	 ImageDownloadUtil.downloadImage(profilkepek.get(i).getProfilKepPath(), photoDirPath, Long.toString(profilkepek.get(i).getProfilKepID())+".jpg");
+		    	 profilkepek.get(i).setProfilKepPath(photoDirPath+Long.toString(profilkepek.get(i).getProfilKepID())+".jpg");
+		    	 
+		    	 profilKepDao.insert(profilkepek.get(i));
+		     }
+		     
+		     
 			
 		} catch (Exception ex) {
 			ex.printStackTrace();
@@ -301,5 +320,6 @@ public class RefreshActivity extends Activity {
 		return "";
 
 	}
+
 
 }

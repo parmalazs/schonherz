@@ -12,7 +12,7 @@ import android.os.Environment;
 
 public class ImageDownloadUtil {
 
-	public void downloadImage(String imageUrl, String sdCardPath, String fileName) {
+	public static void downloadImage(String imageUrl, String sdCardPath, String fileName) {
 		try {
 			// set the download URL, a url that points to a file on the internet
 			// this is the file to be downloaded
@@ -35,8 +35,15 @@ public class ImageDownloadUtil {
 			File SDCardRoot = Environment.getExternalStorageDirectory();
 			// create a new file, specifying the path, and the filename
 			// which we want to save the file as.
+			File pathDir = new File(sdCardPath);
+			
+			if(!pathDir.exists())
+			{
+				pathDir.mkdirs();
+			}
+			
 			File file = new File(sdCardPath, fileName);
-
+			
 			// this will be used to write the downloaded data into the file we
 			// created
 			FileOutputStream fileOutput = new FileOutputStream(file);
