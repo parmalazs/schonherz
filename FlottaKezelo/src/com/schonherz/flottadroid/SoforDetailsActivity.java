@@ -139,6 +139,7 @@ public class SoforDetailsActivity extends Activity {
 		
 		if (currentSofor.getSoforID()==0L) {
 			currentSofor.setSoforID(soforDao.loadAll().get(soforDao.loadAll().size()-1).getSoforID()+1L);
+			currentSofor.setSoforIsActive(true);
 			soforDao.insert(currentSofor);
 			finish();
 		}

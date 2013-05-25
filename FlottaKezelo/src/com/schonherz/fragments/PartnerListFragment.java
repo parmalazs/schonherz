@@ -43,6 +43,7 @@ import com.schonherz.classes.PullToRefreshListView;
 import com.schonherz.classes.PullToRefreshListView.OnRefreshListener;
 import com.schonherz.dbentities.Partner;
 import com.schonherz.dbentities.PartnerDao;
+import com.schonherz.dbentities.PartnerDao.Properties;
 import com.schonherz.flottadroid.PartnerDetailsActivity;
 import com.schonherz.flottadroid.R;
 
@@ -147,7 +148,7 @@ public class PartnerListFragment extends Fragment {
 		pullListView = (PullToRefreshListView) v
 				.findViewById(R.id.pulltorefresh_listview);
 		
-		partnerek =new ArrayList<Partner>(partnerDao.loadAll());
+		partnerek =new ArrayList<Partner>(partnerDao.queryBuilder().where(Properties.PartnerIsActive.eq(true)).list());
 		adapter=new PartnerAdapter(context, R.layout.list_item_partner, partnerek, partnerDao);
 		pullListView.setAdapter(adapter);
 		
@@ -201,7 +202,7 @@ public class PartnerListFragment extends Fragment {
 							
 							pullListView.onRefreshComplete();
 							adapter.clear();
-							partnerek=new ArrayList<Partner>(partnerDao.loadAll());
+							partnerek=new ArrayList<Partner>(partnerDao.queryBuilder().where(Properties.PartnerIsActive.eq(true)).list());
 							adapter.addAll(partnerek);
 							adapter.notifyDataSetChanged();
 							
@@ -322,7 +323,7 @@ public class PartnerListFragment extends Fragment {
 							}
 														
 							adapter.clear();
-							partnerek=new ArrayList<Partner>(partnerDao.loadAll());
+							partnerek=new ArrayList<Partner>(partnerDao.queryBuilder().where(Properties.PartnerIsActive.eq(true)).list());
 							adapter.addAll(partnerek);
 							adapter.notifyDataSetChanged();
 							
@@ -358,7 +359,7 @@ public class PartnerListFragment extends Fragment {
 	public void onResume() {
 		// TODO Auto-generated method stub
 		adapter.clear();
-		partnerek=new ArrayList<Partner>(partnerDao.loadAll());
+		partnerek=new ArrayList<Partner>(partnerDao.queryBuilder().where(Properties.PartnerIsActive.eq(true)).list());
 		adapter.addAll(partnerek);
 		adapter.notifyDataSetChanged();
 		super.onResume();

@@ -44,6 +44,7 @@ import com.schonherz.classes.PullToRefreshListView;
 import com.schonherz.classes.PullToRefreshListView.OnRefreshListener;
 import com.schonherz.dbentities.Sofor;
 import com.schonherz.dbentities.SoforDao;
+import com.schonherz.dbentities.SoforDao.Properties;
 import com.schonherz.flottadroid.MunkaDetailsActivity;
 import com.schonherz.flottadroid.R;
 import com.schonherz.flottadroid.SoforDetailsActivity;
@@ -149,7 +150,7 @@ public class SoforListFragment extends Fragment {
 		pullListView = (PullToRefreshListView) v
 				.findViewById(R.id.pulltorefresh_listview);
 
-		soforok = new ArrayList<Sofor>(soforDao.loadAll());
+		soforok = new ArrayList<Sofor>(soforDao.queryBuilder().where(Properties.SoforIsActive.eq(true)).list());
 
 		adapter = new SoforAdapter(context, R.layout.list_item_sofor, soforok,
 				soforDao);
@@ -209,7 +210,7 @@ public class SoforListFragment extends Fragment {
 							adapter.clear();
 
 							soforok = new ArrayList<Sofor>(
-									soforDao.loadAll());
+									soforDao.queryBuilder().where(Properties.SoforIsActive.eq(true)).list());
 							adapter.addAll(soforok);
 							adapter.notifyDataSetChanged();
 
@@ -343,7 +344,7 @@ public class SoforListFragment extends Fragment {
 							adapter.clear();
 
 							soforok = new ArrayList<Sofor>(
-									soforDao.loadAll());
+									soforDao.queryBuilder().where(Properties.SoforIsActive.eq(true)).list());
 							adapter.addAll(soforok);
 							adapter.notifyDataSetChanged();
 
@@ -383,7 +384,7 @@ public class SoforListFragment extends Fragment {
 		adapter.clear();
 
 		soforok = new ArrayList<Sofor>(
-				soforDao.loadAll());
+				soforDao.queryBuilder().where(Properties.SoforIsActive.eq(true)).list());
 		adapter.addAll(soforok);
 		adapter.notifyDataSetChanged();
 		

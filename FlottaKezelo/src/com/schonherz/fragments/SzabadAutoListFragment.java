@@ -149,7 +149,8 @@ public class SzabadAutoListFragment extends Fragment {
 		pullListView = (PullToRefreshListView) v
 				.findViewById(R.id.pulltorefresh_listview);
 
-		autok = new ArrayList<Auto>(autoDao.queryBuilder().where(com.schonherz.dbentities.AutoDao.Properties.AutoFoglalt.eq(true)).list());
+		autok = new ArrayList<Auto>(autoDao.queryBuilder().where(com.schonherz.dbentities.AutoDao.Properties.AutoFoglalt.eq(true),
+				com.schonherz.dbentities.AutoDao.Properties.AutoIsActive.eq(true)).list());
 
 		adapter = new AutoAdapter(context, R.layout.list_item_auto, autok,
 				autoDao);
@@ -195,7 +196,8 @@ public class SzabadAutoListFragment extends Fragment {
 
 							adapter.clear();
 
-							autok = new ArrayList<Auto>(autoDao.queryBuilder().where(com.schonherz.dbentities.AutoDao.Properties.AutoFoglalt.eq(true)).list());
+							autok = new ArrayList<Auto>(autoDao.queryBuilder().where(com.schonherz.dbentities.AutoDao.Properties.AutoFoglalt.eq(true),
+									com.schonherz.dbentities.AutoDao.Properties.AutoIsActive.eq(true)).list());
 
 							adapter.addAll(autok);
 
@@ -324,7 +326,8 @@ public class SzabadAutoListFragment extends Fragment {
 									case 5 :
 										List<Auto> temp = autoDao
 												.queryBuilder()
-												.where(com.schonherz.dbentities.AutoDao.Properties.AutoFoglalt.eq(true))
+												.where(com.schonherz.dbentities.AutoDao.Properties.AutoFoglalt.eq(true),
+														com.schonherz.dbentities.AutoDao.Properties.AutoIsActive.eq(true))
 												.orderDesc(
 														com.schonherz.dbentities.AutoDao.Properties.AutoMuszakiVizsgaDate)
 												.list();
@@ -337,7 +340,8 @@ public class SzabadAutoListFragment extends Fragment {
 									case 6 :
 										List<Auto> temp2 = autoDao
 										.queryBuilder()
-										.where(com.schonherz.dbentities.AutoDao.Properties.AutoFoglalt.eq(true))
+										.where(com.schonherz.dbentities.AutoDao.Properties.AutoFoglalt.eq(true),
+												com.schonherz.dbentities.AutoDao.Properties.AutoIsActive.eq(true))
 										.orderDesc(
 												com.schonherz.dbentities.AutoDao.Properties.AutoLastSzervizDate)
 										.list();
@@ -403,7 +407,8 @@ public class SzabadAutoListFragment extends Fragment {
 
 							adapter.clear();
 
-							autok = new ArrayList<Auto>(autoDao.queryBuilder().where(com.schonherz.dbentities.AutoDao.Properties.AutoFoglalt.eq(true)).list());
+							autok = new ArrayList<Auto>(autoDao.queryBuilder().where(com.schonherz.dbentities.AutoDao.Properties.AutoFoglalt.eq(true),
+									com.schonherz.dbentities.AutoDao.Properties.AutoIsActive.eq(true)).list());
 
 							adapter.addAll(autok);
 
@@ -441,7 +446,8 @@ public class SzabadAutoListFragment extends Fragment {
 		
 		adapter.clear();
 
-		autok = new ArrayList<Auto>(autoDao.queryBuilder().where(com.schonherz.dbentities.AutoDao.Properties.AutoFoglalt.eq(true)).list());
+		autok = new ArrayList<Auto>(autoDao.queryBuilder().where(com.schonherz.dbentities.AutoDao.Properties.AutoFoglalt.eq(true),
+				com.schonherz.dbentities.AutoDao.Properties.AutoIsActive.eq(true)).list());
 
 		adapter.addAll(autok);
 

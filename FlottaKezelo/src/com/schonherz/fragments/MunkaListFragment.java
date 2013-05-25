@@ -44,6 +44,8 @@ import com.schonherz.dbentities.MunkaDao.Properties;
 import com.schonherz.flottadroid.MunkaDetailsActivity;
 import com.schonherz.flottadroid.R;
 
+import de.greenrobot.dao.QueryBuilder;
+
 public class MunkaListFragment extends Fragment {
 
 	Context context;
@@ -148,7 +150,7 @@ public class MunkaListFragment extends Fragment {
 		pullListView = (PullToRefreshListView) v
 				.findViewById(R.id.pulltorefresh_listview);
 
-		munkak = new ArrayList<Munka>(munkaDao.loadAll());
+		munkak = new ArrayList<Munka>(munkaDao.queryBuilder().where(Properties.MunkaIsActive.eq(true)).list());
 		adapter = new MunkaAdapter(context, R.layout.list_item_munka, munkak,
 				munkaDao);
 		pullListView.setAdapter(adapter);
@@ -257,12 +259,13 @@ public class MunkaListFragment extends Fragment {
 							public void onClick(DialogInterface dialog,
 									int which) {
 								// TODO Auto-generated method stub
+								QueryBuilder<Munka> q=munkaDao.queryBuilder().where(Properties.MunkaIsActive.eq(true));
 								switch(which)
 								{
 									case 0:
 										if(dateSortAsc == false)
 										{
-											List<Munka> tempMunkaSort = munkaDao.queryBuilder().orderAsc(Properties.MunkaDate).list();
+											List<Munka> tempMunkaSort = q.orderAsc(Properties.MunkaDate).list();
 											munkak.clear();
 											munkak.addAll(tempMunkaSort);
 											adapter.clear();
@@ -272,7 +275,7 @@ public class MunkaListFragment extends Fragment {
 										}
 										else
 										{
-											List<Munka> tempMunkaSort = munkaDao.queryBuilder().orderDesc(Properties.MunkaDate).list();
+											List<Munka> tempMunkaSort = q.orderDesc(Properties.MunkaDate).list();
 											munkak.clear();
 											munkak.addAll(tempMunkaSort);
 											adapter.clear();
@@ -284,7 +287,7 @@ public class MunkaListFragment extends Fragment {
 									case 1:
 										if(telepheyAsc == false)
 										{
-											List<Munka> tempMunkaSort = munkaDao.queryBuilder().orderAsc(Properties.TelephelyID).list();
+											List<Munka> tempMunkaSort = q.orderAsc(Properties.TelephelyID).list();
 											munkak.clear();
 											munkak.addAll(tempMunkaSort);
 											adapter.clear();
@@ -294,7 +297,7 @@ public class MunkaListFragment extends Fragment {
 										}
 										else
 										{
-											List<Munka> tempMunkaSort = munkaDao.queryBuilder().orderDesc(Properties.TelephelyID).list();
+											List<Munka> tempMunkaSort = q.orderDesc(Properties.TelephelyID).list();
 											munkak.clear();
 											munkak.addAll(tempMunkaSort);
 											adapter.clear();
@@ -306,7 +309,7 @@ public class MunkaListFragment extends Fragment {
 									case 2:
 										if(estTimeAsc == false)
 										{
-											List<Munka> tempMunkaSort = munkaDao.queryBuilder().orderAsc(Properties.MunkaEstimatedTime).list();
+											List<Munka> tempMunkaSort = q.orderAsc(Properties.MunkaEstimatedTime).list();
 											munkak.clear();
 											munkak.addAll(tempMunkaSort);
 											adapter.clear();
@@ -316,7 +319,7 @@ public class MunkaListFragment extends Fragment {
 										}
 										else
 										{
-											List<Munka> tempMunkaSort = munkaDao.queryBuilder().orderDesc(Properties.MunkaEstimatedTime).list();
+											List<Munka> tempMunkaSort = q.orderDesc(Properties.MunkaEstimatedTime).list();
 											munkak.clear();
 											munkak.addAll(tempMunkaSort);
 											adapter.clear();
@@ -328,7 +331,7 @@ public class MunkaListFragment extends Fragment {
 									case 3:
 										if(munkaTypeAsc == false)
 										{
-											List<Munka> tempMunkaSort = munkaDao.queryBuilder().orderAsc(Properties.MunkaTipusID).list();
+											List<Munka> tempMunkaSort = q.orderAsc(Properties.MunkaTipusID).list();
 											munkak.clear();
 											munkak.addAll(tempMunkaSort);
 											adapter.clear();
@@ -338,7 +341,7 @@ public class MunkaListFragment extends Fragment {
 										}
 										else
 										{
-											List<Munka> tempMunkaSort = munkaDao.queryBuilder().orderDesc(Properties.MunkaTipusID).list();
+											List<Munka> tempMunkaSort = q.orderDesc(Properties.MunkaTipusID).list();
 											munkak.clear();
 											munkak.addAll(tempMunkaSort);
 											adapter.clear();
@@ -392,7 +395,7 @@ public class MunkaListFragment extends Fragment {
 							adapter.clear();
 
 							munkak = new ArrayList<Munka>(
-									munkaDao.loadAll());
+									munkaDao.queryBuilder().where(Properties.MunkaIsActive.eq(true)).list());
 							adapter.addAll(munkak);
 							adapter.notifyDataSetChanged();
 							
@@ -431,7 +434,7 @@ public class MunkaListFragment extends Fragment {
 		adapter.clear();
 
 		munkak = new ArrayList<Munka>(
-				munkaDao.loadAll());
+				munkaDao.queryBuilder().where(Properties.MunkaIsActive.eq(true)).list());
 		adapter.addAll(munkak);
 		adapter.notifyDataSetChanged();
 		

@@ -45,6 +45,7 @@ import com.schonherz.classes.PullToRefreshListView.OnRefreshListener;
 import com.schonherz.dbentities.Partner;
 import com.schonherz.dbentities.Telephely;
 import com.schonherz.dbentities.TelephelyDao;
+import com.schonherz.dbentities.TelephelyDao.Properties;
 import com.schonherz.flottadroid.MunkaDetailsActivity;
 import com.schonherz.flottadroid.R;
 import com.schonherz.flottadroid.TelephelyDetailsActivity;
@@ -148,7 +149,7 @@ public class TelephelyListFragment extends Fragment {
 		pullListView = (PullToRefreshListView) v
 				.findViewById(R.id.pulltorefresh_listview);
 
-		telephelyek = new ArrayList<Telephely>(telephelyDao.loadAll());
+		telephelyek = new ArrayList<Telephely>(telephelyDao.queryBuilder().where(Properties.TelephelyIsActive.eq(true)).list());
 
 		adapter = new TelephelyAdapter(context, R.layout.list_item_telephely,
 				telephelyek, telephelyDao);
@@ -207,7 +208,7 @@ public class TelephelyListFragment extends Fragment {
 							adapter.clear();
 
 							telephelyek = new ArrayList<Telephely>(
-									telephelyDao.loadAll());
+									telephelyDao.queryBuilder().where(Properties.TelephelyIsActive.eq(true)).list());
 							adapter.addAll(telephelyek);
 							adapter.notifyDataSetChanged();
 
@@ -323,7 +324,7 @@ public class TelephelyListFragment extends Fragment {
 							adapter.clear();
 
 							telephelyek = new ArrayList<Telephely>(
-									telephelyDao.loadAll());
+									telephelyDao.queryBuilder().where(Properties.TelephelyIsActive.eq(true)).list());
 							adapter.addAll(telephelyek);
 							adapter.notifyDataSetChanged();
 
@@ -357,7 +358,7 @@ public class TelephelyListFragment extends Fragment {
 		
 		adapter.clear();
 		telephelyek = new ArrayList<Telephely>(
-				telephelyDao.loadAll());
+				telephelyDao.queryBuilder().where(Properties.TelephelyIsActive.eq(true)).list());
 		adapter.addAll(telephelyek);
 		adapter.notifyDataSetChanged();
 		

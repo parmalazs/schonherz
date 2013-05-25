@@ -140,6 +140,7 @@ public class PartnerDetailsActivity extends Activity {
 		
 		if (currentPartner.getPartnerID()==0L) {
 			currentPartner.setPartnerID(partnerDao.loadAll().get(partnerDao.loadAll().size()-1).getPartnerID()+1L);
+			currentPartner.setPartnerIsActive(true);
 			partnerDao.insert(currentPartner);
 			finish();
 		}
