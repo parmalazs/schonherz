@@ -65,5 +65,6 @@
     <string name="title_activity_telephely_details">Telephely</string>
 	<string name="title_partners">Partnerek</string>
     <string name="title_soforok">Soforok</string>
-
+    <string name="title_activity_car_details">Autó részletező</string>
+	
 </resources>

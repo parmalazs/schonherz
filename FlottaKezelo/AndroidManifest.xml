@@ -127,6 +127,16 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.schonherz.flottadroid.JobsActivity" />
         </activity>
+        
+        <activity
+            android:name="com.schonherz.flottadroid.CarDetailsActivity"
+            android:configChanges="orientation|screenSize"
+            android:label="@string/title_activity_car_details" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.schonherz.flottadroid.CarActivity" />
+        </activity>
+        
 
         <service android:name="com.schonherz.flottadroid.GCMIntentService" />
 

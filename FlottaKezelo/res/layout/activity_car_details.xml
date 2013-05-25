@@ -1,0 +1,121 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:paddingBottom="@dimen/activity_vertical_margin"
+    android:paddingLeft="@dimen/activity_horizontal_margin"
+    android:paddingRight="@dimen/activity_horizontal_margin"
+    android:paddingTop="@dimen/activity_vertical_margin"
+    tools:context=".CarDetailsActivity" >
+
+    <TextView
+        android:id="@+id/autoNevTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentTop="true"
+        android:layout_marginTop="19dp"
+        android:text="Név:"
+        android:textAppearance="?android:attr/textAppearanceMedium" />
+    
+    
+    <TextView
+        android:id="@+id/autoTipusTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/autoNevTextView"
+        android:layout_marginTop="14dp"
+        android:text="Típus: "
+        android:textAppearance="?android:attr/textAppearanceMedium" />  
+
+    <TextView
+        android:id="@+id/autoRendszamTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/autoTipusTextView"
+        android:layout_alignLeft="@+id/autoTipusTextView"
+        android:layout_marginTop="14dp"
+        android:text="Rendszám:"
+        android:textAppearance="?android:attr/textAppearanceMedium" />
+
+    <TextView
+        android:id="@+id/autoKmTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/autoRendszamTextView"
+        android:layout_below="@+id/autoRendszamTextView"
+        android:layout_marginTop="14dp"
+        android:text="Km óra:"
+        android:textAppearance="?android:attr/textAppearanceMedium" />
+
+    <TextView
+        android:id="@+id/autoUzemanyagTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/autoKmTextView"
+        android:layout_marginTop="14dp"
+		android:layout_alignLeft="@+id/autoKmTextView"
+        android:text="Üzemanyag:"
+        android:textAppearance="?android:attr/textAppearanceMedium" />
+
+    <TextView
+        android:id="@+id/autoMuszakiVizsgaDateTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/autoUzemanyagTextView"
+        android:layout_alignLeft="@+id/autoUzemanyagTextView"
+        android:layout_marginTop="20dp"
+        android:text="Műszaki vizsga:"
+        android:textAppearance="?android:attr/textAppearanceMedium" />
+    
+    <TextView
+        android:id="@+id/autoLastServiceDateTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/autoMuszakiVizsgaDateTextView"
+        android:layout_alignLeft="@+id/autoMuszakiVizsgaDateTextView"
+        android:layout_marginTop="14dp"
+        android:text="Utolsó szervíz:"
+        android:textAppearance="?android:attr/textAppearanceMedium" />
+    
+     <TextView
+        android:id="@+id/autoLastUpDateTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/autoLastServiceDateTextView"
+        android:layout_alignLeft="@+id/autoLastServiceDateTextView"
+        android:layout_marginTop="14dp"
+        android:text="Utolsó módosítás:"
+        android:textAppearance="?android:attr/textAppearanceMedium" />
+     
+     <TextView
+        android:id="@+id/autoLastTelephelyTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/autoLastUpDateTextView"
+        android:layout_alignLeft="@+id/autoLastUpDateTextView"
+        android:layout_marginTop="14dp"
+        android:text="Utolsó telephely:"
+        android:textAppearance="?android:attr/textAppearanceMedium" />  
+         
+     <TextView
+        android:id="@+id/autoLastSoforNevTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/autoLastTelephelyTextView"
+        android:layout_alignLeft="@+id/autoLastTelephelyTextView"
+        android:layout_marginTop="14dp"
+        android:text="Utolsó sofőr:"
+        android:textAppearance="?android:attr/textAppearanceMedium" />   
+        -->     
+     
+    <Button
+        android:id="@+id/lefoglalButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:text="Lefoglal" />
+
+
+</RelativeLayout>

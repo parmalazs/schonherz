@@ -15,6 +15,7 @@ import android.app.AlertDialog;
 import android.app.SearchManager;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.media.Ringtone;
 import android.media.RingtoneManager;
 import android.net.Uri;
@@ -30,6 +31,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
+import android.widget.AdapterView;
+import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ImageView;
 import android.widget.SearchView;
 import android.widget.SearchView.OnQueryTextListener;
@@ -43,7 +46,7 @@ import com.schonherz.classes.PullToRefreshListView;
 import com.schonherz.classes.PullToRefreshListView.OnRefreshListener;
 import com.schonherz.dbentities.Auto;
 import com.schonherz.dbentities.AutoDao;
-import com.schonherz.dbentities.SoforDao.Properties;
+import com.schonherz.flottadroid.CarDetailsActivity;
 import com.schonherz.flottadroid.R;
 
 public class SzabadAutoListFragment extends Fragment {
@@ -156,6 +159,24 @@ public class SzabadAutoListFragment extends Fragment {
 				autoDao);
 
 		pullListView.setAdapter(adapter);
+		
+		
+		pullListView.setOnItemClickListener(new OnItemClickListener() {
+
+			@Override
+			public void onItemClick(AdapterView<?> parent, View view, int position,
+					long id) {
+				// TODO Auto-generated method stub
+				Intent intent=new Intent(getActivity(), CarDetailsActivity.class);
+				intent.putExtra("selectedAutoID", autok.get(position-1).getAutoID());
+				startActivity(intent);
+				getActivity().overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
+			}
+		});
+		
+		
+		
+		
 		pullListView.setOnRefreshListener(new OnRefreshListener() {
 
 			@Override
