@@ -265,5 +265,13 @@ public class NewJobActivity extends Activity {
 		soforDao = daoSession.getSoforDao();
 
 	}
+	
+	@Override
+	public void onBackPressed() {
+		// TODO Auto-generated method stub
+		super.onBackPressed();
+		finish();
+		this.overridePendingTransition(R.anim.slide_out_right, R.anim.slide_in_left); 		
+	}
 
 }

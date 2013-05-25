@@ -198,14 +198,7 @@ public class MunkaDetailsActivity extends Activity {
 		
 		munkaDao = daoSession.getMunkaDao();
 
-	}
-	
-	@Override
-	protected void onPause() {
-		// TODO Auto-generated method stub
-		overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
-		super.onPause();
-	}
+	}	
 	
 	public void saveJob(){
 		
