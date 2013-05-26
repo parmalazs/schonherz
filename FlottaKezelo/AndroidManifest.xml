@@ -187,7 +187,7 @@
                 android:value="com.schonherz.flottadroid.AdminActivity" />
         </activity>
         <activity
-            android:name="com.schonherz.flottadroid.PartnerDetailsActivity"
+            android:name="com.schonherz.flottadroid.PartnerUserDetailsActivity"
             android:label="@string/title_activity_partner_details"
             android:screenOrientation="portrait" >
             <meta-data

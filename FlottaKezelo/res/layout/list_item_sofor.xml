@@ -22,6 +22,7 @@
      >
         <TextView 
             android:id="@+id/tvNameSofor"
+            android:textSize="20sp"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:textStyle="bold"

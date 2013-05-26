@@ -191,7 +191,7 @@ public class AdminActivity extends FragmentActivity
 				return true;
 				
 			case R.id.new_partner:
-				Intent intentNewPartner=new Intent(AdminActivity.this, PartnerDetailsActivity.class);
+				Intent intentNewPartner=new Intent(AdminActivity.this, PartnerUserDetailsActivity.class);
 				startActivity(intentNewPartner);
 				return true;
 				

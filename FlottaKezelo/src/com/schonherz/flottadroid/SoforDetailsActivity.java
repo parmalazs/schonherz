@@ -35,7 +35,7 @@ public class SoforDetailsActivity extends Activity {
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		setContentView(R.layout.activity_sofor_details);
+		setContentView(R.layout.activity_sofor_details_admin);
 		// Show the Up button in the action bar.
 		setupActionBar();
 		
