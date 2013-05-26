@@ -15,17 +15,17 @@ import android.widget.TextView;
 import com.schonherz.dbentities.Sofor;
 import com.schonherz.dbentities.SoforDao;
 
-public class SoforAdapter extends ArrayAdapter<Sofor>{
-	
+public class SoforAdapter extends ArrayAdapter<Sofor> {
+
 	Context context;
 	ArrayList<Sofor> soforok;
 	SoforDao soforDao;
-	
+
 	public SoforAdapter(Context context, int textViewResourceId,
 			List<Sofor> objects, SoforDao soforDao) {
 		super(context, textViewResourceId, objects);
 		// TODO Auto-generated constructor stub
-		
+
 		this.context = context;
 		this.soforok = new ArrayList<Sofor>();
 		soforok.addAll(objects);
@@ -77,54 +77,73 @@ public class SoforAdapter extends ArrayAdapter<Sofor>{
 	@Override
 	public View getView(int position, View convertView, ViewGroup parent) {
 		// TODO Auto-generated method stub
-		//ViewHolder holder = null;
+		ViewHolder holder = null;
 		Sofor currentSofor = soforok.get(position);
-		
-		if(convertView == null)
-		{
-			LayoutInflater inflater = (LayoutInflater)context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-			convertView = inflater.inflate(com.schonherz.flottadroid.R.layout.list_item_sofor, null);
-			
-			// set avatar
-			//	ImageView ivAvatar = 
-			//ivAvatar.setImageBitmap(Bitmap.createBitmap(currentPartner.getPartnerKepList().get(0).getPartnerKepPath()));
-			
-			ImageView iv = (ImageView)convertView.findViewById(com.schonherz.flottadroid.R.id.imgAvatar);				
-			//Bitmap myBitmap = BitmapFactory.decodeFile(currentPartner.getPartnerKepList().get(0).getPartnerKepPath());
 
-			
+		if (convertView == null) {
+			LayoutInflater inflater = (LayoutInflater) context
+					.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+			convertView = inflater.inflate(
+					com.schonherz.flottadroid.R.layout.list_item_sofor, null);
+
+			// set avatar
+			// ImageView ivAvatar =
+			// ivAvatar.setImageBitmap(Bitmap.createBitmap(currentPartner.getPartnerKepList().get(0).getPartnerKepPath()));
+
+			ImageView iv = (ImageView) convertView
+					.findViewById(com.schonherz.flottadroid.R.id.imgAvatar);
+			// Bitmap myBitmap =
+			// BitmapFactory.decodeFile(currentPartner.getPartnerKepList().get(0).getPartnerKepPath());
+
 			// Image should be scaled somehow
-			//iv.setScaleType(ImageView.ScaleType.CENTER);
-			//iv.setScaleType(ImageView.ScaleType.CENTER_CROP);			
-			//iv.setScaleType(ImageView.ScaleType.CENTER_INSIDE);
-			//iv.setScaleType(ImageView.ScaleType.FIT_CENTER);
-			//iv.setScaleType(ImageView.ScaleType.FIT_XY);
-			//iv.setScaleType(ImageView.ScaleType.FIT_END);
-			//iv.setBackgroundColor(Color.BLACK);
+			// iv.setScaleType(ImageView.ScaleType.CENTER);
+			// iv.setScaleType(ImageView.ScaleType.CENTER_CROP);
+			// iv.setScaleType(ImageView.ScaleType.CENTER_INSIDE);
+			// iv.setScaleType(ImageView.ScaleType.FIT_CENTER);
+			// iv.setScaleType(ImageView.ScaleType.FIT_XY);
+			// iv.setScaleType(ImageView.ScaleType.FIT_END);
+			// iv.setBackgroundColor(Color.BLACK);
 			// Set the Width & Height of the individual images
-			//iv.setLayoutParams(new Gallery.LayoutParams(130, 180));
-			
-			
+			// iv.setLayoutParams(new Gallery.LayoutParams(130, 180));
+
 			// set name
-			TextView tvName = (TextView)convertView.findViewById(com.schonherz.flottadroid.R.id.tvNameSofor);
+			TextView tvName = (TextView) convertView
+					.findViewById(com.schonherz.flottadroid.R.id.tvNameSofor);
 			tvName.setText(currentSofor.getSoforNev());
 			// set phone
-			TextView tvPhone = (TextView)convertView.findViewById(com.schonherz.flottadroid.R.id.tvPhoneSofor);
+			TextView tvPhone = (TextView) convertView
+					.findViewById(com.schonherz.flottadroid.R.id.tvPhoneSofor);
 			tvPhone.setText(currentSofor.getSoforTelefonszam());
 			// set email
-			TextView tvEmail = (TextView)convertView.findViewById(com.schonherz.flottadroid.R.id.tvEmailSofor);
+			TextView tvEmail = (TextView) convertView
+					.findViewById(com.schonherz.flottadroid.R.id.tvEmailSofor);
 			tvEmail.setText(currentSofor.getSoforEmail());
+		} else {
+			holder = (ViewHolder) convertView.getTag();
 		}
-		else
-		{
-			//holder = (ViewHolder)convertView.getTag();
-		}
-		/*
+
 		soforDao.refresh(currentSofor);
 		holder = new ViewHolder();
-		holder.soforNevTextView = (TextView)convertView.findViewById(com.schonherz.flottadroid.R.id.textViewSoforNev);
-		
-		holder.soforNevTextView.setText(currentSofor.getSoforNev()); */
+		//holder.soforNevTextView = (TextView) convertView
+		//		.findViewById(com.schonherz.flottadroid.R.id.textViewSoforNev);
+
+		//holder.soforNevTextView.setText(currentSofor.getSoforNev());
+
+		ImageView iv = (ImageView) convertView
+				.findViewById(com.schonherz.flottadroid.R.id.imgAvatar);
+
+		// set name
+		TextView tvName = (TextView) convertView
+				.findViewById(com.schonherz.flottadroid.R.id.tvNameSofor);
+		tvName.setText(currentSofor.getSoforNev());
+		// set phone
+		TextView tvPhone = (TextView) convertView
+				.findViewById(com.schonherz.flottadroid.R.id.tvPhoneSofor);
+		tvPhone.setText(currentSofor.getSoforTelefonszam());
+		// set email
+		TextView tvEmail = (TextView) convertView
+				.findViewById(com.schonherz.flottadroid.R.id.tvEmailSofor);
+		tvEmail.setText(currentSofor.getSoforEmail());
 		
 		return convertView;
 	}
@@ -134,10 +153,9 @@ public class SoforAdapter extends ArrayAdapter<Sofor>{
 		// TODO Auto-generated method stub
 		soforok.remove(object);
 	}
-	
-	static class ViewHolder
-	{
+
+	static class ViewHolder {
 		TextView soforNevTextView;
 	}
-	
+
 }
