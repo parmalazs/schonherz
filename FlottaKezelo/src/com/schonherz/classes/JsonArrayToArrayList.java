@@ -71,8 +71,8 @@ public class JsonArrayToArrayList {
 				else
 				{
 					currSofor.setSoforProfilKepID(0L);
-				}
-
+				}							
+				
 				soforList.add(currSofor);
 			} catch (Exception ex) {
 				ex.printStackTrace();
