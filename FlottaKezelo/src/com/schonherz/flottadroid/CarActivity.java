@@ -6,6 +6,7 @@ import android.app.ActionBar;
 import android.app.ActionBar.Tab;
 import android.app.FragmentTransaction;
 import android.content.Context;
+import android.content.Intent;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -73,21 +74,21 @@ public class CarActivity extends FragmentActivity implements ActionBar.TabListen
         getActionBar().setDisplayHomeAsUpEnabled(true);
         dataBaseInit();
         
-        /*
-        szemelygepjarmuFragment = new SzabadAutoListFragment(this, autoDao, new ArrayList<Auto>(autoDao.queryBuilder().where(com.schonherz.dbentities.AutoDao.Properties.AutoFoglalt.eq(true),
-				com.schonherz.dbentities.AutoDao.Properties.AutoIsActive.eq(true), com.schonherz.dbentities.AutoDao.Properties.AutoTipus.eq("Személygépjármû")).list()), "Személygépjármû");
-        kisteherautoFragment = new SzabadAutoListFragment(this, autoDao, new ArrayList<Auto>(autoDao.queryBuilder().where(com.schonherz.dbentities.AutoDao.Properties.AutoFoglalt.eq(true),
-				com.schonherz.dbentities.AutoDao.Properties.AutoIsActive.eq(true), com.schonherz.dbentities.AutoDao.Properties.AutoTipus.eq("Kisteherautó")).list()), "Kisteherautó");
-        teherautoFragment = new SzabadAutoListFragment(this, autoDao, new ArrayList<Auto>(autoDao.queryBuilder().where(com.schonherz.dbentities.AutoDao.Properties.AutoFoglalt.eq(true),
-				com.schonherz.dbentities.AutoDao.Properties.AutoIsActive.eq(true), com.schonherz.dbentities.AutoDao.Properties.AutoTipus.eq("Teherautó")).list()), "Teherautó");
-        buszFragment = new SzabadAutoListFragment(this, autoDao, new ArrayList<Auto>(autoDao.queryBuilder().where(com.schonherz.dbentities.AutoDao.Properties.AutoFoglalt.eq(true),
-				com.schonherz.dbentities.AutoDao.Properties.AutoIsActive.eq(true), com.schonherz.dbentities.AutoDao.Properties.AutoTipus.eq("Busz")).list()), "Busz");
-        kamionFragment = new SzabadAutoListFragment(this, autoDao, new ArrayList<Auto>(autoDao.queryBuilder().where(com.schonherz.dbentities.AutoDao.Properties.AutoFoglalt.eq(true),
-				com.schonherz.dbentities.AutoDao.Properties.AutoIsActive.eq(true), com.schonherz.dbentities.AutoDao.Properties.AutoTipus.eq("Kamion")).list()), "Kamion");
-        furgonFragment = new SzabadAutoListFragment(this, autoDao, new ArrayList<Auto>(autoDao.queryBuilder().where(com.schonherz.dbentities.AutoDao.Properties.AutoFoglalt.eq(true),
-				com.schonherz.dbentities.AutoDao.Properties.AutoIsActive.eq(true), com.schonherz.dbentities.AutoDao.Properties.AutoTipus.eq("Furgon")).list()), "Furgon");
-        */
         
+        szemelygepjarmuFragment = new SzabadAutoListFragment(this, autoDao, new ArrayList<Auto>(autoDao.queryBuilder().where(com.schonherz.dbentities.AutoDao.Properties.AutoFoglalt.eq(false),
+				com.schonherz.dbentities.AutoDao.Properties.AutoIsActive.eq(true), com.schonherz.dbentities.AutoDao.Properties.AutoTipus.eq("Személygépjármû")).list()), "Személygépjármû");
+        kisteherautoFragment = new SzabadAutoListFragment(this, autoDao, new ArrayList<Auto>(autoDao.queryBuilder().where(com.schonherz.dbentities.AutoDao.Properties.AutoFoglalt.eq(false),
+				com.schonherz.dbentities.AutoDao.Properties.AutoIsActive.eq(true), com.schonherz.dbentities.AutoDao.Properties.AutoTipus.eq("Kisteherautó")).list()), "Kisteherautó");
+        teherautoFragment = new SzabadAutoListFragment(this, autoDao, new ArrayList<Auto>(autoDao.queryBuilder().where(com.schonherz.dbentities.AutoDao.Properties.AutoFoglalt.eq(false),
+				com.schonherz.dbentities.AutoDao.Properties.AutoIsActive.eq(true), com.schonherz.dbentities.AutoDao.Properties.AutoTipus.eq("Teherautó")).list()), "Teherautó");
+        buszFragment = new SzabadAutoListFragment(this, autoDao, new ArrayList<Auto>(autoDao.queryBuilder().where(com.schonherz.dbentities.AutoDao.Properties.AutoFoglalt.eq(false),
+				com.schonherz.dbentities.AutoDao.Properties.AutoIsActive.eq(true), com.schonherz.dbentities.AutoDao.Properties.AutoTipus.eq("Busz")).list()), "Busz");
+        kamionFragment = new SzabadAutoListFragment(this, autoDao, new ArrayList<Auto>(autoDao.queryBuilder().where(com.schonherz.dbentities.AutoDao.Properties.AutoFoglalt.eq(false),
+				com.schonherz.dbentities.AutoDao.Properties.AutoIsActive.eq(true), com.schonherz.dbentities.AutoDao.Properties.AutoTipus.eq("Kamion")).list()), "Kamion");
+        furgonFragment = new SzabadAutoListFragment(this, autoDao, new ArrayList<Auto>(autoDao.queryBuilder().where(com.schonherz.dbentities.AutoDao.Properties.AutoFoglalt.eq(false),
+				com.schonherz.dbentities.AutoDao.Properties.AutoIsActive.eq(true), com.schonherz.dbentities.AutoDao.Properties.AutoTipus.eq("Furgon")).list()), "Furgon");
+        
+       
         
         actionBar = getActionBar();
 		actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_TABS);
@@ -240,6 +241,19 @@ public class CarActivity extends FragmentActivity implements ActionBar.TabListen
 
 	}
 	
+	@Override
+	protected void onResume() {
+		// TODO Auto-generated method stub    
+		
+		super.onResume();
+      
+	}
+	
+	@Override
+	protected void onActivityResult(int arg0, int arg1, Intent arg2) {
+		// TODO Auto-generated method stub
+		super.onActivityResult(arg0, arg1, arg2);
+	}
 	
 	public void dataBaseInit() {
 		helper = new DaoMaster.DevOpenHelper(this, "flotta-db", null);

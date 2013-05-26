@@ -1,5 +1,8 @@
 package com.schonherz.flottadroid;
 
+import java.util.ArrayList;
+
+import android.R.bool;
 import android.app.Activity;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
@@ -9,13 +12,19 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import com.schonherz.classes.SessionManager;
 import com.schonherz.dbentities.Auto;
 import com.schonherz.dbentities.AutoDao;
 import com.schonherz.dbentities.AutoDao.Properties;
 import com.schonherz.dbentities.DaoMaster;
 import com.schonherz.dbentities.DaoMaster.DevOpenHelper;
 import com.schonherz.dbentities.DaoSession;
+import com.schonherz.dbentities.Sofor;
+import com.schonherz.dbentities.SoforDao;
+import com.schonherz.dbentities.TelephelyDao;
+
 
 public class CarDetailsActivity extends Activity {
 	
@@ -23,9 +32,15 @@ public class CarDetailsActivity extends Activity {
 	private DevOpenHelper helper;
 	private DaoSession daoSession;
 	private DaoMaster daoMaster;
+	private SessionManager sessionManager;
+	boolean denided = false;
 	
 	Auto currentAuto;
+	Auto vaneAutoja;
 	AutoDao autoDao;
+	SoforDao soforDao;
+	TelephelyDao telephelyDao;
+	Sofor sofor;
 	
 	TextView autoTipusTextView;
 	TextView autoNevTextView;
@@ -49,6 +64,7 @@ public class CarDetailsActivity extends Activity {
 		setupActionBar();
 		
 		dataBaseInit();
+		sessionManager = new SessionManager(this);
 		
 		if (getIntent().getLongExtra("selectedAutoID", 0L)!=0L) {
 			currentAuto=autoDao.queryBuilder().where(
@@ -59,7 +75,6 @@ public class CarDetailsActivity extends Activity {
 			currentAuto=new Auto();
 			currentAuto.setAutoID(0L);
 		}
-		
 		
 		autoTipusTextView = (TextView)findViewById(R.id.autoTipusTextView);
 		autoNevTextView = (TextView)findViewById(R.id.autoNevTextView);
@@ -95,8 +110,12 @@ public class CarDetailsActivity extends Activity {
 			autoMuszakiVizsgaDateTextView.setText("Mûszaki vizsga: " + currentAuto.getAutoMuszakiVizsgaDate());	
 			autoLastServiceDateTextView.setText("Utolsó szervíz: " + currentAuto.getAutoLastSzervizDate());	
 			autoLastUpDateTextView.setText("Utolsó változás: " + currentAuto.getAutoLastUpDate());	
+			// nem megy vmiért!
+			//ArrayList<Telephely> telephelylist = new ArrayList<Telephely>(telephelyDao.queryBuilder().where(com.schonherz.dbentities.TelephelyDao.Properties.TelephelyID.eq(currentAuto.getAutoLastTelephelyID())).list());
+			//autoLastTelephelyTextView.setText("Utolsó telephely: " + telephelylist.get(0).getTelephelyNev());
 			autoLastTelephelyTextView.setText("Utolsó telephely: " + currentAuto.getAutoLastTelephelyID());
-			autoLastSoforNevTextView.setText("Utolsó sofõr: " + currentAuto.getAutoLastSoforID());
+			ArrayList<Sofor> soforlist = new ArrayList<Sofor>(soforDao.queryBuilder().where(com.schonherz.dbentities.SoforDao.Properties.SoforID.eq(currentAuto.getAutoLastSoforID())).list());
+			autoLastSoforNevTextView.setText("Utolsó sofõr: " + soforlist.get(0).getSoforNev() );
 		}
 		
 		lefoglalButton=(Button)findViewById(R.id.lefoglalButton);
@@ -104,13 +123,25 @@ public class CarDetailsActivity extends Activity {
 			
 			@Override
 			public void onClick(View v) {
-				currentAuto.setAutoFoglalt(true);
+				// ellenörzés, hogy van-e általa foglalva autó!
+				ArrayList<Auto> vaneAutoja = new ArrayList<Auto>(autoDao.queryBuilder().where(com.schonherz.dbentities.AutoDao.Properties.AutoLastSoforID.eq(sessionManager.getUserID().get(sessionManager.KEY_USER_ID))).list());
+
+				if (vaneAutoja.size()==0)
+				{
+					currentAuto.setAutoFoglalt(true);
+					currentAuto.setAutoLastSoforID(sessionManager.getUserID().get(sessionManager.KEY_USER_ID));
+					autoDao.update(currentAuto);
+					finish();
+				}
+				else
+				{
+					// vmt feldobni
+				}
 				
-				autoDao.update(currentAuto);
-				finish();
 			}
 		});
 	}
+	
 	
 	
 	public void dataBaseInit() {
@@ -120,7 +151,8 @@ public class CarDetailsActivity extends Activity {
 		daoSession = daoMaster.newSession();
 		
 		autoDao = daoSession.getAutoDao();
-
+		soforDao = daoSession.getSoforDao();
+		telephelyDao = daoSession.getTelephelyDao();
 	}
 
 	/**
@@ -135,7 +167,6 @@ public class CarDetailsActivity extends Activity {
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
 		// Inflate the menu; this adds items to the action bar if it is present.
-		// EZT ÁTÍRNI
 		getMenuInflater().inflate(R.menu.auto_details, menu);
 		return true;
 	}

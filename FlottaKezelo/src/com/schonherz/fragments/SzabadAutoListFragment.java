@@ -43,9 +43,13 @@ import com.schonherz.classes.JsonArrayToArrayList;
 import com.schonherz.classes.JsonFromUrl;
 import com.schonherz.classes.NetworkUtil;
 import com.schonherz.classes.PullToRefreshListView;
+import com.schonherz.classes.SessionManager;
 import com.schonherz.classes.PullToRefreshListView.OnRefreshListener;
 import com.schonherz.dbentities.Auto;
 import com.schonherz.dbentities.AutoDao;
+import com.schonherz.dbentities.Munka;
+import com.schonherz.dbentities.MunkaDao.Properties;
+import com.schonherz.flottadroid.CarActivity;
 import com.schonherz.flottadroid.CarDetailsActivity;
 import com.schonherz.flottadroid.R;
 
@@ -73,7 +77,7 @@ public class SzabadAutoListFragment extends Fragment {
 		// TODO Auto-generated method stub
 		setHasOptionsMenu(true);
 		super.onCreate(savedInstanceState);
-
+		
 	}
 
 	@Override
@@ -177,6 +181,7 @@ public class SzabadAutoListFragment extends Fragment {
 				Intent intent=new Intent(getActivity(), CarDetailsActivity.class);
 				intent.putExtra("selectedAutoID", autok.get(position-1).getAutoID());
 				startActivity(intent);
+				//startActivityForResult(intent, 100);
 				getActivity().overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
 			}
 		});
@@ -474,23 +479,47 @@ public class SzabadAutoListFragment extends Fragment {
 
 		return true;
 	}
+	
 	@Override
 	public void onResume() {
 		// TODO Auto-generated method stub
 		
-		adapter.clear();
-
-		
+		adapter.clear();	
 		autok = konkretautok;
-		//autok = new ArrayList<Auto>(autoDao.queryBuilder().where(com.schonherz.dbentities.AutoDao.Properties.AutoFoglalt.eq(true),com.schonherz.dbentities.AutoDao.Properties.AutoIsActive.eq(true)).list());
-
+		if (jarmutipus.equals("Személygépjármû")) 
+			konkretautok = new ArrayList<Auto>(autoDao.queryBuilder().where(com.schonherz.dbentities.AutoDao.Properties.AutoFoglalt.eq(false),
+					com.schonherz.dbentities.AutoDao.Properties.AutoIsActive.eq(true), com.schonherz.dbentities.AutoDao.Properties.AutoTipus.eq("Személygépjármû")).list());
+		if (jarmutipus.equals("Furgon"))
+			konkretautok = new ArrayList<Auto>(autoDao.queryBuilder().where(com.schonherz.dbentities.AutoDao.Properties.AutoFoglalt.eq(false),
+					com.schonherz.dbentities.AutoDao.Properties.AutoIsActive.eq(true), com.schonherz.dbentities.AutoDao.Properties.AutoTipus.eq("Furgon")).list());
+		if (jarmutipus.equals("Busz"))
+			konkretautok = new ArrayList<Auto>(autoDao.queryBuilder().where(com.schonherz.dbentities.AutoDao.Properties.AutoFoglalt.eq(false),
+					com.schonherz.dbentities.AutoDao.Properties.AutoIsActive.eq(true), com.schonherz.dbentities.AutoDao.Properties.AutoTipus.eq("Busz")).list());
+		if (jarmutipus.equals("Kisteherautó"))
+			konkretautok = new ArrayList<Auto>(autoDao.queryBuilder().where(com.schonherz.dbentities.AutoDao.Properties.AutoFoglalt.eq(false),
+					com.schonherz.dbentities.AutoDao.Properties.AutoIsActive.eq(true), com.schonherz.dbentities.AutoDao.Properties.AutoTipus.eq("Kisteherautó")).list());
+		if (jarmutipus.equals("Kamion"))
+			konkretautok = new ArrayList<Auto>(autoDao.queryBuilder().where(com.schonherz.dbentities.AutoDao.Properties.AutoFoglalt.eq(false),
+					com.schonherz.dbentities.AutoDao.Properties.AutoIsActive.eq(true), com.schonherz.dbentities.AutoDao.Properties.AutoTipus.eq("Kamion")).list());
+		if (jarmutipus.equals("Teherautó"))
+			konkretautok = new ArrayList<Auto>(autoDao.queryBuilder().where(com.schonherz.dbentities.AutoDao.Properties.AutoFoglalt.eq(false),
+					com.schonherz.dbentities.AutoDao.Properties.AutoIsActive.eq(true), com.schonherz.dbentities.AutoDao.Properties.AutoTipus.eq("Teherautó")).list());
+								
+			
+		autok = konkretautok;
 		adapter.addAll(autok);
 
 		adapter.notifyDataSetChanged();
 		
-		super.onResume();
+		super.onResume();	
 	}
 
+	@Override
+	public void onActivityResult(int requestCode, int resultCode, Intent data) {
+		// TODO Auto-generated method stub
+		super.onActivityResult(requestCode, resultCode, data);
+	}
+	
 	public Boolean saveAutoTable() {
 		JSONArray jsonArray;
 		JSONObject json;
@@ -525,6 +554,8 @@ public class SzabadAutoListFragment extends Fragment {
 		return false;
 	}
 
+
+	
 	private void stopRefreshAnimation() {
 		LayoutInflater inflater = (LayoutInflater) context
 				.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
