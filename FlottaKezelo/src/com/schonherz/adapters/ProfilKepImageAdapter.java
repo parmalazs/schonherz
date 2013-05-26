@@ -103,6 +103,12 @@ public class ProfilKepImageAdapter extends ArrayAdapter<ProfilKep> {
 					// Set the Width & Height of the individual images
 					iv.setLayoutParams(new Gallery.LayoutParams(130, 180));
 
+					int mPaddingInPixels;
+					final float scale = context.getResources().getDisplayMetrics().density;
+					mPaddingInPixels = (int) (5 * scale + 0.5f);
+					mPaddingInPixels = mPaddingInPixels + 5;
+					iv.setPadding(mPaddingInPixels, mPaddingInPixels, mPaddingInPixels, mPaddingInPixels);
+					
 					return iv;
 		
 	}
