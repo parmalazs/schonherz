@@ -63,7 +63,7 @@ public class JsonArrayToArrayList {
 				
 				
 				currSofor.setSoforEmail(soforJsonObj
-						.getString("soforProfilKepID"));
+						.getString("soforEmail"));
 				if (!soforJsonObj.getString("soforProfilKepID").equals("null")) {
 					currSofor.setSoforProfilKepID(Long.parseLong(soforJsonObj
 							.getString("soforProfilKepID")));
