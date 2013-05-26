@@ -22,11 +22,14 @@ import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
+import com.schonherz.classes.SessionManager;
 import com.schonherz.dbentities.Auto;
 import com.schonherz.dbentities.AutoDao;
 import com.schonherz.dbentities.DaoMaster;
 import com.schonherz.dbentities.DaoMaster.DevOpenHelper;
+import com.schonherz.dbentities.MunkaDao.Properties;
 import com.schonherz.dbentities.DaoSession;
+import com.schonherz.dbentities.Munka;
 import com.schonherz.dbentities.MunkaDao;
 import com.schonherz.dbentities.Partner;
 import com.schonherz.dbentities.PartnerDao;
@@ -48,7 +51,9 @@ public class MapActivity extends Activity {
 	private TelephelyDao telephelyDao;
 	private PartnerDao partnerDao;
 	private MunkaDao munkaDao;
-
+	
+	SessionManager sessionManager;
+	
 	@Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -60,6 +65,7 @@ public class MapActivity extends Activity {
         getActionBar().setNavigationMode(ActionBar.NAVIGATION_MODE_LIST);
         ArrayAdapter<String> adapter = new ArrayAdapter<String>(getBaseContext(), android.R.layout.simple_spinner_dropdown_item, layers);
         
+        sessionManager = new SessionManager(this);
         
         ActionBar.OnNavigationListener navListener = new OnNavigationListener() {
 			
@@ -188,13 +194,17 @@ public class MapActivity extends Activity {
 
 	public void addDailyRouteMarkers() {
 		map.clear();
-		ArrayList<Partner> partnerek = new ArrayList<Partner>(
-				partnerDao.loadAll());
-		new Routing(MapActivity.this,map,Color.RED).execute(new LatLng(
-				partnerek.get(0).getPartnerXkoordinata(),
-				partnerek.get(0).getPartnerYkoodinata()),new LatLng(
-						partnerek.get(6).getPartnerXkoordinata(),
-						partnerek.get(6).getPartnerYkoodinata()));
+		
+		ArrayList<Munka> munkak = new ArrayList<Munka>(munkaDao.queryBuilder().where(Properties.MunkaIsActive.eq(true), Properties.SoforID.eq(sessionManager.getUserID().get(SessionManager.KEY_USER_ID))).list());
+		
+		for(int i = 0; i< munkak.size()-1; i++)
+		{
+			new Routing(MapActivity.this,map,Color.RED).execute(new LatLng(
+					munkak.get(i).getPartner().getPartnerXkoordinata(),
+				munkak.get(i).getPartner().getPartnerYkoodinata()),new LatLng(
+						munkak.get(i+1).getPartner().getPartnerXkoordinata(),
+						munkak.get(i+1).getPartner().getPartnerYkoodinata()));
+		}		
 	}
 
 	// setup connections to database
