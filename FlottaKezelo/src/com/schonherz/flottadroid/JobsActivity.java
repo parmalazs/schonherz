@@ -109,9 +109,9 @@ public class JobsActivity extends FragmentActivity implements ActionBar.TabListe
 			sajatMunkaTab.setTabListener(this);
 			actionBar.addTab(sajatMunkaTab);
 
-			osszesMunkaTab = actionBar.newTab().setText(R.string.title_section3);
+			/*osszesMunkaTab = actionBar.newTab().setText(R.string.title_section3);
 			osszesMunkaTab.setTabListener(this);
-			actionBar.addTab(osszesMunkaTab);
+			actionBar.addTab(osszesMunkaTab);*/
 
 			jobsPager.setOnPageChangeListener(new OnPageChangeListener() {
 
@@ -206,8 +206,8 @@ public class JobsActivity extends FragmentActivity implements ActionBar.TabListe
 					case 1 :
 
 						return new SajatMunkaListFragment(JobsActivity.this, munkaDao);
-					case 2 :
-						return new MunkaListFragment(JobsActivity.this, munkaDao);
+					/*case 2 :
+						return new MunkaListFragment(JobsActivity.this, munkaDao);*/
 					default :
 						return new SzabadMunkaListFragment(JobsActivity.this, munkaDao);
 				}
@@ -216,7 +216,7 @@ public class JobsActivity extends FragmentActivity implements ActionBar.TabListe
 			@Override
 			public int getCount() {
 				// TODO Auto-generated method stub
-				return 3;
+				return 2;
 			}
 
 		}

@@ -1,14 +1,15 @@
 package com.schonherz.flottadroid;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Date;
 
 import android.app.Activity;
 import android.app.DatePickerDialog;
 import android.app.Dialog;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
-import android.support.v4.app.NavUtils;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -21,24 +22,17 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.schonherz.dbentities.AutoDao;
-import com.schonherz.dbentities.AutoKepDao;
 import com.schonherz.dbentities.DaoMaster;
 import com.schonherz.dbentities.DaoMaster.DevOpenHelper;
 import com.schonherz.dbentities.DaoSession;
 import com.schonherz.dbentities.Munka;
 import com.schonherz.dbentities.MunkaDao;
-import com.schonherz.dbentities.MunkaEszkozDao;
-import com.schonherz.dbentities.MunkaKepDao;
 import com.schonherz.dbentities.MunkaTipus;
 import com.schonherz.dbentities.MunkaTipusDao;
 import com.schonherz.dbentities.Partner;
 import com.schonherz.dbentities.PartnerDao;
-import com.schonherz.dbentities.PartnerKepDao;
-import com.schonherz.dbentities.ProfilKepDao;
 import com.schonherz.dbentities.Sofor;
 import com.schonherz.dbentities.SoforDao;
-import com.schonherz.dbentities.TelephelyDao;
 
 public class NewJobActivity extends Activity {
 	
@@ -105,7 +99,7 @@ public class NewJobActivity extends Activity {
 			partnerekSpinner.setAdapter(partnerAdapter);
 		}
 	
-		/*if (munkaTipusDao.loadAll().size()!=0) {
+		if (munkaTipusDao.loadAll().size()!=0) {
 			ArrayList<MunkaTipus> munkatipusok=new ArrayList<MunkaTipus>(munkaTipusDao.queryBuilder().orderAsc(MunkaTipusDao.Properties.MunkaTipusNev).list());
 			munkaTipusNevek=new ArrayList<String>();
 			for (int i=0; i<munkatipusok.size(); i++) {
@@ -113,7 +107,7 @@ public class NewJobActivity extends Activity {
 			}
 			ArrayAdapter<String> munkaTipusAdapter=new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, munkaTipusNevek);
 			munkatipusokSpinner.setAdapter(munkaTipusAdapter);
-		}*/
+		}
 		
 		if (soforDao.loadAll().size()!=0) {
 			ArrayList<Sofor> soforok=new ArrayList<Sofor>(soforDao.queryBuilder().orderAsc(SoforDao.Properties.SoforNev).list());
@@ -176,13 +170,21 @@ public class NewJobActivity extends Activity {
 			day = selectedDay;
 			
 			// set selected date into textview
+			
 			dateTextView.setText(new StringBuilder()
 			// Month is 0 based, just add 1
-			.append(year).append(".").append(month+1).append(".")
-			.append(day).append("."));		
+			.append(year).append(".").append(pad(month+1)).append(".")
+			.append(pad(day)).append("."));		
 		
 		}
 	};
+	
+	private static String pad(int c) {
+		if (c >= 10)
+		   return String.valueOf(c);
+		else
+		   return "0" + String.valueOf(c);
+	}
 	
 	public void saveNewJob() {
 		Munka ujMunka=new Munka();
@@ -190,10 +192,9 @@ public class NewJobActivity extends Activity {
 		ujMunka.setMunkaDate(dateTextView.getText().toString());
 		ujMunka.setMunkaEstimatedTime(Long.parseLong(estimatedTimeEditText.getText().toString()));
 		ujMunka.setMunkaIsActive(true);
-		/*ujMunka.setMunkaTipusID(munkaTipusDao.queryBuilder()
+		ujMunka.setMunkaTipusID(munkaTipusDao.queryBuilder()
 				.where(MunkaTipusDao.Properties.MunkaTipusNev.eq(
-						munkatipusokSpinner.getSelectedItem())).list().get(0).getMunkaTipusID());*/
-		ujMunka.setMunkaTipusID(0L);
+						munkatipusokSpinner.getSelectedItem())).list().get(0).getMunkaTipusID());
 		if (soforokSpinner.getSelectedItem().equals("null")) {
 			ujMunka.setSoforID(0L);
 		}

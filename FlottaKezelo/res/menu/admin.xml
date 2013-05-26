@@ -28,6 +28,7 @@
         android:id="@+id/new_telephely"
         android:orderInCategory="100"
         android:showAsAction="never"
-        android:title="Új telephely"/>  
+        android:title="Új telephely"/>   
+    
 
 </menu>

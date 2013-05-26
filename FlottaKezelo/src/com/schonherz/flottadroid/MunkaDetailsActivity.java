@@ -245,6 +245,9 @@ public class MunkaDetailsActivity extends Activity {
 			return false;
 		}
 		for (int i=0; i<sajatMunkak.size(); i++) {
+			if(currentMunka.getMunkaID()==sajatMunkak.get(i).getMunkaID()) {
+				return false;
+			}
 			if ((((hour + currentMunka.getMunkaEstimatedTime().intValue()) <=	(Integer.parseInt(sajatMunkak.get(i).getMunkaBefejezesDate().substring(0,2))
 					-sajatMunkak.get(i).getMunkaEstimatedTime().intValue())) && (hour < (Integer.parseInt(sajatMunkak.get(i).getMunkaBefejezesDate().substring(0,2))
 					-sajatMunkak.get(i).getMunkaEstimatedTime().intValue())))

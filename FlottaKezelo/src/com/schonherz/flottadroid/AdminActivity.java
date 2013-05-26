@@ -203,7 +203,7 @@ public class AdminActivity extends FragmentActivity
 			case R.id.new_telephely:
 				Intent intentNewTelephely=new Intent(AdminActivity.this, TelephelyDetailsActivity.class);
 				startActivity(intentNewTelephely);
-				return true;
+				return true;			
 		}
 		return super.onOptionsItemSelected(item);
 	}

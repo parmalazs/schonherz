@@ -15,6 +15,7 @@ import android.app.AlertDialog;
 import android.app.SearchManager;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.media.Ringtone;
 import android.media.RingtoneManager;
 import android.net.Uri;
@@ -30,6 +31,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
+import android.widget.AdapterView;
+import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ImageView;
 import android.widget.SearchView;
 import android.widget.SearchView.OnQueryTextListener;
@@ -44,6 +47,8 @@ import com.schonherz.classes.PullToRefreshListView.OnRefreshListener;
 import com.schonherz.dbentities.Auto;
 import com.schonherz.dbentities.AutoDao;
 import com.schonherz.dbentities.SoforDao.Properties;
+import com.schonherz.flottadroid.CarDetailsActivity;
+import com.schonherz.flottadroid.MunkaDetailsActivity;
 import com.schonherz.flottadroid.R;
 
 import de.greenrobot.dao.QueryBuilder;
@@ -156,7 +161,9 @@ public class AutoListFragment extends Fragment {
 		adapter = new AutoAdapter(context, R.layout.list_item_auto, autok,
 				autoDao);
 
-		pullListView.setAdapter(adapter);
+		pullListView.setAdapter(adapter);	
+		
+		
 		pullListView.setOnRefreshListener(new OnRefreshListener() {
 
 			@Override

@@ -97,7 +97,7 @@ public class PartnerListFragment extends Fragment {
 	public void onCreateContextMenu(ContextMenu menu, View v,
 			ContextMenuInfo menuInfo) {
 		// TODO Auto-generated method stub
-		if (v.getId()==R.id.pulltorefresh_listview) {
+		if (v.getId()==R.id.pulltorefresh_listview)  {
 			menu.add(Menu.NONE, CONTEXT_MENU_DELETE_ITEM, Menu.NONE, "Törlés");
 		}
 	}
