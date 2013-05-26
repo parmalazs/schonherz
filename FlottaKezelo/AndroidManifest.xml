@@ -41,7 +41,7 @@
     <application
         android:icon="@drawable/saroklogo"
         android:label="@string/app_name"
-        android:theme="@android:style/Theme.Holo" >
+        android:theme="@style/AppTheme" >
         <activity
             android:name="com.schonherz.flottadroid.MainActivity"
             android:label="@string/title_activity_main"

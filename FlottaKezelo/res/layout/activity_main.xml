@@ -1,63 +1,90 @@
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/LinearLayout1"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/shape_main_activity" >
+    android:background="@drawable/shape_main_activity"
+    android:gravity="center_vertical|center"
+    android:orientation="vertical" >
 
-    <Button
-        android:id="@+id/buttonUpdate"
+    <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentTop="true"
-        android:layout_marginLeft="34dp"
-        android:layout_marginTop="32dp"
-        android:background="@drawable/refresh_btn"
-        android:text="" />
+        android:gravity="center_horizontal"
+        android:paddingBottom="10dp"
+        android:paddingTop="20dp" >
 
-    <Button
-        android:id="@+id/buttonJobs"
+        <Button
+            android:id="@+id/buttonJobs"
+            style="@style/CKButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="10dp"
+            android:layout_marginTop="43dp"
+            android:background="@drawable/main_button_selector"
+            android:drawableTop="@drawable/munkaikon"
+            android:padding="10dp"
+            android:text="@string/title_activity_jobs" />
+
+        <Button
+            android:id="@+id/buttonMap"
+            style="@style/CKButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="10dp"
+            android:layout_marginTop="43dp"
+            android:background="@drawable/main_button_selector"
+            android:drawableTop="@drawable/terkepikon"
+            android:padding="10dp"
+            android:text="@string/title_activity_map" />
+
+    </LinearLayout>
+
+    <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignLeft="@+id/buttonUpdate"
-        android:layout_below="@+id/buttonUpdate"
-        android:layout_marginTop="52dp"
-        android:background="@drawable/work_btn" />
+        android:paddingTop="10dp" >
 
-    <Button
-        android:id="@+id/buttonCar"
+        <Button
+            android:id="@+id/buttonCar"
+            style="@style/CKButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="10dp"
+            android:background="@drawable/main_button_selector"
+            android:drawableTop="@drawable/autoikon"
+            android:padding="10dp"
+            android:text="@string/title_activity_car" />
+
+        <Button
+            android:id="@+id/buttonContacts"
+            style="@style/CKButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="10dp"
+            android:background="@drawable/main_button_selector"
+            android:drawableTop="@drawable/partnerikon"
+            android:padding="10dp"
+            android:text="@string/title_activity_contact_activty" />
+
+    </LinearLayout>
+
+    <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignBaseline="@+id/buttonJobs"
-        android:layout_alignBottom="@+id/buttonJobs"
-        android:layout_alignParentRight="true"
-        android:layout_marginRight="38dp"
-        android:background="@drawable/vehicles_btn" />
+        android:paddingTop="10dp" >
 
-    <Button
-        android:id="@+id/buttonMap"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_above="@+id/buttonJobs"
-        android:layout_alignLeft="@+id/buttonCar"
-        android:background="@drawable/maps_btn" />
+        <Button
+            android:id="@+id/buttonAdmin"
+            style="@style/CKButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="10dp"
+            android:background="@drawable/main_button_selector"
+            android:drawableTop="@drawable/adminikon"
+            android:padding="10dp"
+            android:text="@string/title_activity_admin" />
 
-    <Button
-        android:id="@+id/buttonContacts"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignLeft="@+id/buttonJobs"
-        android:layout_below="@+id/buttonJobs"
-        android:layout_marginTop="50dp"
-        android:background="@drawable/contact_btn" />
+    </LinearLayout>
 
-    <Button
-        android:id="@+id/buttonAdmin"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignBaseline="@+id/buttonContacts"
-        android:layout_alignBottom="@+id/buttonContacts"
-        android:layout_alignLeft="@+id/buttonCar"
-        android:background="@drawable/admin_btn" />
-
-</RelativeLayout>
+</LinearLayout>

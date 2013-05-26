@@ -7,4 +7,11 @@
         android:title="@string/logout"
         android:orderInCategory="100"
         android:showAsAction="never" />
+    
+    	<item
+	    android:id="@+id/menu_refresh"
+	    android:title="@string/refresh"
+	    android:icon="@drawable/ic_action_refresh"
+	    android:showAsAction="always"
+	    ></item>
 </menu>

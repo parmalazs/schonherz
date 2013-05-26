@@ -65,7 +65,6 @@ public class MainActivity extends Activity {
 	Button jobsButton;
 	Button adminButton;
 	Button mapButton;
-	Button refreshButton;
 	Button carButton;
 	Button contactButton;
 	Context context;
@@ -140,19 +139,6 @@ public class MainActivity extends Activity {
 			}
 		});
 
-		refreshButton = (Button) findViewById(R.id.buttonUpdate);
-		refreshButton.setOnClickListener(new OnClickListener() {
-
-			@Override
-			public void onClick(View v) {
-				// TODO Auto-generated method stub
-				Intent intent = new Intent(MainActivity.this,
-						RefreshActivity.class);
-				MainActivity.this.startActivity(intent);
-				overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
-			}
-		});
-
 		contactButton = (Button) findViewById(R.id.buttonContacts);
 		contactButton.setOnClickListener(new OnClickListener() {
 
@@ -192,6 +178,13 @@ public class MainActivity extends Activity {
 		switch (item.getItemId()) {
 			case R.id.menu_logout :
 				sessionManager.logoutUser();
+				break;
+				
+			case R.id.menu_refresh:
+				Intent intent = new Intent(MainActivity.this,
+						RefreshActivity.class);
+				MainActivity.this.startActivity(intent);
+				overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
 				break;
 		}
 		return super.onOptionsItemSelected(item);
