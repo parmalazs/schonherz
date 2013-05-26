@@ -21,12 +21,14 @@ import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.view.ContextMenu;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.ContextMenu.ContextMenuInfo;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.AdapterView;
@@ -41,7 +43,9 @@ import com.schonherz.classes.JsonArrayToArrayList;
 import com.schonherz.classes.JsonFromUrl;
 import com.schonherz.classes.NetworkUtil;
 import com.schonherz.classes.PullToRefreshListView;
+import com.schonherz.classes.SessionManager;
 import com.schonherz.classes.PullToRefreshListView.OnRefreshListener;
+import com.schonherz.dbentities.Munka;
 import com.schonherz.dbentities.Sofor;
 import com.schonherz.dbentities.SoforDao;
 import com.schonherz.dbentities.SoforDao.Properties;
@@ -57,7 +61,10 @@ public class SoforListFragment extends Fragment {
 	PullToRefreshListView pullListView;
 	ArrayList<Sofor> soforok;
 	MenuItem refreshItem;
+	SessionManager sessionManager;
 
+	final int CONTEXT_MENU_DELETE_ITEM =1;
+	
 	public SoforListFragment(Context context, SoforDao soforDao) {
 		this.context = context;
 		this.soforDao = soforDao;
@@ -68,6 +75,7 @@ public class SoforListFragment extends Fragment {
 		// TODO Auto-generated method stub
 		setHasOptionsMenu(true);
 		super.onCreate(savedInstanceState);
+		sessionManager=new SessionManager(context);
 
 	}
 
@@ -80,6 +88,36 @@ public class SoforListFragment extends Fragment {
 		setupSearchView(searchView);
 		refreshItem = menu.findItem(R.id.menu_refresh);
 		super.onCreateOptionsMenu(menu, inflater);
+	}
+	
+	@Override
+	public void onCreateContextMenu(ContextMenu menu, View v,
+			ContextMenuInfo menuInfo) {
+		// TODO Auto-generated method stub
+		menu.add(Menu.NONE, CONTEXT_MENU_DELETE_ITEM, Menu.NONE, "Törlés");
+	}
+	
+	@Override
+	public boolean onContextItemSelected(MenuItem item) {
+		// TODO Auto-generated method stub
+		AdapterView.AdapterContextMenuInfo info= (AdapterView.AdapterContextMenuInfo) item.getMenuInfo();
+		
+	    Long selectedSoforID = soforok.get(info.position-1).getSoforID();
+	    
+	    switch (item.getItemId()) {
+	    case CONTEXT_MENU_DELETE_ITEM:
+	    	Sofor currentSofor=soforDao.queryBuilder().where(Properties.SoforID.eq(selectedSoforID)).list().get(0);
+	    	currentSofor.setSoforIsActive(false);
+	    	soforDao.update(currentSofor);
+	    	adapter.clear();
+
+	    	soforok = new ArrayList<Sofor>(
+	    			soforDao.queryBuilder().where(Properties.SoforIsActive.eq(true)).list());
+			adapter.addAll(soforok);
+			adapter.notifyDataSetChanged();
+	    	return true;
+	    }
+		return super.onContextItemSelected(item);
 	}
 
 	public void setupSearchView(SearchView searchView) {
@@ -156,6 +194,8 @@ public class SoforListFragment extends Fragment {
 				soforDao);
 
 		pullListView.setAdapter(adapter);
+		
+		registerForContextMenu(pullListView);		
 		
 		pullListView.setOnItemClickListener(new OnItemClickListener() {
 

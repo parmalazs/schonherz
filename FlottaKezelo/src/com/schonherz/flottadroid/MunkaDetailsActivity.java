@@ -245,11 +245,11 @@ public class MunkaDetailsActivity extends Activity {
 			return false;
 		}
 		for (int i=0; i<sajatMunkak.size(); i++) {
-			if ((hour + currentMunka.getMunkaEstimatedTime().intValue() <=
-					Integer.parseInt(sajatMunkak.get(i).getMunkaBefejezesDate().substring(0,2))
-					-sajatMunkak.get(i).getMunkaEstimatedTime().intValue())
+			if ((((hour + currentMunka.getMunkaEstimatedTime().intValue()) <=	(Integer.parseInt(sajatMunkak.get(i).getMunkaBefejezesDate().substring(0,2))
+					-sajatMunkak.get(i).getMunkaEstimatedTime().intValue())) && (hour < (Integer.parseInt(sajatMunkak.get(i).getMunkaBefejezesDate().substring(0,2))
+					-sajatMunkak.get(i).getMunkaEstimatedTime().intValue())))
 					||
-					(hour >= Integer.parseInt(sajatMunkak.get(i).getMunkaBefejezesDate().substring(0,2)))) {
+					((hour >= Integer.parseInt(sajatMunkak.get(i).getMunkaBefejezesDate().substring(0,2))) && ((hour + currentMunka.getMunkaEstimatedTime().intValue()) > Integer.parseInt(sajatMunkak.get(i).getMunkaBefejezesDate().substring(0,2))))) {
 				return false;
 			}
 		}

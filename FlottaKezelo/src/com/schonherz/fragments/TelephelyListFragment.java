@@ -21,12 +21,14 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.util.Log;
+import android.view.ContextMenu;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.ContextMenu.ContextMenuInfo;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.AdapterView;
@@ -43,6 +45,7 @@ import com.schonherz.classes.NetworkUtil;
 import com.schonherz.classes.PullToRefreshListView;
 import com.schonherz.classes.PullToRefreshListView.OnRefreshListener;
 import com.schonherz.dbentities.Partner;
+import com.schonherz.dbentities.Sofor;
 import com.schonherz.dbentities.Telephely;
 import com.schonherz.dbentities.TelephelyDao;
 import com.schonherz.dbentities.TelephelyDao.Properties;
@@ -59,6 +62,7 @@ public class TelephelyListFragment extends Fragment {
 	ArrayList<Telephely> telephelyek;
 
 	MenuItem refreshItem;
+	final int CONTEXT_MENU_DELETE_ITEM =1;
 
 	public TelephelyListFragment(Context context, TelephelyDao telephelyDao) {
 		this.context = context;
@@ -82,6 +86,36 @@ public class TelephelyListFragment extends Fragment {
 		setupSearchView(searchView);
 		refreshItem = menu.findItem(R.id.menu_refresh);
 		super.onCreateOptionsMenu(menu, inflater);
+	}
+	
+	@Override
+	public void onCreateContextMenu(ContextMenu menu, View v,
+			ContextMenuInfo menuInfo) {
+		// TODO Auto-generated method stub
+		menu.add(Menu.NONE, CONTEXT_MENU_DELETE_ITEM, Menu.NONE, "Törlés");
+	}
+	
+	@Override
+	public boolean onContextItemSelected(MenuItem item) {
+		// TODO Auto-generated method stub
+		AdapterView.AdapterContextMenuInfo info= (AdapterView.AdapterContextMenuInfo) item.getMenuInfo();
+		
+	    Long selectedTelephelyID = telephelyek.get(info.position-1).getTelephelyID();
+	    
+	    switch (item.getItemId()) {
+	    case CONTEXT_MENU_DELETE_ITEM:
+	    	Telephely currentTelephely=telephelyDao.queryBuilder().where(Properties.TelephelyID.eq(selectedTelephelyID)).list().get(0);
+	    	currentTelephely.setTelephelyIsActive(false);
+	    	telephelyDao.update(currentTelephely);
+	    	adapter.clear();
+
+	    	telephelyek = new ArrayList<Telephely>(
+	    			telephelyDao.queryBuilder().where(Properties.TelephelyIsActive.eq(true)).list());
+			adapter.addAll(telephelyek);
+			adapter.notifyDataSetChanged();
+	    	return true;
+	    }
+		return super.onContextItemSelected(item);
 	}
 
 	public void setupSearchView(SearchView searchView) {
@@ -154,6 +188,8 @@ public class TelephelyListFragment extends Fragment {
 		adapter = new TelephelyAdapter(context, R.layout.list_item_telephely,
 				telephelyek, telephelyDao);
 		pullListView.setAdapter(adapter);
+		
+		registerForContextMenu(pullListView);
 		
 		pullListView.setOnItemClickListener(new OnItemClickListener() {
 

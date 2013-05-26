@@ -17,12 +17,14 @@ import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.view.ContextMenu;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.ContextMenu.ContextMenuInfo;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.AdapterView;
@@ -37,6 +39,7 @@ import com.schonherz.classes.JsonArrayToArrayList;
 import com.schonherz.classes.JsonFromUrl;
 import com.schonherz.classes.NetworkUtil;
 import com.schonherz.classes.PullToRefreshListView;
+import com.schonherz.classes.SessionManager;
 import com.schonherz.classes.PullToRefreshListView.OnRefreshListener;
 import com.schonherz.dbentities.Munka;
 import com.schonherz.dbentities.MunkaDao;
@@ -58,6 +61,9 @@ public class MunkaListFragment extends Fragment {
 	boolean telepheyAsc = true;
 	boolean estTimeAsc = true;
 	boolean munkaTypeAsc = true;
+	SessionManager sessionManager;
+	
+	final int CONTEXT_MENU_DELETE_ITEM =1;
 	
 	public MunkaListFragment(Context context, MunkaDao munkaDao) {
 		this.context = context;
@@ -69,6 +75,7 @@ public class MunkaListFragment extends Fragment {
 		// TODO Auto-generated method stub
 		setHasOptionsMenu(true);
 		super.onCreate(savedInstanceState);
+		sessionManager=new SessionManager(context);
 
 	}
 
@@ -81,6 +88,36 @@ public class MunkaListFragment extends Fragment {
 		setupSearchView(searchView);
 		refreshItem = menu.findItem(R.id.menu_refresh);
 		super.onCreateOptionsMenu(menu, inflater);
+	}
+	
+	@Override
+	public void onCreateContextMenu(ContextMenu menu, View v,
+			ContextMenuInfo menuInfo) {
+		// TODO Auto-generated method stub
+		menu.add(Menu.NONE, CONTEXT_MENU_DELETE_ITEM, Menu.NONE, "Törlés");
+	}
+	
+	@Override
+	public boolean onContextItemSelected(MenuItem item) {
+		// TODO Auto-generated method stub
+		AdapterView.AdapterContextMenuInfo info= (AdapterView.AdapterContextMenuInfo) item.getMenuInfo();
+		
+	    Long selectedMunkaID = munkak.get(info.position-1).getMunkaID();
+	    
+	    switch (item.getItemId()) {
+	    case CONTEXT_MENU_DELETE_ITEM:
+	    	Munka currentMunka=munkaDao.queryBuilder().where(Properties.MunkaID.eq(selectedMunkaID)).list().get(0);
+	    	currentMunka.setMunkaIsActive(false);
+	    	munkaDao.update(currentMunka);
+	    	adapter.clear();
+
+			munkak = new ArrayList<Munka>(
+					munkaDao.queryBuilder().where(Properties.MunkaIsActive.eq(true)).list());
+			adapter.addAll(munkak);
+			adapter.notifyDataSetChanged();
+	    	return true;
+	    }
+		return super.onContextItemSelected(item);
 	}
 
 	public void setupSearchView(SearchView searchView) {
@@ -154,6 +191,8 @@ public class MunkaListFragment extends Fragment {
 		adapter = new MunkaAdapter(context, R.layout.list_item_munka, munkak,
 				munkaDao);
 		pullListView.setAdapter(adapter);
+		
+		registerForContextMenu(pullListView);
 		
 		pullListView.setOnItemClickListener(new OnItemClickListener() {
 

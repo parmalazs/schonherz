@@ -31,12 +31,14 @@ import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.view.ContextMenu;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.ContextMenu.ContextMenuInfo;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.AdapterView;
@@ -61,6 +63,8 @@ public class SajatMunkaListFragment extends Fragment {
 	
 	SessionManager sessionManager;
 	
+	final int CONTEXT_MENU_LEADAS =1;
+	
 	public SajatMunkaListFragment(Context context, MunkaDao munkaDao) {
 		this.context = context;
 		this.munkaDao = munkaDao;
@@ -73,6 +77,35 @@ public class SajatMunkaListFragment extends Fragment {
 		sessionManager=new SessionManager(context);
 		super.onCreate(savedInstanceState);
 
+	}
+	
+	@Override
+	public void onCreateContextMenu(ContextMenu menu, View v,
+			ContextMenuInfo menuInfo) {
+		// TODO Auto-generated method stub
+		menu.add(Menu.NONE, CONTEXT_MENU_LEADAS, Menu.NONE, "Leadás");
+	}
+	
+	@Override
+	public boolean onContextItemSelected(MenuItem item) {
+		// TODO Auto-generated method stub
+		AdapterView.AdapterContextMenuInfo info= (AdapterView.AdapterContextMenuInfo) item.getMenuInfo();
+		Long selectedMunkaID = munkak.get(info.position-1).getMunkaID();
+	    
+	    switch (item.getItemId()) {
+	    case CONTEXT_MENU_LEADAS:
+	    	Munka currentMunka=munkaDao.queryBuilder().where(Properties.MunkaID.eq(selectedMunkaID)).list().get(0);
+	    	currentMunka.setSoforID(0L);
+	    	munkaDao.update(currentMunka);
+	    	adapter.clear();
+
+			munkak = new ArrayList<Munka>(
+					munkaDao.queryBuilder().where(Properties.MunkaIsActive.eq(true), Properties.SoforID.eq(sessionManager.getUserID().get(SessionManager.KEY_USER_ID))).list());
+			adapter.addAll(munkak);
+			adapter.notifyDataSetChanged();
+	    	return true;
+	    }
+		return super.onContextItemSelected(item);
 	}
 
 	@Override
@@ -157,6 +190,8 @@ public class SajatMunkaListFragment extends Fragment {
 		adapter = new MunkaAdapter(context, R.layout.list_item_munka, munkak,
 				munkaDao);
 		pullListView.setAdapter(adapter);
+		
+		registerForContextMenu(pullListView);
 		
 		pullListView.setOnItemClickListener(new OnItemClickListener() {
 
