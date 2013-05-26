@@ -286,7 +286,7 @@ public class RefreshActivity extends Activity {
 
 			// get autotable
 			jsonArray = (JSONArray) JsonFromUrl.getJsonObjectFromUrl(
-					autokepUrl, json.toString());
+					autoUrl, json.toString());
 
 			autoDao.dropTable(autoDao.getDatabase(), true);
 			autoDao.createTable(autoDao.getDatabase(), true);
