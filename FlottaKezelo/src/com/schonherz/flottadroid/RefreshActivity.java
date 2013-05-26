@@ -1,7 +1,10 @@
 package com.schonherz.flottadroid;
 
 import java.io.File;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -13,6 +16,7 @@ import android.database.sqlite.SQLiteDatabase;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Environment;
+import android.preference.PreferenceManager;
 import android.support.v4.app.NavUtils;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -26,6 +30,7 @@ import com.schonherz.classes.JsonArrayToArrayList;
 import com.schonherz.classes.JsonFromUrl;
 import com.schonherz.dbentities.Auto;
 import com.schonherz.dbentities.AutoDao;
+import com.schonherz.dbentities.AutoKep;
 import com.schonherz.dbentities.AutoKepDao;
 import com.schonherz.dbentities.DaoMaster;
 import com.schonherz.dbentities.DaoMaster.DevOpenHelper;
@@ -33,14 +38,17 @@ import com.schonherz.dbentities.DaoSession;
 import com.schonherz.dbentities.Munka;
 import com.schonherz.dbentities.MunkaDao;
 import com.schonherz.dbentities.MunkaEszkozDao;
+import com.schonherz.dbentities.MunkaKep;
 import com.schonherz.dbentities.MunkaKepDao;
 import com.schonherz.dbentities.MunkaTipus;
 import com.schonherz.dbentities.MunkaTipusDao;
 import com.schonherz.dbentities.Partner;
 import com.schonherz.dbentities.PartnerDao;
+import com.schonherz.dbentities.PartnerKep;
 import com.schonherz.dbentities.PartnerKepDao;
 import com.schonherz.dbentities.ProfilKep;
 import com.schonherz.dbentities.ProfilKepDao;
+import com.schonherz.dbentities.ProfilKepDao.Properties;
 import com.schonherz.dbentities.Sofor;
 import com.schonherz.dbentities.SoforDao;
 import com.schonherz.dbentities.Telephely;
@@ -92,7 +100,7 @@ public class RefreshActivity extends Activity {
 	TextView taskToUploadTv;
 	TextView imgToUploadTv;
 	TextView lastSyncTv;
-
+	
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -104,7 +112,16 @@ public class RefreshActivity extends Activity {
 		taskToUploadTv = (TextView) findViewById(R.id.taskwaitforTW);
 		lastSyncTv = (TextView) findViewById(R.id.lastsyncTimeTW);
 		imgToUploadTv = (TextView) findViewById(R.id.imgwaitforTW);
-
+		
+		taskToUploadTv.setText("");
+		
+		preferences = PreferenceManager.getDefaultSharedPreferences(this);
+		lastSyncTime = preferences.getString("lastSync", "Nem volt még frissítés!");
+		
+		lastSyncTv.setText(lastSyncTv.getText().toString() + " "+lastSyncTime);
+		
+		//imgToUploadTv.setText(imgToUploadTv.getText().toString()+" "+Integer.toString(getAllUploadPicture()));
+		
 		initTables();
 
 		syncButton.setOnClickListener(new OnClickListener() {
@@ -227,7 +244,26 @@ public class RefreshActivity extends Activity {
 		telephelyDao.createTable(db, true);
 
 	}
-
+	
+	public int getAllUploadPicture()
+	{
+		List<ProfilKep> uploadProf = profilKepDao.queryBuilder().where(Properties.ProfilkepIsUploaded.eq(false)).list();
+		List<PartnerKep> uploadPart = partnerKepDao.queryBuilder().where(com.schonherz.dbentities.PartnerKepDao.Properties.PartnerKepIsUploaded.eq(false)).list();
+		List<MunkaKep> uploadMunk = munkaKepDao.queryBuilder().where(com.schonherz.dbentities.MunkaKepDao.Properties.MunkaKepIsUploaded.eq(false)).list();
+		List<AutoKep> uploadAut = autoKepDao.queryBuilder().where(com.schonherz.dbentities.AutoKepDao.Properties.AutoKepIsUploaded.eq(false)).list();
+		
+		int upload = (uploadProf.size()+uploadPart.size()+uploadMunk.size()+uploadAut.size());
+		return upload;
+		
+	}
+	
+	public void getAllUploadTask()
+	{
+		
+	}
+	
+	
+	
 	public String saveAlldata() {
 		JSONArray jsonArray;
 		JSONObject json = new JSONObject();
@@ -361,10 +397,21 @@ public class RefreshActivity extends Activity {
 								+ "/"
 								+ Long.toString(profilkepek.get(i)
 										.getProfilKepID()) + ".jpg");
-
+				
+				profilkepek.get(i).setProfilkepIsUploaded(true);
+				
 				profilKepDao.insert(profilkepek.get(i));
 			}
-
+			
+			Date now = new Date();
+			SimpleDateFormat sdf = new SimpleDateFormat("yyyy.MM.dd HH:mm:ss");
+			String s = sdf.format(now);
+			
+			SharedPreferences.Editor editor = preferences.edit();
+			editor.putString("lastSync", s);
+			editor.commit();
+			editor = null;
+			
 		} catch (Exception ex) {
 			ex.printStackTrace();
 			return ex.getMessage();
