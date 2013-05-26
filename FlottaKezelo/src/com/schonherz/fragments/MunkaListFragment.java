@@ -28,6 +28,7 @@ import android.view.ContextMenu.ContextMenuInfo;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.AdapterView;
+import android.widget.AdapterView.OnItemLongClickListener;
 import android.widget.ImageView;
 import android.widget.SearchView;
 import android.widget.AdapterView.OnItemClickListener;
@@ -43,6 +44,7 @@ import com.schonherz.classes.SessionManager;
 import com.schonherz.classes.PullToRefreshListView.OnRefreshListener;
 import com.schonherz.dbentities.Munka;
 import com.schonherz.dbentities.MunkaDao;
+import com.schonherz.dbentities.Sofor;
 import com.schonherz.dbentities.MunkaDao.Properties;
 import com.schonherz.flottadroid.MunkaDetailsActivity;
 import com.schonherz.flottadroid.R;
@@ -62,7 +64,6 @@ public class MunkaListFragment extends Fragment {
 	boolean estTimeAsc = true;
 	boolean munkaTypeAsc = true;
 	SessionManager sessionManager;
-	
 	final int CONTEXT_MENU_DELETE_ITEM =1;
 	
 	public MunkaListFragment(Context context, MunkaDao munkaDao) {
@@ -76,7 +77,6 @@ public class MunkaListFragment extends Fragment {
 		setHasOptionsMenu(true);
 		super.onCreate(savedInstanceState);
 		sessionManager=new SessionManager(context);
-
 	}
 
 	@Override
@@ -94,29 +94,22 @@ public class MunkaListFragment extends Fragment {
 	public void onCreateContextMenu(ContextMenu menu, View v,
 			ContextMenuInfo menuInfo) {
 		// TODO Auto-generated method stub
-		menu.add(Menu.NONE, CONTEXT_MENU_DELETE_ITEM, Menu.NONE, "Törlés");
+		if (v.getId()==R.id.pulltorefresh_listview) {
+			menu.add(Menu.NONE, CONTEXT_MENU_DELETE_ITEM, Menu.NONE, "Törlés");
+		}
 	}
 	
 	@Override
 	public boolean onContextItemSelected(MenuItem item) {
 		// TODO Auto-generated method stub
 		AdapterView.AdapterContextMenuInfo info= (AdapterView.AdapterContextMenuInfo) item.getMenuInfo();
-		
-	    Long selectedMunkaID = munkak.get(info.position-1).getMunkaID();
+		Munka selectedMunka=munkaDao.queryBuilder().where(Properties.MunkaID.eq(adapter.getItemId(info.position-1))).list().get(0);
+		selectedMunka.setMunkaIsActive(false);
+		selectedMunka.refresh();
+		munkaDao.update(selectedMunka);
+		adapter.remove(selectedMunka);
+		adapter.notifyDataSetChanged();        
 	    
-	    switch (item.getItemId()) {
-	    case CONTEXT_MENU_DELETE_ITEM:
-	    	Munka currentMunka=munkaDao.queryBuilder().where(Properties.MunkaID.eq(selectedMunkaID)).list().get(0);
-	    	currentMunka.setMunkaIsActive(false);
-	    	munkaDao.update(currentMunka);
-	    	adapter.clear();
-
-			munkak = new ArrayList<Munka>(
-					munkaDao.queryBuilder().where(Properties.MunkaIsActive.eq(true)).list());
-			adapter.addAll(munkak);
-			adapter.notifyDataSetChanged();
-	    	return true;
-	    }
 		return super.onContextItemSelected(item);
 	}
 
@@ -190,9 +183,9 @@ public class MunkaListFragment extends Fragment {
 		munkak = new ArrayList<Munka>(munkaDao.queryBuilder().where(Properties.MunkaIsActive.eq(true)).list());
 		adapter = new MunkaAdapter(context, R.layout.list_item_munka, munkak,
 				munkaDao);
-		pullListView.setAdapter(adapter);
+		pullListView.setAdapter(adapter);	
 		
-		registerForContextMenu(pullListView);
+		registerForContextMenu(pullListView);		
 		
 		pullListView.setOnItemClickListener(new OnItemClickListener() {
 

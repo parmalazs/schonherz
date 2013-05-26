@@ -92,7 +92,9 @@ public class TelephelyListFragment extends Fragment {
 	public void onCreateContextMenu(ContextMenu menu, View v,
 			ContextMenuInfo menuInfo) {
 		// TODO Auto-generated method stub
-		menu.add(Menu.NONE, CONTEXT_MENU_DELETE_ITEM, Menu.NONE, "Törlés");
+		if (v.getId()==R.id.pulltorefresh_listview) {
+			menu.add(Menu.NONE, CONTEXT_MENU_DELETE_ITEM, Menu.NONE, "Törlés");
+		}
 	}
 	
 	@Override
@@ -100,21 +102,12 @@ public class TelephelyListFragment extends Fragment {
 		// TODO Auto-generated method stub
 		AdapterView.AdapterContextMenuInfo info= (AdapterView.AdapterContextMenuInfo) item.getMenuInfo();
 		
-	    Long selectedTelephelyID = telephelyek.get(info.position-1).getTelephelyID();
-	    
-	    switch (item.getItemId()) {
-	    case CONTEXT_MENU_DELETE_ITEM:
-	    	Telephely currentTelephely=telephelyDao.queryBuilder().where(Properties.TelephelyID.eq(selectedTelephelyID)).list().get(0);
-	    	currentTelephely.setTelephelyIsActive(false);
-	    	telephelyDao.update(currentTelephely);
-	    	adapter.clear();
-
-	    	telephelyek = new ArrayList<Telephely>(
-	    			telephelyDao.queryBuilder().where(Properties.TelephelyIsActive.eq(true)).list());
-			adapter.addAll(telephelyek);
-			adapter.notifyDataSetChanged();
-	    	return true;
-	    }
+		Telephely selectedTelephely=telephelyDao.queryBuilder().where(Properties.TelephelyID.eq(adapter.getItemId(info.position-1))).list().get(0);
+		selectedTelephely.setTelephelyIsActive(false);
+		selectedTelephely.refresh();
+		telephelyDao.update(selectedTelephely);
+		adapter.remove(selectedTelephely);
+		adapter.notifyDataSetChanged();  
 		return super.onContextItemSelected(item);
 	}
 

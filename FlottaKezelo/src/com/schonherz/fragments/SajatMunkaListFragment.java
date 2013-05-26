@@ -83,29 +83,22 @@ public class SajatMunkaListFragment extends Fragment {
 	public void onCreateContextMenu(ContextMenu menu, View v,
 			ContextMenuInfo menuInfo) {
 		// TODO Auto-generated method stub
-		menu.add(Menu.NONE, CONTEXT_MENU_LEADAS, Menu.NONE, "Leadás");
+		if (v.getId()==R.id.pulltorefresh_listview) {
+			menu.add(Menu.NONE, CONTEXT_MENU_LEADAS, Menu.NONE, "Leadás");
+		}
 	}
 	
 	@Override
 	public boolean onContextItemSelected(MenuItem item) {
 		// TODO Auto-generated method stub
 		AdapterView.AdapterContextMenuInfo info= (AdapterView.AdapterContextMenuInfo) item.getMenuInfo();
-		Long selectedMunkaID = munkak.get(info.position-1).getMunkaID();
-	    
-	    switch (item.getItemId()) {
-	    case CONTEXT_MENU_LEADAS:
-	    	Munka currentMunka=munkaDao.queryBuilder().where(Properties.MunkaID.eq(selectedMunkaID)).list().get(0);
-	    	currentMunka.setSoforID(0L);
-	    	munkaDao.update(currentMunka);
-	    	adapter.clear();
-
-			munkak = new ArrayList<Munka>(
-					munkaDao.queryBuilder().where(Properties.MunkaIsActive.eq(true), Properties.SoforID.eq(sessionManager.getUserID().get(SessionManager.KEY_USER_ID))).list());
-			adapter.addAll(munkak);
-			adapter.notifyDataSetChanged();
-	    	return true;
-	    }
-		return super.onContextItemSelected(item);
+		Munka selectedMunka=munkaDao.queryBuilder().where(Properties.MunkaID.eq(adapter.getItemId(info.position-1))).list().get(0);
+		selectedMunka.setSoforID(0L);
+		selectedMunka.refresh();
+		munkaDao.update(selectedMunka);
+		adapter.remove(selectedMunka);
+		adapter.notifyDataSetChanged();
+		return super.onContextItemSelected(item);		
 	}
 
 	@Override

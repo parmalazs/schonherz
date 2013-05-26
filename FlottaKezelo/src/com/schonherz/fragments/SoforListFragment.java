@@ -94,29 +94,22 @@ public class SoforListFragment extends Fragment {
 	public void onCreateContextMenu(ContextMenu menu, View v,
 			ContextMenuInfo menuInfo) {
 		// TODO Auto-generated method stub
-		menu.add(Menu.NONE, CONTEXT_MENU_DELETE_ITEM, Menu.NONE, "Törlés");
+		if (v.getId()==R.id.pulltorefresh_listview) {
+			menu.add(Menu.NONE, CONTEXT_MENU_DELETE_ITEM, Menu.NONE, "Törlés");
+		}
 	}
 	
 	@Override
 	public boolean onContextItemSelected(MenuItem item) {
 		// TODO Auto-generated method stub
 		AdapterView.AdapterContextMenuInfo info= (AdapterView.AdapterContextMenuInfo) item.getMenuInfo();
-		
-	    Long selectedSoforID = soforok.get(info.position-1).getSoforID();
+		Sofor selectedSofor=soforDao.queryBuilder().where(Properties.SoforID.eq(adapter.getItemId(info.position-1))).list().get(0);
+		selectedSofor.setSoforIsActive(false);
+		selectedSofor.refresh();
+		soforDao.update(selectedSofor);
+		adapter.remove(selectedSofor);
+		adapter.notifyDataSetChanged();        
 	    
-	    switch (item.getItemId()) {
-	    case CONTEXT_MENU_DELETE_ITEM:
-	    	Sofor currentSofor=soforDao.queryBuilder().where(Properties.SoforID.eq(selectedSoforID)).list().get(0);
-	    	currentSofor.setSoforIsActive(false);
-	    	soforDao.update(currentSofor);
-	    	adapter.clear();
-
-	    	soforok = new ArrayList<Sofor>(
-	    			soforDao.queryBuilder().where(Properties.SoforIsActive.eq(true)).list());
-			adapter.addAll(soforok);
-			adapter.notifyDataSetChanged();
-	    	return true;
-	    }
 		return super.onContextItemSelected(item);
 	}
 

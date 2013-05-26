@@ -97,7 +97,9 @@ public class PartnerListFragment extends Fragment {
 	public void onCreateContextMenu(ContextMenu menu, View v,
 			ContextMenuInfo menuInfo) {
 		// TODO Auto-generated method stub
-		menu.add(Menu.NONE, CONTEXT_MENU_DELETE_ITEM, Menu.NONE, "Törlés");
+		if (v.getId()==R.id.pulltorefresh_listview) {
+			menu.add(Menu.NONE, CONTEXT_MENU_DELETE_ITEM, Menu.NONE, "Törlés");
+		}
 	}
 	
 	@Override
@@ -105,21 +107,12 @@ public class PartnerListFragment extends Fragment {
 		// TODO Auto-generated method stub
 		AdapterView.AdapterContextMenuInfo info= (AdapterView.AdapterContextMenuInfo) item.getMenuInfo();
 		
-	    Long selectedPartnerID = partnerek.get(info.position-1).getPartnerID();
-	    
-	    switch (item.getItemId()) {
-	    case CONTEXT_MENU_DELETE_ITEM:
-	    	Partner currentPartner=partnerDao.queryBuilder().where(Properties.PartnerID.eq(selectedPartnerID)).list().get(0);
-	    	currentPartner.setPartnerIsActive(false);
-	    	partnerDao.update(currentPartner);
-	    	adapter.clear();
-
-	    	partnerek = new ArrayList<Partner>(
-	    			partnerDao.queryBuilder().where(Properties.PartnerIsActive.eq(true)).list());
-			adapter.addAll(partnerek);
-			adapter.notifyDataSetChanged();
-	    	return true;
-	    }
+		Partner selectedPartner=partnerDao.queryBuilder().where(Properties.PartnerID.eq(adapter.getItemId(info.position-1))).list().get(0);
+		selectedPartner.setPartnerIsActive(false);
+		selectedPartner.refresh();
+		partnerDao.update(selectedPartner);
+		adapter.remove(selectedPartner);
+		adapter.notifyDataSetChanged(); 
 		return super.onContextItemSelected(item);
 	}
 	
