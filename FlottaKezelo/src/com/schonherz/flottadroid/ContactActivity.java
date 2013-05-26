@@ -126,6 +126,14 @@ public class ContactActivity extends FragmentActivity implements ActionBar.TabLi
 			}
 		});
 	}
+    
+    @Override
+	public void onBackPressed() {
+		// TODO Auto-generated method stub
+		super.onBackPressed();
+		finish();
+		this.overridePendingTransition(R.anim.slide_out_right, R.anim.slide_in_left); 		
+	}
 
 	
 
@@ -160,9 +168,11 @@ public class ContactActivity extends FragmentActivity implements ActionBar.TabLi
 			// TODO Auto-generated method stub
 			switch (position) {
 				case 0 :
-					return new SoforListFragment(ContactActivity.this, soforDao);
-				default :
 					return new PartnerListFragment(ContactActivity.this, partnerDao);
+					
+				default :
+					return new SoforListFragment(ContactActivity.this, soforDao);
+					
 			}
 		}
 
@@ -209,6 +219,7 @@ public void onTabReselected(Tab tab, FragmentTransaction ft) {
 @Override
 public void onTabSelected(Tab tab, FragmentTransaction ft) {
 	// TODO Auto-generated method stub
+	contactsPager.setCurrentItem(tab.getPosition());
 	
 }
 

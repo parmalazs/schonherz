@@ -9,6 +9,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.schonherz.dbentities.Sofor;
@@ -76,7 +77,7 @@ public class SoforAdapter extends ArrayAdapter<Sofor>{
 	@Override
 	public View getView(int position, View convertView, ViewGroup parent) {
 		// TODO Auto-generated method stub
-		ViewHolder holder = null;
+		//ViewHolder holder = null;
 		Sofor currentSofor = soforok.get(position);
 		
 		if(convertView == null)
@@ -84,21 +85,46 @@ public class SoforAdapter extends ArrayAdapter<Sofor>{
 			LayoutInflater inflater = (LayoutInflater)context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 			convertView = inflater.inflate(com.schonherz.flottadroid.R.layout.list_item_sofor, null);
 			
-			holder = new ViewHolder();
-			holder.soforNevTextView = (TextView)convertView.findViewById(com.schonherz.flottadroid.R.id.textViewSoforNev);
+			// set avatar
+			//	ImageView ivAvatar = 
+			//ivAvatar.setImageBitmap(Bitmap.createBitmap(currentPartner.getPartnerKepList().get(0).getPartnerKepPath()));
 			
-			holder.soforNevTextView.setText(currentSofor.getSoforNev());
+			ImageView iv = (ImageView)convertView.findViewById(com.schonherz.flottadroid.R.id.imgAvatar);				
+			//Bitmap myBitmap = BitmapFactory.decodeFile(currentPartner.getPartnerKepList().get(0).getPartnerKepPath());
+
+			
+			// Image should be scaled somehow
+			//iv.setScaleType(ImageView.ScaleType.CENTER);
+			//iv.setScaleType(ImageView.ScaleType.CENTER_CROP);			
+			//iv.setScaleType(ImageView.ScaleType.CENTER_INSIDE);
+			//iv.setScaleType(ImageView.ScaleType.FIT_CENTER);
+			//iv.setScaleType(ImageView.ScaleType.FIT_XY);
+			//iv.setScaleType(ImageView.ScaleType.FIT_END);
+			//iv.setBackgroundColor(Color.BLACK);
+			// Set the Width & Height of the individual images
+			//iv.setLayoutParams(new Gallery.LayoutParams(130, 180));
+			
+			
+			// set name
+			TextView tvName = (TextView)convertView.findViewById(com.schonherz.flottadroid.R.id.tvNameSofor);
+			tvName.setText(currentSofor.getSoforNev());
+			// set phone
+			TextView tvPhone = (TextView)convertView.findViewById(com.schonherz.flottadroid.R.id.tvPhoneSofor);
+			tvPhone.setText(currentSofor.getSoforTelefonszam());
+			// set email
+			TextView tvEmail = (TextView)convertView.findViewById(com.schonherz.flottadroid.R.id.tvEmailSofor);
+			tvEmail.setText(currentSofor.getSoforEmail());
 		}
 		else
 		{
-			holder = (ViewHolder)convertView.getTag();
+			//holder = (ViewHolder)convertView.getTag();
 		}
-		
+		/*
 		soforDao.refresh(currentSofor);
 		holder = new ViewHolder();
 		holder.soforNevTextView = (TextView)convertView.findViewById(com.schonherz.flottadroid.R.id.textViewSoforNev);
 		
-		holder.soforNevTextView.setText(currentSofor.getSoforNev());
+		holder.soforNevTextView.setText(currentSofor.getSoforNev()); */
 		
 		return convertView;
 	}
