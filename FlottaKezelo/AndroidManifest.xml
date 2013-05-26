@@ -65,7 +65,7 @@
         </activity>
         <activity
             android:name="com.schonherz.flottadroid.JobsActivity"
-            android:configChanges="orientation|screenSize"
+            android:screenOrientation="portrait"
             android:label="@string/title_activity_jobs" >
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
@@ -73,7 +73,7 @@
         </activity>
         <activity
             android:name="com.schonherz.flottadroid.AdminActivity"
-            android:configChanges="orientation|screenSize"
+            android:screenOrientation="portrait"
             android:label="@string/title_activity_admin" >
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
@@ -81,6 +81,7 @@
         </activity>
         <activity
             android:name="com.schonherz.flottadroid.MapActivity"
+            android:screenOrientation="portrait"
             android:label="@string/title_activity_map" >
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
@@ -88,6 +89,7 @@
         </activity>
         <activity
             android:name="com.schonherz.flottadroid.CarActivity"
+            android:screenOrientation="portrait"
             android:label="@string/title_activity_car" >
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
@@ -95,6 +97,7 @@
         </activity>
         <activity
             android:name="com.schonherz.flottadroid.ContactActivity"
+            android:screenOrientation="portrait"
             android:label="@string/title_activity_contact_activty" >
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
@@ -102,8 +105,8 @@
         </activity>
         <activity
             android:name="com.schonherz.flottadroid.RefreshActivity"
-            android:label="@string/title_activity_refresh" 
-            android:screenOrientation="portrait">
+            android:label="@string/title_activity_refresh"
+            android:screenOrientation="portrait" >
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.schonherz.flottadroid.MainActivity" />
@@ -122,22 +125,20 @@
 
         <activity
             android:name="com.schonherz.flottadroid.MunkaDetailsActivity"
-            android:configChanges="orientation|screenSize"
-            android:label="@string/title_activity_munka_details" >
+            android:label="@string/title_activity_munka_details"
+            android:screenOrientation="portrait" >
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.schonherz.flottadroid.JobsActivity" />
         </activity>
-        
         <activity
             android:name="com.schonherz.flottadroid.CarDetailsActivity"
-            android:configChanges="orientation|screenSize"
-            android:label="@string/title_activity_car_details" >
+            android:label="@string/title_activity_car_details"
+            android:screenOrientation="portrait" >
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.schonherz.flottadroid.CarActivity" />
         </activity>
-        
 
         <service android:name="com.schonherz.flottadroid.GCMIntentService" />
 
@@ -171,28 +172,40 @@
         </activity>
         <activity
             android:name="com.schonherz.flottadroid.NewJobActivity"
-            android:label="@string/title_activity_new_job" >
+            android:label="@string/title_activity_new_job"
+            android:screenOrientation="portrait" >
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.schonherz.flottadroid.AdminActivity" />
         </activity>
         <activity
             android:name="com.schonherz.flottadroid.SoforDetailsActivity"
-            android:label="@string/title_activity_sofor_details" >
+            android:label="@string/title_activity_sofor_details"
+            android:screenOrientation="portrait" >
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.schonherz.flottadroid.AdminActivity" />
         </activity>
         <activity
             android:name="com.schonherz.flottadroid.PartnerDetailsActivity"
-            android:label="@string/title_activity_partner_details" >
+            android:label="@string/title_activity_partner_details"
+            android:screenOrientation="portrait" >
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.schonherz.flottadroid.AdminActivity" />
         </activity>
         <activity
             android:name="com.schonherz.flottadroid.TelephelyDetailsActivity"
-            android:label="@string/title_activity_telephely_details" >
+            android:label="@string/title_activity_telephely_details"
+            android:screenOrientation="portrait" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.schonherz.flottadroid.AdminActivity" />
+        </activity>
+        <activity
+            android:name="com.schonherz.flottadroid.CarAdminDetailsActivity"
+            android:screenOrientation="portrait"
+            android:label="@string/title_activity_car_admin_details" >
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.schonherz.flottadroid.AdminActivity" />

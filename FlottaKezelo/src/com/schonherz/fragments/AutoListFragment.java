@@ -46,9 +46,7 @@ import com.schonherz.classes.PullToRefreshListView;
 import com.schonherz.classes.PullToRefreshListView.OnRefreshListener;
 import com.schonherz.dbentities.Auto;
 import com.schonherz.dbentities.AutoDao;
-import com.schonherz.dbentities.SoforDao.Properties;
-import com.schonherz.flottadroid.CarDetailsActivity;
-import com.schonherz.flottadroid.MunkaDetailsActivity;
+import com.schonherz.flottadroid.CarAdminDetailsActivity;
 import com.schonherz.flottadroid.R;
 
 import de.greenrobot.dao.QueryBuilder;
@@ -163,6 +161,18 @@ public class AutoListFragment extends Fragment {
 
 		pullListView.setAdapter(adapter);	
 		
+		pullListView.setOnItemClickListener(new OnItemClickListener() {
+
+			@Override
+			public void onItemClick(AdapterView<?> arg0, View arg1, int position,
+					long arg3) {
+				// TODO Auto-generated method stub
+				Intent intent=new Intent(getActivity(), CarAdminDetailsActivity.class);
+				intent.putExtra("selectedAutoID", autok.get(position-1).getAutoID());
+				startActivity(intent);
+				getActivity().overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
+			}
+		});
 		
 		pullListView.setOnRefreshListener(new OnRefreshListener() {
 

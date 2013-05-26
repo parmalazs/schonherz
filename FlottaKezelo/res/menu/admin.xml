@@ -29,6 +29,12 @@
         android:orderInCategory="100"
         android:showAsAction="never"
         android:title="Új telephely"/>   
+        
+    <item
+        android:id="@+id/new_car"
+        android:orderInCategory="100"
+        android:showAsAction="never"
+        android:title="Új autó"/>  
     
 
 </menu>
