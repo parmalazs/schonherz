@@ -267,7 +267,7 @@ public class RefreshActivity extends Activity {
 	public String saveAlldata() {
 		JSONArray jsonArray;
 		JSONObject json = new JSONObject();
-
+						
 		try {
 			// get sofortable
 			jsonArray = (JSONArray) JsonFromUrl.getJsonObjectFromUrl(soforUrl,
@@ -402,6 +402,101 @@ public class RefreshActivity extends Activity {
 				
 				profilKepDao.insert(profilkepek.get(i));
 			}
+			
+			profilkepek = null;
+			
+
+			jsonArray = (JSONArray) JsonFromUrl.getJsonObjectFromUrl(
+					partnerKepUrl, json.toString());
+
+			ArrayList<PartnerKep> partnerKepek = JsonArrayToArrayList
+					.JsonArrayToPartnerKepek(jsonArray);
+
+			partnerKepDao.dropTable(partnerKepDao.getDatabase(), true);
+			partnerKepDao.createTable(partnerKepDao.getDatabase(), true);
+
+			for (int i = 0; i < partnerKepek.size(); i++) {
+				String photoDirPath = sdcard.getAbsolutePath() + "/"
+						+ "FlottaDroid/PartnerImages/"
+						+ partnerKepek.get(i).getPartnerID();
+				ImageDownloadUtil.downloadImage(partnerKepek.get(i)
+						.getPartnerKepPath(), photoDirPath,
+						Long.toString(partnerKepek.get(i).getPartnerKepID())
+								+ ".jpg");
+				partnerKepek.get(i).setPartnerKepPath(
+						photoDirPath
+								+ "/"
+								+ Long.toString(partnerKepek.get(i)
+										.getPartnerKepID()) + ".jpg");
+				
+				partnerKepek.get(i).setPartnerKepIsUploaded(true);
+				
+				partnerKepDao.insert(partnerKepek.get(i));
+			}
+			
+			partnerKepek = null;
+			
+			/*
+			jsonArray = (JSONArray) JsonFromUrl.getJsonObjectFromUrl(
+					munkaKepUrl, json.toString());
+
+			ArrayList<MunkaKep> munkakepek = JsonArrayToArrayList
+					.JsonArrayToMunkaKepek(jsonArray);
+
+			munkaKepDao.dropTable(munkaKepDao.getDatabase(), true);
+			munkaKepDao.createTable(munkaKepDao.getDatabase(), true);
+
+			for (int i = 0; i < munkakepek.size(); i++) {
+				String photoDirPath = sdcard.getAbsolutePath() + "/"
+						+ "FlottaDroid/MunkaImages/"
+						+ munkakepek.get(i).getMunkaID();
+				ImageDownloadUtil.downloadImage(munkakepek.get(i)
+						.getMunkaKepPath(), photoDirPath,
+						Long.toString(munkakepek.get(i).getMunkaKepID())
+								+ ".jpg");
+				munkakepek.get(i).setMunkaKepPath(
+						photoDirPath
+								+ "/"
+								+ Long.toString(munkakepek.get(i)
+										.getMunkaKepID()) + ".jpg");
+				
+				munkakepek.get(i).setMunkaKepIsUploaded(true);
+				
+				munkaKepDao.insert(munkakepek.get(i));
+			}
+			
+			munkakepek = null;
+			*/
+			jsonArray = (JSONArray) JsonFromUrl.getJsonObjectFromUrl(
+					autokepUrl, json.toString());
+
+			ArrayList<AutoKep> autokepek = JsonArrayToArrayList
+					.JsonArrayToAutoKepek(jsonArray);
+
+			autoKepDao.dropTable(autoKepDao.getDatabase(), true);
+
+			autoKepDao.createTable(autoKepDao.getDatabase(), true);
+
+			for (int i = 0; i < autokepek.size(); i++) {
+				String photoDirPath = sdcard.getAbsolutePath() + "/"
+						+ "FlottaDroid/AutoImages/"
+						+ autokepek.get(i).getAutoID();
+				ImageDownloadUtil.downloadImage(autokepek.get(i)
+						.getAutoKepPath(), photoDirPath,
+						Long.toString(autokepek.get(i).getAutoKepID())
+								+ ".jpg");
+				autokepek.get(i).setAutoKepPath(
+						photoDirPath
+								+ "/"
+								+ Long.toString(autokepek.get(i)
+										.getAutoKepID()) + ".jpg");
+				
+				autokepek.get(i).setAutoKepIsUploaded(true);
+				
+				autoKepDao.insert(autokepek.get(i));
+			}
+			
+			autokepek = null;
 			
 			Date now = new Date();
 			SimpleDateFormat sdf = new SimpleDateFormat("yyyy.MM.dd HH:mm:ss");

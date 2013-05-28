@@ -22,9 +22,15 @@ import android.widget.Gallery;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.schonherz.adapters.AutoKepImageAdapter;
+import com.schonherz.adapters.MunkaKepImageAdapter;
+import com.schonherz.adapters.PartnerKepImageAdapter;
 import com.schonherz.adapters.ProfilKepImageAdapter;
+import com.schonherz.dbentities.AutoKep;
 import com.schonherz.dbentities.AutoKepDao;
+import com.schonherz.dbentities.MunkaKep;
 import com.schonherz.dbentities.MunkaKepDao;
+import com.schonherz.dbentities.PartnerKep;
 import com.schonherz.dbentities.PartnerKepDao;
 import com.schonherz.dbentities.ProfilKep;
 import com.schonherz.dbentities.ProfilKepDao;
@@ -39,9 +45,14 @@ public class AdminKepekFragment extends Fragment {
 	MunkaKepDao munkaKepDao;
 
 	ProfilKepImageAdapter profilImgAdapter;
+	PartnerKepImageAdapter partnerImgAdapter;
+	MunkaKepImageAdapter munkaKepImgAdapter;
+	AutoKepImageAdapter autoKepImgAdapter;
 	
 	Gallery soforPicsGallery;
-	
+	Gallery partnerPicsGallery;
+	Gallery munkaPicsGallery;
+	Gallery autoPicsGallery;
 	
 	public AdminKepekFragment(Context context, PartnerKepDao partnerKepDao,
 			ProfilKepDao profilKepDao, AutoKepDao autoKepDao,
@@ -74,7 +85,22 @@ public class AdminKepekFragment extends Fragment {
 		// TODO Auto-generated method stub
 		final View v = inflater.inflate(R.layout.layout_admin_pictures, null);
 		
-		List<ProfilKep> profilkepek = profilKepDao.loadAll();
+		List<ProfilKep> profilkepek = profilKepDao.loadAll();				
+		List<AutoKep> autoKepek = autoKepDao.loadAll();
+		List<PartnerKep> partnerKepek = partnerKepDao.loadAll();
+		List<MunkaKep> munkaKepek = munkaKepDao.loadAll();
+		
+		partnerPicsGallery = (Gallery)v.findViewById(R.id.partnerGallery);
+		partnerImgAdapter = new PartnerKepImageAdapter(context, partnerKepDao, 0, partnerKepek);
+		partnerPicsGallery.setAdapter(partnerImgAdapter);
+				
+		munkaPicsGallery = (Gallery)v.findViewById(R.id.munkakGallery);
+		munkaKepImgAdapter = new MunkaKepImageAdapter(context, munkaKepDao, 0, munkaKepek);
+		munkaPicsGallery.setAdapter(munkaKepImgAdapter);
+		
+		autoPicsGallery = (Gallery)v.findViewById(R.id.autokGallery);
+		autoKepImgAdapter = new AutoKepImageAdapter(context, autoKepDao, 0, autoKepek);
+		autoPicsGallery.setAdapter(autoKepImgAdapter);
 		
 		soforPicsGallery = (Gallery)v.findViewById(R.id.soforPicsGallery);
 		profilImgAdapter = new ProfilKepImageAdapter(context, profilKepDao, 0, profilkepek);

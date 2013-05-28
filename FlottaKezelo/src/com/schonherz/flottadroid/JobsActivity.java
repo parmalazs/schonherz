@@ -29,6 +29,7 @@ import com.schonherz.fragments.TelephelyListFragment;
 import android.app.ActionBar;
 import android.app.FragmentTransaction;
 import android.app.ActionBar.Tab;
+import android.content.Intent;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -168,6 +169,11 @@ public class JobsActivity extends FragmentActivity implements ActionBar.TabListe
 					//
 					NavUtils.navigateUpFromSameTask(this);
 					overridePendingTransition(R.anim.slide_out_right, R.anim.slide_in_left);
+					return true;
+					
+				case R.id.new_job:
+					Intent intentNewJob=new Intent(JobsActivity.this, NewJobActivity.class);
+					startActivity(intentNewJob);
 					return true;
 			}
 			return super.onOptionsItemSelected(item);

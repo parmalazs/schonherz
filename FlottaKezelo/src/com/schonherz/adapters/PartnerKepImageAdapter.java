@@ -4,10 +4,6 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
-import com.schonherz.dbentities.MunkaKep;
-import com.schonherz.dbentities.MunkaKepDao;
-import com.schonherz.dbentities.PartnerKep;
-
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -18,15 +14,18 @@ import android.widget.ArrayAdapter;
 import android.widget.Gallery;
 import android.widget.ImageView;
 
+import com.schonherz.dbentities.PartnerKep;
+import com.schonherz.dbentities.PartnerKepDao;
+
 public class PartnerKepImageAdapter extends ArrayAdapter<PartnerKep> {
 	
-	PartnerKep partnerKepDao;
+	PartnerKepDao partnerKepDao;
 	ArrayList<PartnerKep> partnerKepek;
 	Context context;
 	
 	
 	
-	public PartnerKepImageAdapter(Context context, PartnerKep partnerKepDao,int textViewResourceId,
+	public PartnerKepImageAdapter(Context context, PartnerKepDao partnerKepDao,int textViewResourceId,
 			List<PartnerKep> objects) {
 		super(context, textViewResourceId, objects);
 		// TODO Auto-generated constructor stub
