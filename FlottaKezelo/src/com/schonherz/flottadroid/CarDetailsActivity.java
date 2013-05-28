@@ -2,10 +2,10 @@ package com.schonherz.flottadroid;
 
 import java.util.ArrayList;
 
-import android.R.bool;
 import android.app.Activity;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -118,26 +118,43 @@ public class CarDetailsActivity extends Activity {
 			autoLastSoforNevTextView.setText("Utolsó sofõr: " + soforlist.get(0).getSoforNev() );
 		}
 		
+				
 		lefoglalButton=(Button)findViewById(R.id.lefoglalButton);
+		//ha saját autót jelenítünk meg akkor átírjuk a legoflalást leadásra
+		if (getIntent().getBooleanExtra("sajatAuto", false)) {
+			lefoglalButton.setText("Lead");
+		}
 		lefoglalButton.setOnClickListener(new OnClickListener() {
 			
 			@Override
 			public void onClick(View v) {
-				// ellenörzés, hogy van-e általa foglalva autó!
-				ArrayList<Auto> vaneAutoja = new ArrayList<Auto>(autoDao.queryBuilder().where(com.schonherz.dbentities.AutoDao.Properties.AutoLastSoforID.eq(sessionManager.getUserID().get(sessionManager.KEY_USER_ID))).list());
-
-				if (vaneAutoja.size()==0)
-				{
-					currentAuto.setAutoFoglalt(true);
-					currentAuto.setAutoLastSoforID(sessionManager.getUserID().get(sessionManager.KEY_USER_ID));
+				
+				//ha nem saját autó akkor elmentjük
+				if (!getIntent().getBooleanExtra("sajatAuto", false)) {
+					// ellenörzés, hogy van-e általa foglalva autó!
+					ArrayList<Auto> vaneAutoja = new ArrayList<Auto>(autoDao.queryBuilder().where(com.schonherz.dbentities.AutoDao.Properties.AutoLastSoforID.eq(sessionManager.getUserID().get(SessionManager.KEY_USER_ID))).list());
+	
+					if (vaneAutoja.size()==0)
+					{
+						currentAuto.setAutoFoglalt(true);
+						currentAuto.setAutoLastSoforID(sessionManager.getUserID().get(SessionManager.KEY_USER_ID));
+						Log.i(CarDetailsActivity.class.getName(), "választott auto ID: " + currentAuto.getAutoID().toString() + " sofõr: " + sessionManager.getUserID().get(SessionManager.KEY_USER_ID).toString());
+						autoDao.update(currentAuto);
+						finish();						
+					}
+					else
+					{
+						// vmt feldobni
+						Toast.makeText(getApplicationContext(), R.string.denided_autofelvetel, Toast.LENGTH_LONG).show();
+					}
+				}
+				//ha saját autó akkor leadjuk
+				else {
+					currentAuto.setAutoFoglalt(false);
+					currentAuto.setAutoLastSoforID(0L);
 					autoDao.update(currentAuto);
 					finish();
 				}
-				else
-				{
-					// vmt feldobni
-				}
-				
 			}
 		});
 	}

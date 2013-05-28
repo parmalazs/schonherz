@@ -21,8 +21,10 @@ import android.view.MenuItem;
 
 import com.schonherz.adapters.AutoAdapter;
 import com.schonherz.classes.PullToRefreshListView;
+import com.schonherz.classes.SessionManager;
 import com.schonherz.dbentities.Auto;
 import com.schonherz.dbentities.AutoDao;
+import com.schonherz.dbentities.AutoDao.Properties;
 import com.schonherz.dbentities.AutoKepDao;
 import com.schonherz.dbentities.DaoMaster;
 import com.schonherz.dbentities.DaoMaster.DevOpenHelper;
@@ -66,14 +68,12 @@ public class CarActivity extends FragmentActivity implements ActionBar.TabListen
 	CarsPagerAdapter carsAdapter;
 	ViewPager carsPager;
 	
-	
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_car);
         getActionBar().setDisplayHomeAsUpEnabled(true);
         dataBaseInit();
-        
         
         szemelygepjarmuFragment = new SzabadAutoListFragment(this, autoDao, new ArrayList<Auto>(autoDao.queryBuilder().where(com.schonherz.dbentities.AutoDao.Properties.AutoFoglalt.eq(false),
 				com.schonherz.dbentities.AutoDao.Properties.AutoIsActive.eq(true), com.schonherz.dbentities.AutoDao.Properties.AutoTipus.eq("Személygépjármû")).list()), "Személygépjármû");
@@ -88,7 +88,7 @@ public class CarActivity extends FragmentActivity implements ActionBar.TabListen
         furgonFragment = new SzabadAutoListFragment(this, autoDao, new ArrayList<Auto>(autoDao.queryBuilder().where(com.schonherz.dbentities.AutoDao.Properties.AutoFoglalt.eq(false),
 				com.schonherz.dbentities.AutoDao.Properties.AutoIsActive.eq(true), com.schonherz.dbentities.AutoDao.Properties.AutoTipus.eq("Furgon")).list()), "Furgon");
         
-       
+              
         
         actionBar = getActionBar();
 		actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_TABS);
@@ -122,6 +122,7 @@ public class CarActivity extends FragmentActivity implements ActionBar.TabListen
 		teherautoTab.setTabListener(this);
 		actionBar.addTab(teherautoTab);
 		
+				
 		carsPager.setOnPageChangeListener(new OnPageChangeListener() {
 
 			@Override
@@ -142,7 +143,7 @@ public class CarActivity extends FragmentActivity implements ActionBar.TabListen
 				// TODO Auto-generated method stub
 
 			}
-		});
+		});		
     }
 
 	private void setupActionBar() {

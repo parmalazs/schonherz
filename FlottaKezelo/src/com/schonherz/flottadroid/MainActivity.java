@@ -10,6 +10,7 @@ import com.schonherz.classes.JsonArrayToArrayList;
 import com.schonherz.classes.JsonFromUrl;
 import com.schonherz.classes.NetworkUtil;
 import com.schonherz.classes.SessionManager;
+import com.schonherz.dbentities.Auto;
 import com.schonherz.dbentities.AutoDao;
 import com.schonherz.dbentities.AutoKepDao;
 import com.schonherz.dbentities.DaoMaster;
@@ -27,6 +28,7 @@ import com.schonherz.dbentities.TelephelyDao;
 import com.schonherz.dbentities.DaoMaster.DevOpenHelper;
 import com.schonherz.dbentities.SoforDao.Properties;
 
+import android.opengl.Visibility;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.app.Activity;
@@ -62,15 +64,17 @@ public class MainActivity extends Activity {
 	private SoforDao soforDao;
 	private TelephelyDao telephelyDao;
 
-	Button jobsButton;
-	Button adminButton;
-	Button mapButton;
-	Button carButton;
-	Button contactButton;
-	Context context;
+	private Button jobsButton;
+	private Button adminButton;
+	private Button mapButton;
+	private Button carButton;
+	private Button contactButton;
+	private Context context;
 
-	SessionManager sessionManager;
-	boolean isRefreshed;
+	private SessionManager sessionManager;
+	private boolean isRefreshed;
+	private Long selectedAutoID;
+	private List<Auto> autok;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -79,11 +83,16 @@ public class MainActivity extends Activity {
 		context = getApplicationContext();
 		sessionManager = new SessionManager(context);
 		isRefreshed = this.getIntent().getBooleanExtra("isRefreshed", false);
+		autok=new ArrayList<Auto>();
+		sajatAutoCheck();		
 
 		if (sessionManager.isLoggedIn() && !isRefreshed) {
 			// csinálunk egy frissítést mert a bejelentkezéskor elmaradt
 			loggedInRefresh();
-		}
+			
+			
+		}	
+		
 
 		if (NetworkUtil.checkInternetIsActive(this) == true) {
 			try {
@@ -115,6 +124,13 @@ public class MainActivity extends Activity {
 		});
 
 		adminButton = (Button) findViewById(R.id.buttonAdmin);
+		//ha nem admin a sofõr akkor eltiltjuk az admin gombot
+		Log.i(MainActivity.class.getName(), "admin: " + soforDao.queryBuilder().where(Properties.SoforID.eq(sessionManager.getUserID().get(SessionManager.KEY_USER_ID))).list().get(0).getSoforIsAdmin().toString());
+		if (!soforDao.queryBuilder().where(Properties.SoforID.eq(sessionManager.getUserID().get(SessionManager.KEY_USER_ID))).list().get(0).getSoforIsAdmin()) {
+			adminButton.setEnabled(false);
+			adminButton.setVisibility(View.INVISIBLE);
+		}
+		
 		adminButton.setOnClickListener(new OnClickListener() {
 
 			@Override
@@ -150,20 +166,44 @@ public class MainActivity extends Activity {
 				MainActivity.this.startActivity(intent);
 				overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
 			}
-		});
-
+		});		
+		
 		carButton = (Button) findViewById(R.id.buttonCar);
 		carButton.setOnClickListener(new OnClickListener() {
 
 			@Override
 			public void onClick(View v) {
 				// TODO Auto-generated method stub
-				Intent intent = new Intent(MainActivity.this, CarActivity.class);
-				MainActivity.this.startActivity(intent);
-				overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
+				//ha már van a sofõrnek autója akkor azt jelenítjük meg
+		        if (selectedAutoID!=0L) {
+		        	Intent intent=new Intent(MainActivity.this, CarDetailsActivity.class);
+		        	intent.putExtra("sajatAuto", true);
+		        	intent.putExtra("selectedAutoID", selectedAutoID);
+		        	MainActivity.this.startActivity(intent);
+		        	overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
+		        }
+		        //ha nincs autója, akkor irány a szabad autók
+		        else {
+					Intent intent = new Intent(MainActivity.this, CarActivity.class);
+					MainActivity.this.startActivity(intent);
+					overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
+		        }
 			}
 		});
 
+	}
+	
+	public void sajatAutoCheck() {
+		dataBaseInit();
+		selectedAutoID=0L;
+		autok.clear();
+		autok=autoDao.queryBuilder().where(com.schonherz.dbentities.AutoDao.Properties.AutoIsActive.eq(true)).list();
+		for (int i=0; i<autok.size(); i++) {
+			if (autok.get(i).getAutoLastSoforID()==sessionManager.getUserID().get(SessionManager.KEY_USER_ID)) {
+				selectedAutoID=autok.get(i).getAutoID();
+			}
+		}
+		Log.i(MainActivity.class.getName(), "saját auto ID: " + selectedAutoID.toString());
 	}
 
 	@Override
@@ -195,6 +235,7 @@ public class MainActivity extends Activity {
 		// TODO Auto-generated method stub
 		// megnézzük, hogy be van e még jelentkezve a user, ha nincs akkor irány
 		// a bejelentkezés
+		sajatAutoCheck();
 		if (!sessionManager.isLoggedIn()) {
 			sessionManager.logoutUser();
 		}
@@ -300,6 +341,26 @@ public class MainActivity extends Activity {
 		}
 
 		return false;
+
+	}
+	
+	public void dataBaseInit() {
+		helper = new DaoMaster.DevOpenHelper(this, "flotta-db", null);
+		db = helper.getWritableDatabase();
+		daoMaster = new DaoMaster(db);
+		daoSession = daoMaster.newSession();
+
+		autoDao = daoSession.getAutoDao();
+		autoKepDao = daoSession.getAutoKepDao();
+		munkaDao = daoSession.getMunkaDao();
+		munkaEszkozDao = daoSession.getMunkaEszkozDao();
+		munkaKepDao = daoSession.getMunkaKepDao();
+		munkaTipusDao = daoSession.getMunkaTipusDao();
+		partnerDao = daoSession.getPartnerDao();
+		partnerKepDao = daoSession.getPartnerKepDao();
+		profilKepDao = daoSession.getProfilKepDao();
+		soforDao = daoSession.getSoforDao();
+		telephelyDao = daoSession.getTelephelyDao();
 
 	}
 }
