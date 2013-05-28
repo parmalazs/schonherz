@@ -93,6 +93,14 @@
                 android:value="com.schonherz.flottadroid.MainActivity" />
         </activity>
         <activity
+            android:name="com.schonherz.flottadroid.PartnerDetailsActivity"
+            android:screenOrientation="portrait"
+            android:label="@string/title_activity_partner_details" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.schonherz.flottadroid.MainActivity" />
+        </activity>
+        <activity
             android:name="com.schonherz.flottadroid.CarActivity"
             android:screenOrientation="portrait"
             android:label="@string/title_activity_car" >

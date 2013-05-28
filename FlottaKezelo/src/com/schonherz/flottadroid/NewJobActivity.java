@@ -75,7 +75,8 @@ public class NewJobActivity extends Activity {
 	private ArrayList<String> partnerNevek;
 	private ArrayList<String> munkaTipusNevek;
 	private ArrayList<String> telephelyNevek;
-
+	ArrayList<Telephely> telephelyek;
+	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -114,7 +115,7 @@ public class NewJobActivity extends Activity {
 		}
 
 		if (telephelyDao.loadAll().size() != 0) {
-			ArrayList<Telephely> telephelyek = new ArrayList<Telephely>(
+			telephelyek = new ArrayList<Telephely>(
 					telephelyDao.queryBuilder()
 							.orderAsc(Properties.TelephelyNev).list());
 			
@@ -247,7 +248,9 @@ public class NewJobActivity extends Activity {
 				.queryBuilder()
 				.where(PartnerDao.Properties.PartnerNev.eq(partnerekSpinner
 						.getSelectedItem())).list().get(0).getPartnerID());
-		ujMunka.setTelephelyID(0L);
+		
+		ujMunka.setTelephelyID(telephelyek.get(telephelySpinner.getSelectedItemPosition()).getTelephelyID());
+		
 		ujMunka.setMunkaBefejezesDate("null");
 		ujMunka.setMunkaBevetel(0L);
 		ujMunka.setMunkaKoltseg(0L);
@@ -256,7 +259,8 @@ public class NewJobActivity extends Activity {
 		ujMunka.setMunkaID(munkaDao.loadAll()
 				.get(munkaDao.loadAll().size() - 1).getMunkaID() + 1L);
 		ujMunka.setMunkaIsActive(true);
-
+		
+		
 		munkaDao.insert(ujMunka);
 
 		if (NetworkUtil.checkInternetIsActive(NewJobActivity.this) == true) {

@@ -53,6 +53,7 @@ import com.schonherz.dbentities.Sofor;
 import com.schonherz.dbentities.SoforDao;
 import com.schonherz.dbentities.DaoMaster.DevOpenHelper;
 import com.schonherz.dbentities.PartnerDao.Properties;
+import com.schonherz.flottadroid.PartnerDetailsActivity;
 import com.schonherz.flottadroid.PartnerUserDetailsActivity;
 import com.schonherz.flottadroid.R;
 
@@ -196,7 +197,7 @@ public class PartnerListFragment extends Fragment {
 			public void onItemClick(AdapterView<?> arg0, View arg1, int position,
 					long arg3) {
 				// TODO Auto-generated method stub
-				Intent intent=new Intent(getActivity(), PartnerUserDetailsActivity.class);
+				Intent intent=new Intent(getActivity(), PartnerDetailsActivity.class);
 				intent.putExtra("selectedPartnerID", partnerek.get(position-1).getPartnerID());
 				startActivity(intent);
 				getActivity().overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
