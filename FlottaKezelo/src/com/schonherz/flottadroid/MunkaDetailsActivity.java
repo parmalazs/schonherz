@@ -7,6 +7,8 @@ import java.util.Date;
 import java.util.List;
 import java.util.TimeZone;
 
+import org.json.JSONObject;
+
 import android.app.Activity;
 import android.app.Dialog;
 import android.app.TimePickerDialog;
@@ -15,6 +17,7 @@ import android.content.Intent;
 import android.database.sqlite.SQLiteDatabase;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Environment;
 import android.view.Menu;
@@ -34,6 +37,9 @@ import android.widget.TimePicker;
 import android.widget.Toast;
 
 import com.schonherz.adapters.MunkaKepImageAdapter;
+import com.schonherz.classes.JSONBuilder;
+import com.schonherz.classes.JSONSender;
+import com.schonherz.classes.NetworkUtil;
 import com.schonherz.classes.SessionManager;
 import com.schonherz.dbentities.DaoMaster;
 import com.schonherz.dbentities.DaoMaster.DevOpenHelper;
@@ -70,8 +76,10 @@ public class MunkaDetailsActivity extends Activity {
 	Button imageCreate;
 	Gallery munkaGallery;
 	MunkaKepImageAdapter adapter;
-	
+
 	private int requestCode;
+
+	String serverUr = "http://flotta.host-ed.me/index.php";
 
 	File sdcard;
 
@@ -108,14 +116,20 @@ public class MunkaDetailsActivity extends Activity {
 		bevetelEditText = (EditText) findViewById(R.id.editTextBevetel);
 		confirmCheckBox = (CheckBox) findViewById(R.id.checkBoxConfirm);
 		imageCreate = (Button) findViewById(R.id.buttonImage);
-		munkaGallery = (Gallery)findViewById(R.id.munkaGallery);
-		
-		List<MunkaKep> munkakepek = currentMunka.getMunkaKepList();
-		
-		adapter = new MunkaKepImageAdapter(MunkaDetailsActivity.this, munkaKepDao, 0, munkakepek);
-		
+		munkaGallery = (Gallery) findViewById(R.id.munkaGallery);
+
+		List<MunkaKep> munkakepek = munkaKepDao
+				.queryBuilder()
+				.where(com.schonherz.dbentities.MunkaKepDao.Properties.MunkaID.eq(currentMunka
+						.getMunkaID()),
+						com.schonherz.dbentities.MunkaKepDao.Properties.MunkaKepIsActive
+								.eq(true)).list();
+
+		adapter = new MunkaKepImageAdapter(MunkaDetailsActivity.this,
+				munkaKepDao, 0, munkakepek);
+
 		munkaGallery.setAdapter(adapter);
-		
+
 		dateTextView.setText(currentMunka.getMunkaDate());
 		commentEditText.setText(currentMunka.getMunkaComment());
 		uzemanyagTextView.setText(currentMunka.getMunkaUzemanyagState()
@@ -136,7 +150,7 @@ public class MunkaDetailsActivity extends Activity {
 					.append(pad((int) kezdTmpHour)).append(":")
 					.append(kezdTmpMinute));
 		}
-		
+
 		munkaGallery.setOnItemClickListener(new OnItemClickListener() {
 
 			@Override
@@ -146,38 +160,40 @@ public class MunkaDetailsActivity extends Activity {
 				final Dialog dialog = new Dialog(MunkaDetailsActivity.this);
 				dialog.setContentView(R.layout.layout_image_dialog);
 				dialog.setCancelable(true);
-								   
-			    ImageView currProfIv = (ImageView) dialog.findViewById(R.id.imgDialogImageView);
-			    
-			    Bitmap bm = BitmapFactory.decodeFile(((MunkaKep)parent.getItemAtPosition(pos)).getMunkaKepPath());
-			    currProfIv.setImageBitmap(bm);
-			    				  
-			    dialog.setTitle(((MunkaKep)parent.getItemAtPosition(pos)).getMunkaKepDate());				    
-			    
-			    currProfIv.setOnClickListener(new OnClickListener() {
-					
+
+				ImageView currProfIv = (ImageView) dialog
+						.findViewById(R.id.imgDialogImageView);
+
+				Bitmap bm = BitmapFactory.decodeFile(((MunkaKep) parent
+						.getItemAtPosition(pos)).getMunkaKepPath());
+				currProfIv.setImageBitmap(bm);
+
+				dialog.setTitle(((MunkaKep) parent.getItemAtPosition(pos))
+						.getMunkaKepDate());
+
+				currProfIv.setOnClickListener(new OnClickListener() {
+
 					@Override
 					public void onClick(View v) {
 						// TODO Auto-generated method stub
 						dialog.dismiss();
 					}
 				});
-			    
-			    currProfIv.setOnLongClickListener(new OnLongClickListener() {
-					
+
+				currProfIv.setOnLongClickListener(new OnLongClickListener() {
+
 					@Override
 					public boolean onLongClick(View v) {
 						// TODO Auto-generated method stub
 						return false;
 					}
 				});
-			    				   
-			    dialog.show();
+
+				dialog.show();
 			}
-			
-			
+
 		});
-		
+
 		imageCreate.setOnClickListener(new OnClickListener() {
 
 			@Override
@@ -185,13 +201,13 @@ public class MunkaDetailsActivity extends Activity {
 				// TODO Auto-generated method stub
 				sdcard = Environment.getExternalStorageDirectory();
 				String photoDirPath = sdcard.getAbsolutePath() + "/"
-						+ "FlottaDroid/MunkaImages"
-						+"/" +Long.toString(currentMunka.getMunkaID()) + "/";
+						+ "FlottaDroid/MunkaImages" + "/"
+						+ Long.toString(currentMunka.getMunkaID()) + "/";
 				File dirPa = new File(photoDirPath);
 				dirPa.mkdirs();
 
-				String fileName = photoDirPath
-						+"/" + Long.toString(currentMunka.getMunkaID()) + "_";
+				String fileName = photoDirPath + "/"
+						+ Long.toString(currentMunka.getMunkaID()) + "_";
 
 				Intent cameraIntent = new Intent(MunkaDetailsActivity.this,
 						PreviewDemo.class);
@@ -322,24 +338,29 @@ public class MunkaDetailsActivity extends Activity {
 							.getMunkaKepID();
 				}
 				for (String path : photos) {
-					lastID = lastID+1;
+					lastID = lastID + 1;
 					munkaKepDao.insert(new MunkaKep(lastID, path, dateForm
 							.format(new Date()), false, true, currentMunka
 							.getMunkaID()));
 				}
-				
+
 				adapter.clear();
 				munkaDao.refresh(currentMunka);
-				List<MunkaKep> munkakepek = currentMunka.getMunkaKepList();
+				List<MunkaKep> munkakepek = munkaKepDao
+						.queryBuilder()
+						.where(com.schonherz.dbentities.MunkaKepDao.Properties.MunkaID.eq(currentMunka
+								.getMunkaID()),
+								com.schonherz.dbentities.MunkaKepDao.Properties.MunkaKepIsActive
+										.eq(true)).list();
+				
 				adapter.addAll(munkakepek);
-				
+
 				adapter.notifyDataSetChanged();
-				
+
 				Toast.makeText(getApplicationContext(),
 						Integer.toString(photos.length) + "  kép mentve!",
 						Toast.LENGTH_SHORT).show();
-				
-				
+
 			}
 		}
 
@@ -364,9 +385,9 @@ public class MunkaDetailsActivity extends Activity {
 					// megjelenik és bezáródik...
 					currentMunka.setMunkaIsActive(false);
 					confirmedSaveJob();
+				} else {
+					confirmedSaveJob();
 				}
-
-				confirmedSaveJob();
 			} else {
 				Toast.makeText(getApplicationContext(),
 						R.string.munkaFelvetelNullTime, Toast.LENGTH_LONG)
@@ -397,7 +418,35 @@ public class MunkaDetailsActivity extends Activity {
 
 		munkaDao.update(currentMunka);
 
-		finish();
+		if(NetworkUtil.checkInternetIsActive(MunkaDetailsActivity.this)==true)
+		{
+		new AsyncTask<Void, Void, Boolean>() {
+
+			@Override
+			protected void onPostExecute(Boolean result) {
+
+				Toast.makeText(MunkaDetailsActivity.this, R.string.refreshed,
+						Toast.LENGTH_SHORT);
+				finish();
+			};
+
+			@Override
+			protected Boolean doInBackground(Void... params) {
+				// TODO Auto-generated method stub
+
+				JSONSender sender = new JSONSender();
+				JSONBuilder builder = new JSONBuilder();
+				JSONObject obj = builder.updateMunka(currentMunka);
+				sender.sendJSON(sender.getFlottaUrl(), obj);
+
+				return true;
+			}
+		}.execute();
+		}
+		else
+		{
+			finish();
+		}
 	}
 
 	public boolean checkUtkozes() {

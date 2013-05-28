@@ -25,6 +25,13 @@ public class JSONSender {
     static JSONObject jObj = null;
     static String json = "";
 	
+    public static String flottaServerURL = "http://flotta.host-ed.me/index.php";
+    
+    public String getFlottaUrl()
+    {
+    	return flottaServerURL;
+    }
+    
 	public void sendJSON(String url,JSONObject json){
 		DefaultHttpClient httpClient = new DefaultHttpClient();
         HttpPost httpPost = new HttpPost(url);

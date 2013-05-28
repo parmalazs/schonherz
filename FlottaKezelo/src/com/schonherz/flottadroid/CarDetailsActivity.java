@@ -56,6 +56,8 @@ public class CarDetailsActivity extends Activity {
 	Button lefoglalButton;
 	Button imageCreate;
 
+	boolean saveMode = false; //false = insert, true = update
+	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -70,10 +72,14 @@ public class CarDetailsActivity extends Activity {
 			currentAuto=autoDao.queryBuilder().where(
 					Properties.AutoID.eq(
 							getIntent().getLongExtra("selectedAutoID", 0L))).list().get(0);
+			
+			saveMode = true;
 		}
 		else {
 			currentAuto=new Auto();
 			currentAuto.setAutoID(0L);
+			
+			saveMode = false;
 		}
 		
 		autoTipusTextView = (TextView)findViewById(R.id.autoTipusTextView);
