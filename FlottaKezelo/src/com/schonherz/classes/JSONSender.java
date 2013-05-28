@@ -13,6 +13,8 @@ import org.apache.http.client.ClientProtocolException;
 import org.apache.http.client.methods.HttpPost;
 import org.apache.http.entity.StringEntity;
 import org.apache.http.impl.client.DefaultHttpClient;
+import org.apache.http.message.BasicHeader;
+import org.apache.http.protocol.HTTP;
 import org.json.JSONObject;
 
 import android.util.Log;
@@ -28,7 +30,8 @@ public class JSONSender {
         HttpPost httpPost = new HttpPost(url);
         StringEntity se;
 		try {
-			se = new StringEntity("json="+json.toString());
+			se = new StringEntity("json="+json.toString(),HTTP.UTF_8);
+			se.setContentEncoding(new BasicHeader(HTTP.CONTENT_TYPE, "application/json"));
 			httpPost.addHeader("content-type", "application/x-www-form-urlencoded");
 	        httpPost.setEntity(se);
 	        HttpResponse httpResponse = httpClient.execute(httpPost);
@@ -60,5 +63,44 @@ public class JSONSender {
 			e.printStackTrace();
 		}
         
+	}
+	
+	
+	public void sendImg(String url,JSONObject json){
+		DefaultHttpClient httpClient = new DefaultHttpClient();
+        HttpPost httpPost = new HttpPost(url);
+        StringEntity se;
+		try {
+			se = new StringEntity("img="+json.toString());
+			httpPost.addHeader("content-type", "application/x-www-form-urlencoded");
+	        httpPost.setEntity(se);
+	        HttpResponse httpResponse = httpClient.execute(httpPost);
+	        HttpEntity httpEntity = httpResponse.getEntity();
+	        is = httpEntity.getContent();
+		} catch (UnsupportedEncodingException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (ClientProtocolException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		
+		try{
+			BufferedReader reader = new BufferedReader(new InputStreamReader(
+                is, "iso-8859-1"), 8);
+        StringBuilder sb = new StringBuilder();
+        String line = null;
+        while ((line = reader.readLine()) != null) {
+            sb.append(line);
+        }
+        Log.i("SENDER", sb.toString());
+        is.close();
+		}catch(Exception e){
+			e.printStackTrace();
+		}
 	}
 }
