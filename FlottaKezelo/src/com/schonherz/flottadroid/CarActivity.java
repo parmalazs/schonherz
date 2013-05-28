@@ -55,14 +55,12 @@ public class CarActivity extends FragmentActivity implements ActionBar.TabListen
 	SzabadAutoListFragment teherautoFragment;
 	SzabadAutoListFragment buszFragment;
 	SzabadAutoListFragment kamionFragment;
-	SzabadAutoListFragment furgonFragment;
 
 	Tab szemelygepjarmuTab;
 	Tab kisteherautoTab;
 	Tab teherautoTab;
 	Tab buszTab;
 	Tab kamionTab;
-	Tab furgonTab;
 	
 	ActionBar actionBar;
 	CarsPagerAdapter carsAdapter;
@@ -85,8 +83,7 @@ public class CarActivity extends FragmentActivity implements ActionBar.TabListen
 				com.schonherz.dbentities.AutoDao.Properties.AutoIsActive.eq(true), com.schonherz.dbentities.AutoDao.Properties.AutoTipus.eq("Busz")).list()), "Busz");
         kamionFragment = new SzabadAutoListFragment(this, autoDao, new ArrayList<Auto>(autoDao.queryBuilder().where(com.schonherz.dbentities.AutoDao.Properties.AutoFoglalt.eq(false),
 				com.schonherz.dbentities.AutoDao.Properties.AutoIsActive.eq(true), com.schonherz.dbentities.AutoDao.Properties.AutoTipus.eq("Kamion")).list()), "Kamion");
-        furgonFragment = new SzabadAutoListFragment(this, autoDao, new ArrayList<Auto>(autoDao.queryBuilder().where(com.schonherz.dbentities.AutoDao.Properties.AutoFoglalt.eq(false),
-				com.schonherz.dbentities.AutoDao.Properties.AutoIsActive.eq(true), com.schonherz.dbentities.AutoDao.Properties.AutoTipus.eq("Furgon")).list()), "Furgon");
+        
         
               
         
@@ -112,11 +109,8 @@ public class CarActivity extends FragmentActivity implements ActionBar.TabListen
 		
 		kamionTab = actionBar.newTab().setText(R.string.title_cars_section4);
 		kamionTab.setTabListener(this);
-		actionBar.addTab(kamionTab);
+		actionBar.addTab(kamionTab);		
 		
-		furgonTab = actionBar.newTab().setText(R.string.title_cars_section5);
-		furgonTab.setTabListener(this);
-		actionBar.addTab(furgonTab);
 		
 		teherautoTab = actionBar.newTab().setText(R.string.title_cars_section6);
 		teherautoTab.setTabListener(this);
@@ -214,9 +208,6 @@ public class CarActivity extends FragmentActivity implements ActionBar.TabListen
 				case 0 :
 					return new SzabadAutoListFragment(CarActivity.this, autoDao, new ArrayList<Auto>(autoDao.queryBuilder().where(com.schonherz.dbentities.AutoDao.Properties.AutoFoglalt.eq(false),
 							com.schonherz.dbentities.AutoDao.Properties.AutoIsActive.eq(true), com.schonherz.dbentities.AutoDao.Properties.AutoTipus.eq("Személygépjármû")).list()), "Személygépjármû");
-				case 4 :
-					return new SzabadAutoListFragment(CarActivity.this, autoDao, new ArrayList<Auto>(autoDao.queryBuilder().where(com.schonherz.dbentities.AutoDao.Properties.AutoFoglalt.eq(false),
-							com.schonherz.dbentities.AutoDao.Properties.AutoIsActive.eq(true), com.schonherz.dbentities.AutoDao.Properties.AutoTipus.eq("Furgon")).list()), "Furgon");
 				case 2 :
 					return new SzabadAutoListFragment(CarActivity.this, autoDao, new ArrayList<Auto>(autoDao.queryBuilder().where(com.schonherz.dbentities.AutoDao.Properties.AutoFoglalt.eq(false),
 							com.schonherz.dbentities.AutoDao.Properties.AutoIsActive.eq(true), com.schonherz.dbentities.AutoDao.Properties.AutoTipus.eq("Busz")).list()), "Busz");
@@ -237,7 +228,7 @@ public class CarActivity extends FragmentActivity implements ActionBar.TabListen
 		@Override
 		public int getCount() {
 			// TODO Auto-generated method stub
-			return 6;
+			return 5;
 		}
 
 	}
