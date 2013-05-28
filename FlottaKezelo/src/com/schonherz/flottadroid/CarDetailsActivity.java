@@ -132,7 +132,9 @@ public class CarDetailsActivity extends Activity {
 				//ha nem saját autó akkor elmentjük
 				if (!getIntent().getBooleanExtra("sajatAuto", false)) {
 					// ellenörzés, hogy van-e általa foglalva autó!
-					ArrayList<Auto> vaneAutoja = new ArrayList<Auto>(autoDao.queryBuilder().where(com.schonherz.dbentities.AutoDao.Properties.AutoLastSoforID.eq(sessionManager.getUserID().get(SessionManager.KEY_USER_ID))).list());
+					ArrayList<Auto> vaneAutoja = new ArrayList<Auto>(autoDao.queryBuilder().where(
+							com.schonherz.dbentities.AutoDao.Properties.AutoLastSoforID.eq(sessionManager.getUserID().get(SessionManager.KEY_USER_ID)),
+							com.schonherz.dbentities.AutoDao.Properties.AutoFoglalt.eq(true)).list());
 	
 					if (vaneAutoja.size()==0)
 					{
