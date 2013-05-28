@@ -116,7 +116,7 @@ public class RefreshActivity extends Activity {
 		taskToUploadTv.setText("");
 		
 		preferences = PreferenceManager.getDefaultSharedPreferences(this);
-		lastSyncTime = preferences.getString("lastSync", "Nem volt még frissítés!");
+		lastSyncTime = preferences.getString("lastSync", "Nem volt még frissítés");
 		
 		lastSyncTv.setText(lastSyncTv.getText().toString() + " "+lastSyncTime);
 		

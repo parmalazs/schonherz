@@ -229,7 +229,7 @@ public class SzabadAutoListFragment extends Fragment {
 
 							adapter.clear();
 
-							
+							konkreatautoRefresh();
 							autok = konkretautok;
 							//autok = new ArrayList<Auto>(autoDao.queryBuilder().where(com.schonherz.dbentities.AutoDao.Properties.AutoFoglalt.eq(true),com.schonherz.dbentities.AutoDao.Properties.AutoIsActive.eq(true)).list());
 
@@ -445,6 +445,7 @@ public class SzabadAutoListFragment extends Fragment {
 							adapter.clear();
 
 							// Ezt még átgondolni, hogy jó lesz e!
+							konkreatautoRefresh();
 							autok = konkretautok;
 							//autok = new ArrayList<Auto>(autoDao.queryBuilder().where(com.schonherz.dbentities.AutoDao.Properties.AutoFoglalt.eq(true),
 								//	com.schonherz.dbentities.AutoDao.Properties.AutoIsActive.eq(true)).list());
@@ -479,13 +480,7 @@ public class SzabadAutoListFragment extends Fragment {
 
 		return true;
 	}
-	
-	@Override
-	public void onResume() {
-		// TODO Auto-generated method stub
-		
-		adapter.clear();	
-		autok = konkretautok;
+	public void konkreatautoRefresh() {
 		if (jarmutipus.equals("Személygépjármû")) 
 			konkretautok = new ArrayList<Auto>(autoDao.queryBuilder().where(com.schonherz.dbentities.AutoDao.Properties.AutoFoglalt.eq(false),
 					com.schonherz.dbentities.AutoDao.Properties.AutoIsActive.eq(true), com.schonherz.dbentities.AutoDao.Properties.AutoTipus.eq("Személygépjármû")).list());
@@ -505,6 +500,14 @@ public class SzabadAutoListFragment extends Fragment {
 			konkretautok = new ArrayList<Auto>(autoDao.queryBuilder().where(com.schonherz.dbentities.AutoDao.Properties.AutoFoglalt.eq(false),
 					com.schonherz.dbentities.AutoDao.Properties.AutoIsActive.eq(true), com.schonherz.dbentities.AutoDao.Properties.AutoTipus.eq("Teherautó")).list());
 								
+	}
+	@Override
+	public void onResume() {
+		// TODO Auto-generated method stub
+		
+		adapter.clear();	
+		//autok = konkretautok;
+		konkreatautoRefresh();
 			
 		autok = konkretautok;
 		adapter.addAll(autok);

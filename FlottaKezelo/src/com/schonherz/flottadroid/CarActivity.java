@@ -245,7 +245,7 @@ public class CarActivity extends FragmentActivity implements ActionBar.TabListen
 	@Override
 	protected void onResume() {
 		// TODO Auto-generated method stub    
-		
+		dataBaseInit();
 		super.onResume();
       
 	}

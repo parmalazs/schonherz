@@ -113,7 +113,7 @@ public class CarDetailsActivity extends Activity {
 			// nem megy vmiért!
 			//ArrayList<Telephely> telephelylist = new ArrayList<Telephely>(telephelyDao.queryBuilder().where(com.schonherz.dbentities.TelephelyDao.Properties.TelephelyID.eq(currentAuto.getAutoLastTelephelyID())).list());
 			//autoLastTelephelyTextView.setText("Utolsó telephely: " + telephelylist.get(0).getTelephelyNev());
-			autoLastTelephelyTextView.setText("Utolsó telephely: " + currentAuto.getAutoLastTelephelyID());
+			autoLastTelephelyTextView.setText("Utolsó telephely: " + currentAuto.getAutoLastTelephelyID());			
 			ArrayList<Sofor> soforlist = new ArrayList<Sofor>(soforDao.queryBuilder().where(com.schonherz.dbentities.SoforDao.Properties.SoforID.eq(currentAuto.getAutoLastSoforID())).list());
 			autoLastSoforNevTextView.setText("Utolsó sofõr: " + soforlist.get(0).getSoforNev() );
 		}
@@ -151,7 +151,6 @@ public class CarDetailsActivity extends Activity {
 				//ha saját autó akkor leadjuk
 				else {
 					currentAuto.setAutoFoglalt(false);
-					currentAuto.setAutoLastSoforID(0L);
 					autoDao.update(currentAuto);
 					finish();
 				}

@@ -199,7 +199,7 @@ public class MainActivity extends Activity {
 		autok.clear();
 		autok=autoDao.queryBuilder().where(com.schonherz.dbentities.AutoDao.Properties.AutoIsActive.eq(true)).list();
 		for (int i=0; i<autok.size(); i++) {
-			if (autok.get(i).getAutoLastSoforID()==sessionManager.getUserID().get(SessionManager.KEY_USER_ID)) {
+			if (autok.get(i).getAutoLastSoforID()==sessionManager.getUserID().get(SessionManager.KEY_USER_ID) && autok.get(i).getAutoFoglalt()) {
 				selectedAutoID=autok.get(i).getAutoID();
 			}
 		}

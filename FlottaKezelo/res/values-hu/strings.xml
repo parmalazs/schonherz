@@ -72,4 +72,5 @@
     <string name="title_cars_section6">Teherautók</string>
     <string name="title_activity_car_admin_details">Autó</string>
 	<string name="denided_autofelvetel">Önnek van aktív autó felvétele, kérem előbb adja azt le</string>
+	<string name="refresh_not_yet">Nem volt még frissítés</string>
 </resources>
