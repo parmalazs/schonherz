@@ -18,33 +18,33 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.ContextMenu;
+import android.view.ContextMenu.ContextMenuInfo;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.ContextMenu.ContextMenuInfo;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.AdapterView;
-import android.widget.AdapterView.OnItemLongClickListener;
+import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ImageView;
 import android.widget.SearchView;
-import android.widget.AdapterView.OnItemClickListener;
 import android.widget.SearchView.OnQueryTextListener;
 import android.widget.Toast;
 
 import com.schonherz.adapters.MunkaAdapter;
+import com.schonherz.classes.JSONBuilder;
+import com.schonherz.classes.JSONSender;
 import com.schonherz.classes.JsonArrayToArrayList;
 import com.schonherz.classes.JsonFromUrl;
 import com.schonherz.classes.NetworkUtil;
 import com.schonherz.classes.PullToRefreshListView;
-import com.schonherz.classes.SessionManager;
 import com.schonherz.classes.PullToRefreshListView.OnRefreshListener;
+import com.schonherz.classes.SessionManager;
 import com.schonherz.dbentities.Munka;
 import com.schonherz.dbentities.MunkaDao;
-import com.schonherz.dbentities.Sofor;
 import com.schonherz.dbentities.MunkaDao.Properties;
 import com.schonherz.flottadroid.MunkaDetailsActivity;
 import com.schonherz.flottadroid.R;
@@ -64,7 +64,8 @@ public class MunkaListFragment extends Fragment {
 	boolean estTimeAsc = true;
 	boolean munkaTypeAsc = true;
 	SessionManager sessionManager;
-	final int CONTEXT_MENU_DELETE_ITEM =1;
+	final int CONTEXT_MENU_DELETE_ITEM = 1;
+	Munka selectedMunka;
 	
 	public MunkaListFragment(Context context, MunkaDao munkaDao) {
 		this.context = context;
@@ -76,7 +77,7 @@ public class MunkaListFragment extends Fragment {
 		// TODO Auto-generated method stub
 		setHasOptionsMenu(true);
 		super.onCreate(savedInstanceState);
-		sessionManager=new SessionManager(context);
+		sessionManager = new SessionManager(context);
 	}
 
 	@Override
@@ -89,27 +90,49 @@ public class MunkaListFragment extends Fragment {
 		refreshItem = menu.findItem(R.id.menu_refresh);
 		super.onCreateOptionsMenu(menu, inflater);
 	}
-	
+
 	@Override
 	public void onCreateContextMenu(ContextMenu menu, View v,
 			ContextMenuInfo menuInfo) {
 		// TODO Auto-generated method stub
-		if (v.getId()==R.id.pulltorefresh_listview) {
+		if (v.getId() == R.id.pulltorefresh_listview) {
 			menu.add(Menu.NONE, CONTEXT_MENU_DELETE_ITEM, Menu.NONE, "Törlés");
 		}
 	}
-	
+
 	@Override
 	public boolean onContextItemSelected(MenuItem item) {
 		// TODO Auto-generated method stub
-		AdapterView.AdapterContextMenuInfo info= (AdapterView.AdapterContextMenuInfo) item.getMenuInfo();
-		Munka selectedMunka=munkaDao.queryBuilder().where(Properties.MunkaID.eq(adapter.getItemId(info.position-1))).list().get(0);
+		AdapterView.AdapterContextMenuInfo info = (AdapterView.AdapterContextMenuInfo) item
+				.getMenuInfo();
+		selectedMunka = munkaDao
+				.queryBuilder()
+				.where(Properties.MunkaID.eq(adapter
+						.getItemId(info.position - 1))).list().get(0);
 		selectedMunka.setMunkaIsActive(false);
 		selectedMunka.refresh();
 		munkaDao.update(selectedMunka);
 		adapter.remove(selectedMunka);
-		adapter.notifyDataSetChanged();        
-	    
+
+		if (NetworkUtil.checkInternetIsActive(context) == true) {
+			new AsyncTask<Void, Void, Boolean>() {
+
+				@Override
+				protected Boolean doInBackground(Void... params) {
+					// TODO Auto-generated method stub
+					JSONBuilder builder = new JSONBuilder();
+					JSONSender sender = new JSONSender();
+					JSONObject obj = builder.updateMunka(selectedMunka);
+					sender.sendJSON(sender.getFlottaUrl(), obj);
+					return true;
+				}
+
+			}.execute();
+
+		}
+
+		adapter.notifyDataSetChanged();
+
 		return super.onContextItemSelected(item);
 	}
 
@@ -122,7 +145,6 @@ public class MunkaListFragment extends Fragment {
 		searchView.setSubmitButtonEnabled(true);
 		searchView.setOnQueryTextListener(new OnQueryTextListener() {
 
-			
 			@Override
 			public boolean onQueryTextSubmit(String query) {
 				// TODO Auto-generated method stub
@@ -139,12 +161,10 @@ public class MunkaListFragment extends Fragment {
 					adapter.clear();
 					adapter.addAll(templist);
 					adapter.notifyDataSetChanged();
-				}
-				else
-				{
-				adapter.clear();
-				adapter.addAll(munkak);
-				adapter.notifyDataSetChanged();
+				} else {
+					adapter.clear();
+					adapter.addAll(munkak);
+					adapter.notifyDataSetChanged();
 				}
 				return true;
 			}
@@ -180,23 +200,27 @@ public class MunkaListFragment extends Fragment {
 		pullListView = (PullToRefreshListView) v
 				.findViewById(R.id.pulltorefresh_listview);
 
-		munkak = new ArrayList<Munka>(munkaDao.queryBuilder().where(Properties.MunkaIsActive.eq(true)).list());
+		munkak = new ArrayList<Munka>(munkaDao.queryBuilder()
+				.where(Properties.MunkaIsActive.eq(true)).list());
 		adapter = new MunkaAdapter(context, R.layout.list_item_munka, munkak,
 				munkaDao);
-		pullListView.setAdapter(adapter);	
-		
-		registerForContextMenu(pullListView);		
-		
+		pullListView.setAdapter(adapter);
+
+		registerForContextMenu(pullListView);
+
 		pullListView.setOnItemClickListener(new OnItemClickListener() {
 
 			@Override
-			public void onItemClick(AdapterView<?> parent, View view, int position,
-					long id) {
+			public void onItemClick(AdapterView<?> parent, View view,
+					int position, long id) {
 				// TODO Auto-generated method stub
-				Intent intent=new Intent(getActivity(), MunkaDetailsActivity.class);
-				intent.putExtra("selectedMunkaID", munkak.get(position-1).getMunkaID());
+				Intent intent = new Intent(getActivity(),
+						MunkaDetailsActivity.class);
+				intent.putExtra("selectedMunkaID", munkak.get(position - 1)
+						.getMunkaID());
 				startActivity(intent);
-				getActivity().overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
+				getActivity().overridePendingTransition(R.anim.slide_in_right,
+						R.anim.slide_out_left);
 			}
 		});
 
@@ -207,12 +231,12 @@ public class MunkaListFragment extends Fragment {
 				// TODO Auto-generated method stub
 				if (NetworkUtil.checkInternetIsActive(context) == true) {
 					new AsyncTask<Void, Void, Boolean>() {
-						
+
 						@Override
 						protected void onPreExecute() {
 							startRefreshAnimation();
 						};
-						
+
 						@Override
 						protected void onPostExecute(Boolean result) {
 							// TODO Auto-generated method stub
@@ -239,16 +263,16 @@ public class MunkaListFragment extends Fragment {
 							pullListView.onRefreshComplete();
 							adapter.clear();
 
-							munkak = new ArrayList<Munka>(
-									munkaDao.loadAll());
+							munkak = new ArrayList<Munka>(munkaDao.loadAll());
 							adapter.addAll(munkak);
 							adapter.notifyDataSetChanged();
-							
-							if (refreshItem != null && refreshItem.getActionView() != null) {
+
+							if (refreshItem != null
+									&& refreshItem.getActionView() != null) {
 								refreshItem.getActionView().clearAnimation();
 								refreshItem.setActionView(null);
 							}
-							
+
 							stopRefreshAnimation();
 						}
 
@@ -275,12 +299,12 @@ public class MunkaListFragment extends Fragment {
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
 		// TODO Auto-generated method stub
-		switch(item.getItemId())
-		{
+		switch (item.getItemId()) {
 			case R.id.menu_Sort :
 				AlertDialog.Builder builder = new AlertDialog.Builder(context);
 				builder.setTitle("Rendezés");
-				final CharSequence[] choiceList = {"Idõ", "Telephely","Becsült idõ", "Munkatípus"};
+				final CharSequence[] choiceList = {"Idõ", "Telephely",
+						"Becsült idõ", "Munkatípus"};
 
 				int selected = -1; // does not select anything
 
@@ -291,23 +315,27 @@ public class MunkaListFragment extends Fragment {
 							public void onClick(DialogInterface dialog,
 									int which) {
 								// TODO Auto-generated method stub
-								QueryBuilder<Munka> q=munkaDao.queryBuilder().where(Properties.MunkaIsActive.eq(true));
-								switch(which)
-								{
-									case 0:
-										if(dateSortAsc == false)
-										{
-											List<Munka> tempMunkaSort = q.orderAsc(Properties.MunkaDate).list();
+								QueryBuilder<Munka> q = munkaDao.queryBuilder()
+										.where(Properties.MunkaIsActive
+												.eq(true));
+								switch (which) {
+									case 0 :
+										if (dateSortAsc == false) {
+											List<Munka> tempMunkaSort = q
+													.orderAsc(
+															Properties.MunkaDate)
+													.list();
 											munkak.clear();
 											munkak.addAll(tempMunkaSort);
 											adapter.clear();
 											adapter.addAll(munkak);
 											adapter.notifyDataSetChanged();
 											dateSortAsc = true;
-										}
-										else
-										{
-											List<Munka> tempMunkaSort = q.orderDesc(Properties.MunkaDate).list();
+										} else {
+											List<Munka> tempMunkaSort = q
+													.orderDesc(
+															Properties.MunkaDate)
+													.list();
 											munkak.clear();
 											munkak.addAll(tempMunkaSort);
 											adapter.clear();
@@ -316,20 +344,23 @@ public class MunkaListFragment extends Fragment {
 											dateSortAsc = false;
 										}
 										break;
-									case 1:
-										if(telepheyAsc == false)
-										{
-											List<Munka> tempMunkaSort = q.orderAsc(Properties.TelephelyID).list();
+									case 1 :
+										if (telepheyAsc == false) {
+											List<Munka> tempMunkaSort = q
+													.orderAsc(
+															Properties.TelephelyID)
+													.list();
 											munkak.clear();
 											munkak.addAll(tempMunkaSort);
 											adapter.clear();
 											adapter.addAll(munkak);
 											adapter.notifyDataSetChanged();
 											dateSortAsc = true;
-										}
-										else
-										{
-											List<Munka> tempMunkaSort = q.orderDesc(Properties.TelephelyID).list();
+										} else {
+											List<Munka> tempMunkaSort = q
+													.orderDesc(
+															Properties.TelephelyID)
+													.list();
 											munkak.clear();
 											munkak.addAll(tempMunkaSort);
 											adapter.clear();
@@ -338,20 +369,23 @@ public class MunkaListFragment extends Fragment {
 											dateSortAsc = false;
 										}
 										break;
-									case 2:
-										if(estTimeAsc == false)
-										{
-											List<Munka> tempMunkaSort = q.orderAsc(Properties.MunkaEstimatedTime).list();
+									case 2 :
+										if (estTimeAsc == false) {
+											List<Munka> tempMunkaSort = q
+													.orderAsc(
+															Properties.MunkaEstimatedTime)
+													.list();
 											munkak.clear();
 											munkak.addAll(tempMunkaSort);
 											adapter.clear();
 											adapter.addAll(munkak);
 											adapter.notifyDataSetChanged();
 											dateSortAsc = true;
-										}
-										else
-										{
-											List<Munka> tempMunkaSort = q.orderDesc(Properties.MunkaEstimatedTime).list();
+										} else {
+											List<Munka> tempMunkaSort = q
+													.orderDesc(
+															Properties.MunkaEstimatedTime)
+													.list();
 											munkak.clear();
 											munkak.addAll(tempMunkaSort);
 											adapter.clear();
@@ -360,20 +394,23 @@ public class MunkaListFragment extends Fragment {
 											dateSortAsc = false;
 										}
 										break;
-									case 3:
-										if(munkaTypeAsc == false)
-										{
-											List<Munka> tempMunkaSort = q.orderAsc(Properties.MunkaTipusID).list();
+									case 3 :
+										if (munkaTypeAsc == false) {
+											List<Munka> tempMunkaSort = q
+													.orderAsc(
+															Properties.MunkaTipusID)
+													.list();
 											munkak.clear();
 											munkak.addAll(tempMunkaSort);
 											adapter.clear();
 											adapter.addAll(munkak);
 											adapter.notifyDataSetChanged();
 											dateSortAsc = true;
-										}
-										else
-										{
-											List<Munka> tempMunkaSort = q.orderDesc(Properties.MunkaTipusID).list();
+										} else {
+											List<Munka> tempMunkaSort = q
+													.orderDesc(
+															Properties.MunkaTipusID)
+													.list();
 											munkak.clear();
 											munkak.addAll(tempMunkaSort);
 											adapter.clear();
@@ -385,21 +422,21 @@ public class MunkaListFragment extends Fragment {
 								}
 								dialog.dismiss();
 							}
-				});
-				
+						});
+
 				AlertDialog alert = builder.create();
-				alert.show();			
+				alert.show();
 				break;
 			case R.id.menu_refresh :
 				if (NetworkUtil.checkInternetIsActive(context) == true) {
 					refreshItem = item;
 					new AsyncTask<Void, Void, Boolean>() {
-						
+
 						@Override
 						protected void onPreExecute() {
 							startRefreshAnimation();
 						};
-						
+
 						@Override
 						protected void onPostExecute(Boolean result) {
 							// TODO Auto-generated method stub
@@ -423,19 +460,21 @@ public class MunkaListFragment extends Fragment {
 								e.printStackTrace();
 							}
 
-							
 							adapter.clear();
 
-							munkak = new ArrayList<Munka>(
-									munkaDao.queryBuilder().where(Properties.MunkaIsActive.eq(true)).list());
+							munkak = new ArrayList<Munka>(munkaDao
+									.queryBuilder()
+									.where(Properties.MunkaIsActive.eq(true))
+									.list());
 							adapter.addAll(munkak);
 							adapter.notifyDataSetChanged();
-							
-							if (refreshItem != null && refreshItem.getActionView() != null) {
+
+							if (refreshItem != null
+									&& refreshItem.getActionView() != null) {
 								refreshItem.getActionView().clearAnimation();
 								refreshItem.setActionView(null);
 							}
-							
+
 							stopRefreshAnimation();
 						}
 
@@ -450,13 +489,12 @@ public class MunkaListFragment extends Fragment {
 
 				else {
 					Toast.makeText(context, R.string.no_internet,
-							Toast.LENGTH_SHORT).show();					
+							Toast.LENGTH_SHORT).show();
 				}
-							
-				
+
 				break;
 		}
-		
+
 		return super.onOptionsItemSelected(item);
 	}
 
@@ -465,11 +503,11 @@ public class MunkaListFragment extends Fragment {
 		// TODO Auto-generated method stub
 		adapter.clear();
 
-		munkak = new ArrayList<Munka>(
-				munkaDao.queryBuilder().where(Properties.MunkaIsActive.eq(true)).list());
+		munkak = new ArrayList<Munka>(munkaDao.queryBuilder()
+				.where(Properties.MunkaIsActive.eq(true)).list());
 		adapter.addAll(munkak);
 		adapter.notifyDataSetChanged();
-		
+
 		super.onResume();
 	}
 
@@ -500,26 +538,25 @@ public class MunkaListFragment extends Fragment {
 			return false;
 		}
 	}
-	
-	private void stopRefreshAnimation() 
-	{
+
+	private void stopRefreshAnimation() {
 		LayoutInflater inflater = (LayoutInflater) context
 				.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 		ImageView iv = (ImageView) inflater.inflate(R.layout.refreshing_layout,
 				null);
 	}
-	
+
 	private void startRefreshAnimation() {
 
 		LayoutInflater inflater = (LayoutInflater) context
 				.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-		ImageView iv = (ImageView) inflater.inflate(
-				R.layout.refreshing_layout, null);
+		ImageView iv = (ImageView) inflater.inflate(R.layout.refreshing_layout,
+				null);
 		Animation rotation = AnimationUtils.loadAnimation(context,
 				R.anim.refresh_rotate);
 		rotation.setRepeatCount(Animation.INFINITE);
 		iv.startAnimation(rotation);
-		refreshItem.setActionView(iv);		
+		refreshItem.setActionView(iv);
 	}
 
 }

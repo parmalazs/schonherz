@@ -23,12 +23,14 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.util.Log;
+import android.view.ContextMenu;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.ContextMenu.ContextMenuInfo;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.AdapterView;
@@ -39,6 +41,8 @@ import android.widget.SearchView.OnQueryTextListener;
 import android.widget.Toast;
 
 import com.schonherz.adapters.AutoAdapter;
+import com.schonherz.classes.JSONBuilder;
+import com.schonherz.classes.JSONSender;
 import com.schonherz.classes.JsonArrayToArrayList;
 import com.schonherz.classes.JsonFromUrl;
 import com.schonherz.classes.NetworkUtil;
@@ -46,6 +50,7 @@ import com.schonherz.classes.PullToRefreshListView;
 import com.schonherz.classes.PullToRefreshListView.OnRefreshListener;
 import com.schonherz.dbentities.Auto;
 import com.schonherz.dbentities.AutoDao;
+import com.schonherz.dbentities.TelephelyDao.Properties;
 import com.schonherz.flottadroid.CarAdminDetailsActivity;
 import com.schonherz.flottadroid.R;
 
@@ -59,7 +64,8 @@ public class AutoListFragment extends Fragment {
 	PullToRefreshListView pullListView;
 	ArrayList<Auto> autok;
 	MenuItem refreshItem;
-
+	final int CONTEXT_MENU_DELETE_ITEM = 1;
+	Auto selectedAuto;
 	public AutoListFragment(Context context, AutoDao autoDao) {
 		this.context = context;
 		this.autoDao = autoDao;
@@ -82,6 +88,52 @@ public class AutoListFragment extends Fragment {
 		setupSearchView(searchView);
 		refreshItem = menu.findItem(R.id.menu_refresh);
 		super.onCreateOptionsMenu(menu, inflater);
+	}
+
+	@Override
+	public void onCreateContextMenu(ContextMenu menu, View v,
+			ContextMenuInfo menuInfo) {
+		// TODO Auto-generated method stub
+		if (v.getId() == R.id.pulltorefresh_listview) {
+			menu.add(Menu.NONE, CONTEXT_MENU_DELETE_ITEM, Menu.NONE, "Törlés");
+		}
+	}
+
+	@Override
+	public boolean onContextItemSelected(MenuItem item) {
+		// TODO Auto-generated method stub
+		AdapterView.AdapterContextMenuInfo info = (AdapterView.AdapterContextMenuInfo) item
+				.getMenuInfo();
+
+		selectedAuto = autoDao
+				.queryBuilder()
+				.where(com.schonherz.dbentities.AutoDao.Properties.AutoID
+						.eq(adapter.getItemId(info.position - 1))).list()
+				.get(0);
+		selectedAuto.setAutoIsActive(false);
+		selectedAuto.refresh();
+		autoDao.update(selectedAuto);
+		adapter.remove(selectedAuto);
+		adapter.notifyDataSetChanged();
+
+		if (NetworkUtil.checkInternetIsActive(context) == true) {
+			new AsyncTask<Void, Void, Boolean>() {
+
+				@Override
+				protected Boolean doInBackground(Void... params) {
+					// TODO Auto-generated method stub
+					JSONBuilder builder = new JSONBuilder();
+					JSONSender sender = new JSONSender();
+					JSONObject obj = builder.updateAuto(selectedAuto);
+					sender.sendJSON(sender.getFlottaUrl(), obj);
+					return true;
+				}
+
+			}.execute();
+
+		}
+
+		return super.onContextItemSelected(item);
 	}
 
 	public void setupSearchView(SearchView searchView) {
@@ -154,26 +206,32 @@ public class AutoListFragment extends Fragment {
 		pullListView = (PullToRefreshListView) v
 				.findViewById(R.id.pulltorefresh_listview);
 
-		autok = new ArrayList<Auto>(autoDao.queryBuilder().where(com.schonherz.dbentities.AutoDao.Properties.AutoIsActive.eq(true)).list());
+		autok = new ArrayList<Auto>(autoDao
+				.queryBuilder()
+				.where(com.schonherz.dbentities.AutoDao.Properties.AutoIsActive
+						.eq(true)).list());
 
 		adapter = new AutoAdapter(context, R.layout.list_item_auto, autok,
 				autoDao);
 
-		pullListView.setAdapter(adapter);	
-		
+		pullListView.setAdapter(adapter);
+
 		pullListView.setOnItemClickListener(new OnItemClickListener() {
 
 			@Override
-			public void onItemClick(AdapterView<?> arg0, View arg1, int position,
-					long arg3) {
+			public void onItemClick(AdapterView<?> arg0, View arg1,
+					int position, long arg3) {
 				// TODO Auto-generated method stub
-				Intent intent=new Intent(getActivity(), CarAdminDetailsActivity.class);
-				intent.putExtra("selectedAutoID", autok.get(position-1).getAutoID());
+				Intent intent = new Intent(getActivity(),
+						CarAdminDetailsActivity.class);
+				intent.putExtra("selectedAutoID", autok.get(position - 1)
+						.getAutoID());
 				startActivity(intent);
-				getActivity().overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
+				getActivity().overridePendingTransition(R.anim.slide_in_right,
+						R.anim.slide_out_left);
 			}
 		});
-		
+
 		pullListView.setOnRefreshListener(new OnRefreshListener() {
 
 			@Override
@@ -214,8 +272,10 @@ public class AutoListFragment extends Fragment {
 
 							adapter.clear();
 
-							autok = new ArrayList<Auto>(autoDao
-									.queryBuilder().where(com.schonherz.dbentities.AutoDao.Properties.AutoIsActive.eq(true)).list());
+							autok = new ArrayList<Auto>(
+									autoDao.queryBuilder()
+											.where(com.schonherz.dbentities.AutoDao.Properties.AutoIsActive
+													.eq(true)).list());
 
 							adapter.addAll(autok);
 
@@ -268,8 +328,11 @@ public class AutoListFragment extends Fragment {
 
 							@Override
 							public void onClick(DialogInterface dialog,
-									int which) {	
-								QueryBuilder<Auto> q=autoDao.queryBuilder().where(com.schonherz.dbentities.AutoDao.Properties.AutoIsActive.eq(true));
+									int which) {
+								QueryBuilder<Auto> q = autoDao
+										.queryBuilder()
+										.where(com.schonherz.dbentities.AutoDao.Properties.AutoIsActive
+												.eq(true));
 								switch (which) {
 									case 0 :
 										Collections.sort(autok,
@@ -351,24 +414,25 @@ public class AutoListFragment extends Fragment {
 										autok.addAll(temp);
 										adapter.clear();
 										adapter.addAll(autok);
-										adapter.notifyDataSetChanged();										
+										adapter.notifyDataSetChanged();
 										break;
 									case 6 :
 										List<Auto> temp2 = q
-										.orderDesc(
-												com.schonherz.dbentities.AutoDao.Properties.AutoLastSzervizDate)
-										.list();
+												.orderDesc(
+														com.schonherz.dbentities.AutoDao.Properties.AutoLastSzervizDate)
+												.list();
 										autok.clear();
 										autok.addAll(temp2);
 										adapter.clear();
 										adapter.addAll(autok);
-										adapter.notifyDataSetChanged();	
+										adapter.notifyDataSetChanged();
 										break;
 									case 7 :
 										try {
 											RuleBasedCollator huCollator = new RuleBasedCollator(
 													hungarianRules);
-											sortAutoTelephelyNev(huCollator, autok);
+											sortAutoTelephelyNev(huCollator,
+													autok);
 											adapter.clear();
 											adapter.addAll(autok);
 											adapter.notifyDataSetChanged();
@@ -421,7 +485,9 @@ public class AutoListFragment extends Fragment {
 							adapter.clear();
 
 							autok = new ArrayList<Auto>(
-									autoDao.queryBuilder().where(com.schonherz.dbentities.AutoDao.Properties.AutoIsActive.eq(true)).list());
+									autoDao.queryBuilder()
+											.where(com.schonherz.dbentities.AutoDao.Properties.AutoIsActive
+													.eq(true)).list());
 
 							adapter.addAll(autok);
 
@@ -459,7 +525,9 @@ public class AutoListFragment extends Fragment {
 		adapter.clear();
 
 		autok = new ArrayList<Auto>(autoDao
-				.queryBuilder().where(com.schonherz.dbentities.AutoDao.Properties.AutoIsActive.eq(true)).list());
+				.queryBuilder()
+				.where(com.schonherz.dbentities.AutoDao.Properties.AutoIsActive
+						.eq(true)).list());
 
 		adapter.addAll(autok);
 
@@ -490,7 +558,11 @@ public class AutoListFragment extends Fragment {
 				autoDao.insert(autok.get(i));
 			}
 
-			Log.w("autolistsize", Integer.toString(autoDao.queryBuilder().where(com.schonherz.dbentities.AutoDao.Properties.AutoIsActive.eq(true)).list().size()));
+			Log.w("autolistsize",
+					Integer.toString(autoDao
+							.queryBuilder()
+							.where(com.schonherz.dbentities.AutoDao.Properties.AutoIsActive
+									.eq(true)).list().size()));
 
 			return true;
 
@@ -528,7 +600,6 @@ public class AutoListFragment extends Fragment {
 			+ "< k,K < l,L < ly,Ly < m,M < n,N < ny,Ny < o,O < ó,Ó "
 			+ "< ö,Ö < õ,Õ < p,P < q,Q < r,R < s,S < sz,Sz < t,T "
 			+ "< ty,Ty < u,U < ú,Ú < ü,Ü < û,Û < v,V < w,W < x,X < y,Y < z,Z < zs,Zs");
-
 
 	public static void sortAutoNev(Collator collator, List<Auto> autoList) {
 		Auto temp;
@@ -571,13 +642,15 @@ public class AutoListFragment extends Fragment {
 			}
 		}
 	}
-	
-	public static void sortAutoTelephelyNev(Collator collator, List<Auto> autoList) {
+
+	public static void sortAutoTelephelyNev(Collator collator,
+			List<Auto> autoList) {
 		Auto temp;
 		for (int i = 0; i < autoList.size(); i++) {
 			for (int j = 0; j < autoList.size(); j++) {
-				if (collator.compare(autoList.get(i).getTelephely().getTelephelyNev(),
-						autoList.get(j).getTelephely().getTelephelyNev()) > 0) {
+				if (collator.compare(autoList.get(i).getTelephely()
+						.getTelephelyNev(), autoList.get(j).getTelephely()
+						.getTelephelyNev()) > 0) {
 					temp = autoList.get(i);
 					autoList.set(i, autoList.get(j));
 					autoList.set(j, temp);

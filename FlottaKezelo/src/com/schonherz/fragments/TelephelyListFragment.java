@@ -39,6 +39,8 @@ import android.widget.Toast;
 import android.widget.SearchView.OnQueryTextListener;
 
 import com.schonherz.adapters.TelephelyAdapter;
+import com.schonherz.classes.JSONBuilder;
+import com.schonherz.classes.JSONSender;
 import com.schonherz.classes.JsonArrayToArrayList;
 import com.schonherz.classes.JsonFromUrl;
 import com.schonherz.classes.NetworkUtil;
@@ -60,7 +62,7 @@ public class TelephelyListFragment extends Fragment {
 	TelephelyAdapter adapter;
 	PullToRefreshListView pullListView;
 	ArrayList<Telephely> telephelyek;
-
+	Telephely selectedTelephely;
 	MenuItem refreshItem;
 	final int CONTEXT_MENU_DELETE_ITEM =1;
 
@@ -102,12 +104,30 @@ public class TelephelyListFragment extends Fragment {
 		// TODO Auto-generated method stub
 		AdapterView.AdapterContextMenuInfo info= (AdapterView.AdapterContextMenuInfo) item.getMenuInfo();
 		
-		Telephely selectedTelephely=telephelyDao.queryBuilder().where(Properties.TelephelyID.eq(adapter.getItemId(info.position-1))).list().get(0);
+		selectedTelephely =telephelyDao.queryBuilder().where(Properties.TelephelyID.eq(adapter.getItemId(info.position-1))).list().get(0);
 		selectedTelephely.setTelephelyIsActive(false);
 		selectedTelephely.refresh();
 		telephelyDao.update(selectedTelephely);
 		adapter.remove(selectedTelephely);
 		adapter.notifyDataSetChanged();  
+		
+		if (NetworkUtil.checkInternetIsActive(context) == true) {
+			new AsyncTask<Void, Void, Boolean>() {
+
+				@Override
+				protected Boolean doInBackground(Void... params) {
+					// TODO Auto-generated method stub
+					JSONBuilder builder = new JSONBuilder();
+					JSONSender sender = new JSONSender();
+					JSONObject obj = builder.updateTelephely(selectedTelephely);
+					sender.sendJSON(sender.getFlottaUrl(), obj);
+					return true;
+				}
+
+			}.execute();
+
+		}
+		
 		return super.onContextItemSelected(item);
 	}
 

@@ -39,6 +39,8 @@ import android.widget.SearchView.OnQueryTextListener;
 import android.widget.Toast;
 
 import com.schonherz.adapters.SoforAdapter;
+import com.schonherz.classes.JSONBuilder;
+import com.schonherz.classes.JSONSender;
 import com.schonherz.classes.JsonArrayToArrayList;
 import com.schonherz.classes.JsonFromUrl;
 import com.schonherz.classes.NetworkUtil;
@@ -62,7 +64,7 @@ public class SoforListFragment extends Fragment {
 	ArrayList<Sofor> soforok;
 	MenuItem refreshItem;
 	SessionManager sessionManager;
-
+	Sofor selectedSofor;
 	final int CONTEXT_MENU_DELETE_ITEM =1;
 	
 	public SoforListFragment(Context context, SoforDao soforDao) {
@@ -103,13 +105,30 @@ public class SoforListFragment extends Fragment {
 	public boolean onContextItemSelected(MenuItem item) {
 		// TODO Auto-generated method stub
 		AdapterView.AdapterContextMenuInfo info= (AdapterView.AdapterContextMenuInfo) item.getMenuInfo();
-		Sofor selectedSofor=soforDao.queryBuilder().where(Properties.SoforID.eq(adapter.getItemId(info.position-1))).list().get(0);
+		selectedSofor=soforDao.queryBuilder().where(Properties.SoforID.eq(adapter.getItemId(info.position-1))).list().get(0);
 		selectedSofor.setSoforIsActive(false);
 		selectedSofor.refresh();
 		soforDao.update(selectedSofor);
 		adapter.remove(selectedSofor);
 		adapter.notifyDataSetChanged();        
 	    
+		if (NetworkUtil.checkInternetIsActive(context) == true) {
+			new AsyncTask<Void, Void, Boolean>() {
+
+				@Override
+				protected Boolean doInBackground(Void... params) {
+					// TODO Auto-generated method stub
+					JSONBuilder builder = new JSONBuilder();
+					JSONSender sender = new JSONSender();
+					JSONObject obj = builder.updateSofor(selectedSofor);
+					sender.sendJSON(sender.getFlottaUrl(), obj);
+					return true;
+				}
+
+			}.execute();
+
+		}
+		
 		return super.onContextItemSelected(item);
 	}
 

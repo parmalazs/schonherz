@@ -39,6 +39,8 @@ import android.widget.SearchView.OnQueryTextListener;
 import android.widget.Toast;
 
 import com.schonherz.adapters.PartnerAdapter;
+import com.schonherz.classes.JSONBuilder;
+import com.schonherz.classes.JSONSender;
 import com.schonherz.classes.JsonArrayToArrayList;
 import com.schonherz.classes.JsonFromUrl;
 import com.schonherz.classes.NetworkUtil;
@@ -68,7 +70,7 @@ public class PartnerListFragment extends Fragment {
 	ArrayList<Partner> partnerek;
 	MenuItem refreshItem;
 	SessionManager sessionManager;
-	
+	Partner selectedPartner;
 	final int CONTEXT_MENU_DELETE_ITEM =1;
 	
 	public PartnerListFragment(Context context, PartnerDao partnerDao)
@@ -108,12 +110,30 @@ public class PartnerListFragment extends Fragment {
 		// TODO Auto-generated method stub
 		AdapterView.AdapterContextMenuInfo info= (AdapterView.AdapterContextMenuInfo) item.getMenuInfo();
 		
-		Partner selectedPartner=partnerDao.queryBuilder().where(Properties.PartnerID.eq(adapter.getItemId(info.position-1))).list().get(0);
+		selectedPartner =partnerDao.queryBuilder().where(Properties.PartnerID.eq(adapter.getItemId(info.position-1))).list().get(0);
 		selectedPartner.setPartnerIsActive(false);
 		selectedPartner.refresh();
 		partnerDao.update(selectedPartner);
 		adapter.remove(selectedPartner);
 		adapter.notifyDataSetChanged(); 
+		
+		if (NetworkUtil.checkInternetIsActive(context) == true) {
+			new AsyncTask<Void, Void, Boolean>() {
+
+				@Override
+				protected Boolean doInBackground(Void... params) {
+					// TODO Auto-generated method stub
+					JSONBuilder builder = new JSONBuilder();
+					JSONSender sender = new JSONSender();
+					JSONObject obj = builder.updatePartner(selectedPartner);
+					sender.sendJSON(sender.getFlottaUrl(), obj);
+					return true;
+				}
+
+			}.execute();
+
+		}
+		
 		return super.onContextItemSelected(item);
 	}
 	
