@@ -1,46 +1,75 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="wrap_content"
+    android:background="@drawable/list_selector"
     android:orientation="horizontal"
-    android:background="#a6977c"
-    android:minHeight="40sp"
-     >
+    android:padding="5dip" >
+
+    <!--  ListRow Left sied Thumbnail image -->
+    <LinearLayout android:id="@+id/thumbnail"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:padding="3dip"
+        android:layout_alignParentLeft="true"
+        android:background="@drawable/image_bg"
+        android:layout_marginRight="5dip">
+ 
+        <ImageView
+            android:id="@+id/imgAvatarMunka"
+            android:layout_width="50dip"
+            android:layout_height="50dip"
+            android:src="@drawable/munkaikon"/>
+ 
+    </LinearLayout>
+    
     
     <TextView
         android:id="@+id/tvMunkaDatum"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:background="#46594b"
-        android:textColor="#FFFFFF"
-         />
+        android:layout_alignTop="@+id/thumbnail"
+        android:layout_toRightOf="@+id/thumbnail"
+        android:text="datum"
+        android:textColor="#040404"
+        android:typeface="sans"
+        android:textSize="15dip"
+        android:textStyle="bold"/>
+ 
     
     <TextView
         android:id="@+id/tvMunkaTelephelye"
-        android:layout_width="wrap_content"
+        android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:paddingLeft="50sp"
-        android:layout_weight="2"
-        android:background="#d9b384"
-        android:textColor="#260b01"
-        />
-    
-    <TextView
-        android:id="@+id/tvMunkaBevetel"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-		android:paddingRight="20sp"
-		
-        android:textColor="#260b01"
-        />
+        android:layout_below="@id/tvMunkaDatum"
+        android:textColor="#343434"
+        android:textSize="10dip"
+        android:layout_marginTop="1dip"
+        android:layout_toRightOf="@+id/thumbnail"
+        android:text="telephely" />
+ 
     
     <TextView
         android:id="@+id/tvMunkaBecsultIdoOraban"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:paddingRight="20sp"
-        
-        android:textColor="#260b01"
-      />
+        android:layout_alignParentRight="true"
+        android:layout_alignTop="@id/tvMunkaDatum"
+        android:gravity="right"
+        android:text="ido"
+        android:layout_marginRight="5dip"
+        android:textSize="10dip"
+        android:textColor="#10bcc9"
+        android:textStyle="bold"/>
 
-</LinearLayout>
+    <TextView
+        android:id="@+id/tvMunkaBevetel"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignRight="@+id/tvMunkaBecsultIdoOraban"
+        android:layout_below="@+id/tvMunkaDatum"
+        android:text="bevetel"
+        android:textSize="10dip"
+        android:textColor="#343434" />
+
+</RelativeLayout>

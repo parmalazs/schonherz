@@ -1,50 +1,65 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:orientation="horizontal"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="fill_parent"
-    android:layout_height="fill_parent"
-    android:background="#a6977c"
-    >
+    android:layout_height="wrap_content"
+    android:background="@drawable/list_selector"
+    android:orientation="horizontal"
+    android:padding="5dip" >
 
-    <ImageView
-        android:id="@+id/imgAvatarAuto"
-        android:layout_width="70dip"
-        android:layout_height="70dip"
-        android:scaleType="fitCenter" 
-        android:src="@drawable/autoikon"
-    />
     
-    <LinearLayout
-        android:orientation="vertical"
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content" 
-     >
-        <TextView 
-            android:id="@+id/tvAutoTipus"
-            android:textSize="20sp"
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:textStyle="bold"
-            android:background="#260b01"
-            android:textColor="#FFFFFF"
-        />
-        
-        <TextView
-            android:id="@+id/tvAutoRendszam"
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:textColor="#260b01" 
-        />
-        
-        <TextView 
-            android:id="@+id/tvAutoFoglaltsag"
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:text="sanyi@freemail.hu"
-            android:textColor="#260b01"
-        />
-        
+    <LinearLayout android:id="@+id/thumbnail"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:padding="3dip"
+        android:layout_alignParentLeft="true"
+        android:background="@drawable/image_bg"
+        android:layout_marginRight="5dip">
+ 
+        <ImageView
+            android:id="@+id/imgAvatarAuto"
+            android:layout_width="50dip"
+            android:layout_height="50dip"
+            android:src="@drawable/autoikon"/>
+ 
     </LinearLayout>
     
-</LinearLayout>
+    
+    <TextView
+        android:id="@+id/tvAutoTipus"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignTop="@+id/thumbnail"
+        android:layout_toRightOf="@+id/thumbnail"
+        android:text="tipus"
+        android:textColor="#040404"
+        android:typeface="sans"
+        android:textSize="15dip"
+        android:textStyle="bold"/>
+ 
+    
+    <TextView
+        android:id="@+id/tvAutoRendszam"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/tvAutoTipus"
+        android:textColor="#343434"
+        android:textSize="10dip"
+        android:layout_marginTop="1dip"
+        android:layout_toRightOf="@+id/thumbnail"
+        android:text="rendszám" />
+ 
+    
+    <TextView
+        android:id="@+id/tvAutoFoglaltsag"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:layout_alignTop="@id/tvAutoTipus"
+        android:gravity="right"
+        android:text="foglalt"
+        android:layout_marginRight="5dip"
+        android:textSize="10dip"
+        android:textColor="#10bcc9"
+        android:textStyle="bold"/>
+    
+</RelativeLayout>
