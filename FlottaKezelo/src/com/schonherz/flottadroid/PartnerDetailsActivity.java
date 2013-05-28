@@ -1,18 +1,11 @@
 package com.schonherz.flottadroid;
 
-import com.schonherz.classes.SessionManager;
-import com.schonherz.dbentities.DaoMaster;
-import com.schonherz.dbentities.DaoSession;
-import com.schonherz.dbentities.Munka;
-import com.schonherz.dbentities.MunkaDao;
-import com.schonherz.dbentities.DaoMaster.DevOpenHelper;
-import com.schonherz.dbentities.Partner;
-import com.schonherz.dbentities.PartnerDao;
-import com.schonherz.dbentities.PartnerDao.Properties;
+import org.json.JSONObject;
 
-import android.os.Bundle;
 import android.app.Activity;
 import android.database.sqlite.SQLiteDatabase;
+import android.os.AsyncTask;
+import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -20,7 +13,16 @@ import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
-import android.support.v4.app.NavUtils;
+
+import com.schonherz.classes.JSONBuilder;
+import com.schonherz.classes.JSONSender;
+import com.schonherz.classes.NetworkUtil;
+import com.schonherz.dbentities.DaoMaster;
+import com.schonherz.dbentities.DaoMaster.DevOpenHelper;
+import com.schonherz.dbentities.DaoSession;
+import com.schonherz.dbentities.Partner;
+import com.schonherz.dbentities.PartnerDao;
+import com.schonherz.dbentities.PartnerDao.Properties;
 
 public class PartnerDetailsActivity extends Activity {
 	
@@ -35,6 +37,7 @@ public class PartnerDetailsActivity extends Activity {
 	EditText nevEditText, cimEditText, telEditText, webEditTetx, emailEditText, xEditText, yEditText;
 	Button savePartner;
 	
+	boolean saveMode = false;	//true update, false insert	
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -49,10 +52,13 @@ public class PartnerDetailsActivity extends Activity {
 			currentPartner=partnerDao.queryBuilder().where(
 					Properties.PartnerID.eq(
 							getIntent().getLongExtra("selectedPartnerID", 0L))).list().get(0);
+			
+			saveMode = true;
 		}
 		else {
 			currentPartner=new Partner();
 			currentPartner.setPartnerID(0L);
+			saveMode = false;
 		}
 		
 		nevEditText=(EditText)findViewById(R.id.editTextPartnerNev);
@@ -141,12 +147,46 @@ public class PartnerDetailsActivity extends Activity {
 		if (currentPartner.getPartnerID()==0L) {
 			currentPartner.setPartnerID(partnerDao.loadAll().get(partnerDao.loadAll().size()-1).getPartnerID()+1L);
 			currentPartner.setPartnerIsActive(true);
-			partnerDao.insert(currentPartner);
-			finish();
+			partnerDao.insert(currentPartner);			
 		}
 		
 		partnerDao.update(currentPartner);
 		finish();
+		
+		if(NetworkUtil.checkInternetIsActive(PartnerDetailsActivity.this)==true)
+		{
+			new AsyncTask<Void, Void, Boolean>() {
+
+				@Override
+				protected Boolean doInBackground(Void... params) {
+					// TODO Auto-generated method stub
+					
+					JSONSender sender = new JSONSender();
+					JSONBuilder builder = new JSONBuilder();
+					
+					if(saveMode == true)
+					{
+						JSONObject obj = builder.updatePartner(currentPartner);
+						sender.sendJSON(sender.getFlottaUrl(), obj);
+					}
+					else
+					{
+						JSONObject obj = builder.insertPartner(currentPartner);
+						sender.sendJSON(sender.getFlottaUrl(), obj);
+					}
+					
+					return true;
+				}
+				
+				@Override				
+				protected void onPostExecute(Boolean result) {
+					// TODO Auto-generated method stub
+					super.onPostExecute(result);
+					finish();
+				}
+				
+			}.execute();
+		}
 	}
 	
 	public void dataBaseInit() {

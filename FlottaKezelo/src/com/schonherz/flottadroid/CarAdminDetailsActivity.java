@@ -1,24 +1,28 @@
 package com.schonherz.flottadroid;
 
-import com.schonherz.dbentities.Auto;
-import com.schonherz.dbentities.AutoDao;
-import com.schonherz.dbentities.DaoMaster;
-import com.schonherz.dbentities.DaoSession;
-import com.schonherz.dbentities.AutoDao.Properties;
-import com.schonherz.dbentities.DaoMaster.DevOpenHelper;
+import org.json.JSONObject;
 
-import android.os.Bundle;
 import android.app.Activity;
 import android.database.sqlite.SQLiteDatabase;
+import android.os.AsyncTask;
+import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.TextView;
 import android.widget.Toast;
-import android.support.v4.app.NavUtils;
+
+import com.schonherz.classes.JSONBuilder;
+import com.schonherz.classes.JSONSender;
+import com.schonherz.classes.NetworkUtil;
+import com.schonherz.dbentities.Auto;
+import com.schonherz.dbentities.AutoDao;
+import com.schonherz.dbentities.AutoDao.Properties;
+import com.schonherz.dbentities.DaoMaster;
+import com.schonherz.dbentities.DaoMaster.DevOpenHelper;
+import com.schonherz.dbentities.DaoSession;
 
 public class CarAdminDetailsActivity extends Activity {
 	
@@ -40,7 +44,9 @@ public class CarAdminDetailsActivity extends Activity {
 	EditText autoLastTelephelyEditText;
 	EditText autoLastSoforNevEditText;
 	Button saveButton;
-
+	
+	boolean saveMode = false; //true update, false insert 
+	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -54,10 +60,12 @@ public class CarAdminDetailsActivity extends Activity {
 			currentAuto=autoDao.queryBuilder().where(
 					Properties.AutoID.eq(
 							getIntent().getLongExtra("selectedAutoID", 0L))).list().get(0);
+			saveMode = true;
 		}
 		else {
 			currentAuto=new Auto();
 			currentAuto.setAutoID(0L);
+			saveMode = false;
 		}
 		
 		
@@ -177,12 +185,49 @@ public class CarAdminDetailsActivity extends Activity {
 			currentAuto.setAutoXkoordinata(0F);
 			currentAuto.setAutoYkoordinata(0F);
 			autoDao.insert(currentAuto);
-			finish();
+		
 			
 		}
 		
 		autoDao.update(currentAuto);
-		finish();
+		
+		if(NetworkUtil.checkInternetIsActive(CarAdminDetailsActivity.this)==true)
+		{
+			new AsyncTask<Void, Void, Boolean>() {
+
+				@Override
+				protected void onPostExecute(Boolean result) {
+					
+					finish();
+					super.onPostExecute(result);
+				};
+				
+				@Override
+				protected Boolean doInBackground(Void... params) {
+					// TODO Auto-generated method stub
+					
+					JSONBuilder builder = new JSONBuilder();
+					JSONSender sender = new JSONSender();
+					
+					if(saveMode == true)
+					{
+						JSONObject obj = builder.updateAuto(currentAuto);
+						sender.sendJSON(sender.getFlottaUrl(), obj);
+					}
+					else
+					{
+						JSONObject obj = builder.insertAuto(currentAuto);
+						sender.sendJSON(sender.getFlottaUrl(), obj);
+					}
+					
+					return true;
+				}
+			}.execute();
+		}
+		else
+		{
+			finish();
+		}
 		
 	}
 

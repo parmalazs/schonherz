@@ -143,8 +143,7 @@ public class TelephelyDetailsActivity extends Activity {
 							.get(telephelyDao.loadAll().size() - 1)
 							.getTelephelyID() + 1L);
 			currentTelephely.setTelephelyIsActive(true);
-			telephelyDao.insert(currentTelephely);
-			finish();
+			telephelyDao.insert(currentTelephely);			
 		}
 
 		telephelyDao.update(currentTelephely);
