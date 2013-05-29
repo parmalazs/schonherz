@@ -59,17 +59,23 @@
         android:text="tel"
         android:layout_marginRight="5dip"
         android:textSize="10dip"
-        android:textColor="#10bcc9"
+        android:textColor="#46594b"
         android:textStyle="bold"/>
 
     <TextView
         android:id="@+id/tvEmailPartner"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignRight="@+id/tvPhonePartner"
-        android:layout_below="@+id/tvNamePartner"
+        android:layout_alignLeft="@+id/tvHomePagePartner"
+        android:layout_below="@+id/tvHomePagePartner"
         android:text="email"
-        android:textSize="10dip"
-        android:textColor="#343434" />
+        android:textColor="#343434"
+        android:textSize="10dip" />
+    
+    <ImageView android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/ic_arrow"
+        android:layout_alignParentRight="true"
+        android:layout_centerVertical="true"/>
 
 </RelativeLayout>

@@ -6,6 +6,7 @@ import java.util.List;
 
 import com.schonherz.dbentities.Telephely;
 import com.schonherz.dbentities.TelephelyDao;
+import com.schonherz.flottadroid.R;
 
 import android.content.Context;
 import android.view.LayoutInflater;
@@ -96,9 +97,17 @@ public class TelephelyAdapter extends ArrayAdapter<Telephely>{
 			convertView = inflater.inflate(com.schonherz.flottadroid.R.layout.list_item_telephely, null);
 			
 			holder = new ViewHolder();
-			holder.telephelyNevTextView = (TextView)convertView.findViewById(com.schonherz.flottadroid.R.id.textViewTelephelyNev);
+			TextView telephelyNevTextView = (TextView)convertView.findViewById(com.schonherz.flottadroid.R.id.textViewTelephelyNev);			
+			telephelyNevTextView.setText(currentTelephely.getTelephelyNev());
 			
-			holder.telephelyNevTextView.setText(currentTelephely.getTelephelyNev());
+			TextView telephelyCim=(TextView)convertView.findViewById(R.id.tvCimTelephely);
+			telephelyCim.setText(currentTelephely.getTelephelyCim());
+			
+			TextView telephelyEmail=(TextView)convertView.findViewById(R.id.tvEmailTelephely);
+			telephelyEmail.setText(currentTelephely.getTelephelyEmail());
+			
+			TextView telephelyTel=(TextView)convertView.findViewById(R.id.tvPhoneTelephely);
+			telephelyTel.setText(currentTelephely.getTelephelyTelefonszam());
 		}
 		else
 		{
@@ -108,8 +117,17 @@ public class TelephelyAdapter extends ArrayAdapter<Telephely>{
 		telephelyDao.refresh(currentTelephely);
 		holder=new ViewHolder();
 		
-		holder.telephelyNevTextView=(TextView)convertView.findViewById(com.schonherz.flottadroid.R.id.textViewTelephelyNev);
-		holder.telephelyNevTextView.setText(currentTelephely.getTelephelyNev());
+		TextView telephelyNevTextView = (TextView)convertView.findViewById(com.schonherz.flottadroid.R.id.textViewTelephelyNev);			
+		telephelyNevTextView.setText(currentTelephely.getTelephelyNev());
+		
+		TextView telephelyCim=(TextView)convertView.findViewById(R.id.tvCimTelephely);
+		telephelyCim.setText(currentTelephely.getTelephelyCim());
+		
+		TextView telephelyEmail=(TextView)convertView.findViewById(R.id.tvEmailTelephely);
+		telephelyEmail.setText(currentTelephely.getTelephelyEmail());
+		
+		TextView telephelyTel=(TextView)convertView.findViewById(R.id.tvPhoneTelephely);
+		telephelyTel.setText(currentTelephely.getTelephelyTelefonszam());
 		
 		return convertView;
 	}

@@ -129,6 +129,9 @@ public class PartnerAdapter extends ArrayAdapter<Partner> {
 			TextView tvEmail = (TextView) convertView
 					.findViewById(com.schonherz.flottadroid.R.id.tvEmailPartner);
 			tvEmail.setText(currentPartner.getPartnerEmailcim());
+			
+			TextView tvWeb=(TextView)convertView.findViewById(R.id.tvHomePagePartner);
+			tvWeb.setText(currentPartner.getPartnerWeboldal());
 		} else {
 			holder = (ViewHolder) convertView.getTag();
 		}
@@ -154,6 +157,9 @@ public class PartnerAdapter extends ArrayAdapter<Partner> {
 		TextView tvEmail = (TextView) convertView
 				.findViewById(com.schonherz.flottadroid.R.id.tvEmailPartner);
 		tvEmail.setText(currentPartner.getPartnerEmailcim());
+		
+		TextView tvWeb=(TextView)convertView.findViewById(R.id.tvHomePagePartner);
+		tvWeb.setText(currentPartner.getPartnerWeboldal());
 
 		return convertView;
 	}

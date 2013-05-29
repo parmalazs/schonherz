@@ -35,7 +35,47 @@
         android:typeface="sans"
         android:textSize="15dip"
         android:textStyle="bold"/>
+    
+    <TextView
+        android:id="@+id/tvCimTelephely"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/textViewTelephelyNev"
+        android:textColor="#343434"
+        android:textSize="10dip"
+        android:layout_marginTop="1dip"
+        android:layout_toRightOf="@+id/thumbnail"
+        android:text="web" />
  
+    
+    <TextView
+        android:id="@+id/tvPhoneTelephely"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:layout_alignTop="@id/textViewTelephelyNev"
+        android:gravity="right"
+        android:text="tel"
+        android:layout_marginRight="5dip"
+        android:textSize="10dip"
+        android:textColor="#46594b"
+        android:textStyle="bold"/>
+
+    <TextView
+        android:id="@+id/tvEmailTelephely"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/tvCimTelephely"
+        android:layout_below="@+id/tvCimTelephely"
+        android:text="email"
+        android:textColor="#343434"
+        android:textSize="10dip" />
+    
+    <ImageView android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/ic_arrow"
+        android:layout_alignParentRight="true"
+        android:layout_centerVertical="true"/>
     
     
 

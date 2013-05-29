@@ -14,6 +14,7 @@ import android.widget.TextView;
 
 import com.schonherz.dbentities.Auto;
 import com.schonherz.dbentities.AutoDao;
+import com.schonherz.flottadroid.R;
 
 
 
@@ -140,6 +141,9 @@ public class AutoAdapter extends ArrayAdapter<Auto> {
 				tvEmail.setText("Foglalt!");
 			else
 				tvEmail.setText("Szabad!");
+			
+			TextView tvFuel=(TextView)convertView.findViewById(R.id.tvAutoFuel);
+			tvFuel.setText("Üzemanyag: " + currentAuto.getAutoUzemanyag().toString() + " l" );
 		}
 		else
 		{
@@ -173,6 +177,10 @@ public class AutoAdapter extends ArrayAdapter<Auto> {
 			tvEmail.setText("Foglalt!");
 		else
 			tvEmail.setText("Szabad!");
+		
+		TextView tvFuel=(TextView)convertView.findViewById(R.id.tvAutoFuel);
+		tvFuel.setText("Üzemanyag: " + currentAuto.getAutoUzemanyag().toString() + " l" );
+		
 		autoDao.refresh(currentAuto);
 		/*
 		holder = new ViewHolder();

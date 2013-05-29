@@ -14,6 +14,7 @@ import android.widget.TextView;
 
 import com.schonherz.dbentities.Sofor;
 import com.schonherz.dbentities.SoforDao;
+import com.schonherz.flottadroid.R;
 
 public class SoforAdapter extends ArrayAdapter<Sofor> {
 
@@ -118,6 +119,9 @@ public class SoforAdapter extends ArrayAdapter<Sofor> {
 			TextView tvEmail = (TextView) convertView
 					.findViewById(com.schonherz.flottadroid.R.id.tvEmailSofor);
 			tvEmail.setText(currentSofor.getSoforEmail());
+			
+			TextView tvWeb=(TextView)convertView.findViewById(R.id.tvHomePageSofor);
+			tvWeb.setText(currentSofor.getSoforBirthDate());
 		} else {
 			holder = (ViewHolder) convertView.getTag();
 		}
@@ -145,6 +149,8 @@ public class SoforAdapter extends ArrayAdapter<Sofor> {
 				.findViewById(com.schonherz.flottadroid.R.id.tvEmailSofor);
 		tvEmail.setText(currentSofor.getSoforEmail());
 		
+		TextView tvWeb=(TextView)convertView.findViewById(R.id.tvHomePageSofor);
+		tvWeb.setText(currentSofor.getSoforBirthDate());
 		return convertView;
 	}
 

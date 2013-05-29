@@ -6,24 +6,22 @@
     android:orientation="horizontal"
     android:padding="5dip" >
 
-    
-    <LinearLayout android:id="@+id/thumbnail"
+    <LinearLayout
+        android:id="@+id/thumbnail"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:padding="3dip"
         android:layout_alignParentLeft="true"
+        android:layout_marginRight="5dip"
         android:background="@drawable/image_bg"
-        android:layout_marginRight="5dip">
- 
+        android:padding="3dip" >
+
         <ImageView
             android:id="@+id/imgAvatarAuto"
             android:layout_width="50dip"
             android:layout_height="50dip"
-            android:src="@drawable/autoikon"/>
- 
+            android:src="@drawable/autoikon" />
     </LinearLayout>
-    
-    
+
     <TextView
         android:id="@+id/tvAutoTipus"
         android:layout_width="wrap_content"
@@ -32,34 +30,49 @@
         android:layout_toRightOf="@+id/thumbnail"
         android:text="tipus"
         android:textColor="#040404"
-        android:typeface="sans"
         android:textSize="15dip"
-        android:textStyle="bold"/>
- 
-    
+        android:textStyle="bold"
+        android:typeface="sans" />
+
     <TextView
         android:id="@+id/tvAutoRendszam"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:layout_below="@id/tvAutoTipus"
-        android:textColor="#343434"
-        android:textSize="10dip"
         android:layout_marginTop="1dip"
         android:layout_toRightOf="@+id/thumbnail"
-        android:text="rendszám" />
- 
-    
+        android:text="rendszám"
+        android:textColor="#343434"
+        android:textSize="10dip" />
+
+    <ImageView
+        android:id="@+id/imageView1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:layout_centerVertical="true"
+        android:src="@drawable/ic_arrow" />
+
     <TextView
         android:id="@+id/tvAutoFoglaltsag"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignParentRight="true"
-        android:layout_alignTop="@id/tvAutoTipus"
+        android:layout_centerVertical="true"
+        android:layout_toLeftOf="@+id/imageView1"
         android:gravity="right"
         android:text="foglalt"
-        android:layout_marginRight="5dip"
+        android:textColor="#46594b"
         android:textSize="10dip"
-        android:textColor="#10bcc9"
-        android:textStyle="bold"/>
-    
+        android:textStyle="bold" />
+
+    <TextView
+        android:id="@+id/tvAutoFuel"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/tvAutoRendszam"
+        android:layout_below="@+id/tvAutoRendszam"
+        android:textColor="#343434"
+        android:textSize="10dip"
+        android:text="km" />
+
 </RelativeLayout>
