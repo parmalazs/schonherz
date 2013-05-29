@@ -10,9 +10,11 @@ import java.util.TimeZone;
 import org.json.JSONObject;
 
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.app.Dialog;
 import android.app.TimePickerDialog;
 import android.app.TimePickerDialog.OnTimeSetListener;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.database.sqlite.SQLiteDatabase;
 import android.graphics.Bitmap;
@@ -154,42 +156,77 @@ public class MunkaDetailsActivity extends Activity {
 		munkaGallery.setOnItemClickListener(new OnItemClickListener() {
 
 			@Override
-			public void onItemClick(AdapterView<?> parent, View v, int pos,
+			public void onItemClick(final AdapterView<?> parent, View v, final int pos,
 					long id) {
 				// TODO Auto-generated method stub
 				final Dialog dialog = new Dialog(MunkaDetailsActivity.this);
 				dialog.setContentView(R.layout.layout_image_dialog);
 				dialog.setCancelable(true);
-
-				ImageView currProfIv = (ImageView) dialog
-						.findViewById(R.id.imgDialogImageView);
-
-				Bitmap bm = BitmapFactory.decodeFile(((MunkaKep) parent
-						.getItemAtPosition(pos)).getMunkaKepPath());
-				currProfIv.setImageBitmap(bm);
-
-				dialog.setTitle(((MunkaKep) parent.getItemAtPosition(pos))
-						.getMunkaKepDate());
-
-				currProfIv.setOnClickListener(new OnClickListener() {
-
+								   
+			    ImageView currProfIv = (ImageView) dialog.findViewById(R.id.imgDialogImageView);
+			    
+			    Bitmap bm = BitmapFactory.decodeFile(((MunkaKep)parent.getItemAtPosition(pos)).getMunkaKepPath());
+			    currProfIv.setImageBitmap(bm);
+			    
+			    if(((MunkaKep)parent.getItemAtPosition(pos)).getMunka()!=null)
+			    {
+			    dialog.setTitle("Munka ID: "+((MunkaKep)parent.getItemAtPosition(pos)).getMunka().getMunkaID().toString());				    
+			    }
+			    currProfIv.setOnClickListener(new OnClickListener() {
+					
 					@Override
 					public void onClick(View v) {
 						// TODO Auto-generated method stub
 						dialog.dismiss();
 					}
 				});
-
-				currProfIv.setOnLongClickListener(new OnLongClickListener() {
-
+			    
+			    currProfIv.setOnLongClickListener(new OnLongClickListener() {
+					
 					@Override
 					public boolean onLongClick(View v) {
 						// TODO Auto-generated method stub
+						DialogInterface.OnClickListener dialogClickListener = new DialogInterface.OnClickListener() {
+							public void onClick(DialogInterface dialogAl, int which) {
+								switch (which) {
+									case DialogInterface.BUTTON_POSITIVE :
+										//s.removePicture(selectedPicture);
+										@SuppressWarnings("unused")
+										boolean pix = new File(((MunkaKep)parent.getItemAtPosition(pos)).getMunkaKepPath()).delete();
+										
+										((MunkaKep)parent.getItemAtPosition(pos)).setMunkaKepIsActive(false);										
+										munkaKepDao.update(((MunkaKep)parent.getItemAtPosition(pos)));
+
+										((MunkaKep)parent.getItemAtPosition(pos)).refresh();
+										adapter.remove(((MunkaKep)parent.getItemAtPosition(pos)));
+										adapter.notifyDataSetChanged();
+										
+										dialogAl.dismiss();
+										dialog.dismiss();											
+
+										break;
+									case DialogInterface.BUTTON_NEGATIVE :
+										dialogAl.dismiss();
+										dialog.dismiss();
+										break;
+								}
+							}
+						};
+
+						AlertDialog.Builder builder = new AlertDialog.Builder(
+								MunkaDetailsActivity.this);
+						builder.setMessage("Biztosan törli?")
+								.setPositiveButton("Igen",
+										dialogClickListener)
+								.setNegativeButton("Nem", dialogClickListener)
+								.show();
+
+						
 						return false;
 					}
 				});
-
-				dialog.show();
+			    				   
+			    dialog.show();
 			}
 
 		});

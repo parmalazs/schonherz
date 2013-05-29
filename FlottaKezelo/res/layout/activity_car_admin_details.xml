@@ -1,191 +1,221 @@
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/ScrollView1"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:paddingBottom="@dimen/activity_vertical_margin"
-    android:paddingLeft="@dimen/activity_horizontal_margin"
-    android:paddingRight="@dimen/activity_horizontal_margin"
-    android:paddingTop="@dimen/activity_vertical_margin"
-    tools:context=".CarAdminDetailsActivity" >
+    android:layout_height="match_parent" >
 
-    <TextView
-        android:id="@+id/autoNevTextView"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentTop="true"
-        android:layout_marginTop="19dp"
-        android:text="Név:"
-        android:textAppearance="?android:attr/textAppearanceMedium" />
+    <LinearLayout
+        android:id="@+id/LinearLayout1"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:paddingBottom="@dimen/activity_vertical_margin"
+        android:paddingLeft="@dimen/activity_horizontal_margin"
+        android:paddingRight="@dimen/activity_horizontal_margin"
+        android:paddingTop="@dimen/activity_vertical_margin"
+        tools:context=".CarAdminDetailsActivity" >
 
-    <TextView
-        android:id="@+id/autoTipusTextView"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/autoNevTextView"
-        android:layout_marginTop="14dp"
-        android:text="Típus: "
-        android:textAppearance="?android:attr/textAppearanceMedium" />
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingBottom="10dp"
+            android:paddingTop="20dp" >
 
-    <TextView
-        android:id="@+id/autoRendszamTextView"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignLeft="@+id/autoTipusTextView"
-        android:layout_below="@+id/autoTipusTextView"
-        android:layout_marginTop="14dp"
-        android:text="Rendszám:"
-        android:textAppearance="?android:attr/textAppearanceMedium" />
+            <TextView
+                android:id="@+id/autoNevTextView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Név:"
+                android:textAppearance="?android:attr/textAppearanceMedium" />
 
-    <TextView
-        android:id="@+id/autoKmTextView"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignLeft="@+id/autoRendszamTextView"
-        android:layout_below="@+id/autoRendszamTextView"
-        android:layout_marginTop="14dp"
-        android:text="Km óra:"
-        android:textAppearance="?android:attr/textAppearanceMedium" />
-        -->     
+            <EditText
+                android:id="@+id/editTextAutoNev"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="30dp"
+                android:ems="10"
+                android:gravity="center_vertical|right"
+                android:inputType="textPersonName" />
+        </LinearLayout>
 
-    <Button
-        android:id="@+id/lefoglalButton"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:layout_centerHorizontal="true"
-        android:text="Mentés" />
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="10dp"
+            android:layout_marginTop="10dp" >
 
-    <EditText
-        android:id="@+id/editTextAutoNev"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignBottom="@+id/autoNevTextView"
-        android:layout_alignRight="@+id/editTextAutoMuszaki"
-        android:layout_toRightOf="@+id/autoTipusTextView"
-        android:ems="10"
-        android:inputType="textPersonName" />
+            <TextView
+                android:id="@+id/autoTipusTextView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Típus: "
+                android:textAppearance="?android:attr/textAppearanceMedium" />
 
-    <EditText
-        android:id="@+id/editTextAutoTipus"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignRight="@+id/editTextAutoNev"
-        android:layout_below="@+id/editTextAutoNev"
-        android:layout_toRightOf="@+id/autoKmTextView"
-        android:ems="10" />
+            <EditText
+                android:id="@+id/editTextAutoTipus"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="30dp"
+                android:ems="10" />
+        </LinearLayout>
 
-    <EditText
-        android:id="@+id/editTextAutoRendszam"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignBaseline="@+id/autoRendszamTextView"
-        android:layout_alignBottom="@+id/autoRendszamTextView"
-        android:layout_alignRight="@+id/editTextAutoTipus"
-        android:layout_toRightOf="@+id/autoUzemanyagTextView"
-        android:ems="10" />
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="10dp"
+            android:layout_marginTop="10dp" >
 
-    <EditText
-        android:id="@+id/editTextAutoKm"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignRight="@+id/editTextAutoRendszam"
-        android:layout_alignTop="@+id/autoKmTextView"
-        android:ems="10"
-        android:inputType="number" />
+            <TextView
+                android:id="@+id/autoRendszamTextView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Rendszám:"
+                android:textAppearance="?android:attr/textAppearanceMedium" />
 
-    <EditText
-        android:id="@+id/editTextAutoUtolsoSzerviz"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignLeft="@+id/editTextAutoMuszaki"
-        android:layout_alignTop="@+id/autoLastServiceDateTextView"
-        android:ems="10" />
+            <EditText
+                android:id="@+id/editTextAutoRendszam"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="30dp"
+                android:ems="10" />
+        </LinearLayout>
 
-    <TextView
-        android:id="@+id/autoLastServiceDateTextView"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignLeft="@+id/autoMuszakiVizsgaDateTextView"
-        android:layout_below="@+id/editTextAutoMuszaki"
-        android:layout_marginTop="18dp"
-        android:text="Utolsó szervíz:"
-        android:textAppearance="?android:attr/textAppearanceMedium" />
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="10dp"
+            android:layout_marginTop="10dp" >
 
-    <TextView
-        android:id="@+id/autoMuszakiVizsgaDateTextView"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignLeft="@+id/autoUzemanyagTextView"
-        android:layout_centerVertical="true"
-        android:text="Műszaki vizsga:"
-        android:textAppearance="?android:attr/textAppearanceMedium" />
+            <TextView
+                android:id="@+id/autoKmTextView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Km óra:"
+                android:textAppearance="?android:attr/textAppearanceMedium" />
 
-    <EditText
-        android:id="@+id/editTextAutoMuszaki"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignBaseline="@+id/autoMuszakiVizsgaDateTextView"
-        android:layout_alignBottom="@+id/autoMuszakiVizsgaDateTextView"
-        android:layout_toRightOf="@+id/autoLastTelephelyTextView"
-        android:ems="10" />
+            <EditText
+                android:id="@+id/editTextAutoKm"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:ems="10"
+                android:inputType="number" />
+        </LinearLayout>
 
-    <TextView
-        android:id="@+id/autoUzemanyagTextView"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignBaseline="@+id/editTextAutoUzemanyag"
-        android:layout_alignBottom="@+id/editTextAutoUzemanyag"
-        android:layout_alignLeft="@+id/autoKmTextView"
-        android:text="Üzemanyag:"
-        android:textAppearance="?android:attr/textAppearanceMedium" />
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="10dp"
+            android:layout_marginTop="10dp" >
 
-    <EditText
-        android:id="@+id/editTextAutoUzemanyag"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_above="@+id/editTextAutoMuszaki"
-        android:layout_alignRight="@+id/editTextAutoMuszaki"
-        android:ems="10"
-        android:inputType="number" />
+            <TextView
+                android:id="@+id/autoLastServiceDateTextView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Utolsó szervíz:"
+                android:textAppearance="?android:attr/textAppearanceMedium" />
 
-    <TextView
-        android:id="@+id/autoLastTelephelyTextView"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignLeft="@+id/autoLastServiceDateTextView"
-        android:layout_below="@+id/editTextAutoUtolsoSzerviz"
-        android:layout_marginTop="20dp"
-        android:text="Utolsó telephely:"
-        android:textAppearance="?android:attr/textAppearanceMedium" />
+            <EditText
+                android:id="@+id/editTextAutoUtolsoSzerviz"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:ems="10" />
+        </LinearLayout>
 
-    <TextView
-        android:id="@+id/autoLastSoforNevTextView"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignLeft="@+id/autoLastTelephelyTextView"
-        android:layout_below="@+id/autoLastTelephelyTextView"
-        android:layout_marginTop="24dp"
-        android:text="Utolsó sofőr:"
-        android:textAppearance="?android:attr/textAppearanceMedium" />
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="10dp"
+            android:layout_marginTop="10dp" >
 
-    <EditText
-        android:id="@+id/editTextUtolsoTelephely"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignLeft="@+id/editTextAutoUtolsoSzerviz"
-        android:layout_alignTop="@+id/autoLastTelephelyTextView"
-        android:ems="10"
-        android:inputType="number" />
+            <TextView
+                android:id="@+id/autoMuszakiVizsgaDateTextView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Műszaki vizsga:"
+                android:textAppearance="?android:attr/textAppearanceMedium" />
 
-    <EditText
-        android:id="@+id/editTextUtolsoSofor"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignBaseline="@+id/autoLastSoforNevTextView"
-        android:layout_alignBottom="@+id/autoLastSoforNevTextView"
-        android:layout_toRightOf="@+id/autoLastSoforNevTextView"
-        android:ems="10"
-        android:inputType="number" />
+            <EditText
+                android:id="@+id/editTextAutoMuszaki"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:ems="10" />
+        </LinearLayout>
 
-</RelativeLayout>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="10dp"
+            android:layout_marginTop="10dp" >
+
+            <TextView
+                android:id="@+id/autoUzemanyagTextView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Üzemanyag:"
+                android:textAppearance="?android:attr/textAppearanceMedium" />
+
+            <EditText
+                android:id="@+id/editTextAutoUzemanyag"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:ems="10"
+                android:inputType="number" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="10dp"
+            android:layout_marginTop="10dp" >
+
+            <TextView
+                android:id="@+id/autoLastTelephelyTextView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Telephely:"
+                android:textAppearance="?android:attr/textAppearanceMedium" />
+
+            <Spinner
+                android:id="@+id/spinnerLastTelephely"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="10dp"
+            android:layout_marginTop="10dp" >
+
+            <Button
+                android:id="@+id/carAdminPhotoBtn"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Képkészítés" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingBottom="40dp"
+            android:paddingTop="40dp" >
+
+            <Gallery
+                android:id="@+id/carAdminPicsGallery"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" >
+
+            <Button
+                android:id="@+id/lefoglalButton"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:text="Mentés" />
+        </LinearLayout>
+    </LinearLayout>
+
+</ScrollView>

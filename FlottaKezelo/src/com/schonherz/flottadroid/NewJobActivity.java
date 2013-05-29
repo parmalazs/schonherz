@@ -76,6 +76,7 @@ public class NewJobActivity extends Activity {
 	private ArrayList<String> munkaTipusNevek;
 	private ArrayList<String> telephelyNevek;
 	ArrayList<Telephely> telephelyek;
+	private int requestCode;
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
