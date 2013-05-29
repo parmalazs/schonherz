@@ -48,16 +48,16 @@ public class AdminKepekFragment extends Fragment {
 	PartnerKepImageAdapter partnerImgAdapter;
 	MunkaKepImageAdapter munkaKepImgAdapter;
 	AutoKepImageAdapter autoKepImgAdapter;
-	
+
 	Gallery soforPicsGallery;
 	Gallery partnerPicsGallery;
 	Gallery munkaPicsGallery;
 	Gallery autoPicsGallery;
-	
+
 	public AdminKepekFragment(Context context, PartnerKepDao partnerKepDao,
 			ProfilKepDao profilKepDao, AutoKepDao autoKepDao,
 			MunkaKepDao munkaKepDao) {
-		
+
 		this.context = context;
 		this.partnerKepDao = partnerKepDao;
 		this.autoKepDao = autoKepDao;
@@ -122,9 +122,11 @@ public class AdminKepekFragment extends Fragment {
 				    
 				    Bitmap bm = BitmapFactory.decodeFile(((ProfilKep)parent.getItemAtPosition(pos)).getProfilKepPath());
 				    currProfIv.setImageBitmap(bm);
-				    				  
-				    dialog.setTitle(((ProfilKep)parent.getItemAtPosition(pos)).getSofor().getSoforNev());				    
 				    
+				    if(((ProfilKep)parent.getItemAtPosition(pos)).getSofor()!=null)
+				    {
+				    dialog.setTitle(((ProfilKep)parent.getItemAtPosition(pos)).getSofor().getSoforNev());				    
+				    }
 				    currProfIv.setOnClickListener(new OnClickListener() {
 						
 						@Override
@@ -150,7 +152,6 @@ public class AdminKepekFragment extends Fragment {
 		
 		return v;
 	}
-
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
 		// TODO Auto-generated method stub

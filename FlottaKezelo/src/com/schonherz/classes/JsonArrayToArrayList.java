@@ -586,13 +586,7 @@ public class JsonArrayToArrayList {
 				PartnerKep currPartnerKep = new PartnerKep();
 
 				currPartnerKep.setPartnerKepID(Long.parseLong(partnerKepJsonObj
-						.getString("partnerkepekID")));
-				if (partnerKepJsonObj.getString("partnerKepIsUploaded").equals(
-						"1")) {
-					currPartnerKep.setPartnerKepIsUploaded(true);
-				} else {
-					currPartnerKep.setPartnerKepIsUploaded(false);
-				}
+						.getString("partnerkepekID")));				
 				currPartnerKep.setPartnerKepDate(partnerKepJsonObj
 						.getString("partnerKepDate"));
 				if (!partnerKepJsonObj.getString("partnerID").equals("null")) {
@@ -603,6 +597,8 @@ public class JsonArrayToArrayList {
 					currPartnerKep.setPartnerID(0L);
 				}
 
+				currPartnerKep.setPartnerKepPath(partnerKepJsonObj.getString("partnerKepPath"));
+				
 				if (partnerKepJsonObj.getString("partnerKepIsActive").equals(
 						"1")) {
 					currPartnerKep.setPartnerKepIsActive(true);

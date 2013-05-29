@@ -403,9 +403,16 @@ public class RefreshActivity extends Activity {
 				profilKepDao.insert(profilkepek.get(i));
 			}
 			
+		
 			profilkepek = null;
 			
-
+		} catch (Exception ex) {
+			ex.printStackTrace();
+			return ex.getMessage();
+		}
+		
+		try
+		{
 			jsonArray = (JSONArray) JsonFromUrl.getJsonObjectFromUrl(
 					partnerKepUrl, json.toString());
 
@@ -435,7 +442,12 @@ public class RefreshActivity extends Activity {
 			}
 			
 			partnerKepek = null;
-			
+		}
+		catch(Exception e)
+		{
+			e.printStackTrace();
+		}
+		
 			/*
 			jsonArray = (JSONArray) JsonFromUrl.getJsonObjectFromUrl(
 					munkaKepUrl, json.toString());
@@ -467,6 +479,8 @@ public class RefreshActivity extends Activity {
 			
 			munkakepek = null;
 			*/
+		try
+		{
 			jsonArray = (JSONArray) JsonFromUrl.getJsonObjectFromUrl(
 					autokepUrl, json.toString());
 
@@ -506,11 +520,13 @@ public class RefreshActivity extends Activity {
 			editor.putString("lastSync", s);
 			editor.commit();
 			editor = null;
-			
-		} catch (Exception ex) {
-			ex.printStackTrace();
-			return ex.getMessage();
 		}
+		catch(Exception ex)
+		{
+			ex.printStackTrace();
+		}
+			
+		
 		return "";
 
 	}
