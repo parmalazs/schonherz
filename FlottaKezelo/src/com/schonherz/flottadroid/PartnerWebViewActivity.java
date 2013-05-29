@@ -24,8 +24,8 @@ public class PartnerWebViewActivity extends Activity {
 		WebSettings webSettings = webView.getSettings();
 		webSettings.setJavaScriptEnabled(true);
 		webSettings.setBuiltInZoomControls(true);
-		
-		
+		webSettings.setUseWideViewPort(true);
+		webSettings.setLoadWithOverviewMode(true);
 		
 		webView.loadUrl(currentWebPage);
 		
