@@ -90,9 +90,9 @@ public class AdminActivity extends FragmentActivity
 
 		dataBaseInit();
 
-		soforListFragment = new SoforListFragment(this, soforDao);
+		soforListFragment = new SoforListFragment(this, soforDao, true);
 		munkaListFragment = new MunkaListFragment(this, munkaDao);
-		partnerListFragment=new PartnerListFragment(this, partnerDao);
+		partnerListFragment=new PartnerListFragment(this, partnerDao, true);
 		autoListFragment=new AutoListFragment(this, autoDao);
 		telephelyListFragment=new TelephelyListFragment(this, telephelyDao);
 
@@ -253,7 +253,7 @@ public class AdminActivity extends FragmentActivity
 			switch (position) {
 				case 1 :
 
-					return new SoforListFragment(AdminActivity.this, soforDao);
+					return new SoforListFragment(AdminActivity.this, soforDao, true);
 				case 2 :
 					return new AutoListFragment(AdminActivity.this, autoDao);
 				case 3 :
@@ -261,7 +261,7 @@ public class AdminActivity extends FragmentActivity
 							telephelyDao);
 				case 4 :
 					return new PartnerListFragment(AdminActivity.this,
-							partnerDao);
+							partnerDao, true);
 				case 5 :
 					return new AdminKepekFragment(AdminActivity.this,
 							partnerKepDao, profilKepDao, autoKepDao,

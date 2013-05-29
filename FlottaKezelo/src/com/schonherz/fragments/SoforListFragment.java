@@ -68,10 +68,12 @@ public class SoforListFragment extends Fragment {
 	SessionManager sessionManager;
 	Sofor selectedSofor;
 	final int CONTEXT_MENU_DELETE_ITEM =1;
+	boolean isAdmin;
 	
-	public SoforListFragment(Context context, SoforDao soforDao) {
+	public SoforListFragment(Context context, SoforDao soforDao, boolean isAdmin) {
 		this.context = context;
 		this.soforDao = soforDao;
+		this.isAdmin=isAdmin;
 	}
 
 	@Override
@@ -217,10 +219,15 @@ public class SoforListFragment extends Fragment {
 			public void onItemClick(AdapterView<?> arg0, View arg1, int position,
 					long arg3) {
 				// TODO Auto-generated method stub
-				Intent intent=new Intent(getActivity(), SoforDetailsActivity.class);
-				intent.putExtra("selectedSoforID", soforok.get(position-1).getSoforID());
-				startActivity(intent);
-				getActivity().overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
+				if (isAdmin) {
+					Intent adminIntent=new Intent(getActivity(), SoforDetailsActivity.class);
+					adminIntent.putExtra("selectedSoforID", soforok.get(position-1).getSoforID());
+					startActivity(adminIntent);
+					getActivity().overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
+				}
+				else {
+					
+				}
 			}
 		});
 

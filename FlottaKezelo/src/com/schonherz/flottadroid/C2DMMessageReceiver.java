@@ -37,14 +37,16 @@ public class C2DMMessageReceiver extends BroadcastReceiver{
 		      notificationIntent.putExtra("message", intent.getStringExtra("message"));
 		      PendingIntent pIntent = PendingIntent.getActivity(context, 0, notificationIntent,  PendingIntent.FLAG_UPDATE_CURRENT);
 
-		      // Build notification
-		      // Actions are just fake
+		      // Build notification		      
+		      NotificationManager notificationManager = (NotificationManager) context.getSystemService(context.NOTIFICATION_SERVICE);
+		      
+		      
 		      Notification.Builder noti = new Notification.Builder(context)
 		          .setContentTitle("Üzenet via FlottaDroid")
 		          .setContentText(intent.getStringExtra("message")).setSmallIcon(R.drawable.saroklogo)
 		          .setContentIntent(pIntent);
-		      NotificationManager notificationManager = (NotificationManager) context.getSystemService(context.NOTIFICATION_SERVICE);
 		      noti.getNotification().flags |= Notification.FLAG_AUTO_CANCEL;
+		      
 
 		      notificationManager.notify(0, noti.getNotification());
 		    }

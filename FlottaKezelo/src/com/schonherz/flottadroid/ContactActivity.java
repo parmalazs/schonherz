@@ -2,6 +2,7 @@ package com.schonherz.flottadroid;
 
 import java.util.Locale;
 
+import com.schonherz.classes.SessionManager;
 import com.schonherz.dbentities.AutoDao;
 import com.schonherz.dbentities.AutoKepDao;
 import com.schonherz.dbentities.DaoMaster;
@@ -76,17 +77,26 @@ public class ContactActivity extends FragmentActivity implements ActionBar.TabLi
 	ActionBar actionBar;
 	ContactsPagerAdapter contactsAdapter;
 	ViewPager contactsPager;
+	
+	SessionManager sessionManager;
+	boolean isAdmin;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_contact_activty);
         
+        sessionManager=new SessionManager(this);
+        
         getActionBar().setDisplayHomeAsUpEnabled(true);
         dataBaseInit();
         
-        partnerListFragment = new PartnerListFragment(this, partnerDao);
-        soforListFragment = new SoforListFragment(this, soforDao);
+        isAdmin=soforDao.queryBuilder().where(
+				com.schonherz.dbentities.SoforDao.Properties.SoforID.eq(
+						sessionManager.getUserID().get(SessionManager.KEY_USER_ID))).list().get(0).getSoforIsAdmin();
+        
+        partnerListFragment = new PartnerListFragment(this, partnerDao, isAdmin);
+        soforListFragment = new SoforListFragment(this, soforDao, isAdmin);
         
         actionBar = getActionBar();
 		actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_TABS);
@@ -168,10 +178,10 @@ public class ContactActivity extends FragmentActivity implements ActionBar.TabLi
 			// TODO Auto-generated method stub
 			switch (position) {
 				case 0 :
-					return new PartnerListFragment(ContactActivity.this, partnerDao);
+					return new PartnerListFragment(ContactActivity.this, partnerDao, isAdmin);
 					
 				default :
-					return new SoforListFragment(ContactActivity.this, soforDao);
+					return new SoforListFragment(ContactActivity.this, soforDao, isAdmin);
 					
 			}
 		}

@@ -17,6 +17,7 @@ import android.app.SearchManager;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.database.sqlite.SQLiteDatabase;
 import android.media.Ringtone;
 import android.media.RingtoneManager;
 import android.net.Uri;
@@ -52,37 +53,42 @@ import com.schonherz.classes.NetworkUtil;
 import com.schonherz.classes.PullToRefreshListView;
 import com.schonherz.classes.PullToRefreshListView.OnRefreshListener;
 import com.schonherz.classes.SessionManager;
+import com.schonherz.dbentities.DaoMaster;
+import com.schonherz.dbentities.DaoSession;
 import com.schonherz.dbentities.Partner;
 import com.schonherz.dbentities.PartnerDao;
+import com.schonherz.dbentities.DaoMaster.DevOpenHelper;
 import com.schonherz.dbentities.PartnerDao.Properties;
+import com.schonherz.dbentities.SoforDao;
 import com.schonherz.flottadroid.PartnerDetailsActivity;
+import com.schonherz.flottadroid.PartnerUserDetailsActivity;
 import com.schonherz.flottadroid.R;
 
-public class PartnerListFragment extends Fragment {
-	
-	
+public class PartnerListFragment extends Fragment {	
 
 	Context context;
 	PartnerDao partnerDao;
+	SoforDao soforDao;
 	PartnerAdapter adapter;
 	PullToRefreshListView pullListView;
 	ArrayList<Partner> partnerek;
 	MenuItem refreshItem;
-	SessionManager sessionManager;
 	Partner selectedPartner;
 	final int CONTEXT_MENU_DELETE_ITEM =1;
+	boolean isAdmin;
 	
-	public PartnerListFragment(Context context, PartnerDao partnerDao)
+	public PartnerListFragment(Context context, PartnerDao partnerDao, boolean isAdmin)
 	{
 		this.context = context;
-		this.partnerDao = partnerDao;		
+		this.partnerDao = partnerDao;	
+		this.isAdmin=isAdmin;
 	}
 	
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		// TODO Auto-generated method stub
 		setHasOptionsMenu(true);
-		super.onCreate(savedInstanceState);
+		super.onCreate(savedInstanceState);		
 	}
 
 	@Override
@@ -204,6 +210,7 @@ public class PartnerListFragment extends Fragment {
 		pullListView = (PullToRefreshListView) v
 				.findViewById(R.id.pulltorefresh_listview);
 		
+		
 		partnerek =new ArrayList<Partner>(partnerDao.queryBuilder().where(Properties.PartnerIsActive.eq(true)).list());
 		adapter=new PartnerAdapter(context, R.layout.list_item_partner, partnerek, partnerDao);
 		pullListView.setAdapter(adapter);
@@ -216,10 +223,18 @@ public class PartnerListFragment extends Fragment {
 			public void onItemClick(AdapterView<?> arg0, View arg1, int position,
 					long arg3) {
 				// TODO Auto-generated method stub
-				Intent intent=new Intent(getActivity(), PartnerDetailsActivity.class);
-				intent.putExtra("selectedPartnerID", partnerek.get(position-1).getPartnerID());
-				startActivity(intent);
-				getActivity().overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
+				if (isAdmin) {
+					Intent adminIntent=new Intent(getActivity(), PartnerDetailsActivity.class);
+					adminIntent.putExtra("selectedPartnerID", partnerek.get(position-1).getPartnerID());
+					startActivity(adminIntent);
+					getActivity().overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
+				}
+				else {
+					Intent userIntent=new Intent(getActivity(), PartnerUserDetailsActivity.class);
+					userIntent.putExtra("selectedPartnerID", partnerek.get(position-1).getPartnerID());
+					startActivity(userIntent);
+					getActivity().overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
+				}
 			}
 		});
 		
@@ -533,6 +548,6 @@ public class PartnerListFragment extends Fragment {
 				}
 			}
 		}
-	}
+	}	
 	
 }
