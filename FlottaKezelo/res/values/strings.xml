@@ -74,5 +74,6 @@
     <string name="denided_autofelvetel">Deselect your active vehicle first!</string>
     <string name="menu_sendcsv">Küldés</string>
     <string name="title_activity_sofor_user_details">SoforUserDetailsActivity</string>
+    <string name="title_activity_partner_web_view">PartnerWebViewActivity</string>
 
 </resources>

@@ -3,7 +3,9 @@ package com.schonherz.flottadroid;
 import org.json.JSONObject;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.database.sqlite.SQLiteDatabase;
+import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.view.Menu;
@@ -36,7 +38,7 @@ public class SoforDetailsActivity extends Activity {
 
 	boolean saveMode = false; // true update, false insert
 
-	Button saveButton;
+	Button saveButton, dialButton;
 	EditText nevEditTetx, cimEditText, telEditText, emailEditText,
 			loginEditTetx, passEditText, birthEditText;
 
@@ -48,6 +50,16 @@ public class SoforDetailsActivity extends Activity {
 		setupActionBar();
 
 		dataBaseInit();
+		
+		saveButton = (Button) findViewById(R.id.buttonSoforSave);
+		nevEditTetx = (EditText) findViewById(R.id.editTextSoforNev);
+		cimEditText = (EditText) findViewById(R.id.editTextSoforCim);
+		telEditText = (EditText) findViewById(R.id.editTextSoforTel);
+		emailEditText = (EditText) findViewById(R.id.editTextSoforEmail);
+		loginEditTetx = (EditText) findViewById(R.id.editTextSoforLogin);
+		passEditText = (EditText) findViewById(R.id.editTextSoforPass);
+		birthEditText = (EditText) findViewById(R.id.editTextSoforBirth);
+		dialButton=(Button)findViewById(R.id.buttonSoforAdminDial);
 
 		if (getIntent().getLongExtra("selectedSoforID", 0L) != 0L) {
 			currentSofor = soforDao
@@ -60,16 +72,10 @@ public class SoforDetailsActivity extends Activity {
 			saveMode = false;
 			currentSofor = new Sofor();
 			currentSofor.setSoforID(0L);
+			dialButton.setEnabled(false);
+			dialButton.setVisibility(View.INVISIBLE);
 		}
-
-		saveButton = (Button) findViewById(R.id.buttonSoforSave);
-		nevEditTetx = (EditText) findViewById(R.id.editTextSoforNev);
-		cimEditText = (EditText) findViewById(R.id.editTextSoforCim);
-		telEditText = (EditText) findViewById(R.id.editTextSoforTel);
-		emailEditText = (EditText) findViewById(R.id.editTextSoforEmail);
-		loginEditTetx = (EditText) findViewById(R.id.editTextSoforLogin);
-		passEditText = (EditText) findViewById(R.id.editTextSoforPass);
-		birthEditText = (EditText) findViewById(R.id.editTextSoforBirth);
+		
 
 		if (currentSofor.getSoforID() == 0L) {
 			nevEditTetx.setText("");
@@ -113,6 +119,16 @@ public class SoforDetailsActivity extends Activity {
 							"Elfelejtett nevet megadni!", Toast.LENGTH_LONG)
 							.show();
 				}
+			}
+		});
+		
+		dialButton.setOnClickListener(new OnClickListener() {
+			
+			@Override
+			public void onClick(View v) {
+				// TODO Auto-generated method stub
+				startActivity(new Intent(Intent.ACTION_DIAL, Uri.parse("tel:" + currentSofor.getSoforTelefonszam())));
+				overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
 			}
 		});
 	}

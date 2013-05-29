@@ -229,6 +229,13 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.schonherz.flottadroid.ContactActivity" />
         </activity>
+        <activity
+            android:name="com.schonherz.flottadroid.PartnerWebViewActivity"
+            android:label="@string/title_activity_partner_web_view" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.schonherz.flottadroid.ContactActivity" />
+        </activity>
     </application>
 
 </manifest>

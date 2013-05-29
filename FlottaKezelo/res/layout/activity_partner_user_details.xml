@@ -137,14 +137,6 @@
         android:text="Telefon:"
         android:textAppearance="?android:attr/textAppearanceMedium" />
 
-    <Button
-        android:id="@+id/buttonPartnerOK"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:layout_centerHorizontal="true"
-        android:text="Ok" />
-
     <TextView
         android:id="@+id/tvPartnerYLabel"
         android:layout_width="wrap_content"
@@ -166,5 +158,30 @@
         android:layout_marginTop="18dp"
         android:text="X:"
         android:textAppearance="?android:attr/textAppearanceMedium" />
+
+    <Button
+        android:id="@+id/buttonPartnerUserWeb"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/tvPartnerYLabel"
+        android:layout_alignParentBottom="true"
+        android:text="Weboldal" />
+
+    <Button
+        android:id="@+id/buttonPartnerOK"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:text="Ok" />
+
+    <Button
+        android:id="@+id/buttonPartnerUserDial"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBaseline="@+id/buttonPartnerOK"
+        android:layout_alignBottom="@+id/buttonPartnerOK"
+        android:layout_toRightOf="@+id/buttonPartnerOK"
+        android:text="Hívás" />
 
 </RelativeLayout>

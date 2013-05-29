@@ -3,7 +3,9 @@ package com.schonherz.flottadroid;
 import org.json.JSONObject;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.database.sqlite.SQLiteDatabase;
+import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.view.Menu;
@@ -35,7 +37,7 @@ public class PartnerDetailsActivity extends Activity {
 	PartnerDao partnerDao;
 	
 	EditText nevEditText, cimEditText, telEditText, webEditTetx, emailEditText, xEditText, yEditText;
-	Button savePartner;
+	Button savePartner, webViewPartner, dialButton;
 	
 	boolean saveMode = false;	//true update, false insert	
 
@@ -48,6 +50,17 @@ public class PartnerDetailsActivity extends Activity {
 		
 		dataBaseInit();
 		
+		nevEditText=(EditText)findViewById(R.id.editTextPartnerNev);
+		cimEditText=(EditText)findViewById(R.id.editTextPartnerCim);
+		telEditText=(EditText)findViewById(R.id.editTextPartnerTel);
+		webEditTetx=(EditText)findViewById(R.id.editTextPartnerWeb);
+		emailEditText=(EditText)findViewById(R.id.editTextPartnerEmail);
+		xEditText=(EditText)findViewById(R.id.editTextPartnerX);
+		yEditText=(EditText)findViewById(R.id.editTextPartnerY);
+		savePartner=(Button)findViewById(R.id.buttonNewPartner);
+		webViewPartner=(Button)findViewById(R.id.buttonPartnerWeb);
+		dialButton=(Button) findViewById(R.id.buttonPartnerDial);
+		
 		if (getIntent().getLongExtra("selectedPartnerID", 0L)!=0L) {
 			currentPartner=partnerDao.queryBuilder().where(
 					Properties.PartnerID.eq(
@@ -59,16 +72,13 @@ public class PartnerDetailsActivity extends Activity {
 			currentPartner=new Partner();
 			currentPartner.setPartnerID(0L);
 			saveMode = false;
+			webViewPartner.setEnabled(false);
+			webViewPartner.setVisibility(View.INVISIBLE);
+			dialButton.setEnabled(false);
+			dialButton.setVisibility(View.INVISIBLE);
 		}
 		
-		nevEditText=(EditText)findViewById(R.id.editTextPartnerNev);
-		cimEditText=(EditText)findViewById(R.id.editTextPartnerCim);
-		telEditText=(EditText)findViewById(R.id.editTextPartnerTel);
-		webEditTetx=(EditText)findViewById(R.id.editTextPartnerWeb);
-		emailEditText=(EditText)findViewById(R.id.editTextPartnerEmail);
-		xEditText=(EditText)findViewById(R.id.editTextPartnerX);
-		yEditText=(EditText)findViewById(R.id.editTextPartnerY);
-		savePartner=(Button)findViewById(R.id.buttonNewPartner);
+		
 		
 		if (currentPartner.getPartnerID()==0L){
 			nevEditText.setText("null");
@@ -100,6 +110,28 @@ public class PartnerDetailsActivity extends Activity {
 				else {
 					Toast.makeText(getApplicationContext(), "Elfelejtett nevet megadni!", Toast.LENGTH_LONG).show();
 				}
+			}
+		});
+		
+		webViewPartner.setOnClickListener(new OnClickListener() {
+			
+			@Override
+			public void onClick(View v) {
+				// TODO Auto-generated method stub
+				Intent partnerWebViewIntent=new Intent(getApplicationContext(), PartnerWebViewActivity.class);
+				partnerWebViewIntent.putExtra("currentWebPage", currentPartner.getPartnerWeboldal());
+				startActivity(partnerWebViewIntent);
+				overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
+			}
+		});
+		
+		dialButton.setOnClickListener(new OnClickListener() {
+			
+			@Override
+			public void onClick(View v) {
+				// TODO Auto-generated method stub
+				startActivity(new Intent(Intent.ACTION_DIAL, Uri.parse("tel:" + currentPartner.getPartnerTelefonszam())));
+				overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
 			}
 		});
 	}

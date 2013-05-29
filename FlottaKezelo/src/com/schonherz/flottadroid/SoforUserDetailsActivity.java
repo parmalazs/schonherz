@@ -8,8 +8,10 @@ import com.schonherz.dbentities.Sofor;
 import com.schonherz.dbentities.SoforDao;
 import com.schonherz.dbentities.SoforDao.Properties;
 
+import android.net.Uri;
 import android.os.Bundle;
 import android.app.Activity;
+import android.content.Intent;
 import android.database.sqlite.SQLiteDatabase;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -29,7 +31,7 @@ public class SoforUserDetailsActivity extends Activity {
 	SoforDao soforDao;
 	
 	TextView nevEditText, cimEditText, telEditText, birthEditTetx, emailEditText;
-	Button okButton;
+	Button okButton, dialButton;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -50,6 +52,7 @@ public class SoforUserDetailsActivity extends Activity {
 		birthEditTetx=(TextView)findViewById(R.id.tvSoforBirthDATA);
 		emailEditText=(TextView)findViewById(R.id.tvSoforEmailDATA);
 		okButton=(Button)findViewById(R.id.buttonSoforOK);
+		dialButton=(Button)findViewById(R.id.buttonSoforUserDial);
 		
 		nevEditText.setText(currentSofor.getSoforNev());
 		cimEditText.setText(currentSofor.getSoforCim());
@@ -64,6 +67,16 @@ public class SoforUserDetailsActivity extends Activity {
 				// TODO Auto-generated method stub
 				finish();
 				overridePendingTransition(R.anim.slide_out_right, R.anim.slide_in_left);
+			}
+		});
+		
+		dialButton.setOnClickListener(new OnClickListener() {
+			
+			@Override
+			public void onClick(View v) {
+				// TODO Auto-generated method stub
+				startActivity(new Intent(Intent.ACTION_DIAL, Uri.parse("tel:" + currentSofor.getSoforTelefonszam())));
+				overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
 			}
 		});
 	}
@@ -111,6 +124,14 @@ public class SoforUserDetailsActivity extends Activity {
 		soforDao = daoSession.getSoforDao();
 	}
 	
-	
+	@Override
+	public void onBackPressed() {
+		// TODO Auto-generated method stub
+		super.onBackPressed();
+		helper.close();
+		finish();
+		this.overridePendingTransition(R.anim.slide_out_right,
+				R.anim.slide_in_left);
+	}
 
 }

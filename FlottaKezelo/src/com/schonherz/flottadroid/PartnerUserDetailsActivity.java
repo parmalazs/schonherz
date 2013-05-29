@@ -10,8 +10,10 @@ import com.schonherz.dbentities.Partner;
 import com.schonherz.dbentities.PartnerDao;
 import com.schonherz.dbentities.PartnerDao.Properties;
 
+import android.net.Uri;
 import android.os.Bundle;
 import android.app.Activity;
+import android.content.Intent;
 import android.database.sqlite.SQLiteDatabase;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -32,7 +34,7 @@ public class PartnerUserDetailsActivity extends Activity {
 	PartnerDao partnerDao;
 	
 	TextView nevEditText, cimEditText, telEditText, webEditTetx, emailEditText, xEditText, yEditText;
-	Button okButton;
+	Button okButton, webViewPartner, dialButton;
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -54,6 +56,8 @@ public class PartnerUserDetailsActivity extends Activity {
 		xEditText=(TextView)findViewById(R.id.tvPartnerXDATA);
 		yEditText=(TextView)findViewById(R.id.tvPartnerYDATA);
 		okButton=(Button)findViewById(R.id.buttonPartnerOK);
+		webViewPartner=(Button)findViewById(R.id.buttonPartnerUserWeb);
+		dialButton=(Button) findViewById(R.id.buttonPartnerUserDial);
 		
 		nevEditText.setText(currentPartner.getPartnerNev());
 		cimEditText.setText(currentPartner.getPartnerCim());
@@ -70,6 +74,28 @@ public class PartnerUserDetailsActivity extends Activity {
 				// TODO Auto-generated method stub
 				finish();
 				overridePendingTransition(R.anim.slide_out_right, R.anim.slide_in_left);
+			}
+		});
+		
+		webViewPartner.setOnClickListener(new OnClickListener() {
+			
+			@Override
+			public void onClick(View v) {
+				// TODO Auto-generated method stub
+				Intent partnerWebViewIntent=new Intent(getApplicationContext(), PartnerWebViewActivity.class);
+				partnerWebViewIntent.putExtra("currentWebPage", currentPartner.getPartnerWeboldal());
+				startActivity(partnerWebViewIntent);
+				overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
+			}
+		});
+		
+		dialButton.setOnClickListener(new OnClickListener() {
+			
+			@Override
+			public void onClick(View v) {
+				// TODO Auto-generated method stub
+				startActivity(new Intent(Intent.ACTION_DIAL, Uri.parse("tel:" + currentPartner.getPartnerTelefonszam())));
+				overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
 			}
 		});
 		
