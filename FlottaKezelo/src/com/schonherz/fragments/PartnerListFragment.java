@@ -1,5 +1,8 @@
 package com.schonherz.fragments;
 
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.OutputStreamWriter;
 import java.text.Collator;
 import java.text.ParseException;
 import java.text.RuleBasedCollator;
@@ -14,21 +17,21 @@ import android.app.SearchManager;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.database.sqlite.SQLiteDatabase;
 import android.media.Ringtone;
 import android.media.RingtoneManager;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.os.Environment;
 import android.support.v4.app.Fragment;
 import android.view.ContextMenu;
+import android.view.ContextMenu.ContextMenuInfo;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.ContextMenu.ContextMenuInfo;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.AdapterView;
@@ -37,26 +40,22 @@ import android.widget.ImageView;
 import android.widget.SearchView;
 import android.widget.SearchView.OnQueryTextListener;
 import android.widget.Toast;
+import au.com.bytecode.opencsv.CSVWriter;
 
 import com.schonherz.adapters.PartnerAdapter;
+import com.schonherz.classes.CSVUtil;
 import com.schonherz.classes.JSONBuilder;
 import com.schonherz.classes.JSONSender;
 import com.schonherz.classes.JsonArrayToArrayList;
 import com.schonherz.classes.JsonFromUrl;
 import com.schonherz.classes.NetworkUtil;
 import com.schonherz.classes.PullToRefreshListView;
-import com.schonherz.classes.SessionManager;
 import com.schonherz.classes.PullToRefreshListView.OnRefreshListener;
-import com.schonherz.dbentities.DaoMaster;
-import com.schonherz.dbentities.DaoSession;
+import com.schonherz.classes.SessionManager;
 import com.schonherz.dbentities.Partner;
 import com.schonherz.dbentities.PartnerDao;
-import com.schonherz.dbentities.Sofor;
-import com.schonherz.dbentities.SoforDao;
-import com.schonherz.dbentities.DaoMaster.DevOpenHelper;
 import com.schonherz.dbentities.PartnerDao.Properties;
 import com.schonherz.flottadroid.PartnerDetailsActivity;
-import com.schonherz.flottadroid.PartnerUserDetailsActivity;
 import com.schonherz.flottadroid.R;
 
 public class PartnerListFragment extends Fragment {
@@ -299,6 +298,23 @@ public class PartnerListFragment extends Fragment {
 		// TODO Auto-generated method stub
 		switch(item.getItemId())
 		{
+			case R.id.menu_sendCSV:
+				
+				if(NetworkUtil.checkInternetIsActive(context)==true)
+				{
+					CSVUtil util = new CSVUtil();
+					ArrayList<Partner> partners = new ArrayList<Partner>(partnerDao.loadAll());
+					Uri u = util.createPartnerCSVFile(partners);
+					
+					Intent sendIntent = new Intent(Intent.ACTION_SEND);
+					sendIntent.putExtra(Intent.EXTRA_SUBJECT,
+							"Partnerek");
+					sendIntent.putExtra(Intent.EXTRA_STREAM, u);
+					sendIntent.setType("text/html");
+					startActivity(sendIntent); 
+					
+				}					
+				break;
 			case R.id.menu_Sort :
 				AlertDialog.Builder builder = new AlertDialog.Builder(context);
 				builder.setTitle("Rendezés");

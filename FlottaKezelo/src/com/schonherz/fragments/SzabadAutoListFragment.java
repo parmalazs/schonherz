@@ -39,6 +39,7 @@ import android.widget.SearchView.OnQueryTextListener;
 import android.widget.Toast;
 
 import com.schonherz.adapters.AutoAdapter;
+import com.schonherz.classes.CSVUtil;
 import com.schonherz.classes.JsonArrayToArrayList;
 import com.schonherz.classes.JsonFromUrl;
 import com.schonherz.classes.NetworkUtil;
@@ -270,6 +271,23 @@ public class SzabadAutoListFragment extends Fragment {
 	public boolean onOptionsItemSelected(MenuItem item) {
 		// TODO Auto-generated method stub
 		switch (item.getItemId()) {
+			case R.id.menu_sendCSV:
+				if(NetworkUtil.checkInternetIsActive(context)==true)
+				{
+					CSVUtil util = new CSVUtil();
+					ArrayList<Auto> autok= new ArrayList<Auto>(autoDao.loadAll());
+					Uri u = util.createAutoCSVFile(autok);
+					
+					Intent sendIntent = new Intent(Intent.ACTION_SEND);
+					sendIntent.putExtra(Intent.EXTRA_SUBJECT,
+							"Autók");
+					sendIntent.putExtra(Intent.EXTRA_STREAM, u);
+					sendIntent.setType("text/html");
+					startActivity(sendIntent); 
+					
+				}	
+				
+				break;
 			case R.id.menu_Sort :
 				AlertDialog.Builder builder = new AlertDialog.Builder(context);
 				builder.setTitle("Rendezés");

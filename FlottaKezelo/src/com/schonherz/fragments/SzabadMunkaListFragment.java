@@ -7,6 +7,7 @@ import org.json.JSONArray;
 import org.json.JSONObject;
 
 import com.schonherz.adapters.MunkaAdapter;
+import com.schonherz.classes.CSVUtil;
 import com.schonherz.classes.JsonArrayToArrayList;
 import com.schonherz.classes.JsonFromUrl;
 import com.schonherz.classes.NetworkUtil;
@@ -253,6 +254,23 @@ public class SzabadMunkaListFragment extends Fragment {
 		// TODO Auto-generated method stub
 		switch(item.getItemId())
 		{
+			case R.id.menu_sendCSV:
+				if(NetworkUtil.checkInternetIsActive(context)==true)
+				{
+					CSVUtil util = new CSVUtil();
+					ArrayList<Munka> munk= new ArrayList<Munka>(munkaDao.loadAll());
+					Uri u = util.createMunkaCSVFile(munk);
+					
+					Intent sendIntent = new Intent(Intent.ACTION_SEND);
+					sendIntent.putExtra(Intent.EXTRA_SUBJECT,
+							"Munkák");
+					sendIntent.putExtra(Intent.EXTRA_STREAM, u);
+					sendIntent.setType("text/html");
+					startActivity(sendIntent); 
+					
+				}	
+				
+				break;
 			case R.id.menu_Sort :
 				AlertDialog.Builder builder = new AlertDialog.Builder(context);
 				builder.setTitle("Rendezés");

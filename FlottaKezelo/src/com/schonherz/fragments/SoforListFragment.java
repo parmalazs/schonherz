@@ -39,6 +39,7 @@ import android.widget.SearchView.OnQueryTextListener;
 import android.widget.Toast;
 
 import com.schonherz.adapters.SoforAdapter;
+import com.schonherz.classes.CSVUtil;
 import com.schonherz.classes.JSONBuilder;
 import com.schonherz.classes.JSONSender;
 import com.schonherz.classes.JsonArrayToArrayList;
@@ -47,6 +48,7 @@ import com.schonherz.classes.NetworkUtil;
 import com.schonherz.classes.PullToRefreshListView;
 import com.schonherz.classes.SessionManager;
 import com.schonherz.classes.PullToRefreshListView.OnRefreshListener;
+import com.schonherz.dbentities.Auto;
 import com.schonherz.dbentities.Munka;
 import com.schonherz.dbentities.Sofor;
 import com.schonherz.dbentities.SoforDao;
@@ -301,6 +303,23 @@ public class SoforListFragment extends Fragment {
 	public boolean onOptionsItemSelected(MenuItem item) {
 		// TODO Auto-generated method stub
 		switch (item.getItemId()) {
+			case R.id.menu_sendCSV:
+				if(NetworkUtil.checkInternetIsActive(context)==true)
+				{
+					CSVUtil util = new CSVUtil();
+					ArrayList<Sofor> sofors= new ArrayList<Sofor>(soforDao.loadAll());
+					Uri u = util.createSoforCSVFile(sofors);
+					
+					Intent sendIntent = new Intent(Intent.ACTION_SEND);
+					sendIntent.putExtra(Intent.EXTRA_SUBJECT,
+							"Sofõrök");
+					sendIntent.putExtra(Intent.EXTRA_STREAM, u);
+					sendIntent.setType("text/html");
+					startActivity(sendIntent); 
+					
+				}	
+				
+				break;
 			case R.id.menu_Sort :
 				AlertDialog.Builder builder = new AlertDialog.Builder(context);
 				builder.setTitle("Rendezés");

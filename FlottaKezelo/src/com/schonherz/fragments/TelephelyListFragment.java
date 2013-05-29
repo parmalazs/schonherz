@@ -39,6 +39,7 @@ import android.widget.Toast;
 import android.widget.SearchView.OnQueryTextListener;
 
 import com.schonherz.adapters.TelephelyAdapter;
+import com.schonherz.classes.CSVUtil;
 import com.schonherz.classes.JSONBuilder;
 import com.schonherz.classes.JSONSender;
 import com.schonherz.classes.JsonArrayToArrayList;
@@ -291,6 +292,23 @@ public class TelephelyListFragment extends Fragment {
 	public boolean onOptionsItemSelected(MenuItem item) {
 		// TODO Auto-generated method stub
 		switch (item.getItemId()) {
+			case R.id.menu_sendCSV:
+				if(NetworkUtil.checkInternetIsActive(context)==true)
+				{
+					CSVUtil util = new CSVUtil();
+					ArrayList<Telephely> stores= new ArrayList<Telephely>(telephelyDao.loadAll());
+					Uri u = util.createTelephelyCSVFile(stores);
+					
+					Intent sendIntent = new Intent(Intent.ACTION_SEND);
+					sendIntent.putExtra(Intent.EXTRA_SUBJECT,
+							"Telephelyek");
+					sendIntent.putExtra(Intent.EXTRA_STREAM, u);
+					sendIntent.setType("text/html");
+					startActivity(sendIntent); 
+					
+				}	
+				
+				break;
 			case R.id.menu_Sort :
 				AlertDialog.Builder builder = new AlertDialog.Builder(context);
 				builder.setTitle("Rendezés");
