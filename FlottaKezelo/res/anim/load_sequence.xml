@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<animation-list xmlns:android="http://schemas.android.com/apk/res/android" >
+     <item android:drawable="@drawable/autoikon"  android:duration="800" />
+    <item android:drawable="@drawable/telephelyikon" android:duration="800" />
+	<item android:drawable="@drawable/partnerikon" android:duration="800" />
+	<item android:drawable="@drawable/munkaikon" android:duration="800" />
+</animation-list>

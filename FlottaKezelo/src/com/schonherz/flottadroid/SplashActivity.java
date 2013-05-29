@@ -1,23 +1,25 @@
 package com.schonherz.flottadroid;
 
 
-import com.schonherz.classes.SessionManager;
-
 import android.app.Activity;
 import android.content.Intent;
+import android.graphics.drawable.AnimationDrawable;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
 import android.view.Window;
 import android.view.WindowManager;
+import android.widget.ImageView;
+
+import com.schonherz.classes.SessionManager;
 
 
 public class SplashActivity extends Activity {
 
 	private static String TAG = SplashActivity.class.getName();
-	private static long SLEEP_TIME = 3; // Sleep for some time
+	private static long SLEEP_TIME = 5; // Sleep for some time
 	private SessionManager sessionManager;
-
+	ImageView iv;
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -31,13 +33,25 @@ public class SplashActivity extends Activity {
 																// bar
 
 		setContentView(R.layout.activity_splash);
-
+	
+		
 		// Start timer and launch main activity
 		IntentLauncher launcher = new IntentLauncher();
 		launcher.start();
 
 	}
-
+	
+	@Override
+	public void onWindowFocusChanged(boolean hasFocus) {
+		// TODO Auto-generated method stub
+		
+		ImageView img = (ImageView) findViewById(R.id.imageView3);
+	    img.setBackgroundResource(R.anim.load_sequence);
+	    AnimationDrawable frameAnimation = (AnimationDrawable) img.getBackground();
+	    frameAnimation.start();
+		
+		super.onWindowFocusChanged(hasFocus);
+	}
 	private class IntentLauncher extends Thread {
 		@Override
 		/**

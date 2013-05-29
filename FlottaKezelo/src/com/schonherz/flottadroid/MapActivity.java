@@ -111,8 +111,8 @@ public class MapActivity extends Activity {
         //Deak terre megy a camera
         map.moveCamera(CameraUpdateFactory.newLatLng(new LatLng(47.497372, 19.054756)));
         
-        //razoomol 15-rol 10-re
-        map.animateCamera(CameraUpdateFactory.zoomTo(10), 2000, null);
+        ////razoomol 15-rol 10-re
+       map.animateCamera(CameraUpdateFactory.zoomTo(15), 2000, null);
     }
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
@@ -151,7 +151,7 @@ public class MapActivity extends Activity {
 					.title(autok.get(i).getAutoNev())
 					.snippet(autok.get(i).getAutoRendszam())
 					.icon(BitmapDescriptorFactory
-							.fromResource(R.drawable.ic_launcher)));
+							.fromResource(R.drawable.autoikon)));
 			// markers.add(temp);
 		}
 	}
@@ -168,7 +168,7 @@ public class MapActivity extends Activity {
 									partnerek.get(i).getPartnerYkoodinata()))
 					.title(partnerek.get(i).getPartnerNev())
 					.icon(BitmapDescriptorFactory
-							.fromResource(R.drawable.ic_launcher)));
+							.fromResource(R.drawable.partnerikon)));
 		}
 	}
 
@@ -184,7 +184,7 @@ public class MapActivity extends Activity {
 									.get(i).getTelephelyYkoordinata()))
 					.title(telephelyek.get(i).getTelephelyNev())
 					.icon(BitmapDescriptorFactory
-							.fromResource(R.drawable.ic_launcher)));
+							.fromResource(R.drawable.telephelyikon)));
 		}
 	}
 

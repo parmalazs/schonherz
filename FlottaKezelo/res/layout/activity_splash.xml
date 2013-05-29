@@ -25,32 +25,15 @@
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentLeft="true"
-        android:gravity="center"
-        android:layout_below="@+id/imageView1" >
+        android:layout_below="@+id/imageView1"
+        android:gravity="center" >
 
         <ImageView
             android:id="@+id/imageView3"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"           
-            android:src="@drawable/autoikon" />
-
-        <ImageView
-            android:id="@+id/imageView4"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:src="@drawable/telephelyikon" />
-
-        <ImageView
-            android:id="@+id/imageView5"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:src="@drawable/partnerikon" />
-
-        <ImageView
-            android:id="@+id/imageView6"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:src="@drawable/munkaikon" />
+            android:layout_height="wrap_content"                       
+            android:background="@anim/load_sequence" />
+       
     </LinearLayout>
 
 </RelativeLayout>
