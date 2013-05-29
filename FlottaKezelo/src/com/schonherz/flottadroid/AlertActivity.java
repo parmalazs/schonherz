@@ -3,6 +3,7 @@ package com.schonherz.flottadroid;
 import android.os.Bundle;
 import android.app.Activity;
 import android.app.AlertDialog;
+import android.app.NotificationManager;
 import android.content.DialogInterface;
 import android.view.Menu;
 
@@ -12,10 +13,12 @@ public class AlertActivity extends Activity {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_alert);
-		
+		NotificationManager notificationManager = 
+				  (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
 		String mess = this.getIntent().getStringExtra("message");
 		
 		showAlert(mess);
+		notificationManager.cancel(0);
 		
 	}
 

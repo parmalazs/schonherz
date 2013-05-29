@@ -3,6 +3,7 @@ package com.schonherz.flottadroid;
 import java.util.ArrayList;
 
 import android.app.ActionBar;
+import android.app.NotificationManager;
 import android.app.ActionBar.Tab;
 import android.app.FragmentTransaction;
 import android.content.Context;
@@ -72,6 +73,9 @@ public class CarActivity extends FragmentActivity implements ActionBar.TabListen
         setContentView(R.layout.activity_car);
         getActionBar().setDisplayHomeAsUpEnabled(true);
         dataBaseInit();
+        NotificationManager notificationManager = 
+  			  (NotificationManager) getSystemService(NOTIFICATION_SERVICE);	
+        notificationManager.cancel(1);
         
         szemelygepjarmuFragment = new SzabadAutoListFragment(this, autoDao, new ArrayList<Auto>(autoDao.queryBuilder().where(com.schonherz.dbentities.AutoDao.Properties.AutoFoglalt.eq(false),
 				com.schonherz.dbentities.AutoDao.Properties.AutoIsActive.eq(true), com.schonherz.dbentities.AutoDao.Properties.AutoTipus.eq("Személygépjármû")).list()), "Személygépjármû");

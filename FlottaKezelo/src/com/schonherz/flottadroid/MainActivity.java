@@ -15,6 +15,7 @@ import com.schonherz.dbentities.AutoDao;
 import com.schonherz.dbentities.AutoKepDao;
 import com.schonherz.dbentities.DaoMaster;
 import com.schonherz.dbentities.DaoSession;
+import com.schonherz.dbentities.Munka;
 import com.schonherz.dbentities.MunkaDao;
 import com.schonherz.dbentities.MunkaEszkozDao;
 import com.schonherz.dbentities.MunkaKepDao;
@@ -32,6 +33,9 @@ import android.opengl.Visibility;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.app.Activity;
+import android.app.Notification;
+import android.app.NotificationManager;
+import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
 import android.database.sqlite.SQLiteDatabase;
@@ -75,6 +79,8 @@ public class MainActivity extends Activity {
 	private boolean isRefreshed;
 	private Long selectedAutoID;
 	private List<Auto> autok;
+	private List<Munka> munkak;
+	private NotificationManager notificationManager;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -82,9 +88,15 @@ public class MainActivity extends Activity {
 		setContentView(R.layout.activity_main);
 		context = getApplicationContext();
 		sessionManager = new SessionManager(context);
+		notificationManager = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
 		isRefreshed = this.getIntent().getBooleanExtra("isRefreshed", false);
+		
+		dataBaseInit();
 		autok=new ArrayList<Auto>();
+		munkak=new ArrayList<Munka>();
 		sajatAutoCheck();		
+		
+		
 
 		if (sessionManager.isLoggedIn() && !isRefreshed) {
 			// csinálunk egy frissítést mert a bejelentkezéskor elmaradt
@@ -107,6 +119,25 @@ public class MainActivity extends Activity {
 								+ " for more information.", e);
 			}
 		}
+		
+		//ha nincs a munkáihoz autó felvéve akkor értesítjük h vegyen fel egyet
+		if (!vanMunkahozAutoja()) {
+			// Prepare intent which is triggered if the
+			// notification is selected
+
+			Intent intent = new Intent(this, CarActivity.class);
+			PendingIntent munkahozAutoPendingIntent = PendingIntent.getActivity(this, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT);
+
+			// Build notification
+			// Actions are just fake
+			Notification.Builder noti = new Notification.Builder(this)
+			        .setContentTitle("Nincs autó felvéve az aktív munkáihoz...")
+			        .setContentText("Kérem vegyen fel egyet!")
+			        .setSmallIcon(R.drawable.autoikon)
+			        .setContentIntent(munkahozAutoPendingIntent); 
+			  				
+			notificationManager.notify(1, noti.getNotification()); 
+		}
 
 		Log.i("proba", "pusholashoz");
 
@@ -124,7 +155,7 @@ public class MainActivity extends Activity {
 		});
 
 		adminButton = (Button) findViewById(R.id.buttonAdmin);
-		//ha nem admin a sofõr akkor eltiltjuk az admin gombot
+		//ha nem admin a sofõr akkor letiltjuk az admin gombot
 		Log.i(MainActivity.class.getName(), "admin: " + soforDao.queryBuilder().where(Properties.SoforID.eq(sessionManager.getUserID().get(SessionManager.KEY_USER_ID))).list().get(0).getSoforIsAdmin().toString());
 		if (!soforDao.queryBuilder().where(Properties.SoforID.eq(sessionManager.getUserID().get(SessionManager.KEY_USER_ID))).list().get(0).getSoforIsAdmin()) {
 			adminButton.setEnabled(false);
@@ -193,8 +224,41 @@ public class MainActivity extends Activity {
 
 	}
 	
+	public boolean vanMunkahozAutoja() {
+		munkak.clear();
+		munkak=munkaDao.queryBuilder().where(
+				com.schonherz.dbentities.MunkaDao.Properties.SoforID.eq(
+						sessionManager.getUserID().get(SessionManager.KEY_USER_ID))).list();
+		Log.i(MainActivity.class.getName(), "munkái száma: " + munkak.size() + " választott auto id: " + selectedAutoID);
+		if (munkak.size()==1 && selectedAutoID!=0L) {
+			//ha az utolsó munkájához érkezett figyelmeztetjük, h adja le az autóját ha van
+			utolsoMunka();
+			return true;
+		}
+		if (munkak.size()>1 && selectedAutoID==0L) {
+			return false;
+		}
+		return true;		
+	}
+	
+	public void utolsoMunka() {
+		Intent utolsoMunkaIntent = new Intent(MainActivity.this, CarDetailsActivity.class);
+		utolsoMunkaIntent.putExtra("sajatAuto", true);
+		utolsoMunkaIntent.putExtra("selectedAutoID", selectedAutoID);
+		PendingIntent utolsoMunkaPendingIntent = PendingIntent.getActivity(this, 0, utolsoMunkaIntent, PendingIntent.FLAG_UPDATE_CURRENT);
+
+		// Build notification
+		// Actions are just fake
+		Notification.Builder noti = new Notification.Builder(this)
+		        .setContentTitle("Egy aktív munka")
+		        .setContentText("Ne felejtse el leadni az autót!")
+		        .setSmallIcon(R.drawable.autoikon)
+		        .setContentIntent(utolsoMunkaPendingIntent); 
+		  				
+		notificationManager.notify(2, noti.getNotification()); 		
+	}
+	
 	public void sajatAutoCheck() {
-		dataBaseInit();
 		selectedAutoID=0L;
 		autok.clear();
 		autok=autoDao.queryBuilder().where(com.schonherz.dbentities.AutoDao.Properties.AutoIsActive.eq(true)).list();
@@ -235,7 +299,25 @@ public class MainActivity extends Activity {
 		// TODO Auto-generated method stub
 		// megnézzük, hogy be van e még jelentkezve a user, ha nincs akkor irány
 		// a bejelentkezés
+		dataBaseInit();
 		sajatAutoCheck();
+		if (!vanMunkahozAutoja()) {
+			// Prepare intent which is triggered if the
+			// notification is selected
+
+			Intent intent = new Intent(this, CarActivity.class);
+			PendingIntent pIntent = PendingIntent.getActivity(this, 0, intent, 0);
+
+			// Build notification
+			// Actions are just fake
+			Notification.Builder noti = new Notification.Builder(this)
+			        .setContentTitle("Aktív munkák")
+			        .setContentText("Kérem vegyen fel egy autótt!")
+			        .setSmallIcon(R.drawable.autoikon)
+			        .setContentIntent(pIntent);		
+
+			notificationManager.notify(1, noti.getNotification()); 
+		}
 		if (!sessionManager.isLoggedIn()) {
 			sessionManager.logoutUser();
 		}

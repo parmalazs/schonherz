@@ -95,7 +95,6 @@ public class SajatMunkaListFragment extends Fragment {
 		AdapterView.AdapterContextMenuInfo info= (AdapterView.AdapterContextMenuInfo) item.getMenuInfo();
 		Munka selectedMunka=munkaDao.queryBuilder().where(Properties.MunkaID.eq(adapter.getItemId(info.position-1))).list().get(0);
 		selectedMunka.setSoforID(0L);
-		selectedMunka.refresh();
 		munkaDao.update(selectedMunka);
 		adapter.remove(selectedMunka);
 		adapter.notifyDataSetChanged();

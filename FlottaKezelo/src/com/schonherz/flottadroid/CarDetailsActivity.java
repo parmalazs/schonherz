@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import org.json.JSONObject;
 
 import android.app.Activity;
+import android.app.NotificationManager;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -69,6 +70,10 @@ public class CarDetailsActivity extends Activity {
 		setContentView(R.layout.activity_car_details);
 		// Show the Up button in the action bar.
 		setupActionBar();
+		NotificationManager notificationManager = 
+	  			  (NotificationManager) getSystemService(NOTIFICATION_SERVICE);	
+		
+		notificationManager.cancel(2);
 
 		dataBaseInit();
 		sessionManager = new SessionManager(this);
@@ -141,8 +146,10 @@ public class CarDetailsActivity extends Activity {
 		}
 
 		lefoglalButton = (Button) findViewById(R.id.lefoglalButton);
-		// ha saját autót jelenítünk meg akkor átírjuk a legoflalást leadásra
-		if (getIntent().getBooleanExtra("sajatAuto", false)) {
+		
+		Log.i(CarDetailsActivity.class.getName(), "Saját autó: " + getIntent().getBooleanExtra("sajatAuto", false));
+		// ha saját autót jelenítünk meg akkor átírjuk a lefoglalást leadásra
+		if (getIntent().getBooleanExtra("sajatAuto", false)) {			
 			lefoglalButton.setText("Lead");
 		}
 		lefoglalButton.setOnClickListener(new OnClickListener() {
