@@ -1,0 +1,118 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:paddingBottom="@dimen/activity_vertical_margin"
+    android:paddingLeft="@dimen/activity_horizontal_margin"
+    android:paddingRight="@dimen/activity_horizontal_margin"
+    android:paddingTop="@dimen/activity_vertical_margin"
+    tools:context=".SoforUserDetailsActivity" >
+
+   <TextView
+        android:id="@+id/tvPartnerNameLabel"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentTop="true"
+        android:layout_marginLeft="25dp"
+        android:layout_marginTop="19dp"
+        android:text="Név:"
+        android:textAppearance="?android:attr/textAppearanceMedium" />
+
+    <TextView
+        android:id="@+id/tvSoforNevDATA"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBaseline="@+id/tvPartnerNameLabel"
+        android:layout_alignBottom="@+id/tvPartnerNameLabel"
+        android:layout_alignLeft="@+id/tvSoforTelefonDATA"
+        android:layout_alignRight="@+id/tvSoforTelefonDATA"
+        android:ems="10" />
+
+    <TextView
+        android:id="@+id/tvSoforCimDATA"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/tvSoforNevDATA"
+        android:layout_alignTop="@+id/tvPartnerCimLabel"
+        android:ems="10" />
+
+    <TextView
+        android:id="@+id/tvSoforTelefonDATA"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBaseline="@+id/tvPartnerTelefonLabel"
+        android:layout_alignBottom="@+id/tvPartnerTelefonLabel"
+        android:layout_alignRight="@+id/tvSoforEmailDATA"
+        android:layout_toRightOf="@+id/tvPartnerTelefonLabel"
+        android:ems="10" />
+
+    <TextView
+        android:id="@+id/tvPartnerCimLabel"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignRight="@+id/tvPartnerNameLabel"
+        android:layout_below="@+id/tvSoforNevDATA"
+        android:layout_marginTop="20dp"
+        android:text="Cím:"
+        android:textAppearance="?android:attr/textAppearanceMedium" />
+
+    <TextView
+        android:id="@+id/tvSoforEmailDATA"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBaseline="@+id/tvPartnerEmailLabel"
+        android:layout_alignBottom="@+id/tvPartnerEmailLabel"
+        android:layout_toRightOf="@+id/tvPartnerTelefonLabel"
+        android:ems="10"
+         />
+
+    <TextView
+        android:id="@+id/tvSoforBirthDATA"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBaseline="@+id/tvPartnerWebLabel"
+        android:layout_alignBottom="@+id/tvPartnerWebLabel"
+        android:layout_alignRight="@+id/tvSoforEmailDATA"
+        android:layout_toRightOf="@+id/tvPartnerWebLabel"
+        android:ems="10" />
+
+    <TextView
+        android:id="@+id/tvPartnerWebLabel"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/tvSoforEmailDATA"
+        android:layout_alignLeft="@+id/tvPartnerCimLabel"
+        android:layout_marginBottom="18dp"
+        android:text="Szül dátum"
+        android:textAppearance="?android:attr/textAppearanceMedium" />
+
+    <TextView
+        android:id="@+id/tvPartnerEmailLabel"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/tvPartnerWebLabel"
+        android:layout_below="@+id/tvSoforTelefonDATA"
+        android:layout_marginTop="89dp"
+        android:text="Email:"
+        android:textAppearance="?android:attr/textAppearanceMedium" />
+
+    <TextView
+        android:id="@+id/tvPartnerTelefonLabel"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/tvPartnerCimLabel"
+        android:layout_below="@+id/tvSoforCimDATA"
+        android:layout_marginTop="28dp"
+        android:text="Telefon:"
+        android:textAppearance="?android:attr/textAppearanceMedium" />
+
+    <Button
+        android:id="@+id/buttonSoforOK"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:text="Ok" />
+
+</RelativeLayout>

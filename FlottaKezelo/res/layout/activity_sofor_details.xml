@@ -49,7 +49,7 @@
         android:layout_height="wrap_content"
         android:layout_alignLeft="@+id/textView2"
         android:layout_below="@+id/editTextSoforCim"
-        android:text="Telefonszám"
+        android:text="Telefon"
         android:textAppearance="?android:attr/textAppearanceMedium" />
 
     <EditText
@@ -70,7 +70,7 @@
         android:layout_height="wrap_content"
         android:layout_alignLeft="@+id/textView3"
         android:layout_below="@+id/editTextSoforTel"
-        android:text="Email cím:"
+        android:text="Email"
         android:textAppearance="?android:attr/textAppearanceMedium" />
 
     <EditText

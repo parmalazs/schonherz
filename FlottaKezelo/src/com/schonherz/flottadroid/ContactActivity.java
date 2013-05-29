@@ -76,27 +76,21 @@ public class ContactActivity extends FragmentActivity implements ActionBar.TabLi
 	
 	ActionBar actionBar;
 	ContactsPagerAdapter contactsAdapter;
-	ViewPager contactsPager;
-	
-	SessionManager sessionManager;
-	boolean isAdmin;
+	ViewPager contactsPager;	
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_contact_activty);
         
-        sessionManager=new SessionManager(this);
+        
         
         getActionBar().setDisplayHomeAsUpEnabled(true);
-        dataBaseInit();
+        dataBaseInit();       
         
-        isAdmin=soforDao.queryBuilder().where(
-				com.schonherz.dbentities.SoforDao.Properties.SoforID.eq(
-						sessionManager.getUserID().get(SessionManager.KEY_USER_ID))).list().get(0).getSoforIsAdmin();
         
-        partnerListFragment = new PartnerListFragment(this, partnerDao, isAdmin);
-        soforListFragment = new SoforListFragment(this, soforDao, isAdmin);
+        partnerListFragment = new PartnerListFragment(this, partnerDao, false);
+        soforListFragment = new SoforListFragment(this, soforDao, false);
         
         actionBar = getActionBar();
 		actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_TABS);
@@ -159,6 +153,7 @@ public class ContactActivity extends FragmentActivity implements ActionBar.TabLi
         switch (item.getItemId()) {
             case android.R.id.home:
                 NavUtils.navigateUpFromSameTask(this);
+                this.overridePendingTransition(R.anim.slide_out_right, R.anim.slide_in_left);
                 return true;
         }
         return super.onOptionsItemSelected(item);
@@ -178,10 +173,10 @@ public class ContactActivity extends FragmentActivity implements ActionBar.TabLi
 			// TODO Auto-generated method stub
 			switch (position) {
 				case 0 :
-					return new PartnerListFragment(ContactActivity.this, partnerDao, isAdmin);
+					return new PartnerListFragment(ContactActivity.this, partnerDao, false);
 					
 				default :
-					return new SoforListFragment(ContactActivity.this, soforDao, isAdmin);
+					return new SoforListFragment(ContactActivity.this, soforDao, false);
 					
 			}
 		}

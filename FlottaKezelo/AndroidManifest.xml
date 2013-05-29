@@ -24,8 +24,8 @@
     <uses-permission android:name="android.permission.WRITE_OWNER_DATA" />
     <uses-permission android:name="android.permission.CHANGE_NETWORK_STATE" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
-	<uses-feature android:name="android.hardware.camera.autofocus" />
-    
+
+    <uses-feature android:name="android.hardware.camera.autofocus" />
     <uses-feature
         android:glEsVersion="0x00020000"
         android:required="true" />
@@ -63,55 +63,54 @@
         <activity
             android:name="com.schonherz.flottadroid.PreviewDemo"
             android:screenOrientation="landscape" />
-        
         <activity
             android:name="com.schonherz.flottadroid.LoginActivity"
             android:label="@string/title_activity_login" >
         </activity>
         <activity
             android:name="com.schonherz.flottadroid.JobsActivity"
-            android:screenOrientation="portrait"
-            android:label="@string/title_activity_jobs" >
+            android:label="@string/title_activity_jobs"
+            android:screenOrientation="portrait" >
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.schonherz.flottadroid.MainActivity" />
         </activity>
         <activity
             android:name="com.schonherz.flottadroid.AdminActivity"
-            android:screenOrientation="portrait"
-            android:label="@string/title_activity_admin" >
+            android:label="@string/title_activity_admin"
+            android:screenOrientation="portrait" >
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.schonherz.flottadroid.MainActivity" />
         </activity>
         <activity
             android:name="com.schonherz.flottadroid.MapActivity"
-            android:screenOrientation="portrait"
-            android:label="@string/title_activity_map" >
+            android:label="@string/title_activity_map"
+            android:screenOrientation="portrait" >
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.schonherz.flottadroid.MainActivity" />
         </activity>
         <activity
             android:name="com.schonherz.flottadroid.PartnerDetailsActivity"
-            android:screenOrientation="portrait"
-            android:label="@string/title_activity_partner_details" >
+            android:label="@string/title_activity_partner_details"
+            android:screenOrientation="portrait" >
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.schonherz.flottadroid.MainActivity" />
         </activity>
         <activity
             android:name="com.schonherz.flottadroid.CarActivity"
-            android:screenOrientation="portrait"
-            android:label="@string/title_activity_car" >
+            android:label="@string/title_activity_car"
+            android:screenOrientation="portrait" >
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.schonherz.flottadroid.MainActivity" />
         </activity>
         <activity
             android:name="com.schonherz.flottadroid.ContactActivity"
-            android:screenOrientation="portrait"
-            android:label="@string/title_activity_contact_activty" >
+            android:label="@string/title_activity_contact_activty"
+            android:screenOrientation="portrait" >
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.schonherz.flottadroid.MainActivity" />
@@ -217,11 +216,18 @@
         </activity>
         <activity
             android:name="com.schonherz.flottadroid.CarAdminDetailsActivity"
-            android:screenOrientation="portrait"
-            android:label="@string/title_activity_car_admin_details" >
+            android:label="@string/title_activity_car_admin_details"
+            android:screenOrientation="portrait" >
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.schonherz.flottadroid.AdminActivity" />
+        </activity>
+        <activity
+            android:name="com.schonherz.flottadroid.SoforUserDetailsActivity"
+            android:label="@string/title_activity_sofor_user_details" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.schonherz.flottadroid.ContactActivity" />
         </activity>
     </application>
 

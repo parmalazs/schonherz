@@ -15,6 +15,8 @@ import android.app.Activity;
 import android.database.sqlite.SQLiteDatabase;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
@@ -40,15 +42,9 @@ public class PartnerUserDetailsActivity extends Activity {
 		
 		dataBaseInit();
 		
-		if (getIntent().getLongExtra("selectedPartnerID", 0L)!=0L) {
-			currentPartner=partnerDao.queryBuilder().where(
-					Properties.PartnerID.eq(
-							getIntent().getLongExtra("selectedPartnerID", 0L))).list().get(0);
-		}
-		else {
-			currentPartner=new Partner();
-			currentPartner.setPartnerID(0L);
-		}
+		currentPartner=partnerDao.queryBuilder().where(
+				Properties.PartnerID.eq(
+						getIntent().getLongExtra("selectedPartnerID", 0L))).list().get(0);
 		
 		nevEditText=(TextView)findViewById(R.id.tvPartnerNevDATA);
 		cimEditText=(TextView)findViewById(R.id.tvPartnerCimDATA);
@@ -59,24 +55,23 @@ public class PartnerUserDetailsActivity extends Activity {
 		yEditText=(TextView)findViewById(R.id.tvPartnerYDATA);
 		okButton=(Button)findViewById(R.id.buttonPartnerOK);
 		
-		if (currentPartner.getPartnerID()==0L){
-			nevEditText.setText("null");
-			cimEditText.setText("null");
-			telEditText.setText("null");
-			webEditTetx.setText("null");
-			emailEditText.setText("null");
-			xEditText.setText("0F");
-			yEditText.setText("0F");
-		}
-		else {
-			nevEditText.setText(currentPartner.getPartnerNev());
-			cimEditText.setText(currentPartner.getPartnerCim());
-			telEditText.setText(currentPartner.getPartnerTelefonszam());
-			webEditTetx.setText(currentPartner.getPartnerWeboldal());
-			emailEditText.setText(currentPartner.getPartnerEmailcim());
-			xEditText.setText(currentPartner.getPartnerXkoordinata().toString());
-			yEditText.setText(currentPartner.getPartnerYkoodinata().toString());
-		}
+		nevEditText.setText(currentPartner.getPartnerNev());
+		cimEditText.setText(currentPartner.getPartnerCim());
+		telEditText.setText(currentPartner.getPartnerTelefonszam());
+		webEditTetx.setText(currentPartner.getPartnerWeboldal());
+		emailEditText.setText(currentPartner.getPartnerEmailcim());
+		xEditText.setText(currentPartner.getPartnerXkoordinata().toString());
+		yEditText.setText(currentPartner.getPartnerYkoodinata().toString());
+		
+		okButton.setOnClickListener(new OnClickListener() {
+			
+			@Override
+			public void onClick(View v) {
+				// TODO Auto-generated method stub
+				finish();
+				overridePendingTransition(R.anim.slide_out_right, R.anim.slide_in_left);
+			}
+		});
 		
 	}
 	

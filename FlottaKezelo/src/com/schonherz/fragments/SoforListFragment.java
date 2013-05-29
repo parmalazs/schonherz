@@ -56,6 +56,7 @@ import com.schonherz.dbentities.SoforDao.Properties;
 import com.schonherz.flottadroid.MunkaDetailsActivity;
 import com.schonherz.flottadroid.R;
 import com.schonherz.flottadroid.SoforDetailsActivity;
+import com.schonherz.flottadroid.SoforUserDetailsActivity;
 
 public class SoforListFragment extends Fragment {
 
@@ -226,7 +227,10 @@ public class SoforListFragment extends Fragment {
 					getActivity().overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
 				}
 				else {
-					
+					Intent userIntent=new Intent(getActivity(), SoforUserDetailsActivity.class);
+					userIntent.putExtra("selectedSoforID", soforok.get(position-1).getSoforID());
+					startActivity(userIntent);
+					getActivity().overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
 				}
 			}
 		});
