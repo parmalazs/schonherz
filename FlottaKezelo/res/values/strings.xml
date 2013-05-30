@@ -76,5 +76,6 @@
     <string name="title_activity_sofor_user_details">Driver</string>
     <string name="title_activity_partner_web_view">Partner web page</string>
     <string name="title_activity_push_notification_list">Messages</string>
+    <string name="menuMessages">Üzenetek</string>
 
 </resources>

@@ -292,6 +292,11 @@ public class MainActivity extends Activity {
 				MainActivity.this.startActivity(intent);
 				overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
 				break;
+			case R.id.menu_messages:
+				Intent messInt = new Intent(MainActivity.this,PushNotificationListActivity.class);
+				this.startActivity(messInt);
+				overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
+				break;
 		}
 		return super.onOptionsItemSelected(item);
 	}
