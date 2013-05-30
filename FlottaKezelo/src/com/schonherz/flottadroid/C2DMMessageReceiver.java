@@ -21,6 +21,7 @@ import com.schonherz.dbentities.DaoMaster;
 import com.schonherz.dbentities.DaoSession;
 import com.schonherz.dbentities.Munka;
 import com.schonherz.dbentities.MunkaDao;
+import com.schonherz.dbentities.MunkaDao.Properties;
 import com.schonherz.dbentities.MunkaEszkozDao;
 import com.schonherz.dbentities.MunkaKepDao;
 import com.schonherz.dbentities.MunkaTipus;
@@ -46,6 +47,8 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
+import android.content.SharedPreferences.Editor;
 import android.database.sqlite.SQLiteDatabase;
 import android.location.Location;
 import android.os.AsyncTask;
@@ -83,14 +86,20 @@ public class C2DMMessageReceiver extends BroadcastReceiver{
 	String munkaTipusUrl = "http://www.flotta.host-ed.me/queryMunkaTipusTable.php";
 	String munkaKepUrl = "http://www.flotta.host-ed.me/queryMunkaKepTable.php";
 	String munkaEszkozUrl = "http://www.flotta.host-ed.me/queryMunkaEszkozTable.php";
+	
+	// Shared Preferences
+    SharedPreferences pref;
+     
+    // Editor for Shared preferences
+    Editor editor;
 
 	@Override
 	public void onReceive(Context context, Intent intent) {
 		// TODO Auto-generated method stub
 		
 		dataBaseInit(context);
-		
-		
+		pref = context.getSharedPreferences("newJobs", 0);
+        editor = pref.edit();
 		
 		
 		 String action = intent.getAction();
@@ -162,7 +171,7 @@ public class C2DMMessageReceiver extends BroadcastReceiver{
 		     else if (intent.getStringExtra("message").equals("refresh")) {
 		    	 Log.i("adatbázis frissítés", "kezdés");
 		    	 
-		    	 new AsyncTask<Void, Void, String>() {
+		    	 new AsyncTask<Context, Void, String>() {
 
 						protected void onPostExecute(String result) {
 							Log.i("adatbázis frissítés", "vége");
@@ -174,12 +183,12 @@ public class C2DMMessageReceiver extends BroadcastReceiver{
 						};
 
 						@Override
-						protected String doInBackground(Void... params) {
+						protected String doInBackground(Context... params) {
 							// TODO Auto-generated method stub
-							return saveAlldata();
+							return saveAlldata(params[0]);
 						}
 
-					}.execute();
+					}.execute(context);
 		    	 
 		     }
 		     else {
@@ -230,7 +239,7 @@ public class C2DMMessageReceiver extends BroadcastReceiver{
 
 	}
 	
-	public String saveAlldata() {
+	public String saveAlldata(Context context) {
 		JSONArray jsonArray;
 		JSONObject json = new JSONObject();
 						
@@ -299,7 +308,8 @@ public class C2DMMessageReceiver extends BroadcastReceiver{
 
 			// get munkatable
 			jsonArray = (JSONArray) JsonFromUrl.getJsonObjectFromUrl(munkaUrl,
-					json.toString());
+					json.toString());		
+			
 
 			MunkaDao.dropTable(munkaDao.getDatabase(), true);
 			MunkaDao.createTable(munkaDao.getDatabase(), true);
@@ -310,6 +320,34 @@ public class C2DMMessageReceiver extends BroadcastReceiver{
 			for (int i = 0; i < munkak.size(); i++) {
 				munkaDao.insert(munkak.get(i));
 			}
+			
+			//utolsó munkaID ellenõrzése, ha kisebb mint az új akkor új munkák érkeztek és értesítést küldünk
+			if (munkak.get(munkak.size()-1).getMunkaID()<pref.getLong("lastJobID", 0L)) {	
+				
+				Log.i("új munkák", "értesítés elküldve!");
+				Intent notificationIntent = new Intent(context, JobsActivity.class);
+			    PendingIntent pIntent = PendingIntent.getActivity(context, 0, notificationIntent,  PendingIntent.FLAG_UPDATE_CURRENT);
+	
+			    // Build notification		      
+			    NotificationManager notificationManager = (NotificationManager) context.getSystemService(context.NOTIFICATION_SERVICE);
+			      
+			      
+			    Notification.Builder noti = new Notification.Builder(context)
+			        .setContentTitle("Üzenet via FlottaDroid")
+			        .setContentText("Új munkák érkeztek! Kérem tekintse meg õket.").setSmallIcon(R.drawable.ic_message)
+			        .setContentIntent(pIntent);
+			    noti.getNotification().flags |= Notification.FLAG_AUTO_CANCEL;
+			      
+	
+			    notificationManager.notify(3, noti.getNotification());
+				
+			}
+			else {
+				editor.putLong("lastJobID", munkak.get(munkak.size()-1).getMunkaID());
+				editor.commit();
+			}
+			
+			
 			munkak = null;
 
 			// get munkatipustable

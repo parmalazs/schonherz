@@ -28,6 +28,7 @@ import com.schonherz.fragments.TelephelyListFragment;
 
 import android.app.ActionBar;
 import android.app.FragmentTransaction;
+import android.app.NotificationManager;
 import android.app.ActionBar.Tab;
 import android.content.Intent;
 import android.database.sqlite.SQLiteDatabase;
@@ -89,6 +90,9 @@ public class JobsActivity extends FragmentActivity implements ActionBar.TabListe
 			setupActionBar();
 
 			dataBaseInit();
+			
+			NotificationManager notificationManager = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
+			notificationManager.cancel(3);
 
 			szabadMunkaListFragment=new SzabadMunkaListFragment(this, munkaDao);
 			sajatMunkaListFragment=new SajatMunkaListFragment(this, munkaDao);
