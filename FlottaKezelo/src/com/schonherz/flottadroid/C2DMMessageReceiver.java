@@ -65,8 +65,7 @@ public class C2DMMessageReceiver extends BroadcastReceiver{
 		     
 		      // Prepare intent which is triggered if the
 		      // notification is selected
-		      Intent notificationIntent = new Intent(context, AlertActivity.class);
-		      notificationIntent.putExtra("message", intent.getStringExtra("message"));
+		      Intent notificationIntent = new Intent(context, PushNotificationListActivity.class);
 		      PendingIntent pIntent = PendingIntent.getActivity(context, 0, notificationIntent,  PendingIntent.FLAG_UPDATE_CURRENT);
 
 		      // Build notification		      
@@ -75,7 +74,7 @@ public class C2DMMessageReceiver extends BroadcastReceiver{
 		      
 		      Notification.Builder noti = new Notification.Builder(context)
 		          .setContentTitle("Üzenet via FlottaDroid")
-		          .setContentText(intent.getStringExtra("message")).setSmallIcon(R.drawable.saroklogo)
+		          .setContentText(intent.getStringExtra("message")).setSmallIcon(R.drawable.ic_message)
 		          .setContentIntent(pIntent);
 		      noti.getNotification().flags |= Notification.FLAG_AUTO_CANCEL;
 		      

@@ -236,6 +236,13 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.schonherz.flottadroid.ContactActivity" />
         </activity>
+        <activity
+            android:name="com.schonherz.flottadroid.PushNotificationListActivity"
+            android:label="@string/title_activity_push_notification_list" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.schonherz.flottadroid.MainActivity" />
+        </activity>
     </application>
 
 </manifest>
