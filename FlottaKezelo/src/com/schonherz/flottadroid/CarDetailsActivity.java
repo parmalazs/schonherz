@@ -7,6 +7,7 @@ import org.json.JSONObject;
 import android.app.Activity;
 import android.app.NotificationManager;
 import android.database.sqlite.SQLiteDatabase;
+import android.graphics.Bitmap;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
@@ -15,6 +16,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -22,6 +24,7 @@ import com.schonherz.classes.JSONBuilder;
 import com.schonherz.classes.JSONSender;
 import com.schonherz.classes.NetworkUtil;
 import com.schonherz.classes.SessionManager;
+import com.schonherz.classes.StaticGoogleMapImageUtil;
 import com.schonherz.dbentities.Auto;
 import com.schonherz.dbentities.AutoDao;
 import com.schonherz.dbentities.AutoDao.Properties;
@@ -61,7 +64,7 @@ public class CarDetailsActivity extends Activity {
 	// TextView autoProfilKepTextView;
 	Button lefoglalButton;
 	Button imageCreate;
-
+	ImageView autoMapsImageView;
 	boolean saveMode = false; // false = insert, true = update
 
 	@Override
@@ -70,9 +73,8 @@ public class CarDetailsActivity extends Activity {
 		setContentView(R.layout.activity_car_details);
 		// Show the Up button in the action bar.
 		setupActionBar();
-		NotificationManager notificationManager = 
-	  			  (NotificationManager) getSystemService(NOTIFICATION_SERVICE);	
-		
+		NotificationManager notificationManager = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
+
 		notificationManager.cancel(2);
 
 		dataBaseInit();
@@ -102,6 +104,7 @@ public class CarDetailsActivity extends Activity {
 		autoLastUpDateTextView = (TextView) findViewById(R.id.autoLastUpDateTextView);
 		autoLastTelephelyTextView = (TextView) findViewById(R.id.autoLastTelephelyTextView);
 		autoLastSoforNevTextView = (TextView) findViewById(R.id.autoLastSoforNevTextView);
+		autoMapsImageView = (ImageView) findViewById(R.id.autoMapImageView);
 
 		if (currentAuto.getAutoID() == 0L) {
 			autoTipusTextView.setText("null");
@@ -143,13 +146,40 @@ public class CarDetailsActivity extends Activity {
 							.eq(currentAuto.getAutoLastSoforID())).list());
 			autoLastSoforNevTextView.setText("Utolsó sofõr: "
 					+ soforlist.get(0).getSoforNev());
+
+			if (NetworkUtil.checkInternetIsActive(CarDetailsActivity.this)) {
+				new AsyncTask<Void, Void, Bitmap>() {
+
+					@Override
+					protected void onPostExecute(Bitmap result) {
+						// TODO Auto-generated method stub
+
+						autoMapsImageView.setImageBitmap(result);
+
+						super.onPostExecute(result);
+					}
+
+					@Override
+					protected Bitmap doInBackground(Void... params) {
+						// TODO Auto-generated method stub
+
+						StaticGoogleMapImageUtil mapUtil = new StaticGoogleMapImageUtil();
+
+						return mapUtil.getGoogleMapThumbnail(
+								(double) currentAuto.getAutoXkoordinata(),
+								(double) currentAuto.getAutoYkoordinata());
+					}
+
+				}.execute();
+			}
 		}
 
 		lefoglalButton = (Button) findViewById(R.id.lefoglalButton);
-		
-		Log.i(CarDetailsActivity.class.getName(), "Saját autó: " + getIntent().getBooleanExtra("sajatAuto", false));
+
+		Log.i(CarDetailsActivity.class.getName(), "Saját autó: "
+				+ getIntent().getBooleanExtra("sajatAuto", false));
 		// ha saját autót jelenítünk meg akkor átírjuk a lefoglalást leadásra
-		if (getIntent().getBooleanExtra("sajatAuto", false)) {			
+		if (getIntent().getBooleanExtra("sajatAuto", false)) {
 			lefoglalButton.setText("Lead");
 		}
 		lefoglalButton.setOnClickListener(new OnClickListener() {
@@ -181,9 +211,9 @@ public class CarDetailsActivity extends Activity {
 												.get(SessionManager.KEY_USER_ID)
 												.toString());
 						autoDao.update(currentAuto);
-						
+
 						new sendAutoData().execute();
-						
+
 					} else {
 						// vmt feldobni
 						Toast.makeText(getApplicationContext(),
@@ -200,7 +230,6 @@ public class CarDetailsActivity extends Activity {
 			}
 		});
 	}
-
 	public void dataBaseInit() {
 		helper = new DaoMaster.DevOpenHelper(this, "flotta-db", null);
 		db = helper.getWritableDatabase();
