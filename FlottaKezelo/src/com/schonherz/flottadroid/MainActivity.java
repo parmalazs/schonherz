@@ -23,6 +23,7 @@ import com.schonherz.dbentities.MunkaTipusDao;
 import com.schonherz.dbentities.PartnerDao;
 import com.schonherz.dbentities.PartnerKepDao;
 import com.schonherz.dbentities.ProfilKepDao;
+import com.schonherz.dbentities.PushMessageDao;
 import com.schonherz.dbentities.Sofor;
 import com.schonherz.dbentities.SoforDao;
 import com.schonherz.dbentities.TelephelyDao;
@@ -67,6 +68,7 @@ public class MainActivity extends Activity {
 	private ProfilKepDao profilKepDao;
 	private SoforDao soforDao;
 	private TelephelyDao telephelyDao;
+	private PushMessageDao pushMessageDao;
 
 	private Button jobsButton;
 	private Button adminButton;
@@ -96,7 +98,7 @@ public class MainActivity extends Activity {
 		munkak=new ArrayList<Munka>();
 		sajatAutoCheck();		
 		
-		
+		Log.i("push log", pushMessageDao.loadAll().get(0).getPushMessageText());
 
 		if (sessionManager.isLoggedIn() && !isRefreshed) {
 			// csinálunk egy frissítést mert a bejelentkezéskor elmaradt
@@ -443,6 +445,7 @@ public class MainActivity extends Activity {
 		profilKepDao = daoSession.getProfilKepDao();
 		soforDao = daoSession.getSoforDao();
 		telephelyDao = daoSession.getTelephelyDao();
+		pushMessageDao=daoSession.getPushMessageDao();
 
 	}
 }

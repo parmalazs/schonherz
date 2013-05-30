@@ -1,5 +1,14 @@
 package com.schonherz.flottadroid;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
+
+import com.schonherz.dbentities.DaoMaster;
+import com.schonherz.dbentities.DaoSession;
+import com.schonherz.dbentities.DaoMaster.DevOpenHelper;
+import com.schonherz.dbentities.PushMessage;
+import com.schonherz.dbentities.PushMessageDao;
+
 import android.app.AlertDialog;
 import android.app.Notification;
 import android.app.NotificationManager;
@@ -8,14 +17,37 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.database.sqlite.SQLiteDatabase;
 import android.sax.StartElementListener;
 import android.util.Log;
 
 public class C2DMMessageReceiver extends BroadcastReceiver{
+	
+	private SQLiteDatabase db;
+	private DevOpenHelper helper;
+	private DaoSession daoSession;
+	private DaoMaster daoMaster;
+	
+	private PushMessageDao pushMessageDao;
+	private PushMessage currentPushMessage;
 
 	@Override
 	public void onReceive(Context context, Intent intent) {
 		// TODO Auto-generated method stub
+		
+		dataBaseInit(context);
+		
+		//aktuális message beállítása
+		currentPushMessage=new PushMessage();
+		currentPushMessage.setPushMessageText(intent.getStringExtra("message"));
+		Date now = new Date();
+		SimpleDateFormat sdf = new SimpleDateFormat("yyyy.MM.dd HH:mm:ss");
+		String s = sdf.format(now);
+		currentPushMessage.setPushMessageDate(s);		
+		pushMessageDao.insert(currentPushMessage);
+		
+		Log.i("push log", pushMessageDao.loadAll().get(0).getPushMessageText());
+		
 		 String action = intent.getAction();
 		    Log.w("C2DM", "Message Receiver called");
 		    if ("com.google.android.c2dm.intent.RECEIVE".equals(action)) {
@@ -50,6 +82,16 @@ public class C2DMMessageReceiver extends BroadcastReceiver{
 
 		      notificationManager.notify(0, noti.getNotification());
 		    }
+	}
+	
+	public void dataBaseInit(Context context) {
+		helper = new DaoMaster.DevOpenHelper(context, "flotta-db", null);
+		db = helper.getWritableDatabase();
+		daoMaster = new DaoMaster(db);
+		daoSession = daoMaster.newSession();
+
+		pushMessageDao=daoSession.getPushMessageDao();
+
 	}
 
 }

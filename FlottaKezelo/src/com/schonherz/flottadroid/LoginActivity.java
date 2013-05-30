@@ -38,6 +38,7 @@ import com.schonherz.dbentities.MunkaTipusDao;
 import com.schonherz.dbentities.PartnerDao;
 import com.schonherz.dbentities.PartnerKepDao;
 import com.schonherz.dbentities.ProfilKepDao;
+import com.schonherz.dbentities.PushMessageDao;
 import com.schonherz.dbentities.Sofor;
 import com.schonherz.dbentities.SoforDao;
 import com.schonherz.dbentities.SoforDao.Properties;
@@ -67,6 +68,7 @@ public class LoginActivity extends Activity {
 	private ProfilKepDao profilKepDao;
 	private SoforDao soforDao;
 	private TelephelyDao telephelyDao;
+	private PushMessageDao pushMessageDao;
 	
 	
 	
@@ -251,6 +253,7 @@ public class LoginActivity extends Activity {
 		profilKepDao = daoSession.getProfilKepDao();
 		soforDao = daoSession.getSoforDao();
 		telephelyDao = daoSession.getTelephelyDao();
+		pushMessageDao=daoSession.getPushMessageDao();
 
 		autoDao.createTable(db, true);
 		autoKepDao.createTable(db, true);
@@ -263,6 +266,7 @@ public class LoginActivity extends Activity {
 		profilKepDao.createTable(db, true);
 		soforDao.createTable(db, true);
 		telephelyDao.createTable(db, true);
+		pushMessageDao.createTable(db, true);
 
 	}
 
