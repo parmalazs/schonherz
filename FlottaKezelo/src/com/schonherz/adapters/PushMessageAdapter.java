@@ -109,6 +109,7 @@ public class PushMessageAdapter extends ArrayAdapter<PushMessage> {
 			
 			
 			TextView tvName = (TextView)convertView.findViewById(com.schonherz.flottadroid.R.id.tvMessage);
+			tvName.setText(currentPushMessage.getPushMessageText());
 			TextView tvDate = (TextView)convertView.findViewById(com.schonherz.flottadroid.R.id.tvMessageDate);
 			tvDate.setText(currentPushMessage.getPushMessageDate());
 		}
@@ -119,6 +120,7 @@ public class PushMessageAdapter extends ArrayAdapter<PushMessage> {
 		ImageView iv = (ImageView)convertView.findViewById(com.schonherz.flottadroid.R.id.imgAvatarMessage);		
 
 		TextView tvName = (TextView)convertView.findViewById(com.schonherz.flottadroid.R.id.tvMessage);
+		tvName.setText(currentPushMessage.getPushMessageText());
 		TextView tvDate = (TextView)convertView.findViewById(com.schonherz.flottadroid.R.id.tvMessageDate);
 		tvDate.setText(currentPushMessage.getPushMessageDate());
 		
