@@ -63,7 +63,7 @@ public class PushNotificationListActivity extends Activity {
 					long arg3) {
 				// TODO Auto-generated method stub
 				Intent intent=new Intent(getApplication(), AlertActivity.class);
-				intent.putExtra("message", pushMessages.get(position-1).getPushMessageText());
+				intent.putExtra("message", pushMessages.get(position).getPushMessageText());
 				startActivity(intent);
 				overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
 			}
