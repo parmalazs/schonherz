@@ -239,7 +239,13 @@ public class ExampleDaoGenerator {
     		munkaKep.addToOne(munka, munkakepMunka);
     		//Munka képei
     		ToMany munkaMunkakepei = munka.addToMany(munkaKep, munkakepMunka);
-               	  
+               
+    		
+    	Entity pushMessage = schema.addEntity("PushMessage");
+    	pushMessage.setTableName("PushMessages");
+    	pushMessage.addLongProperty("pushMessageID").primaryKey().autoincrement();
+    	pushMessage.addStringProperty("pushMessageText");
+    	pushMessage.addStringProperty("pushMessageDate");
    }
 } 
    
