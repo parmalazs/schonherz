@@ -94,7 +94,7 @@ public class C2DMMessageReceiver extends BroadcastReceiver{
     Editor editor;
 
 	@Override
-	public void onReceive(Context context, Intent intent) {
+	public void onReceive(final Context context, Intent intent) {
 		// TODO Auto-generated method stub
 		
 		dataBaseInit(context);
@@ -171,10 +171,29 @@ public class C2DMMessageReceiver extends BroadcastReceiver{
 		     else if (intent.getStringExtra("message").equals("refresh")) {
 		    	 Log.i("adatbázis frissítés", "kezdés");
 		    	 
-		    	 new AsyncTask<Context, Void, String>() {
+		    	 new AsyncTask<Context, Void, Boolean>() {
 
-						protected void onPostExecute(String result) {
+						protected void onPostExecute(Boolean result) {
 							Log.i("adatbázis frissítés", "vége");
+							
+							if (result) {
+								Log.i("új munkák", "értesítés elküldve!");
+								Intent notificationIntent = new Intent(context, JobsActivity.class);
+							    PendingIntent pIntent = PendingIntent.getActivity(context, 0, notificationIntent,  PendingIntent.FLAG_UPDATE_CURRENT);
+					
+							    // Build notification		      
+							    NotificationManager notificationManager = (NotificationManager) context.getSystemService(context.NOTIFICATION_SERVICE);
+							      
+							      
+							    Notification.Builder noti = new Notification.Builder(context)
+							        .setContentTitle("Üzenet via FlottaDroid")
+							        .setContentText("Új munkák érkeztek! Kérem tekintse meg õket.").setSmallIcon(R.drawable.ic_message)
+							        .setContentIntent(pIntent);
+							    noti.getNotification().flags |= Notification.FLAG_AUTO_CANCEL;
+							      
+					
+							    notificationManager.notify(3, noti.getNotification());
+							}
 
 						};
 
@@ -183,7 +202,7 @@ public class C2DMMessageReceiver extends BroadcastReceiver{
 						};
 
 						@Override
-						protected String doInBackground(Context... params) {
+						protected Boolean doInBackground(Context... params) {
 							// TODO Auto-generated method stub
 							return saveAlldata(params[0]);
 						}
@@ -239,7 +258,7 @@ public class C2DMMessageReceiver extends BroadcastReceiver{
 
 	}
 	
-	public String saveAlldata(Context context) {
+	public Boolean saveAlldata(Context context) {
 		JSONArray jsonArray;
 		JSONObject json = new JSONObject();
 						
@@ -322,24 +341,9 @@ public class C2DMMessageReceiver extends BroadcastReceiver{
 			}
 			
 			//utolsó munkaID ellenõrzése, ha kisebb mint az új akkor új munkák érkeztek és értesítést küldünk
-			if (munkak.get(munkak.size()-1).getMunkaID()<pref.getLong("lastJobID", 0L)) {	
+			if (munkak.get(munkak.size()-1).getMunkaID()<pref.getLong("lastJobID", 0L)) {					
 				
-				Log.i("új munkák", "értesítés elküldve!");
-				Intent notificationIntent = new Intent(context, JobsActivity.class);
-			    PendingIntent pIntent = PendingIntent.getActivity(context, 0, notificationIntent,  PendingIntent.FLAG_UPDATE_CURRENT);
-	
-			    // Build notification		      
-			    NotificationManager notificationManager = (NotificationManager) context.getSystemService(context.NOTIFICATION_SERVICE);
-			      
-			      
-			    Notification.Builder noti = new Notification.Builder(context)
-			        .setContentTitle("Üzenet via FlottaDroid")
-			        .setContentText("Új munkák érkeztek! Kérem tekintse meg õket.").setSmallIcon(R.drawable.ic_message)
-			        .setContentIntent(pIntent);
-			    noti.getNotification().flags |= Notification.FLAG_AUTO_CANCEL;
-			      
-	
-			    notificationManager.notify(3, noti.getNotification());
+			    return true;
 				
 			}
 			else {
@@ -367,9 +371,9 @@ public class C2DMMessageReceiver extends BroadcastReceiver{
 
 		} catch (Exception ex) {
 			ex.printStackTrace();
-			return ex.getMessage();
+			return false;
 		}
-		return "";
+		return false;
 	}
 
 }
