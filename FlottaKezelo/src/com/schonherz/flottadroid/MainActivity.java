@@ -98,7 +98,7 @@ public class MainActivity extends Activity {
 		munkak=new ArrayList<Munka>();
 		sajatAutoCheck();		
 		
-		Log.i("push log", pushMessageDao.loadAll().get(0).getPushMessageText());
+		//Log.i("push log", pushMessageDao.loadAll().get(0).getPushMessageText());
 
 		if (sessionManager.isLoggedIn() && !isRefreshed) {
 			// csinálunk egy frissítést mert a bejelentkezéskor elmaradt
