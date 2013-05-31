@@ -98,8 +98,7 @@ public class PushNotificationListActivity extends Activity {
 			// http://developer.android.com/design/patterns/navigation.html#up-vs-back
 			//
 			finish();
-			this.overridePendingTransition(R.anim.slide_out_right,
-					R.anim.slide_in_left);
+			this.overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
 			return true;
 		}
 		return super.onOptionsItemSelected(item);
@@ -110,8 +109,7 @@ public class PushNotificationListActivity extends Activity {
 		// TODO Auto-generated method stub
 		super.onBackPressed();
 		finish();
-		this.overridePendingTransition(R.anim.slide_out_right,
-				R.anim.slide_in_left);
+		this.overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
 	}
 	
 	public void dataBaseInit() {

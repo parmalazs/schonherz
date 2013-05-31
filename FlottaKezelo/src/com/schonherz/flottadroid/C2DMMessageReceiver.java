@@ -341,16 +341,17 @@ public class C2DMMessageReceiver extends BroadcastReceiver{
 			}
 			
 			//utolsó munkaID ellenõrzése, ha kisebb mint az új akkor új munkák érkeztek és értesítést küldünk
+			Log.i("új munka értesítõ", 
+					"új munkák száma most: " + (munkak.get(munkak.size()-1).getMunkaID() + 
+								 ", eddig: " + pref.getLong("lastJobID", 0L)));
 			if (munkak.get(munkak.size()-1).getMunkaID()>pref.getLong("lastJobID", 0L)) {					
 				
 			    return true;
 				
 			}
-			else {
-				editor.putLong("lastJobID", munkak.get(munkak.size()-1).getMunkaID());
-				editor.commit();
-			}
-			
+			editor.remove("lastJobID");
+			editor.putLong("lastJobID", munkak.get(munkak.size()-1).getMunkaID());
+			editor.commit();
 			
 			munkak = null;
 
