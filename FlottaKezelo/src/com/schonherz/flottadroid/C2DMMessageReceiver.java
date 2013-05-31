@@ -341,7 +341,7 @@ public class C2DMMessageReceiver extends BroadcastReceiver{
 			}
 			
 			//utolsó munkaID ellenõrzése, ha kisebb mint az új akkor új munkák érkeztek és értesítést küldünk
-			if (munkak.get(munkak.size()-1).getMunkaID()<pref.getLong("lastJobID", 0L)) {					
+			if (munkak.get(munkak.size()-1).getMunkaID()>pref.getLong("lastJobID", 0L)) {					
 				
 			    return true;
 				

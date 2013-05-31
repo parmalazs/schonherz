@@ -261,6 +261,7 @@ public class CarDetailsActivity extends Activity {
 						currentAuto.setAutoFoglalt(true);
 						currentAuto.setAutoLastSoforID(sessionManager
 								.getUserID().get(SessionManager.KEY_USER_ID));
+						currentAuto.setAutoUzemanyag(100L);
 						Log.i(CarDetailsActivity.class.getName(),
 								"választott auto ID: "
 										+ currentAuto.getAutoID().toString()
