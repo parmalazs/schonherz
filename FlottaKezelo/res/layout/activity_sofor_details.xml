@@ -207,11 +207,18 @@
                 android:layout_height="wrap_content"
                 android:text="Mentés" />
             
-             <Button
-                android:id="@+id/buttonSoforAdminDial"
+            
+            <ImageButton
+                android:id="@+id/callerSoforImgBtn"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Hívás" />
+                android:src="@drawable/ic_caller_icon" />
+
+            <ImageButton
+                android:id="@+id/emailSoforImgBtn"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/ic_message" />
         </LinearLayout>
     </LinearLayout>
 

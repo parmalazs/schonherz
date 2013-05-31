@@ -203,23 +203,29 @@
             android:layout_marginTop="10dp"
             android:gravity="center_horizontal" >
 
-            <Button
-                android:id="@+id/buttonPartnerWeb"
+            <ImageButton
+                android:id="@+id/callerImageButton"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Weboldal" />
+                android:src="@drawable/ic_caller_icon" />
+
+            <ImageButton
+                android:id="@+id/emailImageButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/ic_message" />
+
+            <ImageButton
+                android:id="@+id/webImgButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/ic_action_web" />
 
             <Button
                 android:id="@+id/buttonNewPartner"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Mentés" />
-
-            <Button
-                android:id="@+id/buttonPartnerDial"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Hívás" />
         </LinearLayout>
     </LinearLayout>
 

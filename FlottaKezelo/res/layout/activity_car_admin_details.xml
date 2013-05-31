@@ -190,8 +190,8 @@
             <Button
                 android:id="@+id/carAdminPhotoBtn"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Képkészítés" />
+                android:layout_height="82dp"
+                android:drawableTop="@drawable/fotoikon" />
         </LinearLayout>
 
         <LinearLayout

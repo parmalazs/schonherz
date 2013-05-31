@@ -104,7 +104,7 @@ public class ContactActivity extends FragmentActivity implements ActionBar.TabLi
 		partnerTab.setTabListener(this);
 		actionBar.addTab(partnerTab);
 		
-		soforTab = actionBar.newTab().setText(R.string.title_soforok);
+		soforTab = actionBar.newTab().setText(R.string.drivers);
 		soforTab.setTabListener(this);
 		actionBar.addTab(soforTab);
 		

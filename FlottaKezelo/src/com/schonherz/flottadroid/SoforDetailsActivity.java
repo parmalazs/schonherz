@@ -32,6 +32,7 @@ import android.widget.AdapterView.OnItemClickListener;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Gallery;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.Toast;
 
@@ -57,7 +58,10 @@ public class SoforDetailsActivity extends Activity {
 
 	private SoforDao soforDao;
 	private Sofor currentSofor;
-
+	
+	ImageButton callimgButton;
+	ImageButton emailimgButton;
+	
 	private ProfilKepDao profilKepDao;
 	ArrayList<ProfilKep> profilKepek;
 
@@ -93,8 +97,10 @@ public class SoforDetailsActivity extends Activity {
 		loginEditTetx = (EditText) findViewById(R.id.editTextSoforLogin);
 		passEditText = (EditText) findViewById(R.id.editTextSoforPass);
 		birthEditText = (EditText) findViewById(R.id.editTextSoforBirth);
-		dialButton = (Button) findViewById(R.id.buttonSoforAdminDial);
-
+	
+		callimgButton = (ImageButton)findViewById(R.id.callerSoforImgBtn);
+		emailimgButton = (ImageButton)findViewById(R.id.emailSoforImgBtn);
+		
 		if (getIntent().getLongExtra("selectedSoforID", 0L) != 0L) {
 			currentSofor = soforDao
 					.queryBuilder()
@@ -121,8 +127,11 @@ public class SoforDetailsActivity extends Activity {
 			currentSofor.setSoforID(soforDao.loadAll()
 					.get((int) soforDao.loadAll().size() - 1).getSoforID() + 1);
 
-			dialButton.setEnabled(false);
-			dialButton.setVisibility(View.INVISIBLE);
+			emailimgButton.setEnabled(false);
+			emailimgButton.setVisibility(View.INVISIBLE);
+			
+			callimgButton.setEnabled(false);
+			emailimgButton.setVisibility(View.INVISIBLE);
 		}
 
 		if (saveMode == false) {
@@ -285,9 +294,23 @@ public class SoforDetailsActivity extends Activity {
 				}
 			}
 		});
-
-		dialButton.setOnClickListener(new OnClickListener() {
-
+		
+		emailimgButton.setOnClickListener(new OnClickListener() {
+			
+			@Override
+			public void onClick(View v) {
+				// TODO Auto-generated method stub
+				final Intent emailIntent = new Intent(android.content.Intent.ACTION_SEND);
+				emailIntent.setType("plain/text");
+				emailIntent.putExtra(android.content.Intent.EXTRA_EMAIL, currentSofor.getSoforEmail().toString());
+				startActivity(emailIntent);
+				overridePendingTransition(R.anim.slide_in_right,
+						R.anim.slide_out_left);
+			}
+		});
+		
+		callimgButton.setOnClickListener(new OnClickListener() {
+			
 			@Override
 			public void onClick(View v) {
 				// TODO Auto-generated method stub
@@ -297,6 +320,7 @@ public class SoforDetailsActivity extends Activity {
 						R.anim.slide_out_left);
 			}
 		});
+			
 	}
 
 	public void saveSofor() {

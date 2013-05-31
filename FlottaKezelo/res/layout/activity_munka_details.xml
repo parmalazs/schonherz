@@ -196,9 +196,9 @@
             <Button
                 android:id="@+id/buttonImage"
                 style="?android:attr/buttonStyleSmall"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Kép készítés" />
+                   android:layout_width="wrap_content"
+                android:layout_height="82dp"
+                android:drawableTop="@drawable/fotoikon" />
 
         </LinearLayout>
 

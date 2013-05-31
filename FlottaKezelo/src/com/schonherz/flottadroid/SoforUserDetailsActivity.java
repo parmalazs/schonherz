@@ -1,24 +1,35 @@
 package com.schonherz.flottadroid;
 
-import com.schonherz.dbentities.DaoMaster;
-import com.schonherz.dbentities.DaoSession;
-import com.schonherz.dbentities.Partner;
-import com.schonherz.dbentities.DaoMaster.DevOpenHelper;
-import com.schonherz.dbentities.Sofor;
-import com.schonherz.dbentities.SoforDao;
-import com.schonherz.dbentities.SoforDao.Properties;
+import java.util.List;
 
-import android.net.Uri;
-import android.os.Bundle;
 import android.app.Activity;
+import android.app.Dialog;
 import android.content.Intent;
 import android.database.sqlite.SQLiteDatabase;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.net.Uri;
+import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
-import android.widget.Button;
+import android.widget.AdapterView;
+import android.widget.AdapterView.OnItemClickListener;
+import android.widget.Gallery;
+import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.TextView;
+
+import com.schonherz.adapters.ProfilKepImageAdapter;
+import com.schonherz.dbentities.DaoMaster;
+import com.schonherz.dbentities.DaoMaster.DevOpenHelper;
+import com.schonherz.dbentities.DaoSession;
+import com.schonherz.dbentities.ProfilKep;
+import com.schonherz.dbentities.ProfilKepDao;
+import com.schonherz.dbentities.Sofor;
+import com.schonherz.dbentities.SoforDao;
+import com.schonherz.dbentities.SoforDao.Properties;
 
 public class SoforUserDetailsActivity extends Activity {
 	
@@ -29,9 +40,13 @@ public class SoforUserDetailsActivity extends Activity {
 	
 	Sofor currentSofor;
 	SoforDao soforDao;
+	ProfilKepDao profilKepDao;
+	
+	Gallery soforUserPicsGallery;
+	ProfilKepImageAdapter imageadapter;
 	
 	TextView nevEditText, cimEditText, telEditText, birthEditTetx, emailEditText;
-	Button okButton, dialButton;
+	ImageButton emailButton, dialButton;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -51,8 +66,8 @@ public class SoforUserDetailsActivity extends Activity {
 		telEditText=(TextView)findViewById(R.id.tvSoforTelefonDATA);
 		birthEditTetx=(TextView)findViewById(R.id.tvSoforBirthDATA);
 		emailEditText=(TextView)findViewById(R.id.tvSoforEmailDATA);
-		okButton=(Button)findViewById(R.id.buttonSoforOK);
-		dialButton=(Button)findViewById(R.id.buttonSoforUserDial);
+		emailButton=(ImageButton)findViewById(R.id.emailSoforImg);
+		dialButton=(ImageButton)findViewById(R.id.callerSoforImg);
 		
 		nevEditText.setText(currentSofor.getSoforNev());
 		cimEditText.setText(currentSofor.getSoforCim());
@@ -60,13 +75,67 @@ public class SoforUserDetailsActivity extends Activity {
 		birthEditTetx.setText(currentSofor.getSoforBirthDate());
 		emailEditText.setText(currentSofor.getSoforEmail());
 		
-		okButton.setOnClickListener(new OnClickListener() {
+		soforUserPicsGallery = (Gallery)findViewById(R.id.soforUserPicsGallery);
+
+		List<ProfilKep> profilkepek = profilKepDao
+				.queryBuilder()
+				.where(com.schonherz.dbentities.ProfilKepDao.Properties.ProfilKepIsActive
+						.eq(true),
+						com.schonherz.dbentities.ProfilKepDao.Properties.SoforID
+								.eq(currentSofor.getSoforID())).list();
+
+		imageadapter = new ProfilKepImageAdapter(SoforUserDetailsActivity.this,
+				profilKepDao, 0, profilkepek);
+
+		soforUserPicsGallery.setAdapter(imageadapter);
+		
+		soforUserPicsGallery.setOnItemClickListener(new OnItemClickListener() {
+
+			@Override
+			public void onItemClick(AdapterView<?> parent, View view, int pos,
+					long id) {
+				// TODO Auto-generated method stub
+				final Dialog dialog = new Dialog(SoforUserDetailsActivity.this);
+				dialog.setContentView(R.layout.layout_image_dialog);
+				dialog.setCancelable(true);
+
+				ImageView currProfIv = (ImageView) dialog
+						.findViewById(R.id.imgDialogImageView);
+
+				Bitmap bm = BitmapFactory.decodeFile(((ProfilKep) parent
+						.getItemAtPosition(pos)).getProfilKepPath());
+				currProfIv.setImageBitmap(bm);
+
+				if (((ProfilKep) parent.getItemAtPosition(pos)).getSofor() != null) {
+					dialog.setTitle(((ProfilKep) parent.getItemAtPosition(pos))
+							.getSofor().getSoforNev());
+				}
+				currProfIv.setOnClickListener(new OnClickListener() {
+
+					@Override
+					public void onClick(View v) {
+						// TODO Auto-generated method stub
+						dialog.dismiss();
+					}
+				});
+				
+				dialog.show();
+			}
+		});
+		
+		emailButton.setOnClickListener(new OnClickListener() {
 			
 			@Override
 			public void onClick(View v) {
 				// TODO Auto-generated method stub
-				finish();
-				overridePendingTransition(R.anim.slide_out_right, R.anim.slide_in_left);
+				final Intent emailIntent = new Intent(
+						android.content.Intent.ACTION_SEND);
+				emailIntent.setType("plain/text");
+				emailIntent.putExtra(android.content.Intent.EXTRA_EMAIL,
+						currentSofor.getSoforEmail().toString());
+				startActivity(emailIntent);
+				overridePendingTransition(R.anim.slide_in_right,
+						R.anim.slide_out_left);
 			}
 		});
 		
@@ -121,6 +190,7 @@ public class SoforUserDetailsActivity extends Activity {
 		daoMaster = new DaoMaster(db);
 		daoSession = daoMaster.newSession();
 		
+		profilKepDao = daoSession.getProfilKepDao();
 		soforDao = daoSession.getSoforDao();
 	}
 	

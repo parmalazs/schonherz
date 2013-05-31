@@ -1,187 +1,232 @@
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/ScrollView1"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:paddingBottom="@dimen/activity_vertical_margin"
-    android:paddingLeft="@dimen/activity_horizontal_margin"
-    android:paddingRight="@dimen/activity_horizontal_margin"
-    android:paddingTop="@dimen/activity_vertical_margin"
-    android:background="#d9b384"
-    tools:context=".PartnerAdminDetailsActivity" >
+    android:layout_height="match_parent" >
 
-    <TextView
-        android:id="@+id/tvPartnerNameLabel"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentTop="true"
-        android:layout_marginLeft="25dp"
-        android:layout_marginTop="19dp"
-        android:text="Név:"
-        android:background="#46594b"
-        android:textAppearance="?android:attr/textAppearanceMedium" />
+    <LinearLayout        
+        android:id="@+id/LinearLayout1"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:paddingBottom="@dimen/activity_vertical_margin"
+        android:paddingLeft="@dimen/activity_horizontal_margin"
+        android:paddingRight="@dimen/activity_horizontal_margin"
+        android:paddingTop="@dimen/activity_vertical_margin"
+        tools:context=".PartnerAdminDetailsActivity" >
 
-    <TextView
-        android:id="@+id/tvPartnerNevDATA"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignBaseline="@+id/tvPartnerNameLabel"
-        android:layout_alignBottom="@+id/tvPartnerNameLabel"
-        android:layout_alignLeft="@+id/tvPartnerTelefonDATA"
-        android:layout_alignRight="@+id/tvPartnerTelefonDATA"
-        android:textColor="#260b01"
-        android:ems="10" />
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center_horizontal"
+            android:paddingBottom="20dp"
+            android:paddingTop="10dp" >
 
-    <TextView
-        android:id="@+id/tvPartnerCimDATA"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignLeft="@+id/tvPartnerNevDATA"
-        android:layout_alignTop="@+id/tvPartnerCimLabel"
-        android:textColor="#260b01"
-        android:ems="10" />
+            <TextView
+                android:id="@+id/tvPartnerNameLabel"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Név:"
+                android:textAppearance="?android:attr/textAppearanceMedium" />
 
-    <TextView
-        android:id="@+id/tvPartnerTelefonDATA"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignBaseline="@+id/tvPartnerTelefonLabel"
-        android:layout_alignBottom="@+id/tvPartnerTelefonLabel"
-        android:layout_alignRight="@+id/tvPartnerEmailDATA"
-        android:layout_toRightOf="@+id/tvPartnerTelefonLabel"
-        android:textColor="#260b01"
-        android:ems="10" />
+            <TextView
+                android:id="@+id/tvPartnerNevDATA"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:ems="10" 
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:paddingLeft="30dp"
+                />
+        </LinearLayout>
 
-    <TextView
-        android:id="@+id/tvPartnerCimLabel"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignRight="@+id/tvPartnerNameLabel"
-        android:layout_below="@+id/tvPartnerNevDATA"
-        android:layout_marginTop="20dp"
-        android:background="#46594b"
-        android:text="Cím:"
-        android:textAppearance="?android:attr/textAppearanceMedium" />
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+             android:gravity="center_horizontal"
+            android:paddingBottom="10dp"
+            android:paddingTop="10dp" >
 
-    <TextView
-        android:id="@+id/tvPartnerXDATA"
-        android:textColor="#260b01"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignLeft="@+id/tvPartnerEmailDATA"
-        android:layout_alignTop="@+id/tvPartnerXLabel"
-        android:ems="10"
-        />
+            <TextView
+                android:id="@+id/tvPartnerCimLabel"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Cím:"
+                android:textAppearance="?android:attr/textAppearanceMedium" />
 
-    <TextView
-        android:id="@+id/tvPartnerEmailDATA"
-        android:textColor="#260b01"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignBaseline="@+id/tvPartnerEmailLabel"
-        android:layout_alignBottom="@+id/tvPartnerEmailLabel"
-        android:layout_toRightOf="@+id/tvPartnerTelefonLabel"
-        android:ems="10"
-         />
+            <TextView
+                android:id="@+id/tvPartnerCimDATA"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:ems="10" 
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:paddingLeft="30dp"/>
+        </LinearLayout>
 
-    <TextView
-        android:id="@+id/tvPartnerYDATA"
-        android:textColor="#260b01"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignLeft="@+id/tvPartnerXDATA"
-        android:layout_alignTop="@+id/tvPartnerYLabel"
-        android:ems="10"
-         />
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+             android:gravity="center_horizontal"
+            android:paddingBottom="10dp"
+            android:paddingTop="10dp" >
 
-    <TextView
-        android:id="@+id/tvPartnerWebDATA"
-        android:textColor="#260b01"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignBaseline="@+id/tvPartnerWebLabel"
-        android:layout_alignBottom="@+id/tvPartnerWebLabel"
-        android:layout_alignLeft="@+id/tvPartnerTelefonDATA"
-        android:ems="10" />
+            <TextView
+                android:id="@+id/tvPartnerTelefonLabel"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Telefon:"
+                android:textAppearance="?android:attr/textAppearanceMedium" />
 
-    <TextView
-        android:id="@+id/tvPartnerWebLabel"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_above="@+id/tvPartnerEmailDATA"
-        android:layout_alignLeft="@+id/tvPartnerCimLabel"
-        android:layout_marginBottom="18dp"
-        android:background="#46594b"
-        android:text="Web:"
-        android:textAppearance="?android:attr/textAppearanceMedium" />
+            <TextView
+                android:id="@+id/tvPartnerTelefonDATA"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:paddingLeft="30dp"
+                android:ems="10" />
+        </LinearLayout>
 
-    <TextView
-        android:id="@+id/tvPartnerEmailLabel"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignLeft="@+id/tvPartnerWebLabel"
-        android:layout_below="@+id/tvPartnerTelefonDATA"
-        android:layout_marginTop="89dp"
-        android:background="#46594b"
-        android:text="Email:"
-        android:textAppearance="?android:attr/textAppearanceMedium" />
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+             android:gravity="center_horizontal"
+            android:paddingBottom="10dp"
+            android:paddingTop="10dp" >
 
-    <TextView
-        android:id="@+id/tvPartnerTelefonLabel"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignLeft="@+id/tvPartnerCimLabel"
-        android:layout_below="@+id/tvPartnerCimDATA"
-        android:layout_marginTop="28dp"
-        android:background="#46594b"
-        android:text="Telefon:"
-        android:textAppearance="?android:attr/textAppearanceMedium" />
+            <TextView
+                android:id="@+id/tvPartnerWebLabel"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Web:"
+                android:textAppearance="?android:attr/textAppearanceMedium" />
 
-    <TextView
-        android:id="@+id/tvPartnerYLabel"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignLeft="@+id/tvPartnerXLabel"
-        android:layout_below="@+id/tvPartnerXDATA"
-        android:layout_marginTop="18dp"
-        android:background="#46594b"
-        android:text="Y:"
-        android:textAppearance="?android:attr/textAppearanceMedium" />
+            <TextView
+                android:id="@+id/tvPartnerWebDATA"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:paddingLeft="30dp"
+                android:ems="10" />
+        </LinearLayout>
 
-    <TextView
-        android:id="@+id/tvPartnerXLabel"
-        android:background="#46594b"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignLeft="@+id/tvPartnerNameLabel"
-        android:layout_below="@+id/tvPartnerEmailDATA"
-        android:layout_marginTop="18dp"
-        android:text="X:"
-        android:textAppearance="?android:attr/textAppearanceMedium" />
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+             android:gravity="center_horizontal"
+            android:paddingBottom="10dp"
+            android:paddingTop="10dp" >
 
-    <Button
-        android:id="@+id/buttonPartnerUserWeb"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignLeft="@+id/tvPartnerYLabel"
-        android:layout_alignParentBottom="true"
-        android:text="Weboldal" />
+            <TextView
+                android:id="@+id/tvPartnerEmailLabel"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Email:"
+                android:textAppearance="?android:attr/textAppearanceMedium" />
 
-    <Button
-        android:id="@+id/buttonPartnerOK"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:layout_centerHorizontal="true"
-        android:text="Ok" />
+            <TextView
+                android:id="@+id/tvPartnerEmailDATA"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:paddingLeft="30dp"
+                android:ems="10" />
+        </LinearLayout>
 
-    <Button
-        android:id="@+id/buttonPartnerUserDial"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignBaseline="@+id/buttonPartnerOK"
-        android:layout_alignBottom="@+id/buttonPartnerOK"
-        android:layout_toRightOf="@+id/buttonPartnerOK"
-        android:text="Hívás" />
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+             android:gravity="center_horizontal"
+            android:paddingBottom="10dp"
+            android:paddingTop="10dp" >
 
-</RelativeLayout>
+            <TextView
+                android:id="@+id/tvPartnerXLabel"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="X:"
+                android:textAppearance="?android:attr/textAppearanceMedium" />
+
+            <TextView
+                android:id="@+id/tvPartnerXDATA"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:paddingLeft="30dp"
+                android:ems="10" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+             android:gravity="center_horizontal"
+            android:paddingBottom="10dp"
+            android:paddingTop="10dp" >
+
+            <TextView
+                android:id="@+id/tvPartnerYLabel"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Y:"
+                android:textAppearance="?android:attr/textAppearanceMedium" />
+
+            <TextView
+                android:id="@+id/tvPartnerYDATA"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:paddingLeft="30dp"
+                android:ems="10" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginBottom="30dp"
+            android:layout_marginTop="30dp"
+            android:orientation="vertical" >
+
+            <ImageView
+                android:id="@+id/partnerMapImageView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+        </LinearLayout>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingBottom="40dp"
+            android:paddingTop="40dp" >
+
+            <Gallery
+                android:id="@+id/partnerUserPicsGallery"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center_horizontal"
+            android:paddingBottom="10dp"
+            android:paddingTop="10dp" >
+
+            <ImageButton
+                android:id="@+id/webPartnerImg"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/ic_action_web" />
+
+            <ImageButton
+                android:id="@+id/emailPartnerImg"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/ic_message" />
+
+            <ImageButton
+                android:id="@+id/callerPartnerImg"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/ic_caller_icon" />
+        </LinearLayout>
+    </LinearLayout>
+
+</ScrollView>

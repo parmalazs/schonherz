@@ -1,13 +1,16 @@
 package com.schonherz.flottadroid;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import org.json.JSONObject;
 
 import android.app.Activity;
+import android.app.Dialog;
 import android.app.NotificationManager;
 import android.database.sqlite.SQLiteDatabase;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
@@ -15,11 +18,15 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.widget.AdapterView;
+import android.widget.AdapterView.OnItemClickListener;
 import android.widget.Button;
+import android.widget.Gallery;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.schonherz.adapters.AutoKepImageAdapter;
 import com.schonherz.classes.JSONBuilder;
 import com.schonherz.classes.JSONSender;
 import com.schonherz.classes.NetworkUtil;
@@ -28,6 +35,8 @@ import com.schonherz.classes.StaticGoogleMapImageUtil;
 import com.schonherz.dbentities.Auto;
 import com.schonherz.dbentities.AutoDao;
 import com.schonherz.dbentities.AutoDao.Properties;
+import com.schonherz.dbentities.AutoKep;
+import com.schonherz.dbentities.AutoKepDao;
 import com.schonherz.dbentities.DaoMaster;
 import com.schonherz.dbentities.DaoMaster.DevOpenHelper;
 import com.schonherz.dbentities.DaoSession;
@@ -50,7 +59,12 @@ public class CarDetailsActivity extends Activity {
 	SoforDao soforDao;
 	TelephelyDao telephelyDao;
 	Sofor sofor;
-
+	
+	AutoKepDao autoKepDao;
+	AutoKepImageAdapter imageadapter;
+	
+	Gallery autoPicsGallery;
+	
 	TextView autoTipusTextView;
 	TextView autoNevTextView;
 	TextView autoRendszamTextView;
@@ -105,7 +119,52 @@ public class CarDetailsActivity extends Activity {
 		autoLastTelephelyTextView = (TextView) findViewById(R.id.autoLastTelephelyTextView);
 		autoLastSoforNevTextView = (TextView) findViewById(R.id.autoLastSoforNevTextView);
 		autoMapsImageView = (ImageView) findViewById(R.id.autoMapImageView);
+		
+		autoPicsGallery = (Gallery)findViewById(R.id.carUserPicsGallery);
+		
+		List<AutoKep> autoKepek = autoKepDao
+				.queryBuilder()
+				.where(com.schonherz.dbentities.AutoKepDao.Properties.AutoKepIsActive
+						.eq(true),
+						com.schonherz.dbentities.AutoKepDao.Properties.AutoID
+								.eq(currentAuto.getAutoID())).list();
 
+		imageadapter = new AutoKepImageAdapter(
+				CarDetailsActivity.this, autoKepDao, 0, autoKepek);
+		autoPicsGallery.setAdapter(imageadapter);
+		
+		autoPicsGallery.setOnItemClickListener(new OnItemClickListener() {
+
+			@Override
+			public void onItemClick(AdapterView<?> parent, View view, int pos,
+					long id) {
+				// TODO Auto-generated method stub
+				final Dialog dialog = new Dialog(CarDetailsActivity.this);
+				dialog.setContentView(R.layout.layout_image_dialog);
+				dialog.setCancelable(true);
+								   
+			    ImageView currProfIv = (ImageView) dialog.findViewById(R.id.imgDialogImageView);
+			    
+			    Bitmap bm = BitmapFactory.decodeFile(((AutoKep)parent.getItemAtPosition(pos)).getAutoKepPath());
+			    currProfIv.setImageBitmap(bm);
+			    
+			    if(((AutoKep)parent.getItemAtPosition(pos)).getAuto()!=null)
+			    {
+			    dialog.setTitle(((AutoKep)parent.getItemAtPosition(pos)).getAuto().getAutoRendszam());				    
+			    }
+			    currProfIv.setOnClickListener(new OnClickListener() {
+					
+					@Override
+					public void onClick(View v) {
+						// TODO Auto-generated method stub
+						dialog.dismiss();
+					}
+				});
+			    
+			    dialog.show();
+			}
+		});
+		
 		if (currentAuto.getAutoID() == 0L) {
 			autoTipusTextView.setText("null");
 			autoNevTextView.setText("null");
@@ -235,7 +294,8 @@ public class CarDetailsActivity extends Activity {
 		db = helper.getWritableDatabase();
 		daoMaster = new DaoMaster(db);
 		daoSession = daoMaster.newSession();
-
+		
+		autoKepDao = daoSession.getAutoKepDao();
 		autoDao = daoSession.getAutoDao();
 		soforDao = daoSession.getSoforDao();
 		telephelyDao = daoSession.getTelephelyDao();

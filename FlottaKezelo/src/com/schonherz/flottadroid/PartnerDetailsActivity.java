@@ -31,6 +31,7 @@ import android.widget.AdapterView.OnItemClickListener;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Gallery;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.Toast;
 
@@ -58,6 +59,10 @@ public class PartnerDetailsActivity extends Activity {
 	PartnerDao partnerDao;
 
 	PartnerKepDao partnerKepDao;
+
+	ImageButton emailImgButton;
+	ImageButton webImageButton;
+	ImageButton callImageButton;
 
 	private int requestCode;
 	Button pictureButton;
@@ -92,8 +97,12 @@ public class PartnerDetailsActivity extends Activity {
 		xEditText = (EditText) findViewById(R.id.editTextPartnerX);
 		yEditText = (EditText) findViewById(R.id.editTextPartnerY);
 		savePartner = (Button) findViewById(R.id.buttonNewPartner);
-		webViewPartner = (Button) findViewById(R.id.buttonPartnerWeb);
-		dialButton = (Button) findViewById(R.id.buttonPartnerDial);
+		
+		
+
+		emailImgButton = (ImageButton) findViewById(R.id.emailImageButton);
+		webImageButton = (ImageButton) findViewById(R.id.webImgButton);
+		callImageButton = (ImageButton) findViewById(R.id.callerImageButton);
 
 		if (getIntent().getLongExtra("selectedPartnerID", 0L) != 0L) {
 			currentPartner = partnerDao
@@ -122,10 +131,14 @@ public class PartnerDetailsActivity extends Activity {
 					.get(partnerDao.loadAll().size() - 1).getPartnerID() + 1);
 
 			saveMode = false;
-			webViewPartner.setEnabled(false);
-			webViewPartner.setVisibility(View.INVISIBLE);
-			dialButton.setEnabled(false);
-			dialButton.setVisibility(View.INVISIBLE);
+			
+			emailImgButton.setEnabled(false);
+			emailImgButton.setVisibility(View.INVISIBLE);
+			webImageButton.setEnabled(false);
+			webImageButton.setVisibility(View.INVISIBLE);			
+			callImageButton.setEnabled(false);
+			callImageButton.setVisibility(View.INVISIBLE);
+
 		}
 
 		if (saveMode == false) {
@@ -265,23 +278,34 @@ public class PartnerDetailsActivity extends Activity {
 			}
 		});
 
-		savePartner.setOnClickListener(new OnClickListener() {
+		emailImgButton.setOnClickListener(new OnClickListener() {
 
 			@Override
 			public void onClick(View v) {
 				// TODO Auto-generated method stub
-				if (!nevEditText.getText().toString().isEmpty()) {
-					savePartner();
-				} else {
-					Toast.makeText(getApplicationContext(),
-							"Elfelejtett nevet megadni!", Toast.LENGTH_LONG)
-							.show();
-				}
+				final Intent emailIntent = new Intent(android.content.Intent.ACTION_SEND);
+				emailIntent.setType("plain/text");
+				emailIntent.putExtra(android.content.Intent.EXTRA_EMAIL, currentPartner.getPartnerEmailcim().toString());
+				startActivity(emailIntent);
+				overridePendingTransition(R.anim.slide_in_right,
+						R.anim.slide_out_left);
 			}
 		});
-
-		webViewPartner.setOnClickListener(new OnClickListener() {
-
+		
+		callImageButton.setOnClickListener(new OnClickListener() {
+			
+			@Override
+			public void onClick(View v) {
+				// TODO Auto-generated method stub
+				startActivity(new Intent(Intent.ACTION_DIAL, Uri.parse("tel:"
+						+ currentPartner.getPartnerTelefonszam())));
+				overridePendingTransition(R.anim.slide_in_right,
+						R.anim.slide_out_left);
+			}
+		});
+		
+		webImageButton.setOnClickListener(new OnClickListener() {
+			
 			@Override
 			public void onClick(View v) {
 				// TODO Auto-generated method stub
@@ -294,16 +318,19 @@ public class PartnerDetailsActivity extends Activity {
 						R.anim.slide_out_left);
 			}
 		});
-
-		dialButton.setOnClickListener(new OnClickListener() {
+		
+		savePartner.setOnClickListener(new OnClickListener() {
 
 			@Override
 			public void onClick(View v) {
 				// TODO Auto-generated method stub
-				startActivity(new Intent(Intent.ACTION_DIAL, Uri.parse("tel:"
-						+ currentPartner.getPartnerTelefonszam())));
-				overridePendingTransition(R.anim.slide_in_right,
-						R.anim.slide_out_left);
+				if (!nevEditText.getText().toString().isEmpty()) {
+					savePartner();
+				} else {
+					Toast.makeText(getApplicationContext(),
+							"Elfelejtett nevet megadni!", Toast.LENGTH_LONG)
+							.show();
+				}
 			}
 		});
 	}
