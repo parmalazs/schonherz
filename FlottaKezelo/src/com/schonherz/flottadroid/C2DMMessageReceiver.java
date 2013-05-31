@@ -187,7 +187,7 @@ public class C2DMMessageReceiver extends BroadcastReceiver{
 							      
 							    Notification.Builder noti = new Notification.Builder(context)
 							        .setContentTitle("Üzenet via FlottaDroid")
-							        .setContentText("Új munkák érkeztek! Kérem tekintse meg õket.").setSmallIcon(R.drawable.ic_message)
+							        .setContentText("Új munkák érkeztek! Kérem tekintse meg.").setSmallIcon(R.drawable.ic_message)
 							        .setContentIntent(pIntent);
 							    noti.getNotification().flags |= Notification.FLAG_AUTO_CANCEL;
 							      
@@ -324,6 +324,21 @@ public class C2DMMessageReceiver extends BroadcastReceiver{
 				telephelyDao.insert(telephelyek.get(i));
 			}
 			telephelyek = null;
+			
+			// get munkatipustable
+						jsonArray = (JSONArray) JsonFromUrl.getJsonObjectFromUrl(
+								munkaTipusUrl, json.toString());
+
+						MunkaTipusDao.dropTable(munkaTipusDao.getDatabase(), true);
+						MunkaTipusDao.createTable(munkaTipusDao.getDatabase(), true);
+
+						ArrayList<MunkaTipus> munkatipusok = JsonArrayToArrayList
+								.JsonArrayToMunkaTipusok(jsonArray);
+
+						for (int i = 0; i < munkatipusok.size(); i++) {
+							munkaTipusDao.insert(munkatipusok.get(i));
+						}
+						munkatipusok = null;
 
 			// get munkatable
 			jsonArray = (JSONArray) JsonFromUrl.getJsonObjectFromUrl(munkaUrl,
@@ -345,7 +360,9 @@ public class C2DMMessageReceiver extends BroadcastReceiver{
 					"új munkák száma most: " + (munkak.get(munkak.size()-1).getMunkaID() + 
 								 ", eddig: " + pref.getLong("lastJobID", 0L)));
 			if (munkak.get(munkak.size()-1).getMunkaID()>pref.getLong("lastJobID", 0L)) {					
-				
+				editor.remove("lastJobID");
+				editor.putLong("lastJobID", munkak.get(munkak.size()-1).getMunkaID());
+				editor.commit();
 			    return true;
 				
 			}
@@ -354,21 +371,7 @@ public class C2DMMessageReceiver extends BroadcastReceiver{
 			editor.commit();
 			
 			munkak = null;
-
-			// get munkatipustable
-			jsonArray = (JSONArray) JsonFromUrl.getJsonObjectFromUrl(
-					munkaTipusUrl, json.toString());
-
-			MunkaTipusDao.dropTable(munkaTipusDao.getDatabase(), true);
-			MunkaTipusDao.createTable(munkaTipusDao.getDatabase(), true);
-
-			ArrayList<MunkaTipus> munkatipusok = JsonArrayToArrayList
-					.JsonArrayToMunkaTipusok(jsonArray);
-
-			for (int i = 0; i < munkatipusok.size(); i++) {
-				munkaTipusDao.insert(munkatipusok.get(i));
-			}
-			munkatipusok = null;
+			
 
 		} catch (Exception ex) {
 			ex.printStackTrace();
