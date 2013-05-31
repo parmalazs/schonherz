@@ -483,8 +483,8 @@ public class SzabadMunkaListFragment extends Fragment {
 					serverAddres, json.toString());
 
 			// Eldobjuk a tablat es ujra letrehozzuk
-			munkaDao.dropTable(munkaDao.getDatabase(), true);
-			munkaDao.createTable(munkaDao.getDatabase(), true);
+			MunkaDao.dropTable(munkaDao.getDatabase(), true);
+			MunkaDao.createTable(munkaDao.getDatabase(), true);
 			ArrayList<Munka> munkak = JsonArrayToArrayList
 					.JsonArrayToMunka(jsonArray);
 			for (int i = 0; i < munkak.size(); i++) {

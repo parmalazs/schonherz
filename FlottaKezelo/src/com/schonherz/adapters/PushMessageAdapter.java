@@ -82,49 +82,39 @@ public class PushMessageAdapter extends ArrayAdapter<PushMessage> {
 		pushMessages.remove(object);
 	}
 	
-	static class ViewHolder
+	public static class MessageViewHolder
 	{
-		TextView autoNevTextView;
+		TextView tvName, tvDate;
+		ImageView iv;
 	}
 	
 	@Override
 	public View getView(int position, View convertView, ViewGroup parent) {
 		// TODO Auto-generated method stub
-		ViewHolder holder = null;
+		MessageViewHolder holder = null;
 		PushMessage currentPushMessage = pushMessages.get(position);
 		
 		if(convertView == null)
-		{
-			
-			
+		{			
 			LayoutInflater inflater = (LayoutInflater)context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 			convertView = inflater.inflate(com.schonherz.flottadroid.R.layout.list_item_message, null);
 			
-		
+			holder=new MessageViewHolder();		
 			
-			ImageView iv = (ImageView)convertView.findViewById(com.schonherz.flottadroid.R.id.imgAvatarMessage);			
-
+			holder.iv = (ImageView)convertView.findViewById(com.schonherz.flottadroid.R.id.imgAvatarMessage);			
+			holder.tvName = (TextView)convertView.findViewById(com.schonherz.flottadroid.R.id.tvMessage);
+			holder.tvDate = (TextView)convertView.findViewById(com.schonherz.flottadroid.R.id.tvMessageDate);
 			
-		
-			
-			
-			TextView tvName = (TextView)convertView.findViewById(com.schonherz.flottadroid.R.id.tvMessage);
-			tvName.setText(currentPushMessage.getPushMessageText());
-			TextView tvDate = (TextView)convertView.findViewById(com.schonherz.flottadroid.R.id.tvMessageDate);
-			tvDate.setText(currentPushMessage.getPushMessageDate());
 		}
 		else
 		{
-			holder = (ViewHolder)convertView.getTag();
+			holder = (MessageViewHolder)convertView.getTag();
 		}
-		ImageView iv = (ImageView)convertView.findViewById(com.schonherz.flottadroid.R.id.imgAvatarMessage);		
-
-		TextView tvName = (TextView)convertView.findViewById(com.schonherz.flottadroid.R.id.tvMessage);
-		tvName.setText(currentPushMessage.getPushMessageText());
-		TextView tvDate = (TextView)convertView.findViewById(com.schonherz.flottadroid.R.id.tvMessageDate);
-		tvDate.setText(currentPushMessage.getPushMessageDate());
 		
-		pushMessageDao.refresh(currentPushMessage);
+		holder.tvName.setText(currentPushMessage.getPushMessageText());
+		holder.tvDate.setText(currentPushMessage.getPushMessageDate());
+		
+		convertView.setTag(holder);
 		
 		return convertView;
 	}

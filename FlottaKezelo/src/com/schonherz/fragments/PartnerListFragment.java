@@ -1,8 +1,6 @@
 package com.schonherz.fragments;
 
-import java.io.File;
-import java.io.FileOutputStream;
-import java.io.OutputStreamWriter;
+
 import java.text.Collator;
 import java.text.ParseException;
 import java.text.RuleBasedCollator;
@@ -17,13 +15,11 @@ import android.app.SearchManager;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.database.sqlite.SQLiteDatabase;
 import android.media.Ringtone;
 import android.media.RingtoneManager;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.os.Environment;
 import android.support.v4.app.Fragment;
 import android.view.ContextMenu;
 import android.view.ContextMenu.ContextMenuInfo;
@@ -41,7 +37,6 @@ import android.widget.ImageView;
 import android.widget.SearchView;
 import android.widget.SearchView.OnQueryTextListener;
 import android.widget.Toast;
-import au.com.bytecode.opencsv.CSVWriter;
 
 import com.schonherz.adapters.PartnerAdapter;
 import com.schonherz.classes.CSVUtil;
@@ -52,12 +47,8 @@ import com.schonherz.classes.JsonFromUrl;
 import com.schonherz.classes.NetworkUtil;
 import com.schonherz.classes.PullToRefreshListView;
 import com.schonherz.classes.PullToRefreshListView.OnRefreshListener;
-import com.schonherz.classes.SessionManager;
-import com.schonherz.dbentities.DaoMaster;
-import com.schonherz.dbentities.DaoSession;
 import com.schonherz.dbentities.Partner;
 import com.schonherz.dbentities.PartnerDao;
-import com.schonherz.dbentities.DaoMaster.DevOpenHelper;
 import com.schonherz.dbentities.PartnerDao.Properties;
 import com.schonherz.dbentities.SoforDao;
 import com.schonherz.flottadroid.PartnerDetailsActivity;
@@ -469,8 +460,8 @@ public class PartnerListFragment extends Fragment {
 					serverAddres, json.toString());
 			
 			// Eldobjuk a tablat es ujra letrehozzuk
-			partnerDao.dropTable(partnerDao.getDatabase(), true);
-			partnerDao.createTable(partnerDao.getDatabase(), true);
+			PartnerDao.dropTable(partnerDao.getDatabase(), true);
+			PartnerDao.createTable(partnerDao.getDatabase(), true);
 			
 			ArrayList<Partner> partnerek=JsonArrayToArrayList.JsonArrayToPartner(jsonArray);
 			

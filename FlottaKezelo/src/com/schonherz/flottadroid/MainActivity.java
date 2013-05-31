@@ -12,25 +12,15 @@ import com.schonherz.classes.NetworkUtil;
 import com.schonherz.classes.SessionManager;
 import com.schonherz.dbentities.Auto;
 import com.schonherz.dbentities.AutoDao;
-import com.schonherz.dbentities.AutoKepDao;
 import com.schonherz.dbentities.DaoMaster;
 import com.schonherz.dbentities.DaoSession;
 import com.schonherz.dbentities.Munka;
 import com.schonherz.dbentities.MunkaDao;
-import com.schonherz.dbentities.MunkaEszkozDao;
-import com.schonherz.dbentities.MunkaKepDao;
-import com.schonherz.dbentities.MunkaTipusDao;
-import com.schonherz.dbentities.PartnerDao;
-import com.schonherz.dbentities.PartnerKepDao;
-import com.schonherz.dbentities.ProfilKepDao;
-import com.schonherz.dbentities.PushMessageDao;
 import com.schonherz.dbentities.Sofor;
 import com.schonherz.dbentities.SoforDao;
-import com.schonherz.dbentities.TelephelyDao;
 import com.schonherz.dbentities.DaoMaster.DevOpenHelper;
 import com.schonherz.dbentities.SoforDao.Properties;
 
-import android.opengl.Visibility;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.app.Activity;
@@ -58,17 +48,8 @@ public class MainActivity extends Activity {
 
 	// Greendao objects
 	private AutoDao autoDao;
-	private AutoKepDao autoKepDao;
 	private MunkaDao munkaDao;
-	private MunkaEszkozDao munkaEszkozDao;
-	private MunkaKepDao munkaKepDao;
-	private MunkaTipusDao munkaTipusDao;
-	private PartnerDao partnerDao;
-	private PartnerKepDao partnerKepDao;
-	private ProfilKepDao profilKepDao;
 	private SoforDao soforDao;
-	private TelephelyDao telephelyDao;
-	private PushMessageDao pushMessageDao;
 
 	private Button jobsButton;
 	private Button adminButton;
@@ -83,6 +64,7 @@ public class MainActivity extends Activity {
 	private List<Auto> autok;
 	private List<Munka> munkak;
 	private NotificationManager notificationManager;
+	private boolean isAdmin;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -96,7 +78,8 @@ public class MainActivity extends Activity {
 		dataBaseInit();
 		autok=new ArrayList<Auto>();
 		munkak=new ArrayList<Munka>();
-		sajatAutoCheck();		
+		sajatAutoCheck();
+		isAdmin=false;
 		
 		//Log.i("push log", pushMessageDao.loadAll().get(0).getPushMessageText());
 
@@ -151,6 +134,7 @@ public class MainActivity extends Activity {
 				// TODO Auto-generated method stub
 				Intent intent = new Intent(MainActivity.this,
 						JobsActivity.class);
+				helper.close();
 				MainActivity.this.startActivity(intent);
 				overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
 			}
@@ -158,8 +142,10 @@ public class MainActivity extends Activity {
 
 		adminButton = (Button) findViewById(R.id.buttonAdmin);
 		//ha nem admin a sofõr akkor letiltjuk az admin gombot
-		Log.i(MainActivity.class.getName(), "admin: " + soforDao.queryBuilder().where(Properties.SoforID.eq(sessionManager.getUserID().get(SessionManager.KEY_USER_ID))).list().get(0).getSoforIsAdmin().toString());
-		if (!soforDao.queryBuilder().where(Properties.SoforID.eq(sessionManager.getUserID().get(SessionManager.KEY_USER_ID))).list().get(0).getSoforIsAdmin()) {
+		Log.i(MainActivity.class.getName(), "admin: " + isAdmin);
+		isAdmin=soforDao.queryBuilder().where(Properties.SoforID.eq(sessionManager.getUserID().get(SessionManager.KEY_USER_ID))).list().get(0).getSoforIsAdmin();
+		helper.close();
+		if (!isAdmin) {
 			adminButton.setEnabled(false);
 			adminButton.setVisibility(View.INVISIBLE);
 		}
@@ -169,8 +155,9 @@ public class MainActivity extends Activity {
 			@Override
 			public void onClick(View v) {
 				// TODO Auto-generated method stub
+				helper.close();
 				Intent intent = new Intent(MainActivity.this,
-						AdminActivity.class);
+						AdminActivity.class);				
 				MainActivity.this.startActivity(intent);
 				overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
 			}
@@ -183,6 +170,7 @@ public class MainActivity extends Activity {
 			public void onClick(View v) {
 				// TODO Auto-generated method stub
 				Intent intent = new Intent(MainActivity.this, MapActivity.class);
+				helper.close();
 				MainActivity.this.startActivity(intent);
 				overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
 			}
@@ -196,6 +184,7 @@ public class MainActivity extends Activity {
 				// TODO Auto-generated method stub
 				Intent intent = new Intent(MainActivity.this,
 						ContactActivity.class);
+				helper.close();
 				MainActivity.this.startActivity(intent);
 				overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
 			}
@@ -212,12 +201,14 @@ public class MainActivity extends Activity {
 		        	Intent intent=new Intent(MainActivity.this, CarDetailsActivity.class);
 		        	intent.putExtra("sajatAuto", true);
 		        	intent.putExtra("selectedAutoID", selectedAutoID);
+		        	helper.close();
 		        	MainActivity.this.startActivity(intent);
 		        	overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
 		        }
 		        //ha nincs autója, akkor irány a szabad autók
 		        else {
 					Intent intent = new Intent(MainActivity.this, CarActivity.class);
+					helper.close();
 					MainActivity.this.startActivity(intent);
 					overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
 		        }
@@ -248,6 +239,7 @@ public class MainActivity extends Activity {
 		utolsoMunkaIntent.putExtra("sajatAuto", true);
 		utolsoMunkaIntent.putExtra("selectedAutoID", selectedAutoID);
 		PendingIntent utolsoMunkaPendingIntent = PendingIntent.getActivity(this, 0, utolsoMunkaIntent, PendingIntent.FLAG_UPDATE_CURRENT);
+		
 
 		// Build notification
 		// Actions are just fake
@@ -283,17 +275,20 @@ public class MainActivity extends Activity {
 		// TODO Auto-generated method stub
 		switch (item.getItemId()) {
 			case R.id.menu_logout :
+				helper.close();
 				sessionManager.logoutUser();
 				break;
 				
 			case R.id.menu_refresh:
 				Intent intent = new Intent(MainActivity.this,
 						RefreshActivity.class);
+				helper.close();
 				MainActivity.this.startActivity(intent);
 				overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
 				break;
 			case R.id.menu_messages:
 				Intent messInt = new Intent(MainActivity.this,PushNotificationListActivity.class);
+				helper.close();
 				this.startActivity(messInt);
 				overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
 				break;
@@ -304,8 +299,7 @@ public class MainActivity extends Activity {
 	@Override
 	protected void onResume() {
 		// TODO Auto-generated method stub
-		// megnézzük, hogy be van e még jelentkezve a user, ha nincs akkor irány
-		// a bejelentkezés
+		//itt is ellenõrizzük, h vett e fel magának autót, munkát
 		dataBaseInit();
 		sajatAutoCheck();
 		if (!vanMunkahozAutoja()) {
@@ -331,15 +325,7 @@ public class MainActivity extends Activity {
 		super.onResume();
 	}
 
-	public void loggedInRefresh() {
-
-		// Get a Session and init sofor Table
-		helper = new DaoMaster.DevOpenHelper(this, "flotta-db", null);
-		db = helper.getWritableDatabase();
-		daoMaster = new DaoMaster(db);
-		daoSession = daoMaster.newSession();
-
-		soforDao = daoSession.getSoforDao();
+	public void loggedInRefresh() {		
 
 		// If internet connection OK, drop sofor Table and get new table
 		if (NetworkUtil.checkInternetIsActive(context) == true) {
@@ -397,8 +383,8 @@ public class MainActivity extends Activity {
 					serverAddres, json.toString());
 
 			// Eldobjuk a tablat es ujra letrehozzuk
-			soforDao.dropTable(soforDao.getDatabase(), true);
-			soforDao.createTable(soforDao.getDatabase(), true);
+			SoforDao.dropTable(soforDao.getDatabase(), true);
+			SoforDao.createTable(soforDao.getDatabase(), true);
 
 			ArrayList<Sofor> soforok = JsonArrayToArrayList
 					.JsonArrayToSofor(jsonArray);
@@ -439,18 +425,17 @@ public class MainActivity extends Activity {
 		daoMaster = new DaoMaster(db);
 		daoSession = daoMaster.newSession();
 
-		autoDao = daoSession.getAutoDao();
-		autoKepDao = daoSession.getAutoKepDao();
+		autoDao = daoSession.getAutoDao();;
 		munkaDao = daoSession.getMunkaDao();
-		munkaEszkozDao = daoSession.getMunkaEszkozDao();
-		munkaKepDao = daoSession.getMunkaKepDao();
-		munkaTipusDao = daoSession.getMunkaTipusDao();
-		partnerDao = daoSession.getPartnerDao();
-		partnerKepDao = daoSession.getPartnerKepDao();
-		profilKepDao = daoSession.getProfilKepDao();
 		soforDao = daoSession.getSoforDao();
-		telephelyDao = daoSession.getTelephelyDao();
-		pushMessageDao=daoSession.getPushMessageDao();
 
+	}
+	
+	@Override
+	public void onBackPressed() {
+		// TODO Auto-generated method stub
+		super.onBackPressed();
+		helper.close();
+		finish();		
 	}
 }

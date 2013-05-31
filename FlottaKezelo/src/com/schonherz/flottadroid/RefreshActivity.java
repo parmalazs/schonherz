@@ -194,6 +194,7 @@ public class RefreshActivity extends Activity {
 	public boolean onOptionsItemSelected(MenuItem item) {
 		switch (item.getItemId()) {
 			case android.R.id.home :
+				helper.close();
 				NavUtils.navigateUpFromSameTask(this);
 				this.overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
 				return true;
@@ -205,6 +206,7 @@ public class RefreshActivity extends Activity {
 	public void onBackPressed() {
 		// TODO Auto-generated method stub
 		super.onBackPressed();
+		helper.close();
 		finish();
 		this.overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
 	}
@@ -229,17 +231,17 @@ public class RefreshActivity extends Activity {
 		soforDao = daoSession.getSoforDao();
 		telephelyDao = daoSession.getTelephelyDao();
 
-		autoDao.createTable(db, true);
-		autoKepDao.createTable(db, true);
-		munkaDao.createTable(db, true);
-		munkaEszkozDao.createTable(db, true);
-		munkaKepDao.createTable(db, true);
-		munkaTipusDao.createTable(db, true);
-		partnerDao.createTable(db, true);
-		partnerKepDao.createTable(db, true);
-		profilKepDao.createTable(db, true);
-		soforDao.createTable(db, true);
-		telephelyDao.createTable(db, true);
+		AutoDao.createTable(db, true);
+		AutoKepDao.createTable(db, true);
+		MunkaDao.createTable(db, true);
+		MunkaEszkozDao.createTable(db, true);
+		MunkaKepDao.createTable(db, true);
+		MunkaTipusDao.createTable(db, true);
+		PartnerDao.createTable(db, true);
+		PartnerKepDao.createTable(db, true);
+		ProfilKepDao.createTable(db, true);
+		SoforDao.createTable(db, true);
+		TelephelyDao.createTable(db, true);
 
 	}
 	
@@ -270,8 +272,8 @@ public class RefreshActivity extends Activity {
 			// get sofortable
 			jsonArray = (JSONArray) JsonFromUrl.getJsonObjectFromUrl(soforUrl,
 					json.toString());
-			soforDao.dropTable(soforDao.getDatabase(), true);
-			soforDao.createTable(soforDao.getDatabase(), true);
+			SoforDao.dropTable(soforDao.getDatabase(), true);
+			SoforDao.createTable(soforDao.getDatabase(), true);
 
 			ArrayList<Sofor> soforok = JsonArrayToArrayList
 					.JsonArrayToSofor(jsonArray);
@@ -286,8 +288,8 @@ public class RefreshActivity extends Activity {
 			jsonArray = (JSONArray) JsonFromUrl.getJsonObjectFromUrl(
 					autoUrl, json.toString());
 
-			autoDao.dropTable(autoDao.getDatabase(), true);
-			autoDao.createTable(autoDao.getDatabase(), true);
+			AutoDao.dropTable(autoDao.getDatabase(), true);
+			AutoDao.createTable(autoDao.getDatabase(), true);
 
 			ArrayList<Auto> autok = JsonArrayToArrayList
 					.JsonArrayToAuto(jsonArray);
@@ -302,8 +304,8 @@ public class RefreshActivity extends Activity {
 			jsonArray = (JSONArray) JsonFromUrl.getJsonObjectFromUrl(
 					partnerUrl, json.toString());
 
-			partnerDao.dropTable(partnerDao.getDatabase(), true);
-			partnerDao.createTable(partnerDao.getDatabase(), true);
+			PartnerDao.dropTable(partnerDao.getDatabase(), true);
+			PartnerDao.createTable(partnerDao.getDatabase(), true);
 
 			ArrayList<Partner> partnerek = JsonArrayToArrayList
 					.JsonArrayToPartner(jsonArray);
@@ -318,8 +320,8 @@ public class RefreshActivity extends Activity {
 			jsonArray = (JSONArray) JsonFromUrl.getJsonObjectFromUrl(
 					telephelyUrl, json.toString());
 
-			telephelyDao.dropTable(telephelyDao.getDatabase(), true);
-			telephelyDao.createTable(telephelyDao.getDatabase(), true);
+			TelephelyDao.dropTable(telephelyDao.getDatabase(), true);
+			TelephelyDao.createTable(telephelyDao.getDatabase(), true);
 
 			ArrayList<Telephely> telephelyek = JsonArrayToArrayList
 					.JsonArrayToTelephely(jsonArray);
@@ -333,8 +335,8 @@ public class RefreshActivity extends Activity {
 			jsonArray = (JSONArray) JsonFromUrl.getJsonObjectFromUrl(munkaUrl,
 					json.toString());
 
-			munkaDao.dropTable(munkaDao.getDatabase(), true);
-			munkaDao.createTable(munkaDao.getDatabase(), true);
+			MunkaDao.dropTable(munkaDao.getDatabase(), true);
+			MunkaDao.createTable(munkaDao.getDatabase(), true);
 
 			ArrayList<Munka> munkak = JsonArrayToArrayList
 					.JsonArrayToMunka(jsonArray);
@@ -348,8 +350,8 @@ public class RefreshActivity extends Activity {
 			jsonArray = (JSONArray) JsonFromUrl.getJsonObjectFromUrl(
 					munkaTipusUrl, json.toString());
 
-			munkaTipusDao.dropTable(munkaTipusDao.getDatabase(), true);
-			munkaTipusDao.createTable(munkaTipusDao.getDatabase(), true);
+			MunkaTipusDao.dropTable(munkaTipusDao.getDatabase(), true);
+			MunkaTipusDao.createTable(munkaTipusDao.getDatabase(), true);
 
 			ArrayList<MunkaTipus> munkatipusok = JsonArrayToArrayList
 					.JsonArrayToMunkaTipusok(jsonArray);
@@ -379,8 +381,8 @@ public class RefreshActivity extends Activity {
 			ArrayList<ProfilKep> profilkepek = JsonArrayToArrayList
 					.JsonArrayToProfilKepek(jsonArray);
 
-			profilKepDao.dropTable(profilKepDao.getDatabase(), true);
-			profilKepDao.createTable(profilKepDao.getDatabase(), true);
+			ProfilKepDao.dropTable(profilKepDao.getDatabase(), true);
+			ProfilKepDao.createTable(profilKepDao.getDatabase(), true);
 
 			for (int i = 0; i < profilkepek.size(); i++) {
 				String photoDirPath = sdcard.getAbsolutePath() + "/"
@@ -417,8 +419,8 @@ public class RefreshActivity extends Activity {
 			ArrayList<PartnerKep> partnerKepek = JsonArrayToArrayList
 					.JsonArrayToPartnerKepek(jsonArray);
 
-			partnerKepDao.dropTable(partnerKepDao.getDatabase(), true);
-			partnerKepDao.createTable(partnerKepDao.getDatabase(), true);
+			PartnerKepDao.dropTable(partnerKepDao.getDatabase(), true);
+			PartnerKepDao.createTable(partnerKepDao.getDatabase(), true);
 
 			for (int i = 0; i < partnerKepek.size(); i++) {
 				String photoDirPath = sdcard.getAbsolutePath() + "/"
@@ -485,9 +487,9 @@ public class RefreshActivity extends Activity {
 			ArrayList<AutoKep> autokepek = JsonArrayToArrayList
 					.JsonArrayToAutoKepek(jsonArray);
 
-			autoKepDao.dropTable(autoKepDao.getDatabase(), true);
+			AutoKepDao.dropTable(autoKepDao.getDatabase(), true);
 
-			autoKepDao.createTable(autoKepDao.getDatabase(), true);
+			AutoKepDao.createTable(autoKepDao.getDatabase(), true);
 
 			for (int i = 0; i < autokepek.size(); i++) {
 				String photoDirPath = sdcard.getAbsolutePath() + "/"

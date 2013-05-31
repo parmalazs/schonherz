@@ -82,7 +82,7 @@ public class PartnerAdapter extends ArrayAdapter<Partner> {
 	@Override
 	public View getView(int position, View convertView, ViewGroup parent) {
 		// TODO Auto-generated method stub
-		ViewHolder holder = null;
+		PartnerViewHolder holder = null;
 
 		Partner currentPartner = partnerek.get(position);
 
@@ -91,75 +91,28 @@ public class PartnerAdapter extends ArrayAdapter<Partner> {
 					.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 			convertView = inflater.inflate(
 					com.schonherz.flottadroid.R.layout.list_item_partner, null);
-			holder = new ViewHolder();
-
-			// holder.partnerNevTextView =
-			// (TextView)convertView.findViewById(com.schonherz.flottadroid.R.id.textViewPartnerNev);
-			// holder.partnerNevTextView.setText(currentPartner.getPartnerNev());
-
-			// set avatar
-			// ImageView ivAvatar =
-			// ivAvatar.setImageBitmap(Bitmap.createBitmap(currentPartner.getPartnerKepList().get(0).getPartnerKepPath()));
-
-			ImageView iv = (ImageView) convertView
-					.findViewById(com.schonherz.flottadroid.R.id.imgAvatar);
-			// Bitmap myBitmap =
-			// BitmapFactory.decodeFile(currentPartner.getPartnerKepList().get(0).getPartnerKepPath());
-
-			// Image should be scaled somehow
-			// iv.setScaleType(ImageView.ScaleType.CENTER);
-			// iv.setScaleType(ImageView.ScaleType.CENTER_CROP);
-			// iv.setScaleType(ImageView.ScaleType.CENTER_INSIDE);
-			// iv.setScaleType(ImageView.ScaleType.FIT_CENTER);
-			// iv.setScaleType(ImageView.ScaleType.FIT_XY);
-			// iv.setScaleType(ImageView.ScaleType.FIT_END);
-			// iv.setBackgroundColor(Color.BLACK);
-			// Set the Width & Height of the individual images
-			// iv.setLayoutParams(new Gallery.LayoutParams(130, 180));
-
-			// set name
-			TextView tvName = (TextView) convertView
-					.findViewById(com.schonherz.flottadroid.R.id.tvNamePartner);
-			tvName.setText(currentPartner.getPartnerNev());
-			// set phone
-			TextView tvPhone = (TextView) convertView
-					.findViewById(com.schonherz.flottadroid.R.id.tvPhonePartner);
-			tvPhone.setText(currentPartner.getPartnerTelefonszam());
-			// set email
-			TextView tvEmail = (TextView) convertView
-					.findViewById(com.schonherz.flottadroid.R.id.tvEmailPartner);
-			tvEmail.setText(currentPartner.getPartnerEmailcim());
 			
-			TextView tvWeb=(TextView)convertView.findViewById(R.id.tvHomePagePartner);
-			tvWeb.setText(currentPartner.getPartnerWeboldal());
+			holder = new PartnerViewHolder();			
+
+			holder.iv = (ImageView) convertView
+					.findViewById(com.schonherz.flottadroid.R.id.imgAvatar);			
+			holder.tvName = (TextView) convertView
+					.findViewById(com.schonherz.flottadroid.R.id.tvNamePartner);
+			holder.tvPhone = (TextView) convertView
+					.findViewById(com.schonherz.flottadroid.R.id.tvPhonePartner);
+			holder.tvEmail = (TextView) convertView
+					.findViewById(com.schonherz.flottadroid.R.id.tvEmailPartner);
+			holder.tvWeb=(TextView)convertView.findViewById(R.id.tvHomePagePartner);
+			
 		} else {
-			holder = (ViewHolder) convertView.getTag();
+			holder = (PartnerViewHolder) convertView.getTag();
 		}
-
-		partnerDao.refresh(currentPartner);
-		holder = new ViewHolder();
-		// holder.partnerNevTextView =
-		// (TextView)convertView.findViewById(com.schonherz.flottadroid.R.id.textViewPartnerNev);
-		// holder.partnerNevTextView.setText(currentPartner.getPartnerNev());
-
-		ImageView iv = (ImageView) convertView
-				.findViewById(com.schonherz.flottadroid.R.id.imgAvatar);
-
-		// set name
-		TextView tvName = (TextView) convertView
-				.findViewById(com.schonherz.flottadroid.R.id.tvNamePartner);
-		tvName.setText(currentPartner.getPartnerNev());
-		// set phone
-		TextView tvPhone = (TextView) convertView
-				.findViewById(com.schonherz.flottadroid.R.id.tvPhonePartner);
-		tvPhone.setText(currentPartner.getPartnerTelefonszam());
-		// set email
-		TextView tvEmail = (TextView) convertView
-				.findViewById(com.schonherz.flottadroid.R.id.tvEmailPartner);
-		tvEmail.setText(currentPartner.getPartnerEmailcim());
 		
-		TextView tvWeb=(TextView)convertView.findViewById(R.id.tvHomePagePartner);
-		tvWeb.setText(currentPartner.getPartnerWeboldal());
+		holder.tvName.setText(currentPartner.getPartnerNev());
+		holder.tvPhone.setText(currentPartner.getPartnerTelefonszam());
+		holder.tvEmail.setText(currentPartner.getPartnerEmailcim());
+		holder.tvWeb.setText(currentPartner.getPartnerWeboldal());
+		convertView.setTag(holder);
 
 		return convertView;
 	}
@@ -170,8 +123,9 @@ public class PartnerAdapter extends ArrayAdapter<Partner> {
 		partnerek.remove(object);
 	}
 
-	static class ViewHolder {
-		TextView partnerNevTextView;
+	public static class PartnerViewHolder {
+		TextView tvName, tvPhone, tvEmail, tvWeb;
+		ImageView iv;
 	}
 
 }

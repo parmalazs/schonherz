@@ -78,7 +78,7 @@ public class SoforAdapter extends ArrayAdapter<Sofor> {
 	@Override
 	public View getView(int position, View convertView, ViewGroup parent) {
 		// TODO Auto-generated method stub
-		ViewHolder holder = null;
+		SoforViewHolder holder = null;
 		Sofor currentSofor = soforok.get(position);
 
 		if (convertView == null) {
@@ -87,70 +87,29 @@ public class SoforAdapter extends ArrayAdapter<Sofor> {
 			convertView = inflater.inflate(
 					com.schonherz.flottadroid.R.layout.list_item_sofor, null);
 
-			// set avatar
-			// ImageView ivAvatar =
-			// ivAvatar.setImageBitmap(Bitmap.createBitmap(currentPartner.getPartnerKepList().get(0).getPartnerKepPath()));
+			holder=new SoforViewHolder();
 
-			ImageView iv = (ImageView) convertView
+			holder.iv = (ImageView) convertView
 					.findViewById(com.schonherz.flottadroid.R.id.imgAvatar);
-			// Bitmap myBitmap =
-			// BitmapFactory.decodeFile(currentPartner.getPartnerKepList().get(0).getPartnerKepPath());
-
-			// Image should be scaled somehow
-			// iv.setScaleType(ImageView.ScaleType.CENTER);
-			// iv.setScaleType(ImageView.ScaleType.CENTER_CROP);
-			// iv.setScaleType(ImageView.ScaleType.CENTER_INSIDE);
-			// iv.setScaleType(ImageView.ScaleType.FIT_CENTER);
-			// iv.setScaleType(ImageView.ScaleType.FIT_XY);
-			// iv.setScaleType(ImageView.ScaleType.FIT_END);
-			// iv.setBackgroundColor(Color.BLACK);
-			// Set the Width & Height of the individual images
-			// iv.setLayoutParams(new Gallery.LayoutParams(130, 180));
-
-			// set name
-			TextView tvName = (TextView) convertView
+			holder.tvName = (TextView) convertView
 					.findViewById(com.schonherz.flottadroid.R.id.tvNameSofor);
-			tvName.setText(currentSofor.getSoforNev());
-			// set phone
-			TextView tvPhone = (TextView) convertView
+			holder.tvPhone = (TextView) convertView
 					.findViewById(com.schonherz.flottadroid.R.id.tvPhoneSofor);
-			tvPhone.setText(currentSofor.getSoforTelefonszam());
-			// set email
-			TextView tvEmail = (TextView) convertView
-					.findViewById(com.schonherz.flottadroid.R.id.tvEmailSofor);
-			tvEmail.setText(currentSofor.getSoforEmail());
+			holder.tvEmail = (TextView) convertView
+					.findViewById(com.schonherz.flottadroid.R.id.tvEmailSofor);			
+			holder.tvWeb=(TextView)convertView.findViewById(R.id.tvHomePageSofor);
 			
-			TextView tvWeb=(TextView)convertView.findViewById(R.id.tvHomePageSofor);
-			tvWeb.setText(currentSofor.getSoforBirthDate());
 		} else {
-			holder = (ViewHolder) convertView.getTag();
+			holder = (SoforViewHolder) convertView.getTag();
 		}
 
-		soforDao.refresh(currentSofor);
-		holder = new ViewHolder();
-		//holder.soforNevTextView = (TextView) convertView
-		//		.findViewById(com.schonherz.flottadroid.R.id.textViewSoforNev);
-
-		//holder.soforNevTextView.setText(currentSofor.getSoforNev());
-
-		ImageView iv = (ImageView) convertView
-				.findViewById(com.schonherz.flottadroid.R.id.imgAvatar);
-
-		// set name
-		TextView tvName = (TextView) convertView
-				.findViewById(com.schonherz.flottadroid.R.id.tvNameSofor);
-		tvName.setText(currentSofor.getSoforNev());
-		// set phone
-		TextView tvPhone = (TextView) convertView
-				.findViewById(com.schonherz.flottadroid.R.id.tvPhoneSofor);
-		tvPhone.setText(currentSofor.getSoforTelefonszam());
-		// set email
-		TextView tvEmail = (TextView) convertView
-				.findViewById(com.schonherz.flottadroid.R.id.tvEmailSofor);
-		tvEmail.setText(currentSofor.getSoforEmail());
+		holder.tvName.setText(currentSofor.getSoforNev());
+		holder.tvPhone.setText(currentSofor.getSoforTelefonszam());
+		holder.tvEmail.setText(currentSofor.getSoforEmail());
+		holder.tvWeb.setText(currentSofor.getSoforBirthDate());
 		
-		TextView tvWeb=(TextView)convertView.findViewById(R.id.tvHomePageSofor);
-		tvWeb.setText(currentSofor.getSoforBirthDate());
+		convertView.setTag(holder);
+		
 		return convertView;
 	}
 
@@ -160,8 +119,9 @@ public class SoforAdapter extends ArrayAdapter<Sofor> {
 		soforok.remove(object);
 	}
 
-	static class ViewHolder {
-		TextView soforNevTextView;
+	public static class SoforViewHolder {
+		TextView tvName, tvPhone, tvEmail, tvWeb;;
+		ImageView iv;
 	}
 
 }

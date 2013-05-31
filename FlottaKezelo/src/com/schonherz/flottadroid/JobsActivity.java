@@ -57,17 +57,7 @@ public class JobsActivity extends FragmentActivity implements ActionBar.TabListe
 		private DaoMaster daoMaster;
 
 		// Greendao objects
-		private AutoDao autoDao;
-		private AutoKepDao autoKepDao;
 		private MunkaDao munkaDao;
-		private MunkaEszkozDao munkaEszkozDao;
-		private MunkaKepDao munkaKepDao;
-		private MunkaTipusDao munkaTipusDao;
-		private PartnerDao partnerDao;
-		private PartnerKepDao partnerKepDao;
-		private ProfilKepDao profilKepDao;
-		private SoforDao soforDao;
-		private TelephelyDao telephelyDao;
 
 		SzabadMunkaListFragment szabadMunkaListFragment;
 		SajatMunkaListFragment sajatMunkaListFragment;		
@@ -171,6 +161,7 @@ public class JobsActivity extends FragmentActivity implements ActionBar.TabListe
 					//
 					// http://developer.android.com/design/patterns/navigation.html#up-vs-back
 					//
+					helper.close();
 					NavUtils.navigateUpFromSameTask(this);
 					overridePendingTransition(R.anim.slide_out_right, R.anim.slide_in_left);
 					return true;
@@ -238,17 +229,7 @@ public class JobsActivity extends FragmentActivity implements ActionBar.TabListe
 			daoMaster = new DaoMaster(db);
 			daoSession = daoMaster.newSession();
 
-			autoDao = daoSession.getAutoDao();
-			autoKepDao = daoSession.getAutoKepDao();
 			munkaDao = daoSession.getMunkaDao();
-			munkaEszkozDao = daoSession.getMunkaEszkozDao();
-			munkaKepDao = daoSession.getMunkaKepDao();
-			munkaTipusDao = daoSession.getMunkaTipusDao();
-			partnerDao = daoSession.getPartnerDao();
-			partnerKepDao = daoSession.getPartnerKepDao();
-			profilKepDao = daoSession.getProfilKepDao();
-			soforDao = daoSession.getSoforDao();
-			telephelyDao = daoSession.getTelephelyDao();
 
 		}
 		
@@ -256,6 +237,7 @@ public class JobsActivity extends FragmentActivity implements ActionBar.TabListe
 		public void onBackPressed() {
 			// TODO Auto-generated method stub
 			super.onBackPressed();
+			helper.close();
 			finish();
 			this.overridePendingTransition(R.anim.slide_out_right, R.anim.slide_in_left); 		
 		}

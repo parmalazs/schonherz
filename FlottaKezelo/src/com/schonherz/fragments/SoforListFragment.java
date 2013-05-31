@@ -48,12 +48,9 @@ import com.schonherz.classes.NetworkUtil;
 import com.schonherz.classes.PullToRefreshListView;
 import com.schonherz.classes.SessionManager;
 import com.schonherz.classes.PullToRefreshListView.OnRefreshListener;
-import com.schonherz.dbentities.Auto;
-import com.schonherz.dbentities.Munka;
 import com.schonherz.dbentities.Sofor;
 import com.schonherz.dbentities.SoforDao;
 import com.schonherz.dbentities.SoforDao.Properties;
-import com.schonherz.flottadroid.MunkaDetailsActivity;
 import com.schonherz.flottadroid.R;
 import com.schonherz.flottadroid.SoforDetailsActivity;
 import com.schonherz.flottadroid.SoforUserDetailsActivity;
@@ -176,7 +173,7 @@ public class SoforListFragment extends Fragment {
 			public boolean onQueryTextChange(String newText) {
 				// TODO Auto-generated method stub
 
-				ArrayList<Sofor> templist = new ArrayList();
+				ArrayList<Sofor> templist = new ArrayList<Sofor>();
 
 				for (int i = 0; i < soforok.size(); i++) {
 					if (soforok.get(i).getSoforNev().toLowerCase()
@@ -488,8 +485,8 @@ public class SoforListFragment extends Fragment {
 					serverAddres, json.toString());
 
 			// Eldobjuk a tablat es ujra letrehozzuk
-			soforDao.dropTable(soforDao.getDatabase(), true);
-			soforDao.createTable(soforDao.getDatabase(), true);
+			SoforDao.dropTable(soforDao.getDatabase(), true);
+			SoforDao.createTable(soforDao.getDatabase(), true);
 
 			ArrayList<Sofor> soforok = JsonArrayToArrayList
 					.JsonArrayToSofor(jsonArray);

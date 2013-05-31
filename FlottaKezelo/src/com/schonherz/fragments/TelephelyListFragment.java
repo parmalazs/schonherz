@@ -47,12 +47,9 @@ import com.schonherz.classes.JsonFromUrl;
 import com.schonherz.classes.NetworkUtil;
 import com.schonherz.classes.PullToRefreshListView;
 import com.schonherz.classes.PullToRefreshListView.OnRefreshListener;
-import com.schonherz.dbentities.Partner;
-import com.schonherz.dbentities.Sofor;
 import com.schonherz.dbentities.Telephely;
 import com.schonherz.dbentities.TelephelyDao;
 import com.schonherz.dbentities.TelephelyDao.Properties;
-import com.schonherz.flottadroid.MunkaDetailsActivity;
 import com.schonherz.flottadroid.R;
 import com.schonherz.flottadroid.TelephelyDetailsActivity;
 
@@ -445,8 +442,8 @@ public class TelephelyListFragment extends Fragment {
 					serverAddres, json.toString());
 
 			// Eldobjuk a tablat es ujra letrehozzuk
-			telephelyDao.dropTable(telephelyDao.getDatabase(), true);
-			telephelyDao.createTable(telephelyDao.getDatabase(), true);
+			TelephelyDao.dropTable(telephelyDao.getDatabase(), true);
+			TelephelyDao.createTable(telephelyDao.getDatabase(), true);
 			ArrayList<Telephely> telephelyek = JsonArrayToArrayList
 					.JsonArrayToTelephely(jsonArray);
 

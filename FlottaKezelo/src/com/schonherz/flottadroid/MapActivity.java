@@ -125,6 +125,7 @@ public class MapActivity extends Activity {
 	public boolean onOptionsItemSelected(MenuItem item) {
 		switch (item.getItemId()) {
 			case android.R.id.home :
+				helper.close();
 				NavUtils.navigateUpFromSameTask(this);
 				this.overridePendingTransition(R.anim.slide_out_right, R.anim.slide_in_left);
 				return true;
@@ -136,6 +137,7 @@ public class MapActivity extends Activity {
 	public void onBackPressed() {
 		// TODO Auto-generated method stub
 		super.onBackPressed();
+		helper.close();
 		finish();
 		this.overridePendingTransition(R.anim.slide_out_right, R.anim.slide_in_left); 		
 	}

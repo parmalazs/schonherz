@@ -322,6 +322,7 @@ public class NewJobActivity extends Activity {
 				//
 				// http://developer.android.com/design/patterns/navigation.html#up-vs-back
 				//
+				helper.close();
 				finish();
 				this.overridePendingTransition(R.anim.slide_out_right,
 						R.anim.slide_in_left);
@@ -348,6 +349,7 @@ public class NewJobActivity extends Activity {
 	public void onBackPressed() {
 		// TODO Auto-generated method stub
 		super.onBackPressed();
+		helper.close();
 		finish();
 		this.overridePendingTransition(R.anim.slide_out_right,
 				R.anim.slide_in_left);

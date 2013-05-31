@@ -51,8 +51,6 @@ import com.schonherz.classes.PullToRefreshListView;
 import com.schonherz.classes.PullToRefreshListView.OnRefreshListener;
 import com.schonherz.dbentities.Auto;
 import com.schonherz.dbentities.AutoDao;
-import com.schonherz.dbentities.Partner;
-import com.schonherz.dbentities.TelephelyDao.Properties;
 import com.schonherz.flottadroid.CarAdminDetailsActivity;
 import com.schonherz.flottadroid.R;
 
@@ -221,13 +219,12 @@ public class AutoListFragment extends Fragment {
 		pullListView.setOnItemClickListener(new OnItemClickListener() {
 
 			@Override
-			public void onItemClick(AdapterView<?> arg0, View arg1,
+			public void onItemClick(AdapterView<?> arg0, View v,
 					int position, long arg3) {
 				// TODO Auto-generated method stub
 				Intent intent = new Intent(getActivity(),
 						CarAdminDetailsActivity.class);
-				intent.putExtra("selectedAutoID", autok.get(position - 1)
-						.getAutoID());
+				intent.putExtra("selectedAutoID", autok.get(position-1).getAutoID());
 				startActivity(intent);
 				getActivity().overridePendingTransition(R.anim.slide_in_right,
 						R.anim.slide_out_left);
@@ -567,8 +564,8 @@ public class AutoListFragment extends Fragment {
 					serverAddres, json.toString());
 
 			// Eldobjuk a tablat es ujra letrehozzuk
-			autoDao.dropTable(autoDao.getDatabase(), true);
-			autoDao.createTable(autoDao.getDatabase(), true);
+			AutoDao.dropTable(autoDao.getDatabase(), true);
+			AutoDao.createTable(autoDao.getDatabase(), true);
 
 			ArrayList<Auto> autok = JsonArrayToArrayList
 					.JsonArrayToAuto(jsonArray);

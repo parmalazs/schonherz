@@ -55,22 +55,8 @@ public class LoginActivity extends Activity {
 	private DevOpenHelper newhelper;
 	private DaoSession daoSession;
 	private DaoMaster daoMaster;
-
-	// Greendao objects
-	private AutoDao autoDao;
-	private AutoKepDao autoKepDao;
-	private MunkaDao munkaDao;
-	private MunkaEszkozDao munkaEszkozDao;
-	private MunkaKepDao munkaKepDao;
-	private MunkaTipusDao munkaTipusDao;
-	private PartnerDao partnerDao;
-	private PartnerKepDao partnerKepDao;
-	private ProfilKepDao profilKepDao;
+	
 	private SoforDao soforDao;
-	private TelephelyDao telephelyDao;
-	private PushMessageDao pushMessageDao;
-	
-	
 	
 	private SessionManager sessionManager;
 	private boolean isRefreshed;
@@ -93,8 +79,7 @@ public class LoginActivity extends Activity {
 		sessionManager=new SessionManager(context);
 		isRefreshed=false;
 		
-		newhelper = new DevOpenHelper(context,"flotta-db",null);		
-		newhelper.close();
+		newhelper = new DevOpenHelper(context,"flotta-db",null);
 		
 		db = newhelper.getWritableDatabase();
 		
@@ -126,12 +111,12 @@ public class LoginActivity extends Activity {
 						.show();
 			}
 
-		} else {
+		} 
+		
 			// Get a Session and init sofor Table
-			
+		
 
 			soforDao = daoSession.getSoforDao();
-		}
 
 			// If internet connection OK, drop sofor Table and get new table
 			if (NetworkUtil.checkInternetIsActive(context) == true) {
@@ -178,8 +163,9 @@ public class LoginActivity extends Activity {
 
 			@Override
 			public void onClick(View v) {
-				// Start main activity
+				// Start main activity				
 				if (checkLogin() == true) {
+					newhelper.close();
 					Intent intent = new Intent(LoginActivity.this,
 							MainActivity.class);
 					intent.putExtra("isRefreshed", isRefreshed);
@@ -209,8 +195,8 @@ public class LoginActivity extends Activity {
 					serverAddres, json.toString());
 
 			// Eldobjuk a tablat es ujra letrehozzuk
-			soforDao.dropTable(soforDao.getDatabase(), true);
-			soforDao.createTable(soforDao.getDatabase(), true);
+			SoforDao.dropTable(soforDao.getDatabase(), true);
+			SoforDao.createTable(soforDao.getDatabase(), true);
 			
 						
 			ArrayList<Sofor> soforok = JsonArrayToArrayList
@@ -235,38 +221,25 @@ public class LoginActivity extends Activity {
 	@Override
 	public void finish() {
 		// TODO Auto-generated method stub
+		newhelper.close();
 		super.finish();
-		overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
 	}
 
 	// Tabla letrehozo metodus, elso inditaskor mindekepp lefut
 	private void createTables() {
-		
-		autoDao = daoSession.getAutoDao();
-		autoKepDao = daoSession.getAutoKepDao();
-		munkaDao = daoSession.getMunkaDao();
-		munkaEszkozDao = daoSession.getMunkaEszkozDao();
-		munkaKepDao = daoSession.getMunkaKepDao();
-		munkaTipusDao = daoSession.getMunkaTipusDao();
-		partnerDao = daoSession.getPartnerDao();
-		partnerKepDao = daoSession.getPartnerKepDao();
-		profilKepDao = daoSession.getProfilKepDao();
-		soforDao = daoSession.getSoforDao();
-		telephelyDao = daoSession.getTelephelyDao();
-		pushMessageDao=daoSession.getPushMessageDao();
 
-		autoDao.createTable(db, true);
-		autoKepDao.createTable(db, true);
-		munkaDao.createTable(db, true);
-		munkaEszkozDao.createTable(db, true);
-		munkaKepDao.createTable(db, true);
-		munkaTipusDao.createTable(db, true);
-		partnerDao.createTable(db, true);
-		partnerKepDao.createTable(db, true);
-		profilKepDao.createTable(db, true);
-		soforDao.createTable(db, true);
-		telephelyDao.createTable(db, true);
-		pushMessageDao.createTable(db, true);
+		AutoDao.createTable(db, true);
+		AutoKepDao.createTable(db, true);
+		MunkaDao.createTable(db, true);
+		MunkaEszkozDao.createTable(db, true);
+		MunkaKepDao.createTable(db, true);
+		MunkaTipusDao.createTable(db, true);
+		PartnerDao.createTable(db, true);
+		PartnerKepDao.createTable(db, true);
+		ProfilKepDao.createTable(db, true);
+		SoforDao.createTable(db, true);
+		TelephelyDao.createTable(db, true);
+		PushMessageDao.createTable(db, true);
 
 	}
 

@@ -13,6 +13,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 public class TelephelyAdapter extends ArrayAdapter<Telephely>{
@@ -81,14 +82,15 @@ public class TelephelyAdapter extends ArrayAdapter<Telephely>{
 		telephelyek.remove(object);
 	}
 	
-	static class ViewHolder {
-		TextView telephelyNevTextView;
+	public static class TelephelyViewHolder {
+		TextView telephelyNevTextView, telephelyCim, telephelyEmail, telephelyTel;
+		ImageView iv;
 	}
 	
 	@Override
 	public View getView(int position, View convertView, ViewGroup parent) {
 		// TODO Auto-generated method stub
-		ViewHolder holder = null;
+		TelephelyViewHolder holder = null;
 		Telephely currentTelephely=telephelyek.get(position);
 		
 		if(convertView == null)
@@ -96,38 +98,26 @@ public class TelephelyAdapter extends ArrayAdapter<Telephely>{
 			LayoutInflater inflater = (LayoutInflater)context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 			convertView = inflater.inflate(com.schonherz.flottadroid.R.layout.list_item_telephely, null);
 			
-			holder = new ViewHolder();
-			TextView telephelyNevTextView = (TextView)convertView.findViewById(com.schonherz.flottadroid.R.id.textViewTelephelyNev);			
-			telephelyNevTextView.setText(currentTelephely.getTelephelyNev());
+			holder = new TelephelyViewHolder();
 			
-			TextView telephelyCim=(TextView)convertView.findViewById(R.id.tvCimTelephely);
-			telephelyCim.setText(currentTelephely.getTelephelyCim());
+			holder.iv=(ImageView)convertView.findViewById(R.id.imgAvatarTelephely);
+			holder.telephelyNevTextView = (TextView)convertView.findViewById(com.schonherz.flottadroid.R.id.textViewTelephelyNev);	
+			holder.telephelyCim=(TextView)convertView.findViewById(R.id.tvCimTelephely);
+			holder.telephelyEmail=(TextView)convertView.findViewById(R.id.tvEmailTelephely);
+			holder.telephelyTel=(TextView)convertView.findViewById(R.id.tvPhoneTelephely);
 			
-			TextView telephelyEmail=(TextView)convertView.findViewById(R.id.tvEmailTelephely);
-			telephelyEmail.setText(currentTelephely.getTelephelyEmail());
-			
-			TextView telephelyTel=(TextView)convertView.findViewById(R.id.tvPhoneTelephely);
-			telephelyTel.setText(currentTelephely.getTelephelyTelefonszam());
 		}
 		else
 		{
-			holder = (ViewHolder)convertView.getTag();
+			holder = (TelephelyViewHolder)convertView.getTag();
 		}
+					
+		holder.telephelyNevTextView.setText(currentTelephely.getTelephelyNev());
+		holder.telephelyCim.setText(currentTelephely.getTelephelyCim());
+		holder.telephelyEmail.setText(currentTelephely.getTelephelyEmail());
+		holder.telephelyTel.setText(currentTelephely.getTelephelyTelefonszam());
 		
-		telephelyDao.refresh(currentTelephely);
-		holder=new ViewHolder();
-		
-		TextView telephelyNevTextView = (TextView)convertView.findViewById(com.schonherz.flottadroid.R.id.textViewTelephelyNev);			
-		telephelyNevTextView.setText(currentTelephely.getTelephelyNev());
-		
-		TextView telephelyCim=(TextView)convertView.findViewById(R.id.tvCimTelephely);
-		telephelyCim.setText(currentTelephely.getTelephelyCim());
-		
-		TextView telephelyEmail=(TextView)convertView.findViewById(R.id.tvEmailTelephely);
-		telephelyEmail.setText(currentTelephely.getTelephelyEmail());
-		
-		TextView telephelyTel=(TextView)convertView.findViewById(R.id.tvPhoneTelephely);
-		telephelyTel.setText(currentTelephely.getTelephelyTelefonszam());
+		convertView.setTag(holder);
 		
 		return convertView;
 	}

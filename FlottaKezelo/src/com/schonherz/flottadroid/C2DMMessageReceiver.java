@@ -65,7 +65,6 @@ public class C2DMMessageReceiver extends BroadcastReceiver{
 	private PushMessageDao pushMessageDao;
 	private AutoDao autoDao;
 	private MunkaDao munkaDao;
-	private MunkaEszkozDao munkaEszkozDao;
 	private MunkaTipusDao munkaTipusDao;
 	private PartnerDao partnerDao;
 	private SoforDao soforDao;
@@ -182,7 +181,7 @@ public class C2DMMessageReceiver extends BroadcastReceiver{
 							    PendingIntent pIntent = PendingIntent.getActivity(context, 0, notificationIntent,  PendingIntent.FLAG_UPDATE_CURRENT);
 					
 							    // Build notification		      
-							    NotificationManager notificationManager = (NotificationManager) context.getSystemService(context.NOTIFICATION_SERVICE);
+							    NotificationManager notificationManager = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
 							      
 							      
 							    Notification.Builder noti = new Notification.Builder(context)
@@ -226,7 +225,7 @@ public class C2DMMessageReceiver extends BroadcastReceiver{
 			    PendingIntent pIntent = PendingIntent.getActivity(context, 0, notificationIntent,  PendingIntent.FLAG_UPDATE_CURRENT);
 	
 			    // Build notification		      
-			    NotificationManager notificationManager = (NotificationManager) context.getSystemService(context.NOTIFICATION_SERVICE);
+			    NotificationManager notificationManager = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
 			      
 			      
 			    Notification.Builder noti = new Notification.Builder(context)
@@ -250,7 +249,6 @@ public class C2DMMessageReceiver extends BroadcastReceiver{
 		pushMessageDao=daoSession.getPushMessageDao();
 		autoDao=daoSession.getAutoDao();;
 		munkaDao = daoSession.getMunkaDao();
-		munkaEszkozDao = daoSession.getMunkaEszkozDao();
 		munkaTipusDao = daoSession.getMunkaTipusDao();
 		partnerDao = daoSession.getPartnerDao();
 		soforDao = daoSession.getSoforDao();

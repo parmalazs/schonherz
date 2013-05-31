@@ -276,7 +276,36 @@ public class SoforDetailsActivity extends Activity {
 				if (!nevEditTetx.getText().toString().isEmpty()) {
 					if (!loginEditTetx.getText().toString().isEmpty()) {
 						if (!passEditText.getText().toString().isEmpty()) {
-							saveSofor();
+							if (!cimEditText.getText().toString().isEmpty()) {
+								if (!telEditText.getText().toString().isEmpty()) {
+									if (!emailEditText.getText().toString().isEmpty()) {
+										if (!birthEditText.getText().toString().isEmpty()) {
+											saveSofor();
+											
+										} else {
+											Toast.makeText(getApplicationContext(),
+													"Elfelejtett születési dátumot emgadni!",
+													Toast.LENGTH_LONG).show();
+										}
+										
+									} else {
+										Toast.makeText(getApplicationContext(),
+												"Elfelejtett email címet emgadni!",
+												Toast.LENGTH_LONG).show();
+									}
+									
+								} else {
+									Toast.makeText(getApplicationContext(),
+											"Elfelejtett telefonszámot megadni!",
+											Toast.LENGTH_LONG).show();
+								}
+								
+							} else {
+								Toast.makeText(getApplicationContext(),
+										"Elfelejtett címet megadni!",
+										Toast.LENGTH_LONG).show();
+							}
+							
 						} else {
 							Toast.makeText(getApplicationContext(),
 									"Elfelejtett jelszót megadni!",
@@ -399,7 +428,7 @@ public class SoforDetailsActivity extends Activity {
 
 			}.execute();
 		} else {
-
+			helper.close();
 			finish();
 		}
 	}

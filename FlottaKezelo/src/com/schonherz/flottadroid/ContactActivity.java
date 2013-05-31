@@ -56,17 +56,8 @@ public class ContactActivity extends FragmentActivity implements ActionBar.TabLi
 	private DaoMaster daoMaster;
 
 	// Greendao objects
-	private AutoDao autoDao;
-	private AutoKepDao autoKepDao;
-	private MunkaDao munkaDao;
-	private MunkaEszkozDao munkaEszkozDao;
-	private MunkaKepDao munkaKepDao;
-	private MunkaTipusDao munkaTipusDao;
 	private PartnerDao partnerDao;
-	private PartnerKepDao partnerKepDao;
-	private ProfilKepDao profilKepDao;
 	private SoforDao soforDao;
-	private TelephelyDao telephelyDao;
 	
 	PartnerListFragment partnerListFragment;
 	SoforListFragment soforListFragment;
@@ -135,6 +126,7 @@ public class ContactActivity extends FragmentActivity implements ActionBar.TabLi
 	public void onBackPressed() {
 		// TODO Auto-generated method stub
 		super.onBackPressed();
+		helper.close();
 		finish();
 		this.overridePendingTransition(R.anim.slide_out_right, R.anim.slide_in_left); 		
 	}
@@ -152,6 +144,7 @@ public class ContactActivity extends FragmentActivity implements ActionBar.TabLi
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case android.R.id.home:
+            	helper.close();
                 NavUtils.navigateUpFromSameTask(this);
                 this.overridePendingTransition(R.anim.slide_out_right, R.anim.slide_in_left);
                 return true;
@@ -197,17 +190,8 @@ public class ContactActivity extends FragmentActivity implements ActionBar.TabLi
 		daoMaster = new DaoMaster(db);
 		daoSession = daoMaster.newSession();
 
-		autoDao = daoSession.getAutoDao();
-		autoKepDao = daoSession.getAutoKepDao();
-		munkaDao = daoSession.getMunkaDao();
-		munkaEszkozDao = daoSession.getMunkaEszkozDao();
-		munkaKepDao = daoSession.getMunkaKepDao();
-		munkaTipusDao = daoSession.getMunkaTipusDao();
 		partnerDao = daoSession.getPartnerDao();
-		partnerKepDao = daoSession.getPartnerKepDao();
-		profilKepDao = daoSession.getProfilKepDao();
 		soforDao = daoSession.getSoforDao();
-		telephelyDao = daoSession.getTelephelyDao();
 
  	}
 

@@ -381,7 +381,6 @@ public class PartnerDetailsActivity extends Activity {
 		}
 
 		partnerDao.update(currentPartner);
-		finish();
 
 		if (NetworkUtil.checkInternetIsActive(PartnerDetailsActivity.this) == true) {
 			new AsyncTask<Void, Void, Boolean>() {
@@ -408,6 +407,7 @@ public class PartnerDetailsActivity extends Activity {
 				protected void onPostExecute(Boolean result) {
 					// TODO Auto-generated method stub
 					super.onPostExecute(result);
+					helper.close();
 					finish();
 				}
 
@@ -452,6 +452,7 @@ public class PartnerDetailsActivity extends Activity {
 				//
 				// http://developer.android.com/design/patterns/navigation.html#up-vs-back
 				//
+				helper.close();
 				finish();
 				this.overridePendingTransition(R.anim.slide_out_right,
 						R.anim.slide_in_left);
@@ -464,6 +465,7 @@ public class PartnerDetailsActivity extends Activity {
 	public void onBackPressed() {
 		// TODO Auto-generated method stub
 		super.onBackPressed();
+		helper.close();
 		finish();
 		this.overridePendingTransition(R.anim.slide_out_right,
 				R.anim.slide_in_left);

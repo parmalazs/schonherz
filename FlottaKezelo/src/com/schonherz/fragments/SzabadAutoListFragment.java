@@ -44,13 +44,9 @@ import com.schonherz.classes.JsonArrayToArrayList;
 import com.schonherz.classes.JsonFromUrl;
 import com.schonherz.classes.NetworkUtil;
 import com.schonherz.classes.PullToRefreshListView;
-import com.schonherz.classes.SessionManager;
 import com.schonherz.classes.PullToRefreshListView.OnRefreshListener;
 import com.schonherz.dbentities.Auto;
 import com.schonherz.dbentities.AutoDao;
-import com.schonherz.dbentities.Munka;
-import com.schonherz.dbentities.MunkaDao.Properties;
-import com.schonherz.flottadroid.CarActivity;
 import com.schonherz.flottadroid.CarDetailsActivity;
 import com.schonherz.flottadroid.R;
 
@@ -554,8 +550,8 @@ public class SzabadAutoListFragment extends Fragment {
 					serverAddres, json.toString());
 
 			// Eldobjuk a tablat es ujra letrehozzuk
-			autoDao.dropTable(autoDao.getDatabase(), true);
-			autoDao.createTable(autoDao.getDatabase(), true);
+			AutoDao.dropTable(autoDao.getDatabase(), true);
+			AutoDao.createTable(autoDao.getDatabase(), true);
 
 			ArrayList<Auto> autok = JsonArrayToArrayList
 					.JsonArrayToAuto(jsonArray);

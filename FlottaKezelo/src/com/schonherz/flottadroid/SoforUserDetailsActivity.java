@@ -177,6 +177,7 @@ public class SoforUserDetailsActivity extends Activity {
 			//
 			// http://developer.android.com/design/patterns/navigation.html#up-vs-back
 			//
+			helper.close();
 			finish();
 			this.overridePendingTransition(R.anim.slide_out_right, R.anim.slide_in_left);
 			return true;
