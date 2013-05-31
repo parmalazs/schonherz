@@ -286,6 +286,8 @@ public class CarAdminDetailsActivity extends Activity {
 		});
 		
 		saveButton.setOnClickListener(new OnClickListener() {
+			EditText autoLastTelephelyEditText;
+			EditText autoLastSoforNevEditText;
 
 			@Override
 			public void onClick(View v) {
@@ -296,7 +298,53 @@ public class CarAdminDetailsActivity extends Activity {
 								.isEmpty()) {
 							if (!autoMuszakiVizsgaDateEditText.getText()
 									.toString().isEmpty()) {
-								saveCar();
+								if (!autoKmEditText.getText()
+										.toString().isEmpty()) {
+									if (!autoUzemanyagEditText.getText()
+											.toString().isEmpty()) {
+										if (!autoLastServiceDateEditText.getText()
+												.toString().isEmpty()) {
+											if (!autoLastTelephelyEditText.getText()
+													.toString().isEmpty()) {
+												if (!autoLastSoforNevEditText.getText()
+														.toString().isEmpty()) {
+													saveCar();
+													
+												} else {
+													Toast.makeText(
+															getApplicationContext(),
+															"Elfelejtett az utolsó sofõrt megadni!",
+															Toast.LENGTH_LONG).show();
+												}
+												
+											} else {
+												Toast.makeText(
+														getApplicationContext(),
+														"Elfelejtett utolsó telephelyet megadni!",
+														Toast.LENGTH_LONG).show();
+											}
+											
+										} else {
+											Toast.makeText(
+													getApplicationContext(),
+													"Elfelejtett utolsó szervízt megadni!",
+													Toast.LENGTH_LONG).show();
+										}
+										
+									} else {
+										Toast.makeText(
+												getApplicationContext(),
+												"Elfelejtett üzemanyagot megadni!",
+												Toast.LENGTH_LONG).show();
+									}
+									
+								} else {
+									Toast.makeText(
+											getApplicationContext(),
+											"Elfelejtett km-t megadni!",
+											Toast.LENGTH_LONG).show();
+								}
+								
 							} else {
 								Toast.makeText(
 										getApplicationContext(),

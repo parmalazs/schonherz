@@ -94,7 +94,43 @@ public class TelephelyDetailsActivity extends Activity {
 			public void onClick(View v) {
 				// TODO Auto-generated method stub
 				if (!nevEditText.getText().toString().isEmpty()) {
-					saveTelephely();
+					if (!cimEditText.getText().toString().isEmpty()) {
+						if (!telEditText.getText().toString().isEmpty()) {
+							if (!emailEditText.getText().toString().isEmpty()) {
+								if (!xEditText.getText().toString().isEmpty()) {
+									if (!yEditText.getText().toString().isEmpty()) {
+										saveTelephely();
+										
+									} else {
+										Toast.makeText(getApplicationContext(),
+												"Elfelejtett y koordinátát megadni!", Toast.LENGTH_LONG)
+												.show();
+									}
+									
+								} else {
+									Toast.makeText(getApplicationContext(),
+											"Elfelejtett x koordinátát megadni!", Toast.LENGTH_LONG)
+											.show();
+								}
+								
+							} else {
+								Toast.makeText(getApplicationContext(),
+										"Elfelejtett email címet megadni!", Toast.LENGTH_LONG)
+										.show();
+							}
+							
+						} else {
+							Toast.makeText(getApplicationContext(),
+									"Elfelejtett telefonszámot megadni!", Toast.LENGTH_LONG)
+									.show();
+						}
+						
+					} else {
+						Toast.makeText(getApplicationContext(),
+								"Elfelejtett címet megadni!", Toast.LENGTH_LONG)
+								.show();
+					}
+					
 				} else {
 					Toast.makeText(getApplicationContext(),
 							"Elfelejtett nevet megadni!", Toast.LENGTH_LONG)
