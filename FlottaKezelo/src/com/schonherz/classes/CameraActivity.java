@@ -167,10 +167,12 @@ public class CameraActivity extends Activity {
 		public void onPictureTaken(byte[] data, Camera camera) {
 			FileOutputStream outStream = null;
 			try {
-				DateFormat dateForm = new SimpleDateFormat("yyyy.MM.dd-HH.mm.ss.SSS");
+				DateFormat dateForm = new SimpleDateFormat("yyyyMMddHHmmss");
 				dateForm.setTimeZone(TimeZone.getTimeZone("gmt+1"));
 				// Write to SD Card
 				String date = dateForm.format(new Date());
+				date.replace(".", "");
+				date.replace("-", "");
 				fileName = String.format(path + "%s.jpg",
 						date);
 				// fileName = path+photoNumber;

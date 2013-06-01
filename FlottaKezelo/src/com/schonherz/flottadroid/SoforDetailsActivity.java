@@ -160,7 +160,7 @@ public class SoforDetailsActivity extends Activity {
 				sdcard = Environment.getExternalStorageDirectory();
 				String photoDirPath = sdcard.getAbsolutePath() + "/"
 						+ "FlottaDroid/SoforImages" + "/"
-						+ Long.toString(currentSofor.getSoforID()) + "/";
+						+ Long.toString(currentSofor.getSoforID()) ;
 				File dirPa = new File(photoDirPath);
 				dirPa.mkdirs();
 

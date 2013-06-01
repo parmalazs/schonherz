@@ -168,7 +168,7 @@ public class PartnerDetailsActivity extends Activity {
 				sdcard = Environment.getExternalStorageDirectory();
 				String photoDirPath = sdcard.getAbsolutePath() + "/"
 						+ "FlottaDroid/SoforImages" + "/"
-						+ Long.toString(currentPartner.getPartnerID()) + "/";
+						+ Long.toString(currentPartner.getPartnerID()) ;
 				File dirPa = new File(photoDirPath);
 				dirPa.mkdirs();
 

@@ -25,7 +25,7 @@
                 android:id="@+id/autoNevTextView"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Név:"
+                android:text="@string/name"
                 android:textAppearance="?android:attr/textAppearanceMedium" />
 
             <EditText
@@ -48,7 +48,7 @@
                 android:id="@+id/autoTipusTextView"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Típus: "
+                android:text="@string/type"
                 android:textAppearance="?android:attr/textAppearanceMedium" />
 
             <EditText
@@ -90,7 +90,7 @@
                 android:id="@+id/autoKmTextView"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Km óra:"
+                android:text="@string/kmhour"
                 android:textAppearance="?android:attr/textAppearanceMedium" />
 
             <EditText
@@ -111,7 +111,7 @@
                 android:id="@+id/autoLastServiceDateTextView"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Utolsó szervíz:"
+                android:text="@string/last_szerviz"
                 android:textAppearance="?android:attr/textAppearanceMedium" />
 
             <EditText
@@ -131,7 +131,7 @@
                 android:id="@+id/autoMuszakiVizsgaDateTextView"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Műszaki vizsga:"
+                android:text="@string/muszakiVizsga"
                 android:textAppearance="?android:attr/textAppearanceMedium" />
 
             <EditText

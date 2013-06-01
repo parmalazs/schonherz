@@ -26,6 +26,8 @@ import android.widget.Button;
 import android.widget.TextView;
 
 import com.schonherz.classes.ImageDownloadUtil;
+import com.schonherz.classes.JSONBuilder;
+import com.schonherz.classes.JSONSender;
 import com.schonherz.classes.JsonArrayToArrayList;
 import com.schonherz.classes.JsonFromUrl;
 import com.schonherz.dbentities.Auto;
@@ -100,7 +102,7 @@ public class RefreshActivity extends Activity {
 	TextView taskToUploadTv;
 	TextView imgToUploadTv;
 	TextView lastSyncTv;
-	
+
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -112,16 +114,18 @@ public class RefreshActivity extends Activity {
 		taskToUploadTv = (TextView) findViewById(R.id.taskwaitforTW);
 		lastSyncTv = (TextView) findViewById(R.id.lastsyncTimeTW);
 		imgToUploadTv = (TextView) findViewById(R.id.imgwaitforTW);
-		
+
 		taskToUploadTv.setText("");
-		
+
 		preferences = PreferenceManager.getDefaultSharedPreferences(this);
-		lastSyncTime = preferences.getString("lastSync", "Nem volt még frissítés");
-		
-		lastSyncTv.setText(lastSyncTv.getText().toString() + " "+lastSyncTime);
-		
-		//imgToUploadTv.setText(imgToUploadTv.getText().toString()+" "+Integer.toString(getAllUploadPicture()));
-		
+		lastSyncTime = preferences.getString("lastSync",
+				"Nem volt még frissítés");
+
+		lastSyncTv
+				.setText(lastSyncTv.getText().toString() + " " + lastSyncTime);
+
+		// imgToUploadTv.setText(imgToUploadTv.getText().toString()+" "+Integer.toString(getAllUploadPicture()));
+
 		initTables();
 
 		syncButton.setOnClickListener(new OnClickListener() {
@@ -134,7 +138,7 @@ public class RefreshActivity extends Activity {
 
 					protected void onPostExecute(String result) {
 						progress.dismiss();
-						
+
 						new AsyncTask<Void, Void, String>() {
 
 							protected void onPostExecute(String result) {
@@ -178,6 +182,24 @@ public class RefreshActivity extends Activity {
 			@Override
 			public void onClick(View v) {
 				// TODO Auto-generated method stub
+				new AsyncTask<Void, Void, Boolean>() {
+
+					protected void onPostExecute(Boolean result) {
+						progress.dismiss();
+					};
+
+					protected void onPreExecute() {
+						progress = ProgressDialog.show(RefreshActivity.this,
+								"Frissítés", "Képek feltöltése...");
+					};
+
+					@Override
+					protected Boolean doInBackground(Void... params) {
+						// TODO Auto-generated method stub
+						return uploadAllPictures();
+					}
+
+				}.execute();
 
 			}
 		});
@@ -244,30 +266,37 @@ public class RefreshActivity extends Activity {
 		TelephelyDao.createTable(db, true);
 
 	}
-	
-	public int getAllUploadPicture()
-	{
-		List<ProfilKep> uploadProf = profilKepDao.queryBuilder().where(Properties.ProfilkepIsUploaded.eq(false)).list();
-		List<PartnerKep> uploadPart = partnerKepDao.queryBuilder().where(com.schonherz.dbentities.PartnerKepDao.Properties.PartnerKepIsUploaded.eq(false)).list();
-		List<MunkaKep> uploadMunk = munkaKepDao.queryBuilder().where(com.schonherz.dbentities.MunkaKepDao.Properties.MunkaKepIsUploaded.eq(false)).list();
-		List<AutoKep> uploadAut = autoKepDao.queryBuilder().where(com.schonherz.dbentities.AutoKepDao.Properties.AutoKepIsUploaded.eq(false)).list();
-		
-		int upload = (uploadProf.size()+uploadPart.size()+uploadMunk.size()+uploadAut.size());
+
+	public int getAllUploadPicture() {
+		List<ProfilKep> uploadProf = profilKepDao.queryBuilder()
+				.where(Properties.ProfilkepIsUploaded.eq(false)).list();
+		List<PartnerKep> uploadPart = partnerKepDao
+				.queryBuilder()
+				.where(com.schonherz.dbentities.PartnerKepDao.Properties.PartnerKepIsUploaded
+						.eq(false)).list();
+		List<MunkaKep> uploadMunk = munkaKepDao
+				.queryBuilder()
+				.where(com.schonherz.dbentities.MunkaKepDao.Properties.MunkaKepIsUploaded
+						.eq(false)).list();
+		List<AutoKep> uploadAut = autoKepDao
+				.queryBuilder()
+				.where(com.schonherz.dbentities.AutoKepDao.Properties.AutoKepIsUploaded
+						.eq(false)).list();
+
+		int upload = (uploadProf.size() + uploadPart.size() + uploadMunk.size() + uploadAut
+				.size());
 		return upload;
-		
+
 	}
-	
-	public void getAllUploadTask()
-	{
-		
+
+	public void getAllUploadTask() {
+
 	}
-	
-	
-	
+
 	public String saveAlldata() {
 		JSONArray jsonArray;
 		JSONObject json = new JSONObject();
-						
+
 		try {
 			// get sofortable
 			jsonArray = (JSONArray) JsonFromUrl.getJsonObjectFromUrl(soforUrl,
@@ -285,8 +314,8 @@ public class RefreshActivity extends Activity {
 			soforok = null;
 
 			// get autotable
-			jsonArray = (JSONArray) JsonFromUrl.getJsonObjectFromUrl(
-					autoUrl, json.toString());
+			jsonArray = (JSONArray) JsonFromUrl.getJsonObjectFromUrl(autoUrl,
+					json.toString());
 
 			AutoDao.dropTable(autoDao.getDatabase(), true);
 			AutoDao.createTable(autoDao.getDatabase(), true);
@@ -397,22 +426,20 @@ public class RefreshActivity extends Activity {
 								+ "/"
 								+ Long.toString(profilkepek.get(i)
 										.getProfilKepID()) + ".jpg");
-				
+
 				profilkepek.get(i).setProfilkepIsUploaded(true);
-				
+
 				profilKepDao.insert(profilkepek.get(i));
 			}
-			
-		
+
 			profilkepek = null;
-			
+
 		} catch (Exception ex) {
 			ex.printStackTrace();
 			return ex.getMessage();
 		}
-		
-		try
-		{
+
+		try {
 			jsonArray = (JSONArray) JsonFromUrl.getJsonObjectFromUrl(
 					partnerKepUrl, json.toString());
 
@@ -435,52 +462,42 @@ public class RefreshActivity extends Activity {
 								+ "/"
 								+ Long.toString(partnerKepek.get(i)
 										.getPartnerKepID()) + ".jpg");
-				
+
 				partnerKepek.get(i).setPartnerKepIsUploaded(true);
-				
+
 				partnerKepDao.insert(partnerKepek.get(i));
 			}
-			
+
 			partnerKepek = null;
-		}
-		catch(Exception e)
-		{
+		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		
-			/*
-			jsonArray = (JSONArray) JsonFromUrl.getJsonObjectFromUrl(
-					munkaKepUrl, json.toString());
 
-			ArrayList<MunkaKep> munkakepek = JsonArrayToArrayList
-					.JsonArrayToMunkaKepek(jsonArray);
-
-			munkaKepDao.dropTable(munkaKepDao.getDatabase(), true);
-			munkaKepDao.createTable(munkaKepDao.getDatabase(), true);
-
-			for (int i = 0; i < munkakepek.size(); i++) {
-				String photoDirPath = sdcard.getAbsolutePath() + "/"
-						+ "FlottaDroid/MunkaImages/"
-						+ munkakepek.get(i).getMunkaID();
-				ImageDownloadUtil.downloadImage(munkakepek.get(i)
-						.getMunkaKepPath(), photoDirPath,
-						Long.toString(munkakepek.get(i).getMunkaKepID())
-								+ ".jpg");
-				munkakepek.get(i).setMunkaKepPath(
-						photoDirPath
-								+ "/"
-								+ Long.toString(munkakepek.get(i)
-										.getMunkaKepID()) + ".jpg");
-				
-				munkakepek.get(i).setMunkaKepIsUploaded(true);
-				
-				munkaKepDao.insert(munkakepek.get(i));
-			}
-			
-			munkakepek = null;
-			*/
-		try
-		{
+		/*
+		 * jsonArray = (JSONArray) JsonFromUrl.getJsonObjectFromUrl(
+		 * munkaKepUrl, json.toString());
+		 * 
+		 * ArrayList<MunkaKep> munkakepek = JsonArrayToArrayList
+		 * .JsonArrayToMunkaKepek(jsonArray);
+		 * 
+		 * munkaKepDao.dropTable(munkaKepDao.getDatabase(), true);
+		 * munkaKepDao.createTable(munkaKepDao.getDatabase(), true);
+		 * 
+		 * for (int i = 0; i < munkakepek.size(); i++) { String photoDirPath =
+		 * sdcard.getAbsolutePath() + "/" + "FlottaDroid/MunkaImages/" +
+		 * munkakepek.get(i).getMunkaID();
+		 * ImageDownloadUtil.downloadImage(munkakepek.get(i) .getMunkaKepPath(),
+		 * photoDirPath, Long.toString(munkakepek.get(i).getMunkaKepID()) +
+		 * ".jpg"); munkakepek.get(i).setMunkaKepPath( photoDirPath + "/" +
+		 * Long.toString(munkakepek.get(i) .getMunkaKepID()) + ".jpg");
+		 * 
+		 * munkakepek.get(i).setMunkaKepIsUploaded(true);
+		 * 
+		 * munkaKepDao.insert(munkakepek.get(i)); }
+		 * 
+		 * munkakepek = null;
+		 */
+		try {
 			jsonArray = (JSONArray) JsonFromUrl.getJsonObjectFromUrl(
 					autokepUrl, json.toString());
 
@@ -495,40 +512,210 @@ public class RefreshActivity extends Activity {
 				String photoDirPath = sdcard.getAbsolutePath() + "/"
 						+ "FlottaDroid/AutoImages/"
 						+ autokepek.get(i).getAutoID();
-				ImageDownloadUtil.downloadImage(autokepek.get(i)
-						.getAutoKepPath(), photoDirPath,
-						Long.toString(autokepek.get(i).getAutoKepID())
-								+ ".jpg");
-				autokepek.get(i).setAutoKepPath(
-						photoDirPath
-								+ "/"
-								+ Long.toString(autokepek.get(i)
-										.getAutoKepID()) + ".jpg");
-				
+				ImageDownloadUtil
+						.downloadImage(autokepek.get(i).getAutoKepPath(),
+								photoDirPath,
+								Long.toString(autokepek.get(i).getAutoKepID())
+										+ ".jpg");
+				autokepek.get(i)
+						.setAutoKepPath(
+								photoDirPath
+										+ "/"
+										+ Long.toString(autokepek.get(i)
+												.getAutoKepID()) + ".jpg");
+
 				autokepek.get(i).setAutoKepIsUploaded(true);
-				
+
 				autoKepDao.insert(autokepek.get(i));
 			}
-			
+
 			autokepek = null;
-			
+
 			Date now = new Date();
 			SimpleDateFormat sdf = new SimpleDateFormat("yyyy.MM.dd HH:mm:ss");
 			String s = sdf.format(now);
-			
+
 			SharedPreferences.Editor editor = preferences.edit();
 			editor.putString("lastSync", s);
 			editor.commit();
 			editor = null;
-		}
-		catch(Exception ex)
-		{
+		} catch (Exception ex) {
 			ex.printStackTrace();
 		}
-			
-		
+
 		return "";
 
 	}
 
+	public Boolean uploadAllPictures() {
+		sdcard = Environment.getExternalStorageDirectory();
+
+		ArrayList<AutoKep> autoKepek = new ArrayList<AutoKep>(
+				autoKepDao
+						.queryBuilder()
+						.where(com.schonherz.dbentities.AutoKepDao.Properties.AutoKepIsActive
+								.eq(false),
+								com.schonherz.dbentities.AutoKepDao.Properties.AutoKepIsUploaded
+										.eq(true)).list());
+		if (autoKepek.size() != 0) {
+			for (int i = 0; i < autoKepek.size(); i++) {
+				JSONSender sender = new JSONSender();
+				JSONBuilder builder = new JSONBuilder();
+				JSONObject obj = builder.updateAutoKep(autoKepek.get(i));
+				sender.sendJSON(sender.getFlottaUrl(), obj);
+				sender.sendImg(JSONSender.flottaImageUploadURL, autoKepek
+						.get(i).getAutoKepPath(), autoKepek.get(i)
+						.getAutoKepID() + ".jpg", "auto", autoKepek.get(i)
+						.getAutoKepID().toString());
+			}
+		}
+
+		autoKepek.clear();
+		autoKepek = new ArrayList<AutoKep>(
+				autoKepDao
+						.queryBuilder()
+						.where(com.schonherz.dbentities.AutoKepDao.Properties.AutoKepIsActive
+								.eq(true),
+								com.schonherz.dbentities.AutoKepDao.Properties.AutoKepIsUploaded
+										.eq(false)).list());
+		if (autoKepek.size() != 0) {
+			for (int i = 0; i < autoKepek.size(); i++) {
+				JSONSender sender = new JSONSender();
+				JSONBuilder builder = new JSONBuilder();
+				JSONObject obj = builder.updateAutoKep(autoKepek.get(i));
+				sender.sendJSON(sender.getFlottaUrl(), obj);
+				sender.sendImg(JSONSender.flottaImageUploadURL, autoKepek
+						.get(i).getAutoKepPath(), autoKepek.get(i)
+						.getAutoKepID() + ".jpg", "auto", autoKepek.get(i)
+						.getAutoKepID().toString());
+			}
+		}
+		autoKepek = null;
+
+		ArrayList<MunkaKep> munkaKepek = new ArrayList<MunkaKep>(
+				munkaKepDao
+						.queryBuilder()
+						.where(com.schonherz.dbentities.MunkaKepDao.Properties.MunkaKepIsActive
+								.eq(false),
+								com.schonherz.dbentities.MunkaKepDao.Properties.MunkaKepIsUploaded
+										.eq(true)).list());
+		if (munkaKepek.size() != 0) {
+			for (int i = 0; i < munkaKepek.size(); i++) {
+				JSONSender sender = new JSONSender();
+				JSONBuilder builder = new JSONBuilder();
+				JSONObject obj = builder.updateMunkaKep(munkaKepek.get(i));
+				sender.sendJSON(sender.getFlottaUrl(), obj);
+				sender.sendImg(JSONSender.flottaImageUploadURL,
+						munkaKepek.get(i).getMunkaKepPath(), munkaKepek.get(i)
+								.getMunkaKepID() + ".jpg", "munka", munkaKepek
+								.get(i).getMunkaKepID().toString());
+			}
+		}
+
+		munkaKepek.clear();
+		munkaKepek = new ArrayList<MunkaKep>(
+				munkaKepDao
+						.queryBuilder()
+						.where(com.schonherz.dbentities.MunkaKepDao.Properties.MunkaKepIsActive
+								.eq(true),
+								com.schonherz.dbentities.MunkaKepDao.Properties.MunkaKepIsUploaded
+										.eq(false)).list());
+		if (munkaKepek.size() != 0) {
+			for (int i = 0; i < munkaKepek.size(); i++) {
+				JSONSender sender = new JSONSender();
+				JSONBuilder builder = new JSONBuilder();
+				JSONObject obj = builder.updateMunkaKep(munkaKepek.get(i));
+				sender.sendJSON(sender.getFlottaUrl(), obj);
+				sender.sendImg(JSONSender.flottaImageUploadURL,
+						munkaKepek.get(i).getMunkaKepPath(), munkaKepek.get(i)
+								.getMunkaKepID() + ".jpg", "munka", munkaKepek
+								.get(i).getMunkaKepID().toString());
+			}
+		}
+		munkaKepek = null;
+
+		ArrayList<PartnerKep> partnerKepek = new ArrayList<PartnerKep>(
+				partnerKepDao
+						.queryBuilder()
+						.where(com.schonherz.dbentities.PartnerKepDao.Properties.PartnerKepIsActive
+								.eq(false),
+								com.schonherz.dbentities.PartnerKepDao.Properties.PartnerKepIsUploaded
+										.eq(true)).list());
+		if (partnerKepek.size() != 0) {
+			for (int i = 0; i < partnerKepek.size(); i++) {
+				JSONSender sender = new JSONSender();
+				JSONBuilder builder = new JSONBuilder();
+				JSONObject obj = builder.updatePartnerKep(partnerKepek.get(i));
+				sender.sendJSON(sender.getFlottaUrl(), obj);
+				sender.sendImg(JSONSender.flottaImageUploadURL, partnerKepek
+						.get(i).getPartnerKepPath(), partnerKepek.get(i)
+						.getPartnerKepID() + ".jpg", "partner", partnerKepek
+						.get(i).getPartnerKepID().toString());
+			}
+		}
+
+		partnerKepek.clear();
+		partnerKepek = new ArrayList<PartnerKep>(
+				partnerKepDao
+						.queryBuilder()
+						.where(com.schonherz.dbentities.PartnerKepDao.Properties.PartnerKepIsActive
+								.eq(true),
+								com.schonherz.dbentities.PartnerKepDao.Properties.PartnerKepIsUploaded
+										.eq(false)).list());
+		if (partnerKepek.size() != 0) {
+			for (int i = 0; i < partnerKepek.size(); i++) {
+				JSONSender sender = new JSONSender();
+				JSONBuilder builder = new JSONBuilder();
+				JSONObject obj = builder.updatePartnerKep(partnerKepek.get(i));
+				sender.sendJSON(sender.getFlottaUrl(), obj);
+				sender.sendImg(JSONSender.flottaImageUploadURL, partnerKepek
+						.get(i).getPartnerKepPath(), partnerKepek.get(i)
+						.getPartnerKepID() + ".jpg", "partner", partnerKepek
+						.get(i).getPartnerKepID().toString());
+			}
+		}
+		partnerKepek = null;
+
+		ArrayList<ProfilKep> profilKepek = new ArrayList<ProfilKep>(
+				profilKepDao
+						.queryBuilder()
+						.where(Properties.ProfilKepIsActive.eq(false),
+								Properties.ProfilkepIsUploaded.eq(true)).list());
+
+		if (profilKepek.size() != 0) {
+			for (int i = 0; i < profilKepek.size(); i++) {
+				JSONSender sender = new JSONSender();
+				JSONBuilder builder = new JSONBuilder();
+				JSONObject obj = builder.updateProfilKep(profilKepek.get(i));
+				sender.sendJSON(sender.getFlottaUrl(), obj);
+				sender.sendImg(JSONSender.flottaImageUploadURL, profilKepek
+						.get(i).getProfilKepPath(), profilKepek.get(i)
+						.getProfilKepID().toString()
+						+ ".jpg", "profilkep", profilKepek.get(i)
+						.getProfilKepID().toString());
+			}
+		}
+		profilKepek.clear();
+		profilKepek = new ArrayList<ProfilKep>(profilKepDao
+				.queryBuilder()
+				.where(Properties.ProfilKepIsActive.eq(true),
+						Properties.ProfilkepIsUploaded.eq(false)).list());
+
+		if (profilKepek.size() != 0) {
+			for (int i = 0; i < profilKepek.size(); i++) {
+				JSONSender sender = new JSONSender();
+				JSONBuilder builder = new JSONBuilder();
+				JSONObject obj = builder.updateProfilKep(profilKepek.get(i));
+				sender.sendJSON(sender.getFlottaUrl(), obj);
+				sender.sendImg(JSONSender.flottaImageUploadURL, profilKepek
+						.get(i).getProfilKepPath(), profilKepek.get(i)
+						.getProfilKepID().toString()
+						+ ".jpg", "profilkep", profilKepek.get(i)
+						.getProfilKepID().toString());
+			}
+		}
+		profilKepek = null;
+
+		return true;
+	}
 }

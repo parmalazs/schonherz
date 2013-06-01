@@ -839,6 +839,58 @@ public class JSONBuilder {
 		}
 		return ret;
 	}
+	
+	public JSONObject updateProfilKep(ProfilKep pk) {
+		JSONObject ret = new JSONObject();
+		JSONObject object = new JSONObject();
+		try {
+			object.put("profilKepId", pk.getProfilKepID());
+			object.put("profilKepPath", pk.getProfilKepPath());
+			object.put("profilKepDate", pk.getProfilKepDateTime());
+			object.put("profilKepIsActive", pk.getProfilKepIsActive());
+			object.put("profilKepIsUploaded", pk.getProfilkepIsUploaded());
+			object.put("soforID", pk.getSoforID());
+
+		} catch (JSONException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
+		try {
+			ret.put("action", "update");
+			ret.put("tableName", "profilKep");
+			ret.put("objects", object);
+		} catch (JSONException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return ret;
+	}
+	
+	public JSONObject updatePartnerKep(PartnerKep pk) {
+		JSONObject ret = new JSONObject();
+		JSONObject object = new JSONObject();
+		try {
+			object.put("partnerkepekID", pk.getPartnerKepID());
+			object.put("partnerKepPath", pk.getPartnerKepPath());
+			object.put("partnerKepDate", pk.getPartnerKepDate());
+			object.put("partnerKepIsActive", pk.getPartnerKepIsActive());
+			object.put("partnerKepIsUploaded", pk.getPartnerKepIsUploaded());
+			object.put("partnerID", pk.getPartnerID());
+
+		} catch (JSONException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
+		try {
+			ret.put("action", "update");
+			ret.put("tableName", "partnerKep");
+			ret.put("objects", object);
+		} catch (JSONException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return ret;
+	}
 
 	// public JSONObject insert(Object o) throws JSONException{
 	// Field[] fields = o.getClass().getDeclaredFields();

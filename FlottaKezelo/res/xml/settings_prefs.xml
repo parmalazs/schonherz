@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android" >
+
+    <PreferenceCategory android:title="@string/felhasznaloiAdatok" >
+        <EditTextPreference
+            android:key="changepass"
+            android:title="@string/jelszovaltoztatas" />
+    </PreferenceCategory>
+    <PreferenceCategory android:title="@string/szinkAdatok" >
+        <CheckBoxPreference
+            android:key="wifiOnlyPics"
+            android:title="@string/picsSettingsWifi" />
+    </PreferenceCategory>
+
+</PreferenceScreen>

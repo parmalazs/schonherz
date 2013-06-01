@@ -239,7 +239,7 @@ public class MunkaDetailsActivity extends Activity {
 				sdcard = Environment.getExternalStorageDirectory();
 				String photoDirPath = sdcard.getAbsolutePath() + "/"
 						+ "FlottaDroid/MunkaImages" + "/"
-						+ Long.toString(currentMunka.getMunkaID()) + "/";
+						+ Long.toString(currentMunka.getMunkaID()) ;
 				File dirPa = new File(photoDirPath);
 				dirPa.mkdirs();
 

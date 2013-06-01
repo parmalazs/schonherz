@@ -144,7 +144,7 @@ public class MainActivity extends Activity {
 		//ha nem admin a sofõr akkor letiltjuk az admin gombot
 		Log.i(MainActivity.class.getName(), "admin: " + isAdmin);
 		isAdmin=soforDao.queryBuilder().where(Properties.SoforID.eq(sessionManager.getUserID().get(SessionManager.KEY_USER_ID))).list().get(0).getSoforIsAdmin();
-		helper.close();
+		
 		if (!isAdmin) {
 			adminButton.setEnabled(false);
 			adminButton.setVisibility(View.INVISIBLE);
@@ -275,20 +275,24 @@ public class MainActivity extends Activity {
 		// TODO Auto-generated method stub
 		switch (item.getItemId()) {
 			case R.id.menu_logout :
-				helper.close();
+				
 				sessionManager.logoutUser();
 				break;
-				
+			case R.id.menu_settings:
+				Intent setIntent = new Intent(this,SettingsActivity.class);
+				this.startActivity(setIntent);
+				overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
+				break;
 			case R.id.menu_refresh:
 				Intent intent = new Intent(MainActivity.this,
 						RefreshActivity.class);
-				helper.close();
+				
 				MainActivity.this.startActivity(intent);
 				overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
 				break;
 			case R.id.menu_messages:
 				Intent messInt = new Intent(MainActivity.this,PushNotificationListActivity.class);
-				helper.close();
+				
 				this.startActivity(messInt);
 				overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
 				break;

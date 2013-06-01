@@ -140,7 +140,7 @@ public class CarAdminDetailsActivity extends Activity {
 				sdcard = Environment.getExternalStorageDirectory();
 				String photoDirPath = sdcard.getAbsolutePath() + "/"
 						+ "FlottaDroid/AutoImages" + "/"
-						+ Long.toString(currentAuto.getAutoID()) + "/";
+						+ Long.toString(currentAuto.getAutoID()) ;
 				File dirPa = new File(photoDirPath);
 				dirPa.mkdirs();
 
@@ -528,7 +528,7 @@ public class CarAdminDetailsActivity extends Activity {
 		// TODO Auto-generated method stub
 		super.onActivityResult(requestCode, resultCode, data);
 
-		DateFormat dateForm = new SimpleDateFormat("yyyy.MM.dd HH:mm:ss");
+		DateFormat dateForm = new SimpleDateFormat("yyyy_MM_dd_HH_mm_ss");
 		dateForm.setTimeZone(TimeZone.getTimeZone("gmt+1"));
 
 		if (resultCode == RESULT_OK) {
