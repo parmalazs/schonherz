@@ -103,37 +103,37 @@ public class TelephelyDetailsActivity extends Activity {
 										
 									} else {
 										Toast.makeText(getApplicationContext(),
-												"Elfelejtett y koordinátát megadni!", Toast.LENGTH_LONG)
+												R.string.forgety, Toast.LENGTH_LONG)
 												.show();
 									}
 									
 								} else {
 									Toast.makeText(getApplicationContext(),
-											"Elfelejtett x koordinátát megadni!", Toast.LENGTH_LONG)
+											R.string.forgetx, Toast.LENGTH_LONG)
 											.show();
 								}
 								
 							} else {
 								Toast.makeText(getApplicationContext(),
-										"Elfelejtett email címet megadni!", Toast.LENGTH_LONG)
+										R.string.forgetemail, Toast.LENGTH_LONG)
 										.show();
 							}
 							
 						} else {
 							Toast.makeText(getApplicationContext(),
-									"Elfelejtett telefonszámot megadni!", Toast.LENGTH_LONG)
+									R.string.forgettel, Toast.LENGTH_LONG)
 									.show();
 						}
 						
 					} else {
 						Toast.makeText(getApplicationContext(),
-								"Elfelejtett címet megadni!", Toast.LENGTH_LONG)
+								R.string.forgetaddress, Toast.LENGTH_LONG)
 								.show();
 					}
 					
 				} else {
 					Toast.makeText(getApplicationContext(),
-							"Elfelejtett nevet megadni!", Toast.LENGTH_LONG)
+							R.string.forgetnev, Toast.LENGTH_LONG)
 							.show();
 				}
 			}

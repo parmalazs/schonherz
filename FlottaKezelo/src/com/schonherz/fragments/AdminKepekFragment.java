@@ -161,10 +161,10 @@ public class AdminKepekFragment extends Fragment {
 
 						AlertDialog.Builder builder = new AlertDialog.Builder(
 								context);
-						builder.setMessage("Biztosan törli?")
-								.setPositiveButton("Igen",
+						builder.setMessage(R.string.promptDel)
+								.setPositiveButton(R.string.yes,
 										dialogClickListener)
-								.setNegativeButton("Nem", dialogClickListener)
+								.setNegativeButton(R.string.no, dialogClickListener)
 								.show();
 
 						
@@ -198,7 +198,7 @@ public class AdminKepekFragment extends Fragment {
 			    
 			    if(((MunkaKep)parent.getItemAtPosition(pos)).getMunka()!=null)
 			    {
-			    dialog.setTitle("Munka ID: "+((MunkaKep)parent.getItemAtPosition(pos)).getMunka().getMunkaID().toString());				    
+			    dialog.setTitle("ID: "+((MunkaKep)parent.getItemAtPosition(pos)).getMunka().getMunkaID().toString());				    
 			    }
 			    currProfIv.setOnClickListener(new OnClickListener() {
 					
@@ -243,10 +243,10 @@ public class AdminKepekFragment extends Fragment {
 
 						AlertDialog.Builder builder = new AlertDialog.Builder(
 								context);
-						builder.setMessage("Biztosan törli?")
-								.setPositiveButton("Igen",
+						builder.setMessage(R.string.promptDel)
+								.setPositiveButton(R.string.yes,
 										dialogClickListener)
-								.setNegativeButton("Nem", dialogClickListener)
+								.setNegativeButton(R.string.no, dialogClickListener)
 								.show();
 
 						
@@ -325,10 +325,10 @@ public class AdminKepekFragment extends Fragment {
 
 						AlertDialog.Builder builder = new AlertDialog.Builder(
 								context);
-						builder.setMessage("Biztosan törli?")
-								.setPositiveButton("Igen",
+						builder.setMessage(R.string.promptDel)
+								.setPositiveButton(R.string.yes,
 										dialogClickListener)
-								.setNegativeButton("Nem", dialogClickListener)
+								.setNegativeButton(R.string.no, dialogClickListener)
 								.show();
 
 						
@@ -409,10 +409,10 @@ public class AdminKepekFragment extends Fragment {
 
 							AlertDialog.Builder builder = new AlertDialog.Builder(
 									context);
-							builder.setMessage("Biztosan törli?")
-									.setPositiveButton("Igen",
+							builder.setMessage(R.string.promptDel)
+									.setPositiveButton(R.string.yes,
 											dialogClickListener)
-									.setNegativeButton("Nem", dialogClickListener)
+									.setNegativeButton(R.string.no, dialogClickListener)
 									.show();
 
 							

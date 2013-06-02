@@ -9,6 +9,7 @@ import java.util.List;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
+import android.annotation.SuppressLint;
 import android.app.AlertDialog;
 import android.app.SearchManager;
 import android.content.Context;
@@ -55,6 +56,7 @@ import com.schonherz.flottadroid.R;
 import com.schonherz.flottadroid.SoforDetailsActivity;
 import com.schonherz.flottadroid.SoforUserDetailsActivity;
 
+@SuppressLint("ValidFragment")
 public class SoforListFragment extends Fragment {
 
 	Context context;
@@ -99,7 +101,7 @@ public class SoforListFragment extends Fragment {
 			ContextMenuInfo menuInfo) {
 		// TODO Auto-generated method stub
 		if (v.getId()==R.id.pulltorefresh_listview) {
-			menu.add(Menu.NONE, CONTEXT_MENU_DELETE_ITEM, Menu.NONE, "Törlés");
+			menu.add(Menu.NONE, CONTEXT_MENU_DELETE_ITEM, Menu.NONE, R.string.torles);
 		}
 	}
 	
@@ -320,7 +322,7 @@ public class SoforListFragment extends Fragment {
 					
 					Intent sendIntent = new Intent(Intent.ACTION_SEND);
 					sendIntent.putExtra(Intent.EXTRA_SUBJECT,
-							"Sofõrök");
+							R.string.drivers);
 					sendIntent.putExtra(Intent.EXTRA_STREAM, u);
 					sendIntent.setType("text/html");
 					startActivity(sendIntent); 
@@ -330,9 +332,9 @@ public class SoforListFragment extends Fragment {
 				break;
 			case R.id.menu_Sort :
 				AlertDialog.Builder builder = new AlertDialog.Builder(context);
-				builder.setTitle("Rendezés");
-				final CharSequence[] choiceList = {"Név", "Cím", "Telefonszám" };
-
+				builder.setTitle(R.string.sort);
+				//final CharSequence[] choiceList = {"NÃ©v", "CÃ­m", "TelefonszÃ¡m" };
+				String[] choiceList = {""+R.string.name,""+R.string.cim,""+R.string.telefon};
 				int selected = -1; // does not select anything
 
 				builder.setSingleChoiceItems(choiceList, selected, new OnClickListener() {
@@ -524,11 +526,11 @@ public class SoforListFragment extends Fragment {
 		refreshItem.setActionView(iv);
 	}
 	
-	String hungarianRules = ("< a,A < á,Á < b,B < c,C < cs,Cs < d,D < dz,Dz < dzs,Dzs "
-			+ "< e,E < é,É < f,F < g,G < gy,Gy < h,H < i,I < í,Í < j,J "
-			+ "< k,K < l,L < ly,Ly < m,M < n,N < ny,Ny < o,O < ó,Ó "
-			+ "< ö,Ö < õ,Õ < p,P < q,Q < r,R < s,S < sz,Sz < t,T "
-			+ "< ty,Ty < u,U < ú,Ú < ü,Ü < û,Û < v,V < w,W < x,X < y,Y < z,Z < zs,Zs");
+	String hungarianRules = ("< a,A < Ã¡,Ã < b,B < c,C < cs,Cs < d,D < dz,Dz < dzs,Dzs "
+			+ "< e,E < Ã©,Ã‰ < f,F < g,G < gy,Gy < h,H < i,I < Ã­,Ã < j,J "
+			+ "< k,K < l,L < ly,Ly < m,M < n,N < ny,Ny < o,O < Ã³,Ã“ "
+			+ "< Ã¶,Ã– < Å‘,Å < p,P < q,Q < r,R < s,S < sz,Sz < t,T "
+			+ "< ty,Ty < u,U < Ãº,Ãš < Ã¼,Ãœ < Å±,Å° < v,V < w,W < x,X < y,Y < z,Z < zs,Zs");
 	
 	public static void sortSoforNev(Collator collator, List<Sofor> soforList)
 	{

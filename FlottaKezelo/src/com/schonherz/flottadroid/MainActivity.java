@@ -116,8 +116,8 @@ public class MainActivity extends Activity {
 			// Build notification
 			// Actions are just fake
 			Notification.Builder noti = new Notification.Builder(this)
-			        .setContentTitle("Nincs autó felvéve az aktív munkáihoz...")
-			        .setContentText("Kérem vegyen fel egyet!")
+			        .setContentTitle(getString(R.string.nocarforjob))
+			        .setContentText(getString(R.string.pickcar))
 			        .setSmallIcon(R.drawable.autoikon)
 			        .setContentIntent(munkahozAutoPendingIntent); 
 			  				
@@ -316,8 +316,8 @@ public class MainActivity extends Activity {
 			// Build notification
 			// Actions are just fake
 			Notification.Builder noti = new Notification.Builder(this)
-			        .setContentTitle("Aktív munkák")
-			        .setContentText("Kérem vegyen fel egy autótt!")
+			        .setContentTitle(getString(R.string.activejobs))
+			        .setContentText(getString(R.string.pickCarJob))
 			        .setSmallIcon(R.drawable.autoikon)
 			        .setContentIntent(pIntent);		
 

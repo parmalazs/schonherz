@@ -10,31 +10,31 @@
         android:id="@+id/new_job"
         android:orderInCategory="100"
         android:showAsAction="never"
-        android:title="Új munka"/>
+        android:title="@string/newJob"/>
     
     <item
         android:id="@+id/new_partner"
         android:orderInCategory="100"
         android:showAsAction="never"
-        android:title="Új partner"/>  
+        android:title="@string/newPartner"/>  
         
     <item
         android:id="@+id/new_sofor"
         android:orderInCategory="100"
         android:showAsAction="never"
-        android:title="Új sofőr"/>
+        android:title="@string/newSofor"/>
     
     <item
         android:id="@+id/new_telephely"
         android:orderInCategory="100"
         android:showAsAction="never"
-        android:title="Új telephely"/>   
+        android:title="@string/newTelephely"/>   
         
     <item
         android:id="@+id/new_car"
         android:orderInCategory="100"
         android:showAsAction="never"
-        android:title="Új autó"/>  
+        android:title="@string/newAuto"/>  
     
 
 </menu>

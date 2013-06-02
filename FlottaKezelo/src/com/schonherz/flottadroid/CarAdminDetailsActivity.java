@@ -268,10 +268,10 @@ public class CarAdminDetailsActivity extends Activity {
 
 						AlertDialog.Builder builder = new AlertDialog.Builder(
 								CarAdminDetailsActivity.this);
-						builder.setMessage("Biztosan törli?")
-								.setPositiveButton("Igen",
+						builder.setMessage(R.string.promptDel)
+								.setPositiveButton(R.string.yes,
 										dialogClickListener)
-								.setNegativeButton("Nem", dialogClickListener)
+								.setNegativeButton(R.string.no, dialogClickListener)
 								.show();
 
 						
@@ -313,57 +313,57 @@ public class CarAdminDetailsActivity extends Activity {
 												} else {
 													Toast.makeText(
 															getApplicationContext(),
-															"Elfelejtett az utolsó sofõrt megadni!",
+															R.string.forgetdriver,
 															Toast.LENGTH_LONG).show();
 												}
 												
 											} else {
 												Toast.makeText(
 														getApplicationContext(),
-														"Elfelejtett utolsó telephelyet megadni!",
+														R.string.forgettelephely,
 														Toast.LENGTH_LONG).show();
 											}
 											
 										} else {
 											Toast.makeText(
 													getApplicationContext(),
-													"Elfelejtett utolsó szervízt megadni!",
+													R.string.forgetlastszerviz,
 													Toast.LENGTH_LONG).show();
 										}
 										
 									} else {
 										Toast.makeText(
 												getApplicationContext(),
-												"Elfelejtett üzemanyagot megadni!",
+												R.string.forgetuzemanyag,
 												Toast.LENGTH_LONG).show();
 									}
 									
 								} else {
 									Toast.makeText(
 											getApplicationContext(),
-											"Elfelejtett km-t megadni!",
+											R.string.forgetkm,
 											Toast.LENGTH_LONG).show();
 								}
 								
 							} else {
 								Toast.makeText(
 										getApplicationContext(),
-										"Elfelejtett mûszaki vizsga dátumot megadni!",
+										R.string.forgetmuszvizsga,
 										Toast.LENGTH_LONG).show();
 							}
 						} else {
 							Toast.makeText(getApplicationContext(),
-									"Elfelejtett rendszámot megadni!",
+									R.string.forgetrendszam,
 									Toast.LENGTH_LONG).show();
 						}
 					} else {
 						Toast.makeText(getApplicationContext(),
-								"Elfelejtett tipust megadni!",
+								R.string.forgetmunkatipus,
 								Toast.LENGTH_LONG).show();
 					}
 				} else {
 					Toast.makeText(getApplicationContext(),
-							"Elfelejtett nevet megadni!", Toast.LENGTH_LONG)
+							R.string.forgetnev, Toast.LENGTH_LONG)
 							.show();
 				}
 			}
@@ -565,7 +565,7 @@ public class CarAdminDetailsActivity extends Activity {
 				autopicsGallery.setAdapter(autoKepImgAdapter);
 
 				Toast.makeText(getApplicationContext(),
-						Integer.toString(photos.length) + "  kép mentve!",
+						Integer.toString(photos.length) + " " + R.string.pictureSaved,
 						Toast.LENGTH_SHORT).show();
 			}
 		}

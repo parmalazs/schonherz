@@ -11,6 +11,7 @@ import java.util.List;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
+import android.annotation.SuppressLint;
 import android.app.AlertDialog;
 import android.app.SearchManager;
 import android.content.Context;
@@ -56,6 +57,7 @@ import com.schonherz.flottadroid.R;
 
 import de.greenrobot.dao.QueryBuilder;
 
+@SuppressLint("ValidFragment")
 public class AutoListFragment extends Fragment {
 
 	Context context;
@@ -95,7 +97,7 @@ public class AutoListFragment extends Fragment {
 			ContextMenuInfo menuInfo) {
 		// TODO Auto-generated method stub
 		if (v.getId() == R.id.pulltorefresh_listview) {
-			menu.add(Menu.NONE, CONTEXT_MENU_DELETE_ITEM, Menu.NONE, "Törlés");
+			menu.add(Menu.NONE, CONTEXT_MENU_DELETE_ITEM, Menu.NONE, R.string.torles);
 		}
 	}
 
@@ -322,7 +324,7 @@ public class AutoListFragment extends Fragment {
 					
 					Intent sendIntent = new Intent(Intent.ACTION_SEND);
 					sendIntent.putExtra(Intent.EXTRA_SUBJECT,
-							"Autók");
+							R.string.autok);
 					sendIntent.putExtra(Intent.EXTRA_STREAM, u);
 					sendIntent.setType("text/html");
 					startActivity(sendIntent); 
@@ -333,10 +335,12 @@ public class AutoListFragment extends Fragment {
 			case R.id.menu_Sort :
 				AlertDialog.Builder builder = new AlertDialog.Builder(context);
 				builder.setTitle("Rendezés");
-				final CharSequence[] choiceList = {"Foglalt", "Név", "Típus",
-						"Rendszám", "Kilóméter óra", "Mûszaki vizsga idõ",
-						"Szervíz idõ", "Telephely név"};
-
+				//final CharSequence[] choiceList = {"Foglalt", "Név", "Típus",
+				//		"Rendszám", "Kilóméter óra", "Mûszaki vizsga idõ",
+				//		"Szervíz idõ", "Telephely név"};
+				
+				final String[] choiceList = context.getResources().getStringArray(R.array.auto_sort_strings);
+				
 				int selected = -1; // does not select anything
 
 				builder.setSingleChoiceItems(choiceList, selected,

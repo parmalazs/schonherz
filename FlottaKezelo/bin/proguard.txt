@@ -1,0 +1,96 @@
+# view res/layout/activity_admin.xml #generated:11
+# view res/layout/activity_car.xml #generated:6
+# view res/layout/activity_contact_activty.xml #generated:5
+# view res/layout/activity_jobs.xml #generated:11
+-keep class android.support.v4.view.ViewPager { <init>(...); }
+
+# view res/layout/preview_camera.xml #generated:2
+-keep class android.view.SurfaceView { <init>(...); }
+
+# view AndroidManifest.xml #generated:157
+-keep class com.google.android.gcm.GCMBroadcastReceiver { <init>(...); }
+
+# view res/layout/activity_map.xml #generated:7
+-keep class com.google.android.gms.maps.MapFragment { <init>(...); }
+
+# view res/layout/layout_pulltorefresh_list.xml #generated:7
+-keep class com.schonherz.classes.PullToRefreshListView { <init>(...); }
+
+# view AndroidManifest.xml #generated:78
+-keep class com.schonherz.flottadroid.AdminActivity { <init>(...); }
+
+# view AndroidManifest.xml #generated:180
+-keep class com.schonherz.flottadroid.AlertActivity { <init>(...); }
+
+# view AndroidManifest.xml #generated:166
+-keep class com.schonherz.flottadroid.C2DMMessageReceiver { <init>(...); }
+
+# view AndroidManifest.xml #generated:102
+-keep class com.schonherz.flottadroid.CarActivity { <init>(...); }
+
+# view AndroidManifest.xml #generated:217
+-keep class com.schonherz.flottadroid.CarAdminDetailsActivity { <init>(...); }
+
+# view AndroidManifest.xml #generated:146
+-keep class com.schonherz.flottadroid.CarDetailsActivity { <init>(...); }
+
+# view AndroidManifest.xml #generated:110
+-keep class com.schonherz.flottadroid.ContactActivity { <init>(...); }
+
+# view AndroidManifest.xml #generated:155
+-keep class com.schonherz.flottadroid.GCMIntentService { <init>(...); }
+
+# view AndroidManifest.xml #generated:70
+-keep class com.schonherz.flottadroid.JobsActivity { <init>(...); }
+
+# view AndroidManifest.xml #generated:66
+-keep class com.schonherz.flottadroid.LoginActivity { <init>(...); }
+
+# view AndroidManifest.xml #generated:46
+-keep class com.schonherz.flottadroid.MainActivity { <init>(...); }
+
+# view AndroidManifest.xml #generated:86
+-keep class com.schonherz.flottadroid.MapActivity { <init>(...); }
+
+# view AndroidManifest.xml #generated:138
+-keep class com.schonherz.flottadroid.MunkaDetailsActivity { <init>(...); }
+
+# view AndroidManifest.xml #generated:185
+-keep class com.schonherz.flottadroid.NewJobActivity { <init>(...); }
+
+# view AndroidManifest.xml #generated:94
+-keep class com.schonherz.flottadroid.PartnerDetailsActivity { <init>(...); }
+
+# view AndroidManifest.xml #generated:201
+-keep class com.schonherz.flottadroid.PartnerUserDetailsActivity { <init>(...); }
+
+# view AndroidManifest.xml #generated:232
+-keep class com.schonherz.flottadroid.PartnerWebViewActivity { <init>(...); }
+
+# view AndroidManifest.xml #generated:63
+-keep class com.schonherz.flottadroid.PreviewDemo { <init>(...); }
+
+# view AndroidManifest.xml #generated:239
+-keep class com.schonherz.flottadroid.PushNotificationListActivity { <init>(...); }
+
+# view AndroidManifest.xml #generated:118
+-keep class com.schonherz.flottadroid.RefreshActivity { <init>(...); }
+
+# view AndroidManifest.xml #generated:177
+-keep class com.schonherz.flottadroid.RegisterActivity { <init>(...); }
+
+# view AndroidManifest.xml #generated:126
+-keep class com.schonherz.flottadroid.SettingsActivity { <init>(...); }
+
+# view AndroidManifest.xml #generated:193
+-keep class com.schonherz.flottadroid.SoforDetailsActivity { <init>(...); }
+
+# view AndroidManifest.xml #generated:225
+-keep class com.schonherz.flottadroid.SoforUserDetailsActivity { <init>(...); }
+
+# view AndroidManifest.xml #generated:54
+-keep class com.schonherz.flottadroid.SplashActivity { <init>(...); }
+
+# view AndroidManifest.xml #generated:209
+-keep class com.schonherz.flottadroid.TelephelyDetailsActivity { <init>(...); }
+

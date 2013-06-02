@@ -92,8 +92,8 @@ public class LoginActivity extends Activity {
 		userEditText = (EditText) findViewById(R.id.editTextUser);
 		passEditText = (EditText) findViewById(R.id.editTextPass);
 		
-		userEditText.setText("sofor1");
-		passEditText.setText("sofor1");
+		//userEditText.setText("sofor1");
+		//passEditText.setText("sofor1");
 		
 		// First start, full DB init, get soforTable
 		if (firstStart == 0) {

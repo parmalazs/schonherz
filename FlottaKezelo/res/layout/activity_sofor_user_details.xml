@@ -26,7 +26,7 @@
                 android:id="@+id/tvPartnerNameLabel"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Név:"
+                android:text="@string/name"
                 android:textAppearance="?android:attr/textAppearanceMedium" />
 
             <TextView
@@ -49,7 +49,7 @@
                 android:id="@+id/tvPartnerCimLabel"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Cím:"
+                android:text="@string/cim"
                 android:textAppearance="?android:attr/textAppearanceMedium" />
 
             <TextView
@@ -72,7 +72,7 @@
                 android:id="@+id/tvPartnerTelefonLabel"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Telefon:"
+                android:text="@string/telefon"
                 android:textAppearance="?android:attr/textAppearanceMedium" />
 
             <TextView
@@ -96,7 +96,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="18dp"
-                android:text="Szül dátum"
+                android:text="@string/birthDate"
                 android:textAppearance="?android:attr/textAppearanceMedium" />
 
             <TextView
@@ -119,7 +119,7 @@
                 android:id="@+id/tvPartnerEmailLabel"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Email:"
+                android:text="@string/email"
                 android:textAppearance="?android:attr/textAppearanceMedium" />
 
             <TextView

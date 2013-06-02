@@ -25,7 +25,7 @@
                 android:id="@+id/textView1"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Név:"
+                android:text="@string/nev"
                 android:textAppearance="?android:attr/textAppearanceMedium" />
 
             <EditText
@@ -48,7 +48,7 @@
                 android:id="@+id/textView2"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Cím:"
+                android:text="@string/address"
                 android:textAppearance="?android:attr/textAppearanceMedium" />
 
             <EditText
@@ -69,7 +69,7 @@
                 android:id="@+id/textView3"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Telefon:"
+                android:text="@string/telefon"
                 android:textAppearance="?android:attr/textAppearanceMedium" />
 
             <EditText
@@ -91,7 +91,7 @@
                 android:id="@+id/textView5"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Email:"
+                android:text="@string/email"
                 android:textAppearance="?android:attr/textAppearanceMedium" />
 
             <EditText
@@ -114,7 +114,7 @@
                 android:id="@+id/textView4"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Web:"
+                android:text="@string/web"
                 android:textAppearance="?android:attr/textAppearanceMedium" />
 
             <EditText
@@ -135,7 +135,7 @@
                 android:id="@+id/textView6"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="X:"
+                android:text="@string/xkoord"
                 android:textAppearance="?android:attr/textAppearanceMedium" />
 
             <EditText
@@ -157,7 +157,7 @@
                 android:id="@+id/textView7"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"              
-                android:text="Y:"
+                android:text="@string/ykoord"
                 android:textAppearance="?android:attr/textAppearanceMedium" />
 
             <EditText
@@ -225,7 +225,7 @@
                 android:id="@+id/buttonNewPartner"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Mentés" />
+                android:text="@string/save" />
         </LinearLayout>
     </LinearLayout>
 

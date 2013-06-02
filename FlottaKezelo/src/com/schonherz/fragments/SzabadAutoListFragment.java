@@ -59,10 +59,11 @@ public class SzabadAutoListFragment extends Fragment {
 	PullToRefreshListView pullListView;
 	ArrayList<Auto> autok;
 	ArrayList<Auto> konkretautok;
-	
+
 	MenuItem refreshItem;
 
-	public SzabadAutoListFragment(Context context, AutoDao autoDao, ArrayList<Auto> _autok, String tipus) {
+	public SzabadAutoListFragment(Context context, AutoDao autoDao,
+			ArrayList<Auto> _autok, String tipus) {
 		this.context = context;
 		this.autoDao = autoDao;
 		this.konkretautok = _autok;
@@ -74,7 +75,7 @@ public class SzabadAutoListFragment extends Fragment {
 		// TODO Auto-generated method stub
 		setHasOptionsMenu(true);
 		super.onCreate(savedInstanceState);
-		
+
 	}
 
 	@Override
@@ -149,6 +150,7 @@ public class SzabadAutoListFragment extends Fragment {
 		});
 
 	}
+
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
@@ -159,33 +161,33 @@ public class SzabadAutoListFragment extends Fragment {
 				.findViewById(R.id.pulltorefresh_listview);
 
 		autok = konkretautok;
-		
-		//autok = new ArrayList<Auto>(autoDao.queryBuilder().where(com.schonherz.dbentities.AutoDao.Properties.AutoFoglalt.eq(true),
-		//		com.schonherz.dbentities.AutoDao.Properties.AutoIsActive.eq(true)).list());
+
+		// autok = new
+		// ArrayList<Auto>(autoDao.queryBuilder().where(com.schonherz.dbentities.AutoDao.Properties.AutoFoglalt.eq(true),
+		// com.schonherz.dbentities.AutoDao.Properties.AutoIsActive.eq(true)).list());
 
 		adapter = new AutoAdapter(context, R.layout.list_item_auto, autok,
 				autoDao);
 
 		pullListView.setAdapter(adapter);
-		
-		
+
 		pullListView.setOnItemClickListener(new OnItemClickListener() {
 
 			@Override
-			public void onItemClick(AdapterView<?> parent, View view, int position,
-					long id) {
+			public void onItemClick(AdapterView<?> parent, View view,
+					int position, long id) {
 				// TODO Auto-generated method stub
-				Intent intent=new Intent(getActivity(), CarDetailsActivity.class);
-				intent.putExtra("selectedAutoID", autok.get(position-1).getAutoID());
+				Intent intent = new Intent(getActivity(),
+						CarDetailsActivity.class);
+				intent.putExtra("selectedAutoID", autok.get(position - 1)
+						.getAutoID());
 				startActivity(intent);
-				//startActivityForResult(intent, 100);
-				getActivity().overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
+				// startActivityForResult(intent, 100);
+				getActivity().overridePendingTransition(R.anim.slide_in_right,
+						R.anim.slide_out_left);
 			}
 		});
-		
-		
-		
-		
+
 		pullListView.setOnRefreshListener(new OnRefreshListener() {
 
 			@Override
@@ -228,7 +230,8 @@ public class SzabadAutoListFragment extends Fragment {
 
 							konkreatautoRefresh();
 							autok = konkretautok;
-							//autok = new ArrayList<Auto>(autoDao.queryBuilder().where(com.schonherz.dbentities.AutoDao.Properties.AutoFoglalt.eq(true),com.schonherz.dbentities.AutoDao.Properties.AutoIsActive.eq(true)).list());
+							// autok = new
+							// ArrayList<Auto>(autoDao.queryBuilder().where(com.schonherz.dbentities.AutoDao.Properties.AutoFoglalt.eq(true),com.schonherz.dbentities.AutoDao.Properties.AutoIsActive.eq(true)).list());
 
 							adapter.addAll(autok);
 
@@ -267,268 +270,305 @@ public class SzabadAutoListFragment extends Fragment {
 	public boolean onOptionsItemSelected(MenuItem item) {
 		// TODO Auto-generated method stub
 		switch (item.getItemId()) {
-			case R.id.menu_sendCSV:
-				if(NetworkUtil.checkInternetIsActive(context)==true)
-				{
-					CSVUtil util = new CSVUtil();
-					ArrayList<Auto> autok= new ArrayList<Auto>(autoDao.loadAll());
-					Uri u = util.createAutoCSVFile(autok);
-					
-					Intent sendIntent = new Intent(Intent.ACTION_SEND);
-					sendIntent.putExtra(Intent.EXTRA_SUBJECT,
-							"Autók");
-					sendIntent.putExtra(Intent.EXTRA_STREAM, u);
-					sendIntent.setType("text/html");
-					startActivity(sendIntent); 
-					
-				}	
-				
-				break;
-			case R.id.menu_Sort :
-				AlertDialog.Builder builder = new AlertDialog.Builder(context);
-				builder.setTitle("Rendezés");
-				final CharSequence[] choiceList = {"Foglalt", "Név", "Típus",
-						"Rendszám", "Kilóméter óra", "Mûszaki vizsga idõ",
-						"Szervíz idõ", "Telephely név"};
+		case R.id.menu_sendCSV:
+			if (NetworkUtil.checkInternetIsActive(context) == true) {
+				CSVUtil util = new CSVUtil();
+				ArrayList<Auto> autok = new ArrayList<Auto>(autoDao.loadAll());
+				Uri u = util.createAutoCSVFile(autok);
 
-				int selected = -1; // does not select anything
+				Intent sendIntent = new Intent(Intent.ACTION_SEND);
+				sendIntent.putExtra(Intent.EXTRA_SUBJECT, R.string.cars);
+				sendIntent.putExtra(Intent.EXTRA_STREAM, u);
+				sendIntent.setType("text/html");
+				startActivity(sendIntent);
 
-				builder.setSingleChoiceItems(choiceList, selected,
-						new DialogInterface.OnClickListener() {
+			}
 
-							@Override
-							public void onClick(DialogInterface dialog,
-									int which) {							
-								switch (which) {
-									case 0 :
-										Collections.sort(autok,
-												new Comparator<Auto>() {
-													public int compare(
-															Auto lhs, Auto rhs) {
-														return lhs
-																.getAutoFoglalt()
-																.compareTo(
-																		rhs.getAutoFoglalt());
-													};
-												});
-										adapter.clear();
-										adapter.addAll(autok);
-										adapter.notifyDataSetChanged();
-										break;
-									case 1 :
-										;
-										try {
-											RuleBasedCollator huCollator = new RuleBasedCollator(
-													hungarianRules);
-											sortAutoNev(huCollator, autok);
-											adapter.clear();
-											adapter.addAll(autok);
-											adapter.notifyDataSetChanged();
-										} catch (ParseException e) {
-											// TODO Auto-generated catch block
-											e.printStackTrace();
-										}
-										break;
-									case 2 :
+			break;
+		case R.id.menu_Sort:
+			AlertDialog.Builder builder = new AlertDialog.Builder(context);
+			builder.setTitle(R.string.sort);
+			// final CharSequence[] choiceList = {"Foglalt", "NÃ©v", "TÃ­pus",
+			// "RendszÃ¡m", "KilÃ³mÃ©ter Ã³ra", "MÃ»szaki vizsga idÃµ",
+			// "SzervÃ­z idÃµ", "Telephely nÃ©v"};
+			final String[] choiceList = context.getResources().getStringArray(
+					R.array.auto_sort_strings);
+			int selected = -1; // does not select anything
 
-										try {
-											RuleBasedCollator huCollator = new RuleBasedCollator(
-													hungarianRules);
-											sortAutoTipus(huCollator, autok);
-											adapter.clear();
-											adapter.addAll(autok);
-											adapter.notifyDataSetChanged();
-										} catch (ParseException e) {
-											// TODO Auto-generated catch block
-											e.printStackTrace();
-										}
-										break;
-									case 3 :
-										try {
-											RuleBasedCollator huCollator = new RuleBasedCollator(
-													hungarianRules);
-											sortAutoRendszam(huCollator, autok);
-											adapter.clear();
-											adapter.addAll(autok);
-											adapter.notifyDataSetChanged();
-										} catch (ParseException e) {
-											// TODO Auto-generated catch block
-											e.printStackTrace();
-										}
-										break;
-									case 4 :
-										Collections.sort(autok,
-												new Comparator<Auto>() {
-													public int compare(
-															Auto lhs, Auto rhs) {
-														return lhs
-																.getAutoKilometerOra()
-																.compareTo(
-																		rhs.getAutoKilometerOra());
-													};
-												});
-										adapter.clear();
-										adapter.addAll(autok);
-										adapter.notifyDataSetChanged();
-										break;
-									case 5 :
-										List<Auto> temp = autoDao
-												.queryBuilder()
-												.where(com.schonherz.dbentities.AutoDao.Properties.AutoFoglalt.eq(false),
-														com.schonherz.dbentities.AutoDao.Properties.AutoTipus.eq(jarmutipus),
-														com.schonherz.dbentities.AutoDao.Properties.AutoIsActive.eq(true))
-														
-												.orderDesc(
-														com.schonherz.dbentities.AutoDao.Properties.AutoMuszakiVizsgaDate)
-												.list();
-										autok.clear();
-										autok.addAll(temp);
-										adapter.clear();
-										adapter.addAll(autok);
-										adapter.notifyDataSetChanged();										
-										break;
-									case 6 :
-										List<Auto> temp2 = autoDao
+			builder.setSingleChoiceItems(choiceList, selected,
+					new DialogInterface.OnClickListener() {
+
+						@Override
+						public void onClick(DialogInterface dialog, int which) {
+							switch (which) {
+							case 0:
+								Collections.sort(autok, new Comparator<Auto>() {
+									public int compare(Auto lhs, Auto rhs) {
+										return lhs.getAutoFoglalt().compareTo(
+												rhs.getAutoFoglalt());
+									};
+								});
+								adapter.clear();
+								adapter.addAll(autok);
+								adapter.notifyDataSetChanged();
+								break;
+							case 1:
+								;
+								try {
+									RuleBasedCollator huCollator = new RuleBasedCollator(
+											hungarianRules);
+									sortAutoNev(huCollator, autok);
+									adapter.clear();
+									adapter.addAll(autok);
+									adapter.notifyDataSetChanged();
+								} catch (ParseException e) {
+									// TODO Auto-generated catch block
+									e.printStackTrace();
+								}
+								break;
+							case 2:
+
+								try {
+									RuleBasedCollator huCollator = new RuleBasedCollator(
+											hungarianRules);
+									sortAutoTipus(huCollator, autok);
+									adapter.clear();
+									adapter.addAll(autok);
+									adapter.notifyDataSetChanged();
+								} catch (ParseException e) {
+									// TODO Auto-generated catch block
+									e.printStackTrace();
+								}
+								break;
+							case 3:
+								try {
+									RuleBasedCollator huCollator = new RuleBasedCollator(
+											hungarianRules);
+									sortAutoRendszam(huCollator, autok);
+									adapter.clear();
+									adapter.addAll(autok);
+									adapter.notifyDataSetChanged();
+								} catch (ParseException e) {
+									// TODO Auto-generated catch block
+									e.printStackTrace();
+								}
+								break;
+							case 4:
+								Collections.sort(autok, new Comparator<Auto>() {
+									public int compare(Auto lhs, Auto rhs) {
+										return lhs
+												.getAutoKilometerOra()
+												.compareTo(
+														rhs.getAutoKilometerOra());
+									};
+								});
+								adapter.clear();
+								adapter.addAll(autok);
+								adapter.notifyDataSetChanged();
+								break;
+							case 5:
+								List<Auto> temp = autoDao
 										.queryBuilder()
-										.where(com.schonherz.dbentities.AutoDao.Properties.AutoFoglalt.eq(false),
-												com.schonherz.dbentities.AutoDao.Properties.AutoTipus.eq(jarmutipus),
-												com.schonherz.dbentities.AutoDao.Properties.AutoIsActive.eq(true))
+										.where(com.schonherz.dbentities.AutoDao.Properties.AutoFoglalt
+												.eq(false),
+												com.schonherz.dbentities.AutoDao.Properties.AutoTipus
+														.eq(jarmutipus),
+												com.schonherz.dbentities.AutoDao.Properties.AutoIsActive
+														.eq(true))
+
+										.orderDesc(
+												com.schonherz.dbentities.AutoDao.Properties.AutoMuszakiVizsgaDate)
+										.list();
+								autok.clear();
+								autok.addAll(temp);
+								adapter.clear();
+								adapter.addAll(autok);
+								adapter.notifyDataSetChanged();
+								break;
+							case 6:
+								List<Auto> temp2 = autoDao
+										.queryBuilder()
+										.where(com.schonherz.dbentities.AutoDao.Properties.AutoFoglalt
+												.eq(false),
+												com.schonherz.dbentities.AutoDao.Properties.AutoTipus
+														.eq(jarmutipus),
+												com.schonherz.dbentities.AutoDao.Properties.AutoIsActive
+														.eq(true))
 										.orderDesc(
 												com.schonherz.dbentities.AutoDao.Properties.AutoLastSzervizDate)
 										.list();
-										autok.clear();
-										autok.addAll(temp2);
-										adapter.clear();
-										adapter.addAll(autok);
-										adapter.notifyDataSetChanged();	
-										break;
-									case 7 :
-										try {
-											RuleBasedCollator huCollator = new RuleBasedCollator(
-													hungarianRules);
-											sortAutoTelephelyNev(huCollator, autok);
-											adapter.clear();
-											adapter.addAll(autok);
-											adapter.notifyDataSetChanged();
-										} catch (ParseException e) {
-											// TODO Auto-generated catch block
-											e.printStackTrace();
-										}
-										break;
+								autok.clear();
+								autok.addAll(temp2);
+								adapter.clear();
+								adapter.addAll(autok);
+								adapter.notifyDataSetChanged();
+								break;
+							case 7:
+								try {
+									RuleBasedCollator huCollator = new RuleBasedCollator(
+											hungarianRules);
+									sortAutoTelephelyNev(huCollator, autok);
+									adapter.clear();
+									adapter.addAll(autok);
+									adapter.notifyDataSetChanged();
+								} catch (ParseException e) {
+									// TODO Auto-generated catch block
+									e.printStackTrace();
 								}
-
-								dialog.dismiss();
-							}
-						});
-				AlertDialog alert = builder.create();
-				alert.show();
-
-				break;
-			case R.id.menu_refresh :
-				if (NetworkUtil.checkInternetIsActive(context) == true) {
-					new AsyncTask<Void, Void, Boolean>() {
-
-						@Override
-						protected void onPreExecute() {
-							startRefreshAnimation();
-						};
-
-						@Override
-						protected void onPostExecute(Boolean result) {
-							// TODO Auto-generated method stub
-							if (result == true) {
-								Toast.makeText(context, R.string.refreshed,
-										Toast.LENGTH_SHORT).show();
-
-							} else {
-								Toast.makeText(context, R.string.errorRefresh,
-										Toast.LENGTH_SHORT).show();
+								break;
 							}
 
-							try {
-								// Play notification sound when refresn finished
-								Uri notification = RingtoneManager
-										.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
-								Ringtone r = RingtoneManager.getRingtone(
-										context, notification);
-								r.play();
-							} catch (Exception e) {
-								e.printStackTrace();
-							}
+							dialog.dismiss();
+						}
+					});
+			AlertDialog alert = builder.create();
+			alert.show();
 
-							adapter.clear();
+			break;
+		case R.id.menu_refresh:
+			if (NetworkUtil.checkInternetIsActive(context) == true) {
+				new AsyncTask<Void, Void, Boolean>() {
 
-							// Ezt még átgondolni, hogy jó lesz e!
-							konkreatautoRefresh();
-							autok = konkretautok;
-							//autok = new ArrayList<Auto>(autoDao.queryBuilder().where(com.schonherz.dbentities.AutoDao.Properties.AutoFoglalt.eq(true),
-								//	com.schonherz.dbentities.AutoDao.Properties.AutoIsActive.eq(true)).list());
+					@Override
+					protected void onPreExecute() {
+						startRefreshAnimation();
+					};
 
-							adapter.addAll(autok);
+					@Override
+					protected void onPostExecute(Boolean result) {
+						// TODO Auto-generated method stub
+						if (result == true) {
+							Toast.makeText(context, R.string.refreshed,
+									Toast.LENGTH_SHORT).show();
 
-							adapter.notifyDataSetChanged();
-
-							if (refreshItem != null
-									&& refreshItem.getActionView() != null) {
-								refreshItem.getActionView().clearAnimation();
-								refreshItem.setActionView(null);
-							}
-
-							stopRefreshAnimation();
+						} else {
+							Toast.makeText(context, R.string.errorRefresh,
+									Toast.LENGTH_SHORT).show();
 						}
 
-						@Override
-						protected Boolean doInBackground(Void... params) {
-							// TODO Auto-generated method stub
-							return saveAutoTable();
+						try {
+							// Play notification sound when refresn finished
+							Uri notification = RingtoneManager
+									.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
+							Ringtone r = RingtoneManager.getRingtone(context,
+									notification);
+							r.play();
+						} catch (Exception e) {
+							e.printStackTrace();
 						}
 
-					}.execute();
-				} else {
-					Toast.makeText(context, R.string.no_internet,
-							Toast.LENGTH_SHORT).show();
-				}
-				break;
+						adapter.clear();
+
+						// Ezt mÃ©g Ã¡tgondolni, hogy jÃ³ lesz e!
+						konkreatautoRefresh();
+						autok = konkretautok;
+						// autok = new
+						// ArrayList<Auto>(autoDao.queryBuilder().where(com.schonherz.dbentities.AutoDao.Properties.AutoFoglalt.eq(true),
+						// com.schonherz.dbentities.AutoDao.Properties.AutoIsActive.eq(true)).list());
+
+						adapter.addAll(autok);
+
+						adapter.notifyDataSetChanged();
+
+						if (refreshItem != null
+								&& refreshItem.getActionView() != null) {
+							refreshItem.getActionView().clearAnimation();
+							refreshItem.setActionView(null);
+						}
+
+						stopRefreshAnimation();
+					}
+
+					@Override
+					protected Boolean doInBackground(Void... params) {
+						// TODO Auto-generated method stub
+						return saveAutoTable();
+					}
+
+				}.execute();
+			} else {
+				Toast.makeText(context, R.string.no_internet,
+						Toast.LENGTH_SHORT).show();
+			}
+			break;
 
 		}
 
 		return true;
 	}
+
 	public void konkreatautoRefresh() {
-		if (jarmutipus.equals("Személygépjármû")) 
-			konkretautok = new ArrayList<Auto>(autoDao.queryBuilder().where(com.schonherz.dbentities.AutoDao.Properties.AutoFoglalt.eq(false),
-					com.schonherz.dbentities.AutoDao.Properties.AutoIsActive.eq(true), com.schonherz.dbentities.AutoDao.Properties.AutoTipus.eq("Személygépjármû")).list());
+		if (jarmutipus.equals("SzemÃ©lygÃ©pjÃ¡rmÃ»"))
+			konkretautok = new ArrayList<Auto>(
+					autoDao.queryBuilder()
+							.where(com.schonherz.dbentities.AutoDao.Properties.AutoFoglalt
+									.eq(false),
+									com.schonherz.dbentities.AutoDao.Properties.AutoIsActive
+											.eq(true),
+									com.schonherz.dbentities.AutoDao.Properties.AutoTipus
+											.eq("SzemÃ©lygÃ©pjÃ¡rmÅ±")).list());
 		if (jarmutipus.equals("Furgon"))
-			konkretautok = new ArrayList<Auto>(autoDao.queryBuilder().where(com.schonherz.dbentities.AutoDao.Properties.AutoFoglalt.eq(false),
-					com.schonherz.dbentities.AutoDao.Properties.AutoIsActive.eq(true), com.schonherz.dbentities.AutoDao.Properties.AutoTipus.eq("Furgon")).list());
+			konkretautok = new ArrayList<Auto>(
+					autoDao.queryBuilder()
+							.where(com.schonherz.dbentities.AutoDao.Properties.AutoFoglalt
+									.eq(false),
+									com.schonherz.dbentities.AutoDao.Properties.AutoIsActive
+											.eq(true),
+									com.schonherz.dbentities.AutoDao.Properties.AutoTipus
+											.eq("Furgon")).list()); 
 		if (jarmutipus.equals("Busz"))
-			konkretautok = new ArrayList<Auto>(autoDao.queryBuilder().where(com.schonherz.dbentities.AutoDao.Properties.AutoFoglalt.eq(false),
-					com.schonherz.dbentities.AutoDao.Properties.AutoIsActive.eq(true), com.schonherz.dbentities.AutoDao.Properties.AutoTipus.eq("Busz")).list());
-		if (jarmutipus.equals("Kisteherautó"))
-			konkretautok = new ArrayList<Auto>(autoDao.queryBuilder().where(com.schonherz.dbentities.AutoDao.Properties.AutoFoglalt.eq(false),
-					com.schonherz.dbentities.AutoDao.Properties.AutoIsActive.eq(true), com.schonherz.dbentities.AutoDao.Properties.AutoTipus.eq("Kisteherautó")).list());
+			konkretautok = new ArrayList<Auto>(
+					autoDao.queryBuilder()
+							.where(com.schonherz.dbentities.AutoDao.Properties.AutoFoglalt
+									.eq(false),
+									com.schonherz.dbentities.AutoDao.Properties.AutoIsActive
+											.eq(true),
+									com.schonherz.dbentities.AutoDao.Properties.AutoTipus
+											.eq("Busz")).list());
+		if (jarmutipus.equals("KisteherautÃ³"))
+			konkretautok = new ArrayList<Auto>(
+					autoDao.queryBuilder()
+							.where(com.schonherz.dbentities.AutoDao.Properties.AutoFoglalt
+									.eq(false),
+									com.schonherz.dbentities.AutoDao.Properties.AutoIsActive
+											.eq(true),
+									com.schonherz.dbentities.AutoDao.Properties.AutoTipus
+											.eq("KisteherautÃ³")).list());
 		if (jarmutipus.equals("Kamion"))
-			konkretautok = new ArrayList<Auto>(autoDao.queryBuilder().where(com.schonherz.dbentities.AutoDao.Properties.AutoFoglalt.eq(false),
-					com.schonherz.dbentities.AutoDao.Properties.AutoIsActive.eq(true), com.schonherz.dbentities.AutoDao.Properties.AutoTipus.eq("Kamion")).list());
-		if (jarmutipus.equals("Teherautó"))
-			konkretautok = new ArrayList<Auto>(autoDao.queryBuilder().where(com.schonherz.dbentities.AutoDao.Properties.AutoFoglalt.eq(false),
-					com.schonherz.dbentities.AutoDao.Properties.AutoIsActive.eq(true), com.schonherz.dbentities.AutoDao.Properties.AutoTipus.eq("Teherautó")).list());
-								
+			konkretautok = new ArrayList<Auto>(
+					autoDao.queryBuilder()
+							.where(com.schonherz.dbentities.AutoDao.Properties.AutoFoglalt
+									.eq(false),
+									com.schonherz.dbentities.AutoDao.Properties.AutoIsActive
+											.eq(true),
+									com.schonherz.dbentities.AutoDao.Properties.AutoTipus
+											.eq("Kamion")).list());
+		if (jarmutipus.equals("TeherautÃ³"))
+			konkretautok = new ArrayList<Auto>(
+					autoDao.queryBuilder()
+							.where(com.schonherz.dbentities.AutoDao.Properties.AutoFoglalt
+									.eq(false),
+									com.schonherz.dbentities.AutoDao.Properties.AutoIsActive
+											.eq(true),
+									com.schonherz.dbentities.AutoDao.Properties.AutoTipus
+											.eq("TeherautÃ³")).list());
+
 	}
+
 	@Override
 	public void onResume() {
 		// TODO Auto-generated method stub
-		
-		adapter.clear();	
-		//autok = konkretautok;
+
+		adapter.clear();
+		// autok = konkretautok;
 		konkreatautoRefresh();
-			
+
 		autok = konkretautok;
 		adapter.addAll(autok);
 
 		adapter.notifyDataSetChanged();
-		
-		super.onResume();	
+
+		super.onResume();
 	}
 
 	@Override
@@ -536,7 +576,7 @@ public class SzabadAutoListFragment extends Fragment {
 		// TODO Auto-generated method stub
 		super.onActivityResult(requestCode, resultCode, data);
 	}
-	
+
 	public Boolean saveAutoTable() {
 		JSONArray jsonArray;
 		JSONObject json;
@@ -571,8 +611,6 @@ public class SzabadAutoListFragment extends Fragment {
 		return false;
 	}
 
-
-	
 	private void stopRefreshAnimation() {
 		LayoutInflater inflater = (LayoutInflater) context
 				.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
@@ -593,14 +631,15 @@ public class SzabadAutoListFragment extends Fragment {
 		refreshItem.setActionView(iv);
 	}
 
+	
+	
 	// This code here for Hungarian String comparation
 
-	String hungarianRules = ("< a,A < á,Á < b,B < c,C < cs,Cs < d,D < dz,Dz < dzs,Dzs "
-			+ "< e,E < é,É < f,F < g,G < gy,Gy < h,H < i,I < í,Í < j,J "
-			+ "< k,K < l,L < ly,Ly < m,M < n,N < ny,Ny < o,O < ó,Ó "
-			+ "< ö,Ö < õ,Õ < p,P < q,Q < r,R < s,S < sz,Sz < t,T "
-			+ "< ty,Ty < u,U < ú,Ú < ü,Ü < û,Û < v,V < w,W < x,X < y,Y < z,Z < zs,Zs");
-
+	String hungarianRules = ("< a,A < Ã¡,Ã < b,B < c,C < cs,Cs < d,D < dz,Dz < dzs,Dzs "
+			+ "< e,E < Ã©,Ã‰ < f,F < g,G < gy,Gy < h,H < i,I < Ã­,Ã < j,J "
+			+ "< k,K < l,L < ly,Ly < m,M < n,N < ny,Ny < o,O < Ã³,Ã“ "
+			+ "< Ã¶,Ã– < Å‘,Å < p,P < q,Q < r,R < s,S < sz,Sz < t,T "
+			+ "< ty,Ty < u,U < Ãº,Ãš < Ã¼,Ãœ < Å±,Å° < v,V < w,W < x,X < y,Y < z,Z < zs,Zs");
 
 	public static void sortAutoNev(Collator collator, List<Auto> autoList) {
 		Auto temp;
@@ -643,13 +682,15 @@ public class SzabadAutoListFragment extends Fragment {
 			}
 		}
 	}
-	
-	public static void sortAutoTelephelyNev(Collator collator, List<Auto> autoList) {
+
+	public static void sortAutoTelephelyNev(Collator collator,
+			List<Auto> autoList) {
 		Auto temp;
 		for (int i = 0; i < autoList.size(); i++) {
 			for (int j = 0; j < autoList.size(); j++) {
-				if (collator.compare(autoList.get(i).getTelephely().getTelephelyNev(),
-						autoList.get(j).getTelephely().getTelephelyNev()) > 0) {
+				if (collator.compare(autoList.get(i).getTelephely()
+						.getTelephelyNev(), autoList.get(j).getTelephely()
+						.getTelephelyNev()) > 0) {
 					temp = autoList.get(i);
 					autoList.set(i, autoList.get(j));
 					autoList.set(j, temp);

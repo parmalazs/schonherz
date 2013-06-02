@@ -215,10 +215,10 @@ public class MunkaDetailsActivity extends Activity {
 
 						AlertDialog.Builder builder = new AlertDialog.Builder(
 								MunkaDetailsActivity.this);
-						builder.setMessage("Biztosan törli?")
-								.setPositiveButton("Igen",
+						builder.setMessage(R.string.torles)
+								.setPositiveButton(R.string.yes,
 										dialogClickListener)
-								.setNegativeButton("Nem", dialogClickListener)
+								.setNegativeButton(R.string.no, dialogClickListener)
 								.show();
 
 						
@@ -397,7 +397,7 @@ public class MunkaDetailsActivity extends Activity {
 				adapter.notifyDataSetChanged();
 
 				Toast.makeText(getApplicationContext(),
-						Integer.toString(photos.length) + "  kép mentve!",
+						Integer.toString(photos.length) +" "+ R.string.pictureSaved,
 						Toast.LENGTH_SHORT).show();
 
 			}

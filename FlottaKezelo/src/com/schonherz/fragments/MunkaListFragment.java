@@ -6,6 +6,7 @@ import java.util.List;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
+import android.annotation.SuppressLint;
 import android.app.AlertDialog;
 import android.app.SearchManager;
 import android.content.Context;
@@ -52,6 +53,7 @@ import com.schonherz.flottadroid.R;
 
 import de.greenrobot.dao.QueryBuilder;
 
+@SuppressLint("ValidFragment")
 public class MunkaListFragment extends Fragment {
 
 	Context context;
@@ -97,7 +99,7 @@ public class MunkaListFragment extends Fragment {
 			ContextMenuInfo menuInfo) {
 		// TODO Auto-generated method stub
 		if (v.getId() == R.id.pulltorefresh_listview) {
-			menu.add(Menu.NONE, CONTEXT_MENU_DELETE_ITEM, Menu.NONE, "Törlés");
+			menu.add(Menu.NONE, CONTEXT_MENU_DELETE_ITEM, Menu.NONE, R.string.torles);
 		}
 	}
 
@@ -310,7 +312,7 @@ public class MunkaListFragment extends Fragment {
 					
 					Intent sendIntent = new Intent(Intent.ACTION_SEND);
 					sendIntent.putExtra(Intent.EXTRA_SUBJECT,
-							"Munkák");
+							R.string.jobs);
 					sendIntent.putExtra(Intent.EXTRA_STREAM, u);
 					sendIntent.setType("text/html");
 					startActivity(sendIntent); 
@@ -321,9 +323,11 @@ public class MunkaListFragment extends Fragment {
 			case R.id.menu_Sort :
 				AlertDialog.Builder builder = new AlertDialog.Builder(context);
 				builder.setTitle("Rendezés");
-				final CharSequence[] choiceList = {"Idõ", "Telephely",
-						"Becsült idõ", "Munkatípus"};
-
+				//final CharSequence[] choiceList = {"Idõ", "Telephely",
+				//		"Becsült idõ", "Munkatípus"};
+				
+				CharSequence[] choiceList = context.getResources().getStringArray(R.array.munka_sort_strings);
+				
 				int selected = -1; // does not select anything
 
 				builder.setSingleChoiceItems(choiceList, selected,

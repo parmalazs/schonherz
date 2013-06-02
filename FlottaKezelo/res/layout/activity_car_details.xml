@@ -35,7 +35,7 @@
             android:layout_height="wrap_content"
             android:layout_marginBottom="10dp"
             android:layout_marginTop="20dp"
-            android:text="Név:"
+            android:text="@string/name"
             android:textAppearance="?android:attr/textAppearanceMedium" />
 
         <TextView
@@ -44,7 +44,7 @@
             android:layout_height="wrap_content"
             android:layout_marginBottom="10dp"
             android:layout_marginTop="10dp"
-            android:text="Típus: "
+            android:text="@string/type"
             android:textAppearance="?android:attr/textAppearanceMedium" />
 
         <LinearLayout
@@ -58,7 +58,7 @@
             android:layout_height="wrap_content"
             android:layout_marginBottom="10dp"
             android:layout_marginTop="10dp"
-            android:text="Rendszám:"
+            android:text="@string/rendszam"
             android:textAppearance="?android:attr/textAppearanceMedium" />
 
         <TextView
@@ -67,7 +67,7 @@
             android:layout_height="wrap_content"
             android:layout_marginBottom="10dp"
             android:layout_marginTop="10dp"
-            android:text="Km óra:"
+            android:text="@string/kmhour"
             android:textAppearance="?android:attr/textAppearanceMedium" />
 
         <TextView
@@ -76,7 +76,7 @@
             android:layout_height="wrap_content"
             android:layout_marginBottom="10dp"
             android:layout_marginTop="10dp"
-            android:text="Üzemanyag:"
+            android:text="@string/uzemanyag"
             android:textAppearance="?android:attr/textAppearanceMedium" />
 
         <TextView
@@ -85,7 +85,7 @@
             android:layout_height="wrap_content"
             android:layout_marginBottom="10dp"
             android:layout_marginTop="10dp"
-            android:text="Műszaki vizsga:"
+            android:text="@string/muszakiVizsga"
             android:textAppearance="?android:attr/textAppearanceMedium" />
 
         <TextView
@@ -94,7 +94,7 @@
             android:layout_height="wrap_content"
             android:layout_marginBottom="10dp"
             android:layout_marginTop="10dp"
-            android:text="Utolsó szervíz:"
+            android:text="@string/last_szerviz"
             android:textAppearance="?android:attr/textAppearanceMedium" />
 
         <TextView
@@ -103,7 +103,7 @@
             android:layout_height="wrap_content"
             android:layout_marginBottom="10dp"
             android:layout_marginTop="10dp"
-            android:text="Utolsó módosítás:"
+            android:text="@string/lastModifity"
             android:textAppearance="?android:attr/textAppearanceMedium" />
 
         <TextView
@@ -112,7 +112,7 @@
             android:layout_height="wrap_content"
             android:layout_marginBottom="10dp"
             android:layout_marginTop="10dp"
-            android:text="Utolsó telephely:"
+            android:text="@string/lastTelephely"
             android:textAppearance="?android:attr/textAppearanceMedium" />
 
         <TextView
@@ -121,7 +121,7 @@
             android:layout_height="wrap_content"
             android:layout_marginBottom="10dp"
             android:layout_marginTop="10dp"
-            android:text="Utolsó sofőr:"
+            android:text="@string/lastSofor"
             android:textAppearance="?android:attr/textAppearanceMedium" />
 
             <LinearLayout
@@ -142,7 +142,7 @@
             android:layout_height="wrap_content"
             android:layout_marginBottom="10dp"
             android:layout_marginTop="10dp"
-            android:text="Lefoglal" />
+            android:text="@string/lefoglal" />
     </LinearLayout>
 
 </ScrollView>

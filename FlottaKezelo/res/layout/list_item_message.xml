@@ -28,7 +28,7 @@
         android:layout_height="wrap_content"
         android:layout_alignTop="@+id/thumbnail"
         android:layout_toRightOf="@+id/thumbnail"
-        android:text="Üzenet via FlottaDroid"
+        android:text="@string/messageViaFlotta"
         android:textColor="#040404"
         android:textSize="15dip"
         android:textStyle="bold"

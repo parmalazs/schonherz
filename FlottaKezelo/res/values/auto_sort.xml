@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string-array name="auto_sort_strings">
+        <item>@string/foglalt</item>
+ 		<item>@string/name</item>
+        <item>@string/type</item>     
+ 		<item>@string/rendszam</item>       
+ 		<item>@string/kmhour</item>               
+        <item>@string/muszakiVizsga</item>
+		<item>@string/szerviz</item>
+		<item>@string/telephely</item>
+    </string-array>
+
+</resources>

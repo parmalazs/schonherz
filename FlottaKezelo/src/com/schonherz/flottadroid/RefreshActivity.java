@@ -147,8 +147,8 @@ public class RefreshActivity extends Activity {
 
 							protected void onPreExecute() {
 								progress = ProgressDialog.show(
-										RefreshActivity.this, "Frissítés",
-										"Képek letöltése...");
+										RefreshActivity.this, getString(R.string.refreshing),
+										getString(R.string.kepekletoltese));
 							};
 
 							@Override
@@ -163,7 +163,7 @@ public class RefreshActivity extends Activity {
 
 					protected void onPreExecute() {
 						progress = ProgressDialog.show(RefreshActivity.this,
-								"Frissítés", "Adatok frissítése...");
+								getString(R.string.refreshing), getString(R.string.adatokRefresh));
 					};
 
 					@Override
@@ -190,7 +190,7 @@ public class RefreshActivity extends Activity {
 
 					protected void onPreExecute() {
 						progress = ProgressDialog.show(RefreshActivity.this,
-								"Frissítés", "Képek feltöltése...");
+								getString(R.string.refreshing), getString(R.string.uploadingpictures));
 					};
 
 					@Override

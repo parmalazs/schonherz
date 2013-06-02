@@ -69,7 +69,7 @@
                 android:id="@+id/autoRendszamTextView"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Rendszám:"
+                android:text="@string/rendszam"
                 android:textAppearance="?android:attr/textAppearanceMedium" />
 
             <EditText
@@ -151,7 +151,7 @@
                 android:id="@+id/autoUzemanyagTextView"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Üzemanyag:"
+                android:text="@string/uzemanyag"
                 android:textAppearance="?android:attr/textAppearanceMedium" />
 
             <EditText
@@ -172,7 +172,7 @@
                 android:id="@+id/autoLastTelephelyTextView"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Telephely:"
+                android:text="@string/telephely"
                 android:textAppearance="?android:attr/textAppearanceMedium" />
 
             <Spinner
@@ -214,7 +214,7 @@
                 android:id="@+id/lefoglalButton"
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
-                android:text="Mentés" />
+                android:text="@string/save" />
         </LinearLayout>
     </LinearLayout>
 

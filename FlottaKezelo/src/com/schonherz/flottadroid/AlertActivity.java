@@ -33,7 +33,7 @@ public class AlertActivity extends Activity {
 	public void showAlert(String message)
 	{
 		  new AlertDialog.Builder(AlertActivity.this)
-	        .setMessage("Üzenet via FlottaDroid:\n\n" + message)
+	        .setMessage(""+R.string.messageViaFlotta+"\n\n" + message)
 	        .setPositiveButton(android.R.string.ok,
 	            new DialogInterface.OnClickListener() {
 	              public void onClick(DialogInterface dialog, int id) {

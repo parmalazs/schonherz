@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+        <string-array name="munka_sort_strings">
+        <item>@string/time</item>
+        <item>@string/telephely</item>
+        <item>@string/estimatedTime</item>
+        <item>@string/munkatipus</item>        
+    </string-array>
+</resources>

@@ -273,9 +273,9 @@ public class SzabadMunkaListFragment extends Fragment {
 				break;
 			case R.id.menu_Sort :
 				AlertDialog.Builder builder = new AlertDialog.Builder(context);
-				builder.setTitle("Rendezés");
-				final CharSequence[] choiceList = {"Idõ", "Telephely","Becsült idõ", "Munkatípus"};
-
+				builder.setTitle(R.string.sort);
+				//final CharSequence[] choiceList = {"Idõ", "Telephely","Becsült idõ", "Munkatípus"};
+				String[] choiceList = {""+R.string.time,""+R.string.telephely,""+R.string.estimatedTime,""+R.string.estimatedTime};
 				int selected = -1; // does not select anything
 
 				builder.setSingleChoiceItems(choiceList, selected,

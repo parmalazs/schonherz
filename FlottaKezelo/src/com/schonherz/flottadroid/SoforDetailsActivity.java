@@ -284,41 +284,41 @@ public class SoforDetailsActivity extends Activity {
 											
 										} else {
 											Toast.makeText(getApplicationContext(),
-													"Elfelejtett születési dátumot emgadni!",
+													R.string.forgetbirth,
 													Toast.LENGTH_LONG).show();
 										}
 										
 									} else {
 										Toast.makeText(getApplicationContext(),
-												"Elfelejtett email címet emgadni!",
+												R.string.forgetemail,
 												Toast.LENGTH_LONG).show();
 									}
 									
 								} else {
 									Toast.makeText(getApplicationContext(),
-											"Elfelejtett telefonszámot megadni!",
+											R.string.forgettel,
 											Toast.LENGTH_LONG).show();
 								}
 								
 							} else {
 								Toast.makeText(getApplicationContext(),
-										"Elfelejtett címet megadni!",
+										R.string.forgetaddress,
 										Toast.LENGTH_LONG).show();
 							}
 							
 						} else {
 							Toast.makeText(getApplicationContext(),
-									"Elfelejtett jelszót megadni!",
+									R.string.forgetpass,
 									Toast.LENGTH_LONG).show();
 						}
 					} else {
 						Toast.makeText(getApplicationContext(),
-								"Elfelejtett login nevet megadni!",
+								R.string.forgetlogin,
 								Toast.LENGTH_LONG).show();
 					}
 				} else {
 					Toast.makeText(getApplicationContext(),
-							"Elfelejtett nevet megadni!", Toast.LENGTH_LONG)
+							R.string.forgetname, Toast.LENGTH_LONG)
 							.show();
 				}
 			}
@@ -484,7 +484,7 @@ public class SoforDetailsActivity extends Activity {
 				
 
 				Toast.makeText(getApplicationContext(),
-						Integer.toString(photos.length) + "  kép mentve!",
+						Integer.toString(photos.length) + " "+R.string.pictureSaved,
 						Toast.LENGTH_SHORT).show();
 			}
 

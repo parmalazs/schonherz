@@ -264,9 +264,9 @@ public class PartnerDetailsActivity extends Activity {
 
 						AlertDialog.Builder builder = new AlertDialog.Builder(
 								PartnerDetailsActivity.this);
-						builder.setMessage("Biztosan törli?")
-								.setPositiveButton("Igen", dialogClickListener)
-								.setNegativeButton("Nem", dialogClickListener)
+						builder.setMessage(R.string.torles)
+								.setPositiveButton(R.string.yes, dialogClickListener)
+								.setNegativeButton(R.string.no, dialogClickListener)
 								.show();
 
 						return false;
@@ -335,43 +335,43 @@ public class PartnerDetailsActivity extends Activity {
 											
 										} else {
 											Toast.makeText(getApplicationContext(),
-													"Elfelejtett web oldalt megadni!", Toast.LENGTH_LONG)
+													R.string.forgetweb, Toast.LENGTH_LONG)
 													.show();
 										}
 										
 									} else {
 										Toast.makeText(getApplicationContext(),
-												"Elfelejtett y koordinátát megadni!", Toast.LENGTH_LONG)
+												R.string.forgety, Toast.LENGTH_LONG)
 												.show();
 									}
 									
 								} else {
 									Toast.makeText(getApplicationContext(),
-											"Elfelejtett x koordinátát megadni!", Toast.LENGTH_LONG)
+											R.string.forgetx, Toast.LENGTH_LONG)
 											.show();
 								}
 								
 							} else {
 								Toast.makeText(getApplicationContext(),
-										"Elfelejtett email címet megadni!", Toast.LENGTH_LONG)
+										R.string.forgetemail, Toast.LENGTH_LONG)
 										.show();
 							}
 							
 						} else {
 							Toast.makeText(getApplicationContext(),
-									"Elfelejtett telefonszámot megadni!", Toast.LENGTH_LONG)
+									R.string.forgettel, Toast.LENGTH_LONG)
 									.show();
 						}
 						
 					} else {
 						Toast.makeText(getApplicationContext(),
-								"Elfelejtett címet megadni!", Toast.LENGTH_LONG)
+								R.string.forgetaddress, Toast.LENGTH_LONG)
 								.show();
 					}
 					
 				} else {
 					Toast.makeText(getApplicationContext(),
-							"Elfelejtett nevet megadni!", Toast.LENGTH_LONG)
+							R.string.forgetname, Toast.LENGTH_LONG)
 							.show();
 				}
 			}
@@ -557,7 +557,7 @@ public class PartnerDetailsActivity extends Activity {
 				partnerPicsGallery.setAdapter(imageadapter);
 
 				Toast.makeText(getApplicationContext(),
-						Integer.toString(photos.length) + "  kép mentve!",
+						Integer.toString(photos.length) + " "+ R.string.pictureSaved,
 						Toast.LENGTH_SHORT).show();
 
 			}

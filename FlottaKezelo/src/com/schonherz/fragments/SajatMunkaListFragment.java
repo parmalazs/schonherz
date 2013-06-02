@@ -21,6 +21,7 @@ import com.schonherz.flottadroid.MunkaDetailsActivity;
 import com.schonherz.flottadroid.R;
 
 import de.greenrobot.dao.QueryBuilder;
+import android.annotation.SuppressLint;
 import android.app.AlertDialog;
 import android.app.SearchManager;
 import android.content.Context;
@@ -66,6 +67,7 @@ public class SajatMunkaListFragment extends Fragment {
 	
 	final int CONTEXT_MENU_LEADAS =1;
 	
+	@SuppressLint("ValidFragment")
 	public SajatMunkaListFragment(Context context, MunkaDao munkaDao) {
 		this.context = context;
 		this.munkaDao = munkaDao;
@@ -85,7 +87,7 @@ public class SajatMunkaListFragment extends Fragment {
 			ContextMenuInfo menuInfo) {
 		// TODO Auto-generated method stub
 		if (v.getId()==R.id.pulltorefresh_listview) {
-			menu.add(Menu.NONE, CONTEXT_MENU_LEADAS, Menu.NONE, "Leadás");
+			menu.add(Menu.NONE, CONTEXT_MENU_LEADAS, Menu.NONE, R.string.leadas);
 		}
 	}
 	
@@ -285,7 +287,7 @@ public class SajatMunkaListFragment extends Fragment {
 					
 					Intent sendIntent = new Intent(Intent.ACTION_SEND);
 					sendIntent.putExtra(Intent.EXTRA_SUBJECT,
-							"Munkák");
+							R.string.jobs);
 					sendIntent.putExtra(Intent.EXTRA_STREAM, u);
 					sendIntent.setType("text/html");
 					startActivity(sendIntent); 
@@ -295,9 +297,9 @@ public class SajatMunkaListFragment extends Fragment {
 				break;
 			case R.id.menu_Sort :
 				AlertDialog.Builder builder = new AlertDialog.Builder(context);
-				builder.setTitle("Rendezés");
-				final CharSequence[] choiceList = {"Idõ", "Telephely","Becsült idõ", "Munkatípus"};
-
+				builder.setTitle(R.string.sort);
+				//final CharSequence[] choiceList = {"Idõ", "Telephely","Becsült idõ", "Munkatípus"};
+				String[] choiceList = {""+R.string.time,""+R.string.telephely,""+R.string.estimatedTime,""+R.string.estimatedTime};
 				int selected = -1; // does not select anything
 
 				builder.setSingleChoiceItems(choiceList, selected,
