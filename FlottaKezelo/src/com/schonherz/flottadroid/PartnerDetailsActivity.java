@@ -557,7 +557,7 @@ public class PartnerDetailsActivity extends Activity {
 				partnerPicsGallery.setAdapter(imageadapter);
 
 				Toast.makeText(getApplicationContext(),
-						Integer.toString(photos.length) + " "+ R.string.pictureSaved,
+						Integer.toString(photos.length) + " "+ getString(R.string.pictureSaved),
 						Toast.LENGTH_SHORT).show();
 
 			}

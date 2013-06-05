@@ -334,7 +334,7 @@ public class SoforListFragment extends Fragment {
 				AlertDialog.Builder builder = new AlertDialog.Builder(context);
 				builder.setTitle(R.string.sort);
 				//final CharSequence[] choiceList = {"Név", "Cím", "Telefonszám" };
-				String[] choiceList = {""+R.string.name,""+R.string.cim,""+R.string.telefon};
+				String[] choiceList = {getString(R.string.name),getString(R.string.cim),getString(R.string.telefon)};
 				int selected = -1; // does not select anything
 
 				builder.setSingleChoiceItems(choiceList, selected, new OnClickListener() {

@@ -178,32 +178,32 @@ public class CarDetailsActivity extends Activity {
 			autoLastSoforNevTextView.setText("null");
 		} else {
 
-			autoTipusTextView.setText("" +R.string.type + currentAuto.getAutoTipus());
-			autoNevTextView.setText(""+R.string.nev + currentAuto.getAutoNev());
-			autoRendszamTextView.setText(""+R.string.rendszam
+			autoTipusTextView.setText(getString(R.string.type) +" " + currentAuto.getAutoTipus());
+			autoNevTextView.setText(getString(R.string.nev) +" " + currentAuto.getAutoNev());
+			autoRendszamTextView.setText(getString(R.string.rendszam) +" "
 					+ currentAuto.getAutoRendszam());
-			autoKmTextView.setText(""+R.string.kmhour
+			autoKmTextView.setText(getString(R.string.kmhour) +" "
 					+ currentAuto.getAutoKilometerOra());
-			autoUzemanyagTextView.setText(""+R.string.uzemanyag
+			autoUzemanyagTextView.setText(getString(R.string.uzemanyag) +" "
 					+ currentAuto.getAutoUzemanyag());
-			autoMuszakiVizsgaDateTextView.setText(""+R.string.muszakiVizsga
+			autoMuszakiVizsgaDateTextView.setText(getString(R.string.muszakiVizsga) +" "
 					+ currentAuto.getAutoMuszakiVizsgaDate());
-			autoLastServiceDateTextView.setText(""+R.string.last_szerviz
+			autoLastServiceDateTextView.setText(getString(R.string.last_szerviz) +" "
 					+ currentAuto.getAutoLastSzervizDate());
-			autoLastUpDateTextView.setText(""+R.string.lastModifity
+			autoLastUpDateTextView.setText(getString(R.string.lastModifity) +" "
 					+ currentAuto.getAutoLastUpDate());
 			// nem megy vmiért!
 			// ArrayList<Telephely> telephelylist = new
 			// ArrayList<Telephely>(telephelyDao.queryBuilder().where(com.schonherz.dbentities.TelephelyDao.Properties.TelephelyID.eq(currentAuto.getAutoLastTelephelyID())).list());
 			// autoLastTelephelyTextView.setText("Utolsó telephely: " +
 			// telephelylist.get(0).getTelephelyNev());
-			autoLastTelephelyTextView.setText(""+R.string.lastTelephely
+			autoLastTelephelyTextView.setText(getString(R.string.lastTelephely) +" "
 					+ currentAuto.getAutoLastTelephelyID());
 			ArrayList<Sofor> soforlist = new ArrayList<Sofor>(soforDao
 					.queryBuilder()
 					.where(com.schonherz.dbentities.SoforDao.Properties.SoforID
 							.eq(currentAuto.getAutoLastSoforID())).list());
-			autoLastSoforNevTextView.setText(""+R.string.lastSofor
+			autoLastSoforNevTextView.setText(getString(R.string.lastSofor) +" "
 					+ soforlist.get(0).getSoforNev());
 
 			if (NetworkUtil.checkInternetIsActive(CarDetailsActivity.this)) {

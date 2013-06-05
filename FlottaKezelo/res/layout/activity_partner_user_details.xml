@@ -2,7 +2,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/ScrollView1"
     android:layout_width="match_parent"
-    android:layout_height="match_parent" >
+    android:layout_height="match_parent"
+    android:background="@drawable/shape_main_activity" >
 
     <LinearLayout        
         android:id="@+id/LinearLayout1"
@@ -27,6 +28,9 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/name"
+				android:background="@drawable/textview_back"
+                android:paddingLeft="10dp"
+                android:paddingRight="10dp"
                 android:textAppearance="?android:attr/textAppearanceMedium" />
 
             <TextView
@@ -51,6 +55,9 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/cim"
+				android:background="@drawable/textview_back"
+                android:paddingLeft="10dp"
+                android:paddingRight="10dp"
                 android:textAppearance="?android:attr/textAppearanceMedium" />
 
             <TextView
@@ -74,6 +81,9 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/telefon"
+				android:background="@drawable/textview_back"
+                android:paddingLeft="10dp"
+                android:paddingRight="10dp"
                 android:textAppearance="?android:attr/textAppearanceMedium" />
 
             <TextView
@@ -97,6 +107,9 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/web"
+				android:background="@drawable/textview_back"
+                android:paddingLeft="10dp"
+                android:paddingRight="10dp"
                 android:textAppearance="?android:attr/textAppearanceMedium" />
 
             <TextView
@@ -120,6 +133,9 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/email"
+				android:background="@drawable/textview_back"
+                android:paddingLeft="10dp"
+                android:paddingRight="10dp"
                 android:textAppearance="?android:attr/textAppearanceMedium" />
 
             <TextView
@@ -143,6 +159,9 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/xkoord"
+				android:background="@drawable/textview_back"
+                android:paddingLeft="10dp"
+                android:paddingRight="10dp"
                 android:textAppearance="?android:attr/textAppearanceMedium" />
 
             <TextView
@@ -166,6 +185,9 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/ykoord"
+				android:background="@drawable/textview_back"
+                android:paddingLeft="10dp"
+                android:paddingRight="10dp"
                 android:textAppearance="?android:attr/textAppearanceMedium" />
 
             <TextView
@@ -213,19 +235,23 @@
                 android:id="@+id/webPartnerImg"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_weight="0.4"
                 android:src="@drawable/ic_action_web" />
 
             <ImageButton
                 android:id="@+id/emailPartnerImg"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_weight="0.3"
                 android:src="@drawable/ic_message" />
 
             <ImageButton
                 android:id="@+id/callerPartnerImg"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_weight="0.3"
                 android:src="@drawable/ic_caller_icon" />
+
         </LinearLayout>
     </LinearLayout>
 

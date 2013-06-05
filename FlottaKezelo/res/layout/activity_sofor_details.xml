@@ -2,7 +2,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/ScrollView1"
     android:layout_width="match_parent"
-    android:layout_height="match_parent" >
+    android:layout_height="match_parent"
+    android:background="@drawable/shape_main_activity" >
 
     <LinearLayout
         android:id="@+id/LinearLayout1"
@@ -26,6 +27,9 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/name"
+				android:background="@drawable/textview_back"
+                android:paddingLeft="10dp"
+                android:paddingRight="10dp"
                 android:textAppearance="?android:attr/textAppearanceMedium" />
 
             <EditText
@@ -48,6 +52,9 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/email"
+				android:background="@drawable/textview_back"
+                android:paddingLeft="10dp"
+                android:paddingRight="10dp"
                 android:textAppearance="?android:attr/textAppearanceMedium" />
 
             <EditText
@@ -70,6 +77,9 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/address"
+				android:background="@drawable/textview_back"
+                android:paddingLeft="10dp"
+                android:paddingRight="10dp"
                 android:textAppearance="?android:attr/textAppearanceMedium" />
 
             <EditText
@@ -91,6 +101,9 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/telefon"
+				android:background="@drawable/textview_back"
+                android:paddingLeft="10dp"
+                android:paddingRight="10dp"
                 android:textAppearance="?android:attr/textAppearanceMedium" />
 
             <EditText
@@ -114,6 +127,9 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/login"
+				android:background="@drawable/textview_back"
+                android:paddingLeft="10dp"
+                android:paddingRight="10dp"
                 android:textAppearance="?android:attr/textAppearanceMedium" />
 
             <EditText
@@ -135,6 +151,9 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/pass"
+				android:background="@drawable/textview_back"
+                android:paddingLeft="10dp"
+                android:paddingRight="10dp"
                 android:textAppearance="?android:attr/textAppearanceMedium" />
 
             <EditText
@@ -156,6 +175,9 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/birthdate"
+				android:background="@drawable/textview_back"
+                android:paddingLeft="10dp"
+                android:paddingRight="10dp"
                 android:textAppearance="?android:attr/textAppearanceMedium" />
 
             <EditText
@@ -175,6 +197,7 @@
 
             <Button
                 android:id="@+id/soforAdminPhotoBtn"
+                style="?android:attr/buttonStyleSmall"
                 android:layout_width="wrap_content"
                 android:layout_height="82dp"
                 android:drawableTop="@drawable/fotoikon" />
@@ -203,22 +226,26 @@
 
             <Button
                 android:id="@+id/buttonSoforSave"
+                style="?android:attr/buttonStyleSmall"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_weight="0.4"
                 android:text="@string/save" />
-            
             
             <ImageButton
                 android:id="@+id/callerSoforImgBtn"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_weight="0.3"
                 android:src="@drawable/ic_caller_icon" />
 
             <ImageButton
                 android:id="@+id/emailSoforImgBtn"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_weight="0.3"
                 android:src="@drawable/ic_message" />
+
         </LinearLayout>
     </LinearLayout>
 

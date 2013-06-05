@@ -50,7 +50,8 @@ public class MainActivity extends Activity {
 	private AutoDao autoDao;
 	private MunkaDao munkaDao;
 	private SoforDao soforDao;
-
+	
+		
 	private Button jobsButton;
 	private Button adminButton;
 	private Button mapButton;
@@ -133,8 +134,7 @@ public class MainActivity extends Activity {
 			public void onClick(View v) {
 				// TODO Auto-generated method stub
 				Intent intent = new Intent(MainActivity.this,
-						JobsActivity.class);
-				helper.close();
+						JobsActivity.class);				
 				MainActivity.this.startActivity(intent);
 				overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
 			}
@@ -154,8 +154,7 @@ public class MainActivity extends Activity {
 
 			@Override
 			public void onClick(View v) {
-				// TODO Auto-generated method stub
-				helper.close();
+				// TODO Auto-generated method stub				
 				Intent intent = new Intent(MainActivity.this,
 						AdminActivity.class);				
 				MainActivity.this.startActivity(intent);
@@ -169,8 +168,7 @@ public class MainActivity extends Activity {
 			@Override
 			public void onClick(View v) {
 				// TODO Auto-generated method stub
-				Intent intent = new Intent(MainActivity.this, MapActivity.class);
-				helper.close();
+				Intent intent = new Intent(MainActivity.this, MapActivity.class);				
 				MainActivity.this.startActivity(intent);
 				overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
 			}
@@ -183,8 +181,7 @@ public class MainActivity extends Activity {
 			public void onClick(View v) {
 				// TODO Auto-generated method stub
 				Intent intent = new Intent(MainActivity.this,
-						ContactActivity.class);
-				helper.close();
+						ContactActivity.class);			
 				MainActivity.this.startActivity(intent);
 				overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
 			}
@@ -200,15 +197,13 @@ public class MainActivity extends Activity {
 		        if (selectedAutoID!=0L) {
 		        	Intent intent=new Intent(MainActivity.this, CarDetailsActivity.class);
 		        	intent.putExtra("sajatAuto", true);
-		        	intent.putExtra("selectedAutoID", selectedAutoID);
-		        	helper.close();
+		        	intent.putExtra("selectedAutoID", selectedAutoID);		        	
 		        	MainActivity.this.startActivity(intent);
 		        	overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
 		        }
 		        //ha nincs autója, akkor irány a szabad autók
 		        else {
-					Intent intent = new Intent(MainActivity.this, CarActivity.class);
-					helper.close();
+					Intent intent = new Intent(MainActivity.this, CarActivity.class);					
 					MainActivity.this.startActivity(intent);
 					overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
 		        }
@@ -438,8 +433,7 @@ public class MainActivity extends Activity {
 	@Override
 	public void onBackPressed() {
 		// TODO Auto-generated method stub
-		super.onBackPressed();
-		helper.close();
+		super.onBackPressed();		
 		finish();		
 	}
 }

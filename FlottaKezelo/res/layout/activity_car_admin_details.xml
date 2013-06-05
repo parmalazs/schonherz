@@ -2,7 +2,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/ScrollView1"
     android:layout_width="match_parent"
-    android:layout_height="match_parent" >
+    android:layout_height="match_parent"
+    android:background="@drawable/shape_main_activity" >
 
     <LinearLayout
         android:id="@+id/LinearLayout1"
@@ -26,6 +27,9 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/name"
+				android:background="@drawable/textview_back"
+                android:paddingLeft="10dp"
+                android:paddingRight="10dp"
                 android:textAppearance="?android:attr/textAppearanceMedium" />
 
             <EditText
@@ -49,6 +53,9 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/type"
+				android:background="@drawable/textview_back"
+                android:paddingLeft="10dp"
+                android:paddingRight="10dp"
                 android:textAppearance="?android:attr/textAppearanceMedium" />
 
             <EditText
@@ -70,6 +77,9 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/rendszam"
+				android:background="@drawable/textview_back"
+                android:paddingLeft="10dp"
+                android:paddingRight="10dp"
                 android:textAppearance="?android:attr/textAppearanceMedium" />
 
             <EditText
@@ -91,6 +101,9 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/kmhour"
+				android:background="@drawable/textview_back"
+                android:paddingLeft="10dp"
+                android:paddingRight="10dp"
                 android:textAppearance="?android:attr/textAppearanceMedium" />
 
             <EditText
@@ -112,6 +125,9 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/last_szerviz"
+				android:background="@drawable/textview_back"
+                android:paddingLeft="10dp"
+                android:paddingRight="10dp"
                 android:textAppearance="?android:attr/textAppearanceMedium" />
 
             <EditText
@@ -132,6 +148,9 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/muszakiVizsga"
+				android:background="@drawable/textview_back"
+                android:paddingLeft="10dp"
+                android:paddingRight="10dp"
                 android:textAppearance="?android:attr/textAppearanceMedium" />
 
             <EditText
@@ -152,6 +171,9 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/uzemanyag"
+				android:background="@drawable/textview_back"
+                android:paddingLeft="10dp"
+                android:paddingRight="10dp"
                 android:textAppearance="?android:attr/textAppearanceMedium" />
 
             <EditText
@@ -173,11 +195,14 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/telephely"
+				android:background="@drawable/textview_back"
+                android:paddingLeft="10dp"
+                android:paddingRight="10dp"
                 android:textAppearance="?android:attr/textAppearanceMedium" />
 
             <Spinner
                 android:id="@+id/spinnerLastTelephely"
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content" />
         </LinearLayout>
 
@@ -191,6 +216,7 @@
                 android:id="@+id/carAdminPhotoBtn"
                 android:layout_width="wrap_content"
                 android:layout_height="82dp"
+                  style="?android:attr/buttonStyleSmall"
                 android:drawableTop="@drawable/fotoikon" />
         </LinearLayout>
 

@@ -1,7 +1,8 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent" >
+    android:layout_height="match_parent"
+    android:background="@drawable/shape_main_activity" >
 
     <TextView
         android:id="@+id/taskwaitforTW"
@@ -9,6 +10,9 @@
         android:layout_height="wrap_content"
         android:layout_alignLeft="@+id/uploadImgBtn"
         android:layout_centerVertical="true"
+		android:background="@drawable/textview_back"
+                android:paddingLeft="10dp"
+                android:paddingRight="10dp"
         android:text="@string/tasksToUpload" />
 
     <Button
@@ -18,6 +22,7 @@
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true"
         android:layout_marginBottom="102dp"
+         style="?android:attr/buttonStyleSmall"
         android:text="@string/picsUpload" />
 
     <TextView
@@ -45,6 +50,7 @@
         android:layout_alignLeft="@+id/lastsyncTimeTW"
         android:layout_below="@+id/lastsyncTimeTW"
         android:layout_marginTop="25dp"
+         style="?android:attr/buttonStyleSmall"
         android:text="@string/refresh" />
 
 </RelativeLayout>

@@ -12,6 +12,7 @@ import org.json.JSONArray;
 import org.json.JSONObject;
 import org.json.JSONTokener;
 
+import android.R.integer;
 import android.app.ActionBar;
 import android.app.ActionBar.OnNavigationListener;
 import android.app.Activity;
@@ -292,12 +293,13 @@ public class MapActivity extends Activity {
 						Properties.SoforID.eq(sessionManager.getUserID().get(
 								SessionManager.KEY_USER_ID))).list());
 
-		for (int i = 0; i < munkak.size() - 1; i++) {
+		for (int i = 1; i < munkak.size(); i++) {
+			Log.w("com.schonherz.flottadroid",Integer.toString(i));
 			new Routing(MapActivity.this, map, Color.RED).execute(new LatLng(
-					munkak.get(i).getPartner().getPartnerXkoordinata(), munkak
-							.get(i).getPartner().getPartnerYkoodinata()),
-					new LatLng(munkak.get(i + 1).getPartner()
-							.getPartnerXkoordinata(), munkak.get(i + 1)
+					munkak.get(i-1).getPartner().getPartnerXkoordinata(), munkak
+							.get(i-1).getPartner().getPartnerYkoodinata()),
+					new LatLng(munkak.get(i).getPartner()
+							.getPartnerXkoordinata(), munkak.get(i)
 							.getPartner().getPartnerYkoodinata()));
 		}
 		

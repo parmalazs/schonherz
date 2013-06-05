@@ -10,6 +10,7 @@ import java.util.List;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
+import android.annotation.SuppressLint;
 import android.app.AlertDialog;
 import android.app.SearchManager;
 import android.content.Context;
@@ -67,6 +68,7 @@ public class PartnerListFragment extends Fragment {
 	Partner selectedPartner;
 	final int CONTEXT_MENU_DELETE_ITEM =1;
 	boolean isAdmin;
+	
 	
 	public PartnerListFragment(Context context, PartnerDao partnerDao, boolean isAdmin)
 	{
@@ -325,7 +327,7 @@ public class PartnerListFragment extends Fragment {
 				AlertDialog.Builder builder = new AlertDialog.Builder(context);
 				builder.setTitle(""+R.string.sort);
 				
-				final String[] choiceList = {""+R.string.name, ""+R.string.cim};
+				final String[] choiceList = {getString(R.string.name), getString(R.string.cim)};
 
 				int selected = -1; // does not select anything
 

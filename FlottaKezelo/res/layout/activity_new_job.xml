@@ -29,7 +29,7 @@
 
         <Spinner
             android:id="@+id/spinnerPartners"
-            android:layout_width="wrap_content"
+            android:layout_width="fill_parent"
             android:layout_height="wrap_content" />
     </LinearLayout>
 
@@ -48,7 +48,7 @@
 
         <Spinner
             android:id="@+id/spinnerSoforok"
-            android:layout_width="wrap_content"
+            android:layout_width="fill_parent"
             android:layout_height="wrap_content" />
     </LinearLayout>
 
@@ -67,9 +67,9 @@
 
         <Spinner
             android:id="@+id/spinnerMunkatipus"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-        />
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content" />
+
     </LinearLayout>
 
     <LinearLayout
@@ -87,9 +87,9 @@
 
         <Spinner
             android:id="@+id/spinnerTelephely"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            />
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content" />
+
     </LinearLayout>
 
     <LinearLayout

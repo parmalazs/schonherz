@@ -565,7 +565,7 @@ public class CarAdminDetailsActivity extends Activity {
 				autopicsGallery.setAdapter(autoKepImgAdapter);
 
 				Toast.makeText(getApplicationContext(),
-						Integer.toString(photos.length) + " " + R.string.pictureSaved,
+						Integer.toString(photos.length) + " " + getString(R.string.pictureSaved),
 						Toast.LENGTH_SHORT).show();
 			}
 		}

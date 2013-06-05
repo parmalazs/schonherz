@@ -2,7 +2,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/ScrollView1"
     android:layout_width="match_parent"
-    android:layout_height="match_parent" >
+    android:layout_height="match_parent"
+    android:background="@drawable/shape_main_activity" >
 
     <LinearLayout
         android:id="@+id/LinearLayout1"
@@ -36,6 +37,9 @@
             android:layout_marginBottom="10dp"
             android:layout_marginTop="20dp"
             android:text="@string/name"
+			android:background="@drawable/textview_back"
+                android:paddingLeft="10dp"
+                android:paddingRight="10dp"
             android:textAppearance="?android:attr/textAppearanceMedium" />
 
         <TextView
@@ -45,6 +49,9 @@
             android:layout_marginBottom="10dp"
             android:layout_marginTop="10dp"
             android:text="@string/type"
+            android:background="@drawable/textview_back"
+                android:paddingLeft="10dp"
+                android:paddingRight="10dp"
             android:textAppearance="?android:attr/textAppearanceMedium" />
 
         <LinearLayout
@@ -59,6 +66,9 @@
             android:layout_marginBottom="10dp"
             android:layout_marginTop="10dp"
             android:text="@string/rendszam"
+			android:background="@drawable/textview_back"
+                android:paddingLeft="10dp"
+                android:paddingRight="10dp"
             android:textAppearance="?android:attr/textAppearanceMedium" />
 
         <TextView
@@ -67,6 +77,9 @@
             android:layout_height="wrap_content"
             android:layout_marginBottom="10dp"
             android:layout_marginTop="10dp"
+            android:background="@drawable/textview_back"
+                android:paddingLeft="10dp"
+                android:paddingRight="10dp"
             android:text="@string/kmhour"
             android:textAppearance="?android:attr/textAppearanceMedium" />
 
@@ -77,6 +90,9 @@
             android:layout_marginBottom="10dp"
             android:layout_marginTop="10dp"
             android:text="@string/uzemanyag"
+			android:background="@drawable/textview_back"
+                android:paddingLeft="10dp"
+                android:paddingRight="10dp"
             android:textAppearance="?android:attr/textAppearanceMedium" />
 
         <TextView
@@ -86,6 +102,9 @@
             android:layout_marginBottom="10dp"
             android:layout_marginTop="10dp"
             android:text="@string/muszakiVizsga"
+android:background="@drawable/textview_back"
+                android:paddingLeft="10dp"
+                android:paddingRight="10dp"
             android:textAppearance="?android:attr/textAppearanceMedium" />
 
         <TextView
@@ -95,6 +114,9 @@
             android:layout_marginBottom="10dp"
             android:layout_marginTop="10dp"
             android:text="@string/last_szerviz"
+			android:background="@drawable/textview_back"
+                android:paddingLeft="10dp"
+                android:paddingRight="10dp"
             android:textAppearance="?android:attr/textAppearanceMedium" />
 
         <TextView
@@ -104,6 +126,9 @@
             android:layout_marginBottom="10dp"
             android:layout_marginTop="10dp"
             android:text="@string/lastModifity"
+			android:background="@drawable/textview_back"
+                android:paddingLeft="10dp"
+                android:paddingRight="10dp"
             android:textAppearance="?android:attr/textAppearanceMedium" />
 
         <TextView
@@ -113,6 +138,9 @@
             android:layout_marginBottom="10dp"
             android:layout_marginTop="10dp"
             android:text="@string/lastTelephely"
+			android:background="@drawable/textview_back"
+                android:paddingLeft="10dp"
+                android:paddingRight="10dp"
             android:textAppearance="?android:attr/textAppearanceMedium" />
 
         <TextView
@@ -122,6 +150,9 @@
             android:layout_marginBottom="10dp"
             android:layout_marginTop="10dp"
             android:text="@string/lastSofor"
+			android:background="@drawable/textview_back"
+                android:paddingLeft="10dp"
+                android:paddingRight="10dp"
             android:textAppearance="?android:attr/textAppearanceMedium" />
 
             <LinearLayout

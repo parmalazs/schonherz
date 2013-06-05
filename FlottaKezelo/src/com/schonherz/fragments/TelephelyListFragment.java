@@ -311,7 +311,7 @@ public class TelephelyListFragment extends Fragment {
 			case R.id.menu_Sort :
 				AlertDialog.Builder builder = new AlertDialog.Builder(context);
 				builder.setTitle(R.string.sort);
-				final CharSequence[] choiceList = {""+R.string.nev, ""+R.string.cim};
+				final CharSequence[] choiceList = {getString(R.string.nev), getString(R.string.cim)};
 
 				int selected = -1; // does not select anything
 

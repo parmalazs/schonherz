@@ -124,8 +124,10 @@ public class RefreshActivity extends Activity {
 		lastSyncTv
 				.setText(lastSyncTv.getText().toString() + " " + lastSyncTime);
 
-		// imgToUploadTv.setText(imgToUploadTv.getText().toString()+" "+Integer.toString(getAllUploadPicture()));
-
+		//imgToUploadTv.setText(imgToUploadTv.getText().toString()+" "+Integer.toString(getAllUploadPicture()));
+		
+		imgToUploadTv.setText("");
+		
 		initTables();
 
 		syncButton.setOnClickListener(new OnClickListener() {
