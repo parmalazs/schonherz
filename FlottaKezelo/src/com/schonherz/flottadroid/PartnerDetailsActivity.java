@@ -133,11 +133,8 @@ public class PartnerDetailsActivity extends Activity {
 			saveMode = false;
 			
 			emailImgButton.setEnabled(false);
-			emailImgButton.setVisibility(View.INVISIBLE);
-			webImageButton.setEnabled(false);
-			webImageButton.setVisibility(View.INVISIBLE);			
+			webImageButton.setEnabled(false);			
 			callImageButton.setEnabled(false);
-			callImageButton.setVisibility(View.INVISIBLE);
 
 		}
 

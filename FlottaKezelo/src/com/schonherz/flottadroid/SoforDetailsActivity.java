@@ -128,10 +128,8 @@ public class SoforDetailsActivity extends Activity {
 					.get((int) soforDao.loadAll().size() - 1).getSoforID() + 1);
 
 			emailimgButton.setEnabled(false);
-			emailimgButton.setVisibility(View.INVISIBLE);
 			
 			callimgButton.setEnabled(false);
-			emailimgButton.setVisibility(View.INVISIBLE);
 		}
 
 		if (saveMode == false) {
