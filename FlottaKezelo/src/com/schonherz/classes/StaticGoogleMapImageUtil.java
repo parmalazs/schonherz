@@ -15,7 +15,7 @@ public class StaticGoogleMapImageUtil {
 
 	public static Bitmap getGoogleMapThumbnail(double lati, double longi) {
 		String URL = "http://maps.google.com/maps/api/staticmap?center=" + lati
-				+ "," + longi + "&zoom=15&size=400x400&sensor=false";
+				+ "," + longi + "&zoom=15&size=400x400&maptype=roadmap&markers=color:blue%7C"+lati+","+longi+"&sensor=false";
 		Bitmap bmp = null;
 		HttpClient httpclient = new DefaultHttpClient();
 		HttpGet request = new HttpGet(URL);
