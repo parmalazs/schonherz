@@ -166,6 +166,12 @@ public class CarActivity extends FragmentActivity implements ActionBar.TabListen
                 NavUtils.navigateUpFromSameTask(this);
                 this.overridePendingTransition(R.anim.slide_out_right, R.anim.slide_in_left);
                 return true;
+                
+            case R.id.menu_settings:
+				Intent setIntent = new Intent(this,SettingsActivity.class);
+				this.startActivity(setIntent);
+				overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
+				break;
         }
         return super.onOptionsItemSelected(item);
     }

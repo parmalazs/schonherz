@@ -72,15 +72,15 @@
             android:layout_marginBottom="10dp"
             android:layout_marginTop="10dp" >
 
-            <TextView
-                android:id="@+id/textView3"
+            
+            
+            <ImageButton
+                android:id="@+id/callerImageButton"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/telefon"
-				android:background="@drawable/textview_back"
                 android:paddingLeft="10dp"
                 android:paddingRight="10dp"
-                android:textAppearance="?android:attr/textAppearanceMedium" />
+                android:src="@drawable/ic_caller_icon" />
 
             <EditText
                 android:id="@+id/editTextPartnerTel"
@@ -97,15 +97,15 @@
             android:layout_marginBottom="10dp"
             android:layout_marginTop="10dp" >
 
-            <TextView
-                android:id="@+id/textView5"
+            
+            
+            <ImageButton
+                android:id="@+id/emailImageButton"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/email"
-				android:background="@drawable/textview_back"
+                android:src="@drawable/ic_message"
                 android:paddingLeft="10dp"
-                android:paddingRight="10dp"
-                android:textAppearance="?android:attr/textAppearanceMedium" />
+                android:paddingRight="10dp" />
 
             <EditText
                 android:id="@+id/editTextPartnerEmail"
@@ -123,15 +123,15 @@
             android:layout_marginBottom="10dp"
             android:layout_marginTop="10dp" >
 
-            <TextView
-                android:id="@+id/textView4"
+           
+            
+            <ImageButton
+                android:id="@+id/webImgButton"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/web"
-				android:background="@drawable/textview_back"
                 android:paddingLeft="10dp"
                 android:paddingRight="10dp"
-                android:textAppearance="?android:attr/textAppearanceMedium" />
+                android:src="@drawable/ic_action_web" />
 
             <EditText
                 android:id="@+id/editTextPartnerWeb"
@@ -224,28 +224,7 @@
             android:layout_height="wrap_content"
             android:layout_marginBottom="10dp"
             android:layout_marginTop="10dp"
-            android:gravity="center_horizontal" >
-
-            <ImageButton
-                android:id="@+id/callerImageButton"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="0.25"
-                android:src="@drawable/ic_caller_icon" />
-
-            <ImageButton
-                android:id="@+id/emailImageButton"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="0.25"
-                android:src="@drawable/ic_message" />
-
-            <ImageButton
-                android:id="@+id/webImgButton"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="0.25"
-                android:src="@drawable/ic_action_web" />
+            android:gravity="center_horizontal" >            
 
             <Button
                 android:id="@+id/buttonNewPartner"

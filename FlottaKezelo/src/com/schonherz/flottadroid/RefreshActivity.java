@@ -11,6 +11,7 @@ import org.json.JSONObject;
 
 import android.app.Activity;
 import android.app.ProgressDialog;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.AsyncTask;
@@ -222,6 +223,12 @@ public class RefreshActivity extends Activity {
 				NavUtils.navigateUpFromSameTask(this);
 				this.overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
 				return true;
+				
+			case R.id.menu_settings:
+				Intent setIntent = new Intent(this,SettingsActivity.class);
+				this.startActivity(setIntent);
+				overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
+				break;
 		}
 		return super.onOptionsItemSelected(item);
 	}

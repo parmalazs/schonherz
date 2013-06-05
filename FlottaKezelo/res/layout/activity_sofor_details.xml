@@ -45,17 +45,15 @@
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:layout_marginBottom="10dp"
-            android:layout_marginTop="10dp" >
-
-            <TextView
-                android:id="@+id/textView4"
+            android:layout_marginTop="10dp" >           
+            
+            <ImageButton
+                android:id="@+id/emailSoforImgBtn"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/email"
-				android:background="@drawable/textview_back"
                 android:paddingLeft="10dp"
                 android:paddingRight="10dp"
-                android:textAppearance="?android:attr/textAppearanceMedium" />
+                android:src="@drawable/ic_message" />
 
             <EditText
                 android:id="@+id/editTextSoforEmail"
@@ -96,15 +94,15 @@
             android:layout_marginBottom="10dp"
             android:layout_marginTop="10dp" >
 
-            <TextView
-                android:id="@+id/textView3"
+           
+            
+            <ImageButton
+                android:id="@+id/callerSoforImgBtn"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/telefon"
-				android:background="@drawable/textview_back"
                 android:paddingLeft="10dp"
                 android:paddingRight="10dp"
-                android:textAppearance="?android:attr/textAppearanceMedium" />
+                android:src="@drawable/ic_caller_icon" />
 
             <EditText
                 android:id="@+id/editTextSoforTel"
@@ -230,21 +228,8 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="0.4"
-                android:text="@string/save" />
-            
-            <ImageButton
-                android:id="@+id/callerSoforImgBtn"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="0.3"
-                android:src="@drawable/ic_caller_icon" />
-
-            <ImageButton
-                android:id="@+id/emailSoforImgBtn"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="0.3"
-                android:src="@drawable/ic_message" />
+                android:text="@string/save" />           
+           
 
         </LinearLayout>
     </LinearLayout>

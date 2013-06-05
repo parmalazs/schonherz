@@ -101,6 +101,12 @@ public class PushNotificationListActivity extends Activity {
 			finish();
 			this.overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
 			return true;
+			
+		case R.id.menu_settings:
+			Intent setIntent = new Intent(this,SettingsActivity.class);
+			this.startActivity(setIntent);
+			overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
+			break;
 		}
 		return super.onOptionsItemSelected(item);
 	}

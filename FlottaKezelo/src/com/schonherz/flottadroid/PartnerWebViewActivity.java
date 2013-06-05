@@ -2,6 +2,7 @@ package com.schonherz.flottadroid;
 
 import android.os.Bundle;
 import android.app.Activity;
+import android.content.Intent;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.webkit.WebSettings;
@@ -61,6 +62,12 @@ public class PartnerWebViewActivity extends Activity {
 			finish();
 			this.overridePendingTransition(R.anim.slide_out_right, R.anim.slide_in_left);
 			return true;
+			
+		case R.id.menu_settings:
+			Intent setIntent = new Intent(this,SettingsActivity.class);
+			this.startActivity(setIntent);
+			overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
+			break;
 		}
 		return super.onOptionsItemSelected(item);
 	}
