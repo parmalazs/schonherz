@@ -310,15 +310,25 @@ public class MunkaDetailsActivity extends Activity {
 		@Override
 		public void onTimeSet(TimePicker view, int hourOfDay, int selectedMinute) {
 			// beállítom a visszakapott értékek alapján a kezdést és befejezést
-			hour = hourOfDay;
+			hour=hourOfDay;
 			minute = selectedMinute;
 
 			munkaKezdTextView.setText(new StringBuilder().append(pad(hour))
 					.append(":").append(pad(minute)));
-			munkaVegeTextView.setText(new StringBuilder()
-					.append(pad(hour
-							+ currentMunka.getMunkaEstimatedTime().intValue()))
-					.append(":").append(pad(minute)));
+			
+			if ((hour+currentMunka.getMunkaEstimatedTime().intValue())>23) {
+				hour-=24;
+				munkaVegeTextView.setText(new StringBuilder()
+				.append(pad(hour
+						+ currentMunka.getMunkaEstimatedTime().intValue()))
+				.append(":").append(pad(minute)));
+			}
+			else {
+				munkaVegeTextView.setText(new StringBuilder()
+				.append(pad(hour
+						+ currentMunka.getMunkaEstimatedTime().intValue()))
+				.append(":").append(pad(minute)));				
+			}			
 		}
 	};
 

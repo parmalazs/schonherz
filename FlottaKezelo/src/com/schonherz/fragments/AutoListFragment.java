@@ -217,6 +217,8 @@ public class AutoListFragment extends Fragment {
 				autoDao);
 
 		pullListView.setAdapter(adapter);
+		
+		registerForContextMenu(pullListView);
 
 		pullListView.setOnItemClickListener(new OnItemClickListener() {
 

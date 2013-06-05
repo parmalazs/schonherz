@@ -142,14 +142,9 @@ public class MainActivity extends Activity {
 
 		adminButton = (Button) findViewById(R.id.buttonAdmin);
 		//ha nem admin a sofõr akkor letiltjuk az admin gombot
+		soforIsAdmin();
 		Log.i(MainActivity.class.getName(), "admin: " + isAdmin);
-		isAdmin=soforDao.queryBuilder().where(Properties.SoforID.eq(sessionManager.getUserID().get(SessionManager.KEY_USER_ID))).list().get(0).getSoforIsAdmin();
-		
-		if (!isAdmin) {
-			adminButton.setEnabled(false);
-			adminButton.setVisibility(View.INVISIBLE);
-		}
-		
+				
 		adminButton.setOnClickListener(new OnClickListener() {
 
 			@Override
@@ -300,6 +295,7 @@ public class MainActivity extends Activity {
 		// TODO Auto-generated method stub
 		//itt is ellenõrizzük, h vett e fel magának autót, munkát
 		dataBaseInit();
+		soforIsAdmin();
 		sajatAutoCheck();
 		if (!vanMunkahozAutoja()) {
 			// Prepare intent which is triggered if the
@@ -435,5 +431,19 @@ public class MainActivity extends Activity {
 		// TODO Auto-generated method stub
 		super.onBackPressed();		
 		finish();		
+	}
+	
+	public void soforIsAdmin() {
+		isAdmin=soforDao.queryBuilder().where(Properties.SoforID.eq(sessionManager.getUserID().get(SessionManager.KEY_USER_ID))).list().get(0).getSoforIsAdmin();
+		
+		if (!isAdmin) {
+			adminButton.setEnabled(false);
+			adminButton.setVisibility(View.INVISIBLE);
+		}
+		else {
+			adminButton.setEnabled(true);
+			adminButton.setVisibility(View.VISIBLE);
+		}
+		
 	}
 }
