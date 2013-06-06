@@ -2,7 +2,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/newjobscrollview"
     android:layout_width="match_parent"
-    android:layout_height="match_parent" >
+    android:layout_height="match_parent"
+    android:background="@drawable/shape_main_activity" >
 
 <LinearLayout 
     android:layout_width="match_parent"
@@ -25,7 +26,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/partner"
-            android:textAppearance="?android:attr/textAppearanceMedium" />
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:background="@drawable/textview_back" />
 
         <Spinner
             android:id="@+id/spinnerPartners"
@@ -44,7 +46,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/sofor"
-            android:textAppearance="?android:attr/textAppearanceMedium" />
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:background="@drawable/textview_back" />
 
         <Spinner
             android:id="@+id/spinnerSoforok"
@@ -63,7 +66,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/munkatipus"
-            android:textAppearance="?android:attr/textAppearanceMedium" />
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:background="@drawable/textview_back" />
 
         <Spinner
             android:id="@+id/spinnerMunkatipus"
@@ -83,7 +87,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/telephely"
-            android:textAppearance="?android:attr/textAppearanceMedium" />
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:background="@drawable/textview_back" />
 
         <Spinner
             android:id="@+id/spinnerTelephely"
@@ -104,7 +109,8 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:text="@string/estimatedTime"
-            android:textAppearance="?android:attr/textAppearanceMedium" />
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:background="@drawable/textview_back" />
 
         <EditText
             android:id="@+id/editTextEstimatedTime"
@@ -126,7 +132,8 @@
         android:layout_width="wrap_content"
         android:layout_height="0dp"
         android:layout_weight="1"
-        android:text="date" />
+        android:text="date"
+        android:background="@drawable/textview_back" />
 
     <Button
         android:id="@+id/buttonSave"
