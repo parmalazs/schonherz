@@ -113,7 +113,6 @@ public class AutoListFragment extends Fragment {
 						.eq(adapter.getItemId(info.position - 1))).list()
 				.get(0);
 		selectedAuto.setAutoIsActive(false);
-		selectedAuto.refresh();
 		autoDao.update(selectedAuto);
 		adapter.remove(selectedAuto);
 		adapter.notifyDataSetChanged();

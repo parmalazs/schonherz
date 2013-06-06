@@ -113,7 +113,6 @@ public class MunkaListFragment extends Fragment {
 				.where(Properties.MunkaID.eq(adapter
 						.getItemId(info.position - 1))).list().get(0);
 		selectedMunka.setMunkaIsActive(false);
-		selectedMunka.refresh();
 		munkaDao.update(selectedMunka);
 		adapter.remove(selectedMunka);
 

@@ -111,7 +111,6 @@ public class SoforListFragment extends Fragment {
 		AdapterView.AdapterContextMenuInfo info= (AdapterView.AdapterContextMenuInfo) item.getMenuInfo();
 		selectedSofor=soforDao.queryBuilder().where(Properties.SoforID.eq(adapter.getItemId(info.position-1))).list().get(0);
 		selectedSofor.setSoforIsActive(false);
-		selectedSofor.refresh();
 		soforDao.update(selectedSofor);
 		adapter.remove(selectedSofor);
 		adapter.notifyDataSetChanged();        

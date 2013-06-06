@@ -106,7 +106,6 @@ public class TelephelyListFragment extends Fragment {
 		
 		selectedTelephely =telephelyDao.queryBuilder().where(Properties.TelephelyID.eq(adapter.getItemId(info.position-1))).list().get(0);
 		selectedTelephely.setTelephelyIsActive(false);
-		selectedTelephely.refresh();
 		telephelyDao.update(selectedTelephely);
 		adapter.remove(selectedTelephely);
 		adapter.notifyDataSetChanged();  

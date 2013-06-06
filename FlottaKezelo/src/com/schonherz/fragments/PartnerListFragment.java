@@ -110,7 +110,6 @@ public class PartnerListFragment extends Fragment {
 		
 		selectedPartner =partnerDao.queryBuilder().where(Properties.PartnerID.eq(adapter.getItemId(info.position-1))).list().get(0);
 		selectedPartner.setPartnerIsActive(false);
-		selectedPartner.refresh();
 		partnerDao.update(selectedPartner);
 		adapter.remove(selectedPartner);
 		adapter.notifyDataSetChanged(); 
