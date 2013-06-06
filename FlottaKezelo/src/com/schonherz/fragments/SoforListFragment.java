@@ -210,7 +210,9 @@ public class SoforListFragment extends Fragment {
 
 		pullListView.setAdapter(adapter);
 		
-		registerForContextMenu(pullListView);		
+		if (isAdmin) {
+			registerForContextMenu(pullListView);
+		}		
 		
 		pullListView.setOnItemClickListener(new OnItemClickListener() {
 

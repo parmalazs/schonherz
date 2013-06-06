@@ -207,7 +207,10 @@ public class PartnerListFragment extends Fragment {
 		adapter=new PartnerAdapter(context, R.layout.list_item_partner, partnerek, partnerDao);
 		pullListView.setAdapter(adapter);
 		
-		registerForContextMenu(pullListView);
+		if (isAdmin) {
+			registerForContextMenu(pullListView);
+		}
+		
 		
 		pullListView.setOnItemClickListener(new OnItemClickListener() {
 
