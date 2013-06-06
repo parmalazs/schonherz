@@ -8,6 +8,8 @@ import org.json.JSONObject;
 
 import com.schonherz.adapters.MunkaAdapter;
 import com.schonherz.classes.CSVUtil;
+import com.schonherz.classes.JSONBuilder;
+import com.schonherz.classes.JSONSender;
 import com.schonherz.classes.JsonArrayToArrayList;
 import com.schonherz.classes.JsonFromUrl;
 import com.schonherz.classes.NetworkUtil;
@@ -64,6 +66,7 @@ public class SajatMunkaListFragment extends Fragment {
 	boolean munkaTypeAsc = true;
 	
 	SessionManager sessionManager;
+	Munka selectedMunka;
 	
 	final int CONTEXT_MENU_LEADAS =1;
 	
@@ -95,10 +98,28 @@ public class SajatMunkaListFragment extends Fragment {
 	public boolean onContextItemSelected(MenuItem item) {
 		// TODO Auto-generated method stub
 		AdapterView.AdapterContextMenuInfo info= (AdapterView.AdapterContextMenuInfo) item.getMenuInfo();
-		Munka selectedMunka=munkaDao.queryBuilder().where(Properties.MunkaID.eq(adapter.getItemId(info.position-1))).list().get(0);
+		selectedMunka=munkaDao.queryBuilder().where(Properties.MunkaID.eq(adapter.getItemId(info.position-1))).list().get(0);
 		selectedMunka.setSoforID(0L);
 		munkaDao.update(selectedMunka);
 		adapter.remove(selectedMunka);
+		
+		if (NetworkUtil.checkInternetIsActive(context) == true) {
+			new AsyncTask<Void, Void, Boolean>() {
+
+				@Override
+				protected Boolean doInBackground(Void... params) {
+					// TODO Auto-generated method stub
+					JSONBuilder builder = new JSONBuilder();
+					JSONSender sender = new JSONSender();
+					JSONObject obj = builder.updateMunka(selectedMunka);
+					sender.sendJSON(sender.getFlottaUrl(), obj);
+					return true;
+				}
+
+			}.execute();
+
+		}
+		
 		adapter.notifyDataSetChanged();
 		return super.onContextItemSelected(item);		
 	}
