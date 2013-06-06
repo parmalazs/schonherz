@@ -261,7 +261,9 @@ public class MainActivity extends Activity {
 		// TODO Auto-generated method stub
 		switch (item.getItemId()) {
 			case R.id.menu_logout :
-				
+				notificationManager.cancel(1);
+				notificationManager.cancel(2);
+				notificationManager.cancel(3);
 				sessionManager.logoutUser();
 				break;
 			case R.id.menu_settings:
