@@ -59,7 +59,6 @@ public class LoginActivity extends Activity {
 	private SoforDao soforDao;
 	
 	private SessionManager sessionManager;
-	private boolean isRefreshed;
 
 	
 	Button loginButton;
@@ -77,7 +76,6 @@ public class LoginActivity extends Activity {
 		
 		context=this;
 		sessionManager=new SessionManager(context);
-		isRefreshed=false;
 		
 		newhelper = new DevOpenHelper(context,"flotta-db",null);
 		
@@ -135,7 +133,6 @@ public class LoginActivity extends Activity {
 						super.onPostExecute(result);
 
 						if (result == true) {
-							isRefreshed=true;
 							loginButton.setEnabled(true);
 							Toast.makeText(LoginActivity.this,
 									R.string.refreshed, Toast.LENGTH_SHORT)
@@ -168,7 +165,6 @@ public class LoginActivity extends Activity {
 					newhelper.close();
 					Intent intent = new Intent(LoginActivity.this,
 							MainActivity.class);
-					intent.putExtra("isRefreshed", isRefreshed);
 					LoginActivity.this.startActivity(intent);
 					LoginActivity.this.finish();
 				} else {

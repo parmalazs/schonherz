@@ -60,7 +60,6 @@ public class MainActivity extends Activity {
 	private Context context;
 
 	private SessionManager sessionManager;
-	private boolean isRefreshed;
 	private Long selectedAutoID;
 	private List<Auto> autok;
 	private List<Munka> munkak;
@@ -74,7 +73,6 @@ public class MainActivity extends Activity {
 		context = getApplicationContext();
 		sessionManager = new SessionManager(context);
 		notificationManager = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
-		isRefreshed = this.getIntent().getBooleanExtra("isRefreshed", false);
 		
 		dataBaseInit();
 		autok=new ArrayList<Auto>();
@@ -84,11 +82,9 @@ public class MainActivity extends Activity {
 		
 		//Log.i("push log", pushMessageDao.loadAll().get(0).getPushMessageText());
 
-		if (sessionManager.isLoggedIn() && !isRefreshed) {
-			// csinálunk egy frissítést mert a bejelentkezéskor elmaradt
-			loggedInRefresh();
-			
-			
+		if (sessionManager.isLoggedIn()) {
+			// felhasználó ellenõrzése
+			loggedIn();			
 		}	
 		
 
@@ -320,81 +316,15 @@ public class MainActivity extends Activity {
 		super.onResume();
 	}
 
-	public void loggedInRefresh() {		
-
-		// If internet connection OK, drop sofor Table and get new table
-		if (NetworkUtil.checkInternetIsActive(context) == true) {
-
-			new AsyncTask<Void, Void, Boolean>() {
-
-				@Override
-				protected void onPreExecute() {
-					// TODO Auto-generated method stub
-					super.onPreExecute();
-				}
-
-				@Override
-				protected void onPostExecute(Boolean result) {
-					// TODO Auto-generated method stub
-
-					boolean check = checkLogin();
-
-					if (result && check) {
-						Toast.makeText(MainActivity.this, R.string.refreshed,
-								Toast.LENGTH_SHORT).show();
-					} else if ((result == false) && check) {
-						Toast.makeText(MainActivity.this,
-								R.string.errorRefresh, Toast.LENGTH_SHORT)
-								.show();
-					} else {
-						Toast.makeText(MainActivity.this, R.string.invalidUser,
-								Toast.LENGTH_SHORT).show();
-						sessionManager.logoutUser();
-					}
-				}
-
-				@Override
-				protected Boolean doInBackground(Void... params) {
-					// TODO Auto-generated method stub
-					return saveSoforTable();
-				}
-
-			}.execute();
+	public void loggedIn() {		
+		
+		if (!checkLogin()) {
+			Toast.makeText(MainActivity.this, R.string.invalidUser,
+					Toast.LENGTH_SHORT).show();
+			sessionManager.logoutUser();
 		}
 
-	}
-
-	public boolean saveSoforTable() {
-		JSONArray jsonArray;
-		JSONObject json;
-
-		String serverAddres = "http://www.flotta.host-ed.me/querySoforTable.php";
-
-		json = new JSONObject();
-
-		try {
-
-			jsonArray = (JSONArray) JsonFromUrl.getJsonObjectFromUrl(
-					serverAddres, json.toString());
-
-			// Eldobjuk a tablat es ujra letrehozzuk
-			SoforDao.dropTable(soforDao.getDatabase(), true);
-			SoforDao.createTable(soforDao.getDatabase(), true);
-
-			ArrayList<Sofor> soforok = JsonArrayToArrayList
-					.JsonArrayToSofor(jsonArray);
-
-			for (int i = 0; i < soforok.size(); i++) {
-				soforDao.insert(soforok.get(i));
-			}
-			return true;
-		} catch (Exception e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-
-			return false;
-		}
-	}
+	}	
 
 	public boolean checkLogin() {
 
